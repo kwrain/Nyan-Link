@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using NyanLink.Data.Definitions;
 using NyanLink.Data.Enums;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace NyanLink.Puzzle
 {
@@ -16,27 +19,21 @@ namespace NyanLink.Puzzle
         [Tooltip("Unity Tilemap 컴포넌트")]
         public Tilemap tilemap;
 
-        [Tooltip("헥사곤 타일 에셋 (TileBase) - 기본 타일 (호환성용)")]
+        [Tooltip("헥사곤 타일 에셋 (TileBase) - 기본 타일 (호환성용, 상태별 타일이 없을 때 사용)")]
         public TileBase hexagonTile;
 
-        [Header("색상별 타일 에셋")]
-        [Tooltip("빨강 타일")]
-        public TileBase redTile;
-        
-        [Tooltip("파랑 타일")]
-        public TileBase blueTile;
-        
-        [Tooltip("노랑 타일")]
-        public TileBase yellowTile;
-        
-        [Tooltip("보라 타일")]
-        public TileBase purpleTile;
-        
-        [Tooltip("주황 타일")]
-        public TileBase orangeTile;
-        
-        [Tooltip("청록 타일")]
-        public TileBase cyanTile;
+        [Header("색상별 × 상태별 AnimatedTile 에셋")]
+        [Tooltip("색상별 × 상태별 타일 딕셔너리 (자동 로드 또는 수동 할당)")]
+        [SerializeField]
+        private Dictionary<TileColor, Dictionary<TileState, TileBase>> _tilesByColorAndState = 
+            new Dictionary<TileColor, Dictionary<TileState, TileBase>>();
+
+        [Header("타일 자동 로드 설정")]
+        [Tooltip("게임 시작 시 AnimatedTile 자동 로드")]
+        public bool autoLoadTiles = true;
+
+        [Tooltip("타일 에셋 경로")]
+        private const string TILES_PATH = "Assets/_NyanLink/Art/Tiles";
 
         [Tooltip("그리드 쉐이프 데이터")]
         public GridShapeData gridShapeData;
@@ -68,6 +65,12 @@ namespace NyanLink.Puzzle
                 {
                     Debug.LogError("PuzzleBoardManager: Tilemap 컴포넌트를 찾을 수 없습니다!");
                 }
+            }
+
+            // 타일 자동 로드
+            if (autoLoadTiles)
+            {
+                LoadAnimatedTiles();
             }
         }
 
@@ -151,40 +154,83 @@ namespace NyanLink.Puzzle
                     // 랜덤 색상 생성
                     TileColor randomColor = GetRandomTileColor();
 
-                    // 타일 인스턴스 생성
-                    TileInstance tileInstance = new TileInstance(offset, randomColor);
+                    // 타일 인스턴스 생성 (일반 상태로 시작)
+                    TileInstance tileInstance = new TileInstance(offset, randomColor, TileState.Normal);
 
                     // 딕셔너리에 추가
                     _tiles[offset] = tileInstance;
 
-                    // Unity Tilemap에 타일 배치
-                    TileBase tileToPlace = GetTileByColor(randomColor);
+                    // Unity Tilemap에 타일 배치 (색상과 상태에 맞는 타일 사용)
+                    TileBase tileToPlace = GetTileByColorAndState(randomColor, tileInstance.State);
                     if (tileToPlace != null)
                     {
                         tilemap.SetTile(offset, tileToPlace);
                     }
                     else if (hexagonTile != null)
                     {
-                        // 색상별 타일이 없으면 기본 타일 사용
+                        // 색상별 × 상태별 타일이 없으면 기본 타일 사용
                         tilemap.SetTile(offset, hexagonTile);
                     }
 
                     // 타일 생성 로그 출력
                     if (debugLog)
                     {
-                        Vector3 worldPos = tilemap.CellToWorld(offset);
+                        // 월드 포지션 계산 (두 가지 방법)
+                        Vector3 cellCornerWorldPos = tilemap.CellToWorld(offset); // 셀 좌측 하단 모서리
+                        Vector3 cellCenterWorldPos = tilemap.GetCellCenterWorld(offset); // 셀 중심
+                        
+                        // Grid 정보
+                        Grid grid = tilemap.layoutGrid;
+                        Vector3 gridPos = grid != null ? grid.transform.position : Vector3.zero;
+                        Vector3 cellSize = grid != null ? grid.cellSize : Vector3.one;
+                        
+                        // 타일맵 타일 앵커 정보
+                        Vector3 tileAnchor = tilemap.orientationMatrix.GetColumn(3); // 타일 앵커 (일반적으로 (0,0,0) 또는 (0.5,0.5,0))
+                        
+                        // 실제 사용된 타일의 스프라이트 정보
+                        Sprite tileSprite = null;
+                        Vector2 spritePivot = Vector2.zero;
+                        Rect spriteRect = Rect.zero;
+                        if (tileToPlace != null)
+                        {
+                            // TileBase에서 스프라이트 추출 시도
+                            if (tileToPlace is Tile unityTile)
+                            {
+                                tileSprite = unityTile.sprite;
+                                if (tileSprite != null)
+                                {
+                                    spritePivot = tileSprite.pivot;
+                                    spriteRect = tileSprite.rect;
+                                }
+                            }
+                        }
+                        
                         string extraInfo = (x >= gridShapeData.width) ? " [짝수열 추가타일]" : "";
                         
                         // 중앙 타일 (0, 0, 0)의 경우 상세 정보 출력
                         if (offset.x == 0 && offset.y == 0 && offset.z == 0)
                         {
-                            Debug.Log($"[중앙 타일] Offset: {offset}, WorldPos: {worldPos}, " +
-                                     $"Grid Cell Size: {tilemap.layoutGrid?.cellSize}, " +
+                            Debug.Log($"[중앙 타일 상세] " +
+                                     $"Offset: {offset}, " +
+                                     $"CellCornerWorldPos: {cellCornerWorldPos}, " +
+                                     $"CellCenterWorldPos: {cellCenterWorldPos}, " +
+                                     $"Grid Position: {gridPos}, " +
+                                     $"Grid Cell Size: {cellSize}, " +
+                                     $"Tile Anchor: {tileAnchor}, " +
+                                     $"Sprite Pivot: {spritePivot}, " +
+                                     $"Sprite Rect: {spriteRect}, " +
                                      $"Tile Sprite Pixels Per Unit: {GetTileSpritePixelsPerUnit()}");
                         }
                         else
                         {
-                            Debug.Log($"[Tile 생성] MaskIndex: ({x}, {y}), Offset: {offset}, Color: {randomColor}, WorldPos: {worldPos}{extraInfo}");
+                            Debug.Log($"[Tile 생성] " +
+                                     $"MaskIndex: ({x}, {y}), " +
+                                     $"Offset: {offset}, " +
+                                     $"Color: {randomColor}, " +
+                                     $"CellCornerWorldPos: {cellCornerWorldPos}, " +
+                                     $"CellCenterWorldPos: {cellCenterWorldPos}, " +
+                                     $"Tile Anchor: {tileAnchor}, " +
+                                     $"Sprite Pivot: {spritePivot}{extraInfo}");
                         }
                     }
                 }
@@ -213,20 +259,30 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
-        /// 색상에 따른 타일 에셋 반환
+        /// 색상과 상태에 따른 타일 에셋 반환
         /// </summary>
+        public TileBase GetTileByColorAndState(TileColor color, TileState state)
+        {
+            // 딕셔너리에서 타일 찾기
+            if (_tilesByColorAndState.TryGetValue(color, out var stateDict))
+            {
+                if (stateDict.TryGetValue(state, out var tile))
+                {
+                    return tile;
+                }
+            }
+
+            // 타일을 찾을 수 없으면 기본 타일 반환
+            return hexagonTile;
+        }
+
+        /// <summary>
+        /// 색상에 따른 타일 에셋 반환 (호환성용, 일반 상태 사용)
+        /// </summary>
+        [System.Obsolete("GetTileByColor는 더 이상 사용되지 않습니다. GetTileByColorAndState를 사용하세요.")]
         public TileBase GetTileByColor(TileColor color)
         {
-            return color switch
-            {
-                TileColor.Red => redTile,
-                TileColor.Blue => blueTile,
-                TileColor.Yellow => yellowTile,
-                TileColor.Purple => purpleTile,
-                TileColor.Orange => orangeTile,
-                TileColor.Cyan => cyanTile,
-                _ => hexagonTile
-            };
+            return GetTileByColorAndState(color, TileState.Normal);
         }
 
         /// <summary>
@@ -241,13 +297,15 @@ namespace NyanLink.Puzzle
         /// <summary>
         /// 새 타일 스폰
         /// </summary>
-        public TileInstance SpawnTile(Vector3Int offset, TileColor? color = null)
+        public TileInstance SpawnTile(Vector3Int offset, TileColor? color = null, TileState? state = null)
         {
             TileColor tileColor = color ?? GetRandomTileColor();
-            TileInstance tileInstance = new TileInstance(offset, tileColor);
+            TileState tileState = state ?? TileState.Normal;
+            
+            TileInstance tileInstance = new TileInstance(offset, tileColor, tileState);
             _tiles[offset] = tileInstance;
 
-            TileBase tileToPlace = GetTileByColor(tileColor);
+            TileBase tileToPlace = GetTileByColorAndState(tileColor, tileState);
             if (tileToPlace != null)
             {
                 tilemap.SetTile(offset, tileToPlace);
@@ -260,10 +318,33 @@ namespace NyanLink.Puzzle
             if (debugLog)
             {
                 Vector3 worldPos = tilemap.CellToWorld(offset);
-                Debug.Log($"[Tile 스폰] Offset: {offset}, Color: {tileColor}, WorldPos: {worldPos}");
+                Debug.Log($"[Tile 스폰] Offset: {offset}, Color: {tileColor}, State: {tileState}, WorldPos: {worldPos}");
             }
 
             return tileInstance;
+        }
+
+        /// <summary>
+        /// 타일 상태 변경 및 타일맵 업데이트
+        /// </summary>
+        public void SetTileState(Vector3Int offset, TileState newState)
+        {
+            if (_tiles.TryGetValue(offset, out TileInstance tileInstance))
+            {
+                tileInstance.State = newState;
+                
+                // 타일맵에 새로운 타일 배치
+                TileBase tileToPlace = GetTileByColorAndState(tileInstance.Color, newState);
+                if (tileToPlace != null)
+                {
+                    tilemap.SetTile(offset, tileToPlace);
+                }
+
+                if (debugLog)
+                {
+                    Debug.Log($"[Tile 상태 변경] Offset: {offset}, Color: {tileInstance.Color}, State: {newState}");
+                }
+            }
         }
 
         /// <summary>
@@ -284,17 +365,98 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
+        /// AnimatedTile 자동 로드 (에디터 전용)
+        /// </summary>
+        private void LoadAnimatedTiles()
+        {
+            _tilesByColorAndState.Clear();
+
+#if UNITY_EDITOR
+            TileColor[] colors = { TileColor.Red, TileColor.Blue, TileColor.Yellow, TileColor.Purple, TileColor.Orange, TileColor.Cyan };
+            TileState[] states = { 
+                TileState.Normal, 
+                TileState.ItemLv1, 
+                TileState.ItemLv2 
+            };
+
+            foreach (TileColor color in colors)
+            {
+                Dictionary<TileState, TileBase> stateDict = 
+                    new Dictionary<TileState, TileBase>();
+
+                foreach (TileState state in states)
+                {
+                    string colorName = color.ToString();
+                    string stateName = state.ToString();
+                    string tileName = $"HexagonTile_{colorName}_{stateName}";
+                    string assetPath = $"{TILES_PATH}/{tileName}.asset";
+
+                    TileBase tile = AssetDatabase.LoadAssetAtPath<TileBase>(assetPath);
+                    if (tile != null)
+                    {
+                        stateDict[state] = tile;
+                    }
+                    else if (debugLog)
+                    {
+                        Debug.LogWarning($"타일을 찾을 수 없습니다: {assetPath}");
+                    }
+                }
+
+                if (stateDict.Count > 0)
+                {
+                    _tilesByColorAndState[color] = stateDict;
+                }
+            }
+
+            if (debugLog)
+            {
+                int loadedCount = 0;
+                foreach (var stateDict in _tilesByColorAndState.Values)
+                {
+                    loadedCount += stateDict.Count;
+                }
+                Debug.Log($"AnimatedTile 로드 완료: {loadedCount}개 타일 로드됨");
+            }
+#else
+            // 런타임에서는 Resources 폴더에서 로드하거나 Inspector에서 할당된 타일 사용
+            Debug.LogWarning("런타임에서는 AnimatedTile을 자동으로 로드할 수 없습니다. Inspector에서 타일을 할당하거나 Resources 폴더를 사용하세요.");
+#endif
+        }
+
+        /// <summary>
         /// 타일 스프라이트의 Pixels Per Unit 가져오기 (디버그용)
         /// </summary>
         private float GetTileSpritePixelsPerUnit()
         {
-            TileBase sampleTile = redTile ?? blueTile ?? yellowTile ?? hexagonTile;
-            if (sampleTile is Tile unityTile && unityTile.sprite != null)
+            // 딕셔너리에서 샘플 타일 찾기
+            TileBase sampleTile = null;
+            if (_tilesByColorAndState.TryGetValue(TileColor.Red, out var redDict))
             {
-                return unityTile.sprite.pixelsPerUnit;
+                if (redDict.TryGetValue(TileState.Normal, out sampleTile))
+                {
+                    // AnimatedTile은 TileBase를 상속하므로 sprite 속성 접근 시도
+                    if (sampleTile is Tile unityTile && unityTile.sprite != null)
+                    {
+                        return unityTile.sprite.pixelsPerUnit;
+                    }
+                }
             }
-            return 128f; // 기본값
+
+            // 기본값 반환
+            return 128f;
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 에디터에서 타일 다시 로드 (Context Menu)
+        /// </summary>
+        [ContextMenu("Reload Animated Tiles")]
+        private void ReloadAnimatedTiles()
+        {
+            LoadAnimatedTiles();
+            Debug.Log("AnimatedTile이 다시 로드되었습니다.");
+        }
+#endif
 
         /// <summary>
         /// 그리드 중앙에 카메라 배치

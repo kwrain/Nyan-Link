@@ -20,6 +20,11 @@ namespace NyanLink.Puzzle
         public TileColor Color { get; set; }
 
         /// <summary>
+        /// 타일 상태 (일반, 아이템 Lv1, 아이템 Lv2)
+        /// </summary>
+        public TileState State { get; set; }
+
+        /// <summary>
         /// 선택 상태
         /// </summary>
         public bool IsSelected { get; set; }
@@ -32,10 +37,11 @@ namespace NyanLink.Puzzle
         /// <summary>
         /// 생성자
         /// </summary>
-        public TileInstance(Vector3Int offsetPosition, TileColor color)
+        public TileInstance(Vector3Int offsetPosition, TileColor color, TileState state = TileState.Normal)
         {
             OffsetPosition = offsetPosition;
             Color = color;
+            State = state;
             IsSelected = false;
             IsActive = true;
         }
@@ -43,10 +49,11 @@ namespace NyanLink.Puzzle
         /// <summary>
         /// 타일 리셋 (풀링용)
         /// </summary>
-        public void Reset(Vector3Int offsetPosition, TileColor color)
+        public void Reset(Vector3Int offsetPosition, TileColor color, TileState state = TileState.Normal)
         {
             OffsetPosition = offsetPosition;
             Color = color;
+            State = state;
             IsSelected = false;
             IsActive = true;
         }

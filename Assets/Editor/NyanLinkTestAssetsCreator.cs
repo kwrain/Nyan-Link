@@ -3,17 +3,22 @@ using UnityEditor;
 using UnityEngine.Tilemaps;
 using NyanLink.Data.Definitions;
 using NyanLink.Data.Enums;
+using System;
+using System.Reflection;
 
 namespace NyanLink.Editor
 {
     /// <summary>
-    /// Phase 2 테스트에 필요한 기본 에셋 자동 생성
+    /// NyanLink 테스트 에셋 및 타일 에셋 자동 생성
+    /// Phase 2 테스트 에셋 및 AnimatedTile 생성 기능 포함
     /// </summary>
     public static class NyanLinkTestAssetsCreator
     {
         private const string RESOURCES_DATA_PATH = "Assets/Resources/Data";
         private const string GRID_SHAPES_PATH = RESOURCES_DATA_PATH + "/GridShapes";
         private const string TILES_PATH = "Assets/_NyanLink/Art/Tiles";
+
+        #region Phase 2 Test Assets
 
         [MenuItem("NyanLink/Setup/Create Phase 2 Test Assets")]
         public static void CreatePhase2TestAssets()
@@ -31,20 +36,8 @@ namespace NyanLink.Editor
                 created = true;
             }
 
-            // 3. 기본 헥사곤 타일 생성
-            if (CreateDefaultHexagonTile())
-            {
-                created = true;
-            }
-
-            // 4. 헥사곤 테두리 Sprite 생성 (선택 시각화용)
-            if (CreateHexagonOutlineSprite())
-            {
-                created = true;
-            }
-
-            // 5. 선택 시각화용 머티리얼 생성
-            if (CreateSelectionMaterials())
+            // 3. 기본 헥사곤 스프라이트 생성 (AnimatedTile 생성에 필요)
+            if (CreateHexagonSprite() != null)
             {
                 created = true;
             }
@@ -57,14 +50,8 @@ namespace NyanLink.Editor
                     "완료",
                     "Phase 2 테스트 에셋이 생성되었습니다!\n\n생성된 에셋:\n" +
                     "- Resources/Data/GridShapes/DefaultGridShape.asset\n" +
-                    "- _NyanLink/Art/Tiles/HexagonTile_Red.asset\n" +
-                    "- _NyanLink/Art/Tiles/HexagonTile_Blue.asset\n" +
-                    "- _NyanLink/Art/Tiles/HexagonTile_Yellow.asset\n" +
-                    "- _NyanLink/Art/Tiles/HexagonTile_Purple.asset\n" +
-                    "- _NyanLink/Art/Tiles/HexagonTile_Orange.asset\n" +
-                    "- _NyanLink/Art/Tiles/HexagonTile_Cyan.asset\n" +
-                    "- _NyanLink/Art/Tiles/DefaultHexagonTile.asset\n\n" +
-                    "PuzzleBoardManager에 할당해주세요.",
+                    "- _NyanLink/Art/Tiles/HexagonTexture.asset (HexagonSprite 포함)\n\n" +
+                    "타일 에셋은 'NyanLink > Setup > Create Animated Tiles'를 사용하여 생성하세요.",
                     "확인"
                 );
             }
@@ -106,91 +93,337 @@ namespace NyanLink.Editor
             return true;
         }
 
-        /// <summary>
-        /// 기본 헥사곤 타일 생성 (색상별로 생성)
-        /// </summary>
-        private static bool CreateDefaultHexagonTile()
+        #endregion
+
+        #region AnimatedTile Creation
+
+        [MenuItem("NyanLink/Setup/Create Animated Tiles")]
+        public static void CreateAnimatedTiles()
         {
             bool created = false;
-            
-            // 육각형 스프라이트 먼저 생성
-            Sprite hexagonSprite = CreateHexagonSprite();
-            if (hexagonSprite == null)
+            int createdCount = 0;
+
+            // 폴더 생성
+            EnsureDirectoryExists(TILES_PATH);
+
+            // 기본 헥사곤 스프라이트 가져오기 또는 생성
+            Sprite baseHexagonSprite = GetOrCreateHexagonSprite();
+            if (baseHexagonSprite == null)
             {
-                Debug.LogWarning("육각형 스프라이트 생성 실패. 빈 타일을 생성합니다.");
+                EditorUtility.DisplayDialog(
+                    "에러",
+                    "헥사곤 스프라이트를 찾을 수 없습니다.\n" +
+                    "먼저 'NyanLink > Setup > Create Phase 2 Test Assets'를 실행하여 기본 스프라이트를 생성해주세요.",
+                    "확인"
+                );
+                return;
             }
 
-            // 6가지 색상별 타일 생성
-            TileColor[] colors = { TileColor.Red, TileColor.Blue, TileColor.Yellow, TileColor.Purple, TileColor.Orange, TileColor.Cyan };
-            
+            // 6가지 색상
+            TileColor[] colors = { 
+                TileColor.Red, 
+                TileColor.Blue, 
+                TileColor.Yellow, 
+                TileColor.Purple, 
+                TileColor.Orange, 
+                TileColor.Cyan 
+            };
+
+            // 3가지 상태
+            TileState[] states = { 
+                TileState.Normal, 
+                TileState.ItemLv1, 
+                TileState.ItemLv2 
+            };
+
+            // 각 색상과 상태 조합으로 AnimatedTile 생성
             foreach (TileColor color in colors)
             {
-                string colorName = color.ToString();
-                string assetPath = TILES_PATH + $"/HexagonTile_{colorName}.asset";
-
-                // 이미 존재하는지 확인
-                TileBase existing = AssetDatabase.LoadAssetAtPath<TileBase>(assetPath);
-                if (existing != null)
+                foreach (TileState state in states)
                 {
-                    Debug.Log($"헥사곤 타일이 이미 존재합니다: {assetPath}");
-                    continue;
+                    if (CreateAnimatedTile(color, state, baseHexagonSprite))
+                    {
+                        created = true;
+                        createdCount++;
+                    }
                 }
-
-                // ColoredHexagonTile 생성
-                ColoredHexagonTile tile = ScriptableObject.CreateInstance<ColoredHexagonTile>();
-                tile.name = $"HexagonTile_{colorName}";
-                tile.tileColor = TileColorToUnityColor(color);
-                
-                if (hexagonSprite != null)
-                {
-                    tile.sprite = hexagonSprite;
-                }
-
-                AssetDatabase.CreateAsset(tile, assetPath);
-                Debug.Log($"헥사곤 타일 생성됨: {assetPath} (색상: {color})");
-                created = true;
             }
 
-            // 기본 타일도 생성 (호환성을 위해)
-            string defaultPath = TILES_PATH + "/DefaultHexagonTile.asset";
-            TileBase defaultExisting = AssetDatabase.LoadAssetAtPath<TileBase>(defaultPath);
-            if (defaultExisting == null)
+            if (created)
             {
-                Tile defaultTile = ScriptableObject.CreateInstance<Tile>();
-                defaultTile.name = "DefaultHexagonTile";
-                if (hexagonSprite != null)
-                {
-                    defaultTile.sprite = hexagonSprite;
-                }
-                AssetDatabase.CreateAsset(defaultTile, defaultPath);
-                Debug.Log($"기본 헥사곤 타일 생성됨: {defaultPath}");
-                created = true;
-            }
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
 
-            return created;
+                EditorUtility.DisplayDialog(
+                    "완료",
+                    $"AnimatedTile 생성이 완료되었습니다!\n\n" +
+                    $"생성된 타일: {createdCount}개\n" +
+                    $"(6가지 색상 × 3가지 상태 = 18개)\n\n" +
+                    $"위치: {TILES_PATH}\n\n" +
+                    $"네이밍 규칙:\n" +
+                    $"HexagonTile_{{Color}}_{{State}}\n" +
+                    $"예: HexagonTile_Red_Normal\n" +
+                    $"    HexagonTile_Red_ItemLv1\n" +
+                    $"    HexagonTile_Red_ItemLv2",
+                    "확인"
+                );
+            }
+            else
+            {
+                EditorUtility.DisplayDialog(
+                    "알림",
+                    "모든 AnimatedTile이 이미 존재합니다.\n기존 타일을 사용하세요.",
+                    "확인"
+                );
+            }
         }
 
         /// <summary>
-        /// TileColor를 Unity Color로 변환
+        /// 특정 색상과 상태의 AnimatedTile 생성
         /// </summary>
-        private static Color TileColorToUnityColor(TileColor tileColor)
+        private static bool CreateAnimatedTile(TileColor color, TileState state, Sprite baseSprite)
         {
-            return tileColor switch
+            string colorName = color.ToString();
+            string stateName = state.ToString();
+            string tileName = $"HexagonTile_{colorName}_{stateName}";
+            string assetPath = $"{TILES_PATH}/{tileName}.asset";
+
+            // 이미 존재하는지 확인
+            TileBase existing = AssetDatabase.LoadAssetAtPath<TileBase>(assetPath);
+            if (existing != null)
             {
-                TileColor.Red => Color.red,
-                TileColor.Blue => Color.blue,
-                TileColor.Yellow => Color.yellow,
-                TileColor.Purple => new Color(0.5f, 0f, 0.5f, 1f), // 보라색
-                TileColor.Orange => new Color(1f, 0.5f, 0f, 1f), // 주황색
-                TileColor.Cyan => Color.cyan,
-                _ => Color.white
-            };
+                Debug.Log($"AnimatedTile이 이미 존재합니다: {assetPath}");
+                return false;
+            }
+
+            // AnimatedTile 생성 (리플렉션 사용)
+            Type animatedTileType = GetAnimatedTileType();
+            if (animatedTileType == null)
+            {
+                Debug.LogError("AnimatedTile 타입을 찾을 수 없습니다. 2D Tilemap Extras 패키지가 설치되어 있는지 확인해주세요.");
+                return false;
+            }
+
+            ScriptableObject animatedTile = ScriptableObject.CreateInstance(animatedTileType);
+            animatedTile.name = tileName;
+
+            // 상태에 따라 스프라이트 배열 설정 (색상별 스프라이트 생성)
+            Sprite[] sprites = GetSpritesForState(state, baseSprite, color);
+            
+            // 리플렉션을 사용하여 속성 설정
+            SetAnimatedTileProperties(animatedTile, sprites, color, state);
+
+            AssetDatabase.CreateAsset(animatedTile, assetPath);
+            Debug.Log($"AnimatedTile 생성됨: {assetPath} (색상: {color}, 상태: {state})");
+            return true;
         }
+
+        /// <summary>
+        /// AnimatedTile 타입 가져오기 (리플렉션 사용)
+        /// </summary>
+        private static Type GetAnimatedTileType()
+        {
+            Type animatedTileType = Type.GetType("UnityEngine.Tilemaps.AnimatedTile, Unity.2D.Tilemap.Extras");
+            if (animatedTileType == null)
+            {
+                // 다른 어셈블리 이름 시도
+                animatedTileType = Type.GetType("UnityEngine.Tilemaps.AnimatedTile, Unity.2D.Tilemap.Extras.Editor");
+            }
+            return animatedTileType;
+        }
+
+        /// <summary>
+        /// 상태에 따른 스프라이트 배열 반환
+        /// 색상별로 다른 스프라이트를 생성하여 사용
+        /// </summary>
+        private static Sprite[] GetSpritesForState(TileState state, Sprite baseSprite, TileColor color)
+        {
+            // 색상별 스프라이트 생성 (기본 스프라이트에 색상 틴트 적용)
+            Sprite coloredSprite = CreateColoredSprite(baseSprite, color);
+            return new Sprite[] { coloredSprite };
+        }
+
+        /// <summary>
+        /// 색상별 스프라이트 생성 (기본 스프라이트에 색상 틴트 적용)
+        /// 스프라이트를 에셋으로 저장하여 재사용 가능하게 함
+        /// </summary>
+        private static Sprite CreateColoredSprite(Sprite baseSprite, TileColor color)
+        {
+            if (baseSprite == null)
+            {
+                return null;
+            }
+
+            string colorName = color.ToString();
+            string spriteName = $"HexagonSprite_{colorName}";
+            string spritePath = $"{TILES_PATH}/{spriteName}.asset";
+
+            // 이미 생성된 색상별 스프라이트가 있는지 확인
+            Sprite existingSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+            if (existingSprite != null)
+            {
+                return existingSprite;
+            }
+
+            // 기본 스프라이트의 텍스처 가져오기
+            Texture2D originalTexture = baseSprite.texture;
+            
+            // 텍스처가 읽기 가능한지 확인
+            if (!originalTexture.isReadable)
+            {
+                Debug.LogWarning($"텍스처가 읽기 불가능합니다: {originalTexture.name}. " +
+                               $"텍스처 Import Settings에서 'Read/Write Enabled'를 활성화해주세요. " +
+                               $"기본 스프라이트를 사용합니다.");
+                return baseSprite; // 원본 스프라이트 반환
+            }
+
+            int width = originalTexture.width;
+            int height = originalTexture.height;
+
+            // 새 텍스처 생성
+            Texture2D coloredTexture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            
+            // 원본 텍스처의 픽셀 읽기
+            Color[] pixels = originalTexture.GetPixels();
+            
+            // 색상 틴트 적용
+            Color tintColor = TileColorToUnityColor(color);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                if (pixels[i].a > 0f) // 알파가 있는 픽셀만 색상 적용
+                {
+                    pixels[i] = pixels[i] * tintColor;
+                }
+            }
+            
+            coloredTexture.SetPixels(pixels);
+            coloredTexture.Apply();
+
+            // 새 스프라이트 생성
+            // 새 텍스처는 전체 텍스처 크기이므로 rect는 (0, 0, width, height)로 설정
+            // pivot은 원본 스프라이트의 pivot을 사용하되, 정규화된 값으로 변환 필요
+            Rect spriteRect = new Rect(0, 0, width, height); // 전체 텍스처 사용
+            
+            // baseSprite.pivot은 픽셀 단위이므로 정규화된 값으로 변환
+            // pivot = (픽셀 위치) / (스프라이트 크기)
+            Vector2 normalizedPivot = new Vector2(
+                baseSprite.pivot.x / baseSprite.rect.width,
+                baseSprite.pivot.y / baseSprite.rect.height
+            );
+            
+            Sprite coloredSprite = Sprite.Create(
+                coloredTexture,
+                spriteRect, // 전체 텍스처 사용
+                normalizedPivot, // 정규화된 pivot 사용
+                baseSprite.pixelsPerUnit, // 동일한 Pixels Per Unit 사용
+                0,
+                SpriteMeshType.Tight
+            );
+            coloredSprite.name = spriteName;
+            
+            // 디버그 로그
+            Debug.Log($"[색상별 스프라이트 생성] " +
+                     $"Color: {color}, " +
+                     $"Base Sprite Rect: {baseSprite.rect}, " +
+                     $"Base Sprite Pivot (픽셀): {baseSprite.pivot}, " +
+                     $"New Sprite Rect: {spriteRect}, " +
+                     $"Normalized Pivot: {normalizedPivot}, " +
+                     $"Pixels Per Unit: {baseSprite.pixelsPerUnit}");
+
+            // 텍스처와 스프라이트를 에셋으로 저장
+            AssetDatabase.CreateAsset(coloredTexture, spritePath);
+            AssetDatabase.AddObjectToAsset(coloredSprite, spritePath);
+            AssetDatabase.SaveAssets();
+
+            Debug.Log($"색상별 스프라이트 생성됨: {spritePath} (색상: {color})");
+            return coloredSprite;
+        }
+
+        /// <summary>
+        /// AnimatedTile 속성 설정 (리플렉션 사용)
+        /// </summary>
+        private static void SetAnimatedTileProperties(ScriptableObject animatedTile, Sprite[] sprites, TileColor color, TileState state)
+        {
+            Type tileType = animatedTile.GetType();
+            
+            // m_AnimatedSprites 설정
+            FieldInfo spritesField = tileType.GetField("m_AnimatedSprites", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (spritesField != null)
+            {
+                spritesField.SetValue(animatedTile, sprites);
+            }
+
+            // m_MinSpeed, m_MaxSpeed 설정
+            FieldInfo minSpeedField = tileType.GetField("m_MinSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo maxSpeedField = tileType.GetField("m_MaxSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
+            
+            float speed = state switch
+            {
+                TileState.Normal => 1f,
+                TileState.ItemLv1 => 0.5f,
+                TileState.ItemLv2 => 1.5f,
+                _ => 1f
+            };
+
+            if (minSpeedField != null) minSpeedField.SetValue(animatedTile, speed);
+            if (maxSpeedField != null) maxSpeedField.SetValue(animatedTile, speed);
+
+            // m_AnimationStartTime, m_AnimationStartFrame 설정
+            FieldInfo startTimeField = tileType.GetField("m_AnimationStartTime", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo startFrameField = tileType.GetField("m_AnimationStartFrame", BindingFlags.NonPublic | BindingFlags.Instance);
+            
+            if (startTimeField != null) startTimeField.SetValue(animatedTile, 0f);
+            if (startFrameField != null) startFrameField.SetValue(animatedTile, 0);
+
+            // m_TileColliderType 설정
+            FieldInfo colliderTypeField = tileType.GetField("m_TileColliderType", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (colliderTypeField != null)
+            {
+                colliderTypeField.SetValue(animatedTile, Tile.ColliderType.Sprite);
+            }
+
+            // 참고: AnimatedTile은 TileBase를 상속받지만 color 속성이 공식적으로 지원되지 않음
+            // 대신 색상별로 다른 스프라이트를 생성하여 사용 (GetSpritesForState에서 처리)
+            // TileBase의 color 속성은 Tilemap 레벨에서 적용되므로 여기서는 설정하지 않음
+        }
+
+        /// <summary>
+        /// 헥사곤 스프라이트 가져오기 또는 생성
+        /// </summary>
+        private static Sprite GetOrCreateHexagonSprite()
+        {
+            // 기존 스프라이트 찾기 (HexagonTexture.asset에 포함된 스프라이트)
+            string texturePath = TILES_PATH + "/HexagonTexture.asset";
+            Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
+            
+            if (texture != null)
+            {
+                // 텍스처에서 스프라이트 찾기
+                string[] guids = AssetDatabase.FindAssets("HexagonSprite t:Sprite", new[] { TILES_PATH });
+                if (guids.Length > 0)
+                {
+                    string spritePath = AssetDatabase.GUIDToAssetPath(guids[0]);
+                    Sprite existingSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                    if (existingSprite != null)
+                    {
+                        return existingSprite;
+                    }
+                }
+            }
+
+            // 스프라이트가 없으면 생성
+            return CreateHexagonSprite();
+        }
+
+        #endregion
+
+        #region Common Utilities
 
         /// <summary>
         /// 육각형 스프라이트 생성
+        /// AnimatedTile 생성에도 사용되므로 public으로 공개
         /// </summary>
-        private static Sprite CreateHexagonSprite()
+        public static Sprite CreateHexagonSprite()
         {
             string texturePath = TILES_PATH + "/HexagonTexture.asset";
             
@@ -285,97 +518,6 @@ namespace NyanLink.Editor
             return sprite;
         }
 
-        /// <summary>
-        /// 헥사곤 테두리 Sprite 생성 (선택 시각화용)
-        /// </summary>
-        private static bool CreateHexagonOutlineSprite()
-        {
-            string texturePath = TILES_PATH + "/HexagonOutlineTexture.asset";
-            
-            // 이미 존재하는지 확인
-            Texture2D existingTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
-            if (existingTexture != null)
-            {
-                string[] guids = AssetDatabase.FindAssets("HexagonOutlineSprite t:Sprite", new[] { TILES_PATH });
-                if (guids.Length > 0)
-                {
-                    Debug.Log($"헥사곤 테두리 스프라이트가 이미 존재합니다.");
-                    return false;
-                }
-            }
-
-            // 육각형 테두리 텍스처 생성
-            // HexagonSprite와 동일한 크기 및 Pixels Per Unit 사용
-            int size = 128;
-            Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
-            Color[] pixels = new Color[size * size];
-
-            Vector2 center = new Vector2(size / 2f, size / 2f);
-            // HexagonSprite와 동일한 반지름 사용
-            float outerRadius = size / 2f - 2f;
-            float innerRadius = size / 2f - 6f; // 테두리 두께
-
-            // 육각형의 6개 꼭짓점 계산 (Pointy-top)
-            Vector2[] outerVertices = new Vector2[6];
-            Vector2[] innerVertices = new Vector2[6];
-            
-            for (int i = 0; i < 6; i++)
-            {
-                float angle = (i * 60f - 30f) * Mathf.Deg2Rad;
-                outerVertices[i] = center + new Vector2(
-                    Mathf.Cos(angle) * outerRadius,
-                    Mathf.Sin(angle) * outerRadius
-                );
-                innerVertices[i] = center + new Vector2(
-                    Mathf.Cos(angle) * innerRadius,
-                    Mathf.Sin(angle) * innerRadius
-                );
-            }
-
-            // 테두리 영역만 채우기 (외부 육각형 내부이지만 내부 육각형 외부)
-            for (int y = 0; y < size; y++)
-            {
-                for (int x = 0; x < size; x++)
-                {
-                    Vector2 point = new Vector2(x, y);
-                    bool inOuter = IsPointInHexagon(point, center, outerVertices);
-                    bool inInner = IsPointInHexagon(point, center, innerVertices);
-                    
-                    // 외부 육각형 내부이지만 내부 육각형 외부인 영역만 테두리
-                    if (inOuter && !inInner)
-                    {
-                        pixels[y * size + x] = Color.white;
-                    }
-                    else
-                    {
-                        pixels[y * size + x] = Color.clear;
-                    }
-                }
-            }
-
-            texture.SetPixels(pixels);
-            texture.Apply();
-
-            // 스프라이트 생성
-            // HexagonSprite와 동일한 Pixels Per Unit 사용 (128 pixels = 1 unit)
-            Sprite sprite = Sprite.Create(
-                texture,
-                new Rect(0, 0, size, size),
-                new Vector2(0.5f, 0.5f), // 피벗 중앙
-                128f, // 픽셀당 유닛 (128 pixels = 1 unit, Grid Cell Size와 일치)
-                0,
-                SpriteMeshType.Tight
-            );
-            sprite.name = "HexagonOutlineSprite";
-
-            // 텍스처와 스프라이트 저장
-            AssetDatabase.CreateAsset(texture, texturePath);
-            AssetDatabase.AddObjectToAsset(sprite, texturePath);
-            AssetDatabase.SaveAssets();
-
-            Debug.Log($"헥사곤 테두리 스프라이트 생성됨: {texturePath}");
-            return true;
-        }
 
         /// <summary>
         /// 점이 육각형 내부에 있는지 확인 (Ray casting 알고리즘)
@@ -402,60 +544,20 @@ namespace NyanLink.Editor
         }
 
         /// <summary>
-        /// 선택 시각화용 머티리얼 생성
+        /// TileColor를 Unity Color로 변환
         /// </summary>
-        private static bool CreateSelectionMaterials()
+        private static Color TileColorToUnityColor(TileColor tileColor)
         {
-            const string MATERIALS_PATH = "Assets/_NyanLink/Art/Materials";
-            EnsureDirectoryExists(MATERIALS_PATH);
-
-            bool created = false;
-
-            // 1. 테두리용 머티리얼
-            string outlineMatPath = MATERIALS_PATH + "/TileOutlineMaterial.mat";
-            Material outlineMat = AssetDatabase.LoadAssetAtPath<Material>(outlineMatPath);
-            if (outlineMat == null)
+            return tileColor switch
             {
-                // Shader 찾기
-                Shader outlineShader = Shader.Find("NyanLink/TileOutline");
-                if (outlineShader != null)
-                {
-                    outlineMat = new Material(outlineShader);
-                    outlineMat.name = "TileOutlineMaterial";
-                    outlineMat.color = new Color(1f, 1f, 1f, 0.8f); // 흰색, 반투명
-                    AssetDatabase.CreateAsset(outlineMat, outlineMatPath);
-                    Debug.Log($"테두리 머티리얼 생성됨: {outlineMatPath}");
-                    created = true;
-                }
-                else
-                {
-                    Debug.LogWarning("TileOutline Shader를 찾을 수 없습니다. Shader가 컴파일되었는지 확인하세요.");
-                }
-            }
-
-            // 2. 연결선용 머티리얼
-            string lineMatPath = MATERIALS_PATH + "/LineFlowMaterial.mat";
-            Material lineMat = AssetDatabase.LoadAssetAtPath<Material>(lineMatPath);
-            if (lineMat == null)
-            {
-                // Shader 찾기
-                Shader lineShader = Shader.Find("NyanLink/LineFlow");
-                if (lineShader != null)
-                {
-                    lineMat = new Material(lineShader);
-                    lineMat.name = "LineFlowMaterial";
-                    lineMat.color = new Color(0.7f, 0.9f, 1f, 0.8f); // 연한 하늘색
-                    AssetDatabase.CreateAsset(lineMat, lineMatPath);
-                    Debug.Log($"연결선 머티리얼 생성됨: {lineMatPath}");
-                    created = true;
-                }
-                else
-                {
-                    Debug.LogWarning("LineFlow Shader를 찾을 수 없습니다. Shader가 컴파일되었는지 확인하세요.");
-                }
-            }
-
-            return created;
+                TileColor.Red => Color.red,
+                TileColor.Blue => Color.blue,
+                TileColor.Yellow => Color.yellow,
+                TileColor.Purple => new Color(0.5f, 0f, 0.5f, 1f), // 보라색
+                TileColor.Orange => new Color(1f, 0.5f, 0f, 1f), // 주황색
+                TileColor.Cyan => Color.cyan,
+                _ => Color.white
+            };
         }
 
         /// <summary>
@@ -477,27 +579,6 @@ namespace NyanLink.Editor
             }
         }
 
-    }
-
-    /// <summary>
-    /// 간단한 헥사곤 타일 (프로그래밍 방식으로 색상 변경 가능)
-    /// </summary>
-    [CreateAssetMenu(fileName = "ColoredHexagonTile", menuName = "NyanLink/Tiles/Colored Hexagon Tile", order = 1)]
-    public class ColoredHexagonTile : Tile
-    {
-        [Header("타일 색상")]
-        [Tooltip("타일의 색상 (렌더링용)")]
-        public Color tileColor = Color.white;
-
-        public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
-        {
-            base.GetTileData(position, tilemap, ref tileData);
-            tileData.color = tileColor;
-        }
-
-        public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
-        {
-            return false;
-        }
+        #endregion
     }
 }

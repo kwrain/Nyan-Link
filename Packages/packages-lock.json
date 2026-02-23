@@ -16,7 +16,7 @@
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.0.2"
       },
-      "hash": "322a3d184683d8976fe79c59660c393aa5083431"
+      "hash": "2a1fe67e2159ee73cae8acf63312417c88fe9cd9"
     },
     "com.ninemood.services": {
       "version": "ssh://git@github.com/kwrain/NineMood.Services.git",
@@ -110,7 +110,7 @@
     },
     "com.unity.2d.tilemap": {
       "version": "1.0.0",
-      "depth": 1,
+      "depth": 0,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.tilemap": "1.0.0",
@@ -118,7 +118,7 @@
       }
     },
     "com.unity.2d.tilemap.extras": {
-      "version": "5.0.1",
+      "version": "5.0.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -191,7 +191,7 @@
         "com.unity.2d.sprite": "1.0.0",
         "com.unity.2d.spriteshape": "12.0.1",
         "com.unity.2d.tilemap": "1.0.0",
-        "com.unity.2d.tilemap.extras": "5.0.1",
+        "com.unity.2d.tilemap.extras": "5.0.2",
         "com.unity.2d.aseprite": "2.0.2"
       }
     },

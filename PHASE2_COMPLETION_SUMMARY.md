@@ -19,20 +19,27 @@
 - 홀수/짝수 열 교차 배치 로직 (짝수 열에 타일 1개 추가로 균형 맞춤)
 - 중앙 타일 (0, 0, 0) 기준 그리드 배치
 - 카메라 자동 중앙 배치 기능
+- **AnimatedTile 자동 로드 및 상태별 타일 관리**
 
 **주요 메서드:**
 - `Initialize()`: 그리드 초기화 및 생성
 - `CreateGrid()`: 그리드 생성 (GridShapeData 기반)
-- `SpawnTile()`: 새 타일 스폰
+- `SpawnTile()`: 새 타일 스폰 (상태 지정 가능)
 - `RemoveTile()`: 타일 제거
+- `SetTileState()`: 타일 상태 변경 및 타일맵 업데이트
 - `GetTileAtOffset()`: Offset 좌표로 타일 조회
 - `GetCellCenterWorld()`: 셀 중심 월드 위치 계산
+- `GetTileByColorAndState()`: 색상과 상태에 따른 AnimatedTile 반환
+- `LoadAnimatedTiles()`: 에디터에서 AnimatedTile 자동 로드
 
 **기술적 결정:**
 - ✅ **Unity Tilemap Offset 좌표계 직접 사용** (HexCoordinates 제거)
 - ✅ Pointy-top 헥사곤 배치 방식 채택
 - ✅ 타일 크기와 간격을 Inspector에서 조정 가능
 - ✅ `centerOffsetX = -(width / 2) - 1` 공식으로 중앙 정렬
+- ✅ **AnimatedTile을 딕셔너리로 관리** (`Dictionary<TileColor, Dictionary<TileState, TileBase>>`)
+- ✅ **타일맵 타일 앵커 설정** (셀 중심: 0.5, 0.5, 0)
+- ✅ **상세 디버그 로그** (타일 위치, 스프라이트 정보, 타일 앵커 등)
 
 ---
 
@@ -66,10 +73,12 @@
 - 타일 데이터 구조 정의
 - Offset 좌표 기반 위치 관리
 - 타일 색상, 선택 상태, 활성화 상태 관리
+- **타일 상태 관리 (TileState enum 추가)**
 
 **주요 속성:**
 - `OffsetPosition`: Unity Tilemap Offset 좌표 (Vector3Int)
 - `Color`: 타일 색상 (TileColor enum)
+- `State`: 타일 상태 (TileState enum: Normal, ItemLv1, ItemLv2)
 - `IsSelected`: 선택 상태
 - `IsActive`: 활성화 상태
 
@@ -77,6 +86,7 @@
 - ✅ Offset 좌표만 사용 (Cube 좌표 제거)
 - ✅ GameObject 참조는 나중에 추가 가능하도록 설계
 - ✅ 풀링 시스템을 고려한 구조 (Phase 8에서 구현 예정)
+- ✅ 타일 상태별 AnimatedTile 지원 (Phase 3 아이템 시스템 준비)
 
 ---
 
@@ -168,7 +178,32 @@
 
 ## 🔄 주요 변경 사항 및 수정 이력
 
-### 1. 좌표계 변경: HexCoordinates → Unity Offset 좌표계
+### 1. AnimatedTile 시스템 구현 (최신)
+
+**구현 내용:**
+- 18개 AnimatedTile 에셋 자동 생성 (6색상 × 3상태)
+- 색상별 스프라이트 생성 로직 (`CreateColoredSprite`)
+- PuzzleBoardManager에서 상태별 타일 관리
+- 타일 상태 변경 시 타일맵 자동 업데이트
+
+**기술적 도전:**
+- 스프라이트 rect와 pivot 설정 문제로 타일 위치 불일치 발생
+- 타일맵 타일 앵커와 스프라이트 pivot 불일치
+
+**해결:**
+- `CreateColoredSprite`에서 pivot을 정규화된 값으로 변환
+- 타일맵 타일 앵커를 셀 중심 (0.5, 0.5, 0)으로 설정
+- 스프라이트 생성 시 rect를 전체 텍스처 크기로 설정
+- 상세 디버그 로그 추가로 문제 진단 용이
+
+**결과:**
+- ✅ 타일이 정확한 위치에 표시됨
+- ✅ 상태별 타일 전환 정상 작동
+- ✅ Phase 3 아이템 시스템 준비 완료
+
+---
+
+### 2. 좌표계 변경: HexCoordinates → Unity Offset 좌표계
 
 **변경 이유:**
 - Unity Tilemap의 네이티브 좌표계 사용으로 변환 오류 방지
@@ -264,23 +299,35 @@
 
 **생성 기능:**
 - `CreatePhase2TestAssets()`: Phase 2 테스트 에셋 자동 생성
-- 기본 GridShapeData 생성
-- 색상별 헥사곤 타일 생성 (6가지 색상)
-- 헥사곤 스프라이트 자동 생성
-- 헥사곤 테두리 스프라이트 생성 (선택 시각화용)
+  - 기본 GridShapeData 생성
+  - 헥사곤 스프라이트 자동 생성 (`HexagonTexture.asset`에 포함)
+- `CreateAnimatedTiles()`: AnimatedTile 에셋 자동 생성
+  - 18개 AnimatedTile 생성 (6색상 × 3상태)
+  - 색상별 스프라이트 자동 생성 및 저장
 
 **생성되는 에셋:**
 - `Resources/Data/GridShapes/DefaultGridShape.asset`
-- `_NyanLink/Art/Tiles/HexagonTile_Red.asset`
-- `_NyanLink/Art/Tiles/HexagonTile_Blue.asset`
-- `_NyanLink/Art/Tiles/HexagonTile_Yellow.asset`
-- `_NyanLink/Art/Tiles/HexagonTile_Purple.asset`
-- `_NyanLink/Art/Tiles/HexagonTile_Orange.asset`
-- `_NyanLink/Art/Tiles/HexagonTile_Cyan.asset`
-- `_NyanLink/Art/Tiles/DefaultHexagonTile.asset`
+- `_NyanLink/Art/Tiles/HexagonTexture.asset` (HexagonSprite 포함)
+- `_NyanLink/Art/Tiles/HexagonSprite_Red.asset` (색상별 스프라이트)
+- `_NyanLink/Art/Tiles/HexagonSprite_Blue.asset`
+- `_NyanLink/Art/Tiles/HexagonSprite_Yellow.asset`
+- `_NyanLink/Art/Tiles/HexagonSprite_Purple.asset`
+- `_NyanLink/Art/Tiles/HexagonSprite_Orange.asset`
+- `_NyanLink/Art/Tiles/HexagonSprite_Cyan.asset`
+- `_NyanLink/Art/Tiles/HexagonTile_Red_Normal.asset` (AnimatedTile)
+- `_NyanLink/Art/Tiles/HexagonTile_Red_ItemLv1.asset`
+- `_NyanLink/Art/Tiles/HexagonTile_Red_ItemLv2.asset`
+- ... (총 18개 AnimatedTile: 6색상 × 3상태)
 
 **사용 방법:**
-- Unity 메뉴: `NyanLink/Setup/Create Phase 2 Test Assets`
+- Unity 메뉴: `NyanLink/Setup/Create Phase 2 Test Assets` (기본 에셋 생성)
+- Unity 메뉴: `NyanLink/Setup/Create Animated Tiles` (AnimatedTile 생성)
+
+**AnimatedTile 생성 로직:**
+- 기본 헥사곤 스프라이트에 색상 틴트 적용하여 색상별 스프라이트 생성
+- 각 색상별 스프라이트를 AnimatedTile의 `m_AnimatedSprites` 배열에 할당
+- 상태별 애니메이션 속도 설정 (Normal: 1.0, ItemLv1: 0.5, ItemLv2: 1.5)
+- 스프라이트의 rect와 pivot을 올바르게 설정하여 타일 위치 정확도 보장
 
 ---
 
@@ -288,18 +335,26 @@
 
 ```
 Assets/_NyanLink/Scripts/Puzzle/
-├── PuzzleBoardManager.cs      # 그리드 생성 및 관리
-├── TileInstance.cs             # 타일 데이터 구조
+├── PuzzleBoardManager.cs      # 그리드 생성 및 관리 (AnimatedTile 지원)
+├── TileInstance.cs             # 타일 데이터 구조 (TileState 추가)
 ├── HexOffsetUtils.cs           # Offset 좌표계 유틸리티
 ├── TileInputHandler.cs         # 입력 처리
 ├── TileMatcher.cs               # 타일 매칭 로직
 └── TileSelectionVisualizer.cs  # 시각적 피드백
 
+Assets/_NyanLink/Scripts/Data/
+├── Enums/
+│   ├── TileColor.cs            # 타일 색상 enum
+│   └── TileState.cs            # 타일 상태 enum (Normal, ItemLv1, ItemLv2)
+└── Definitions/
+    └── GridShapeData.cs        # 그리드 쉐이프 정의
+
 Assets/_NyanLink/Scripts/Core/
 └── HexCoordinates/             # (사용 안 함, 레거시)
 
 Assets/Editor/
-└── NyanLinkTestAssetsCreator.cs # 테스트 에셋 생성 스크립트
+└── NyanLinkTestAssetsCreator.cs # 테스트 에셋 생성 스크립트 (AnimatedTile 생성 포함)
+└── NyanLinkTestSceneSetup.cs    # 테스트 씬 구성 스크립트 (타일 앵커 설정 포함)
 ```
 
 ---

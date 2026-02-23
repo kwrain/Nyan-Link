@@ -97,6 +97,7 @@ Phase 8: 밸런싱 및 최적화
 2. **타일 인스턴스 시스템** ✅
    - `TileInstance`: 타일 데이터 구조
    - Offset 좌표 기반 위치 관리
+   - **타일 상태 관리 (TileState enum: Normal, ItemLv1, ItemLv2)**
    - 타일 풀링 시스템 (ObjectPool 사용) - **참고**: Unity Tilemap은 GameObject가 아니므로 TileInstance 데이터 구조만 풀링 가능. 성능상 큰 이점이 없어 Phase 8에서 선택적 구현 예정.
 
 3. **입력 처리** ✅
@@ -124,6 +125,13 @@ Phase 8: 밸런싱 및 최적화
    - LineRenderer를 사용한 직선 연결
    - 타일 위에 표시되도록 렌더링 순서 조정 (Z 위치 및 View 모드)
 
+7. **AnimatedTile 시스템** ✅
+   - 18개 AnimatedTile 에셋 자동 생성 (6색상 × 3상태)
+   - 색상별 스프라이트 생성 및 관리
+   - 상태별 타일 전환 지원 (`SetTileState`)
+   - 타일맵 타일 앵커 설정 (셀 중심: 0.5, 0.5, 0)
+   - 에디터에서 AnimatedTile 자동 로드 (`LoadAnimatedTiles`)
+
 ### 예상 소요 시간
 **5-7일** (실제 완료: 2026-01-23)
 
@@ -139,6 +147,9 @@ Phase 8: 밸런싱 및 최적화
 - **좌표계**: Unity Tilemap Offset 좌표계 직접 사용 (HexCoordinates 제거)
 - **인접 타일 계산**: 양방향 검증으로 대칭성 보장
 - **렌더링**: LineRenderer의 Z 위치 조정 및 View 모드로 타일 위에 표시
+- **타일 시스템**: AnimatedTile 사용 (2D Tilemap Extras 패키지)
+- **타일 앵커**: 셀 중심 (0.5, 0.5, 0)으로 설정하여 스프라이트 pivot과 일치
+- **스프라이트 생성**: 색상별 스프라이트 생성 시 pivot 정규화 처리
 
 ---
 

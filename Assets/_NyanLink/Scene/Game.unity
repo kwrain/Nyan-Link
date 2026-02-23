@@ -149,10 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8342bffe53e944e8a16f46d3e4fa8b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.PuzzleBoardInitializer
-  autoInitializeOnStart: 1
   createDefaultGridIfMissing: 1
-  defaultGridWidth: 7
-  defaultGridHeight: 7
+  initializationDelay: 0.1
 --- !u!114 &84675024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,8 +435,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.TileMatcher
   boardManager: {fileID: 1774502073}
-  inputHandler: {fileID: 1774502071}
-  selectionVisualizer: {fileID: 0}
   minMatchCount: 2
   debugLog: 1
 --- !u!114 &1774502071
@@ -454,12 +450,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.TileInputHandler
   boardManager: {fileID: 1774502073}
-  touchCorrectionMultiplier: 1
-  yOffsetCorrection: 0
-  tileAnimation: {fileID: 1774502072}
+  tileMatcher: {fileID: 0}
   selectionVisualizer: {fileID: 1774502076}
+  mouseMoveSensitivity: 1
   debugLog: 1
-  mouseMoveSensitivity: 5
 --- !u!114 &1774502072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,9 +594,6 @@ MonoBehaviour:
   orangeTile: {fileID: 11400000, guid: c28c2c7e3a7ab48cab30cba42cd90c90, type: 2}
   cyanTile: {fileID: 11400000, guid: 034d1a11bff3048a39fe68fdce71ad06, type: 2}
   gridShapeData: {fileID: 11400000, guid: aaf4a4cb9defa446a82c99db601ecd74, type: 2}
-  tileSize: 1
-  tileSpacing: 0
-  tileAnimation: {fileID: 1774502072}
   autoPositionCamera: 1
   debugLog: 1
 --- !u!483693784 &1774502074
@@ -712,7 +703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.TileSelectionVisualizer
   boardManager: {fileID: 1774502073}
   lineColor: {r: 0.7, g: 0.9, b: 1, a: 0.8}
-  lineWidth: 0.05
+  lineWidth: 0.1
   flowSpeed: 2
   debugLog: 0
 --- !u!1660057539 &9223372036854775807

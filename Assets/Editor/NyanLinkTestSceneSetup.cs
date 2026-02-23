@@ -113,6 +113,16 @@ namespace NyanLink.Editor
             GameObject tilemapObject = new GameObject("Tilemap");
             tilemapObject.transform.SetParent(gridObject.transform);
             Tilemap tilemap = tilemapObject.AddComponent<Tilemap>();
+            
+            // 타일 앵커 설정: 스프라이트의 pivot이 (0.5, 0.5)이므로 셀 중심에 맞춤
+            // 타일 앵커는 스프라이트의 pivot이 배치될 셀 내 위치를 지정
+            // (0.5, 0.5, 0) = 셀 중심, (0, 0, 0) = 셀 좌측 하단 모서리
+            tilemap.orientationMatrix = Matrix4x4.TRS(
+                new Vector3(0.5f, 0.5f, 0f), // 타일 앵커를 셀 중심으로 설정
+                Quaternion.identity,
+                Vector3.one
+            );
+            
             TilemapRenderer tilemapRenderer = tilemapObject.AddComponent<TilemapRenderer>();
             tilemapRenderer.sortOrder = TilemapRenderer.SortOrder.BottomLeft;
             
@@ -123,12 +133,12 @@ namespace NyanLink.Editor
             PuzzleBoardManager boardManager = tilemapObject.AddComponent<PuzzleBoardManager>();
             boardManager.tilemap = tilemap;
             
-            // 색상별 타일 자동 할당
-            LoadColoredTiles(boardManager);
+            // AnimatedTile은 PuzzleBoardManager의 autoLoadTiles가 true이면 자동으로 로드됨
+            // 필요시 수동으로 다시 로드: Inspector에서 PuzzleBoardManager 우클릭 > "Reload Animated Tiles"
 
             // 타일 로드 후 최적 Cell Size 계산 (자동 적용은 하지 않음)
             // Inspector에서 PuzzleBoardManager 우클릭 > "Apply Optimal Cell Size"로 수동 적용 가능
-            TileBase sampleTile = boardManager.redTile ?? boardManager.blueTile ?? boardManager.yellowTile ?? boardManager.hexagonTile;
+            TileBase sampleTile = boardManager.hexagonTile;
             if (sampleTile != null)
             {
                 Vector3 optimalSize = HexGridCalculator.CalculateCellSizeFromTile(sampleTile);
@@ -195,39 +205,13 @@ namespace NyanLink.Editor
         }
 
         /// <summary>
-        /// 색상별 타일 자동 할당
+        /// AnimatedTile 자동 할당 (더 이상 사용되지 않음, PuzzleBoardManager가 자동으로 로드함)
         /// </summary>
+        [System.Obsolete("LoadColoredTiles는 더 이상 사용되지 않습니다. PuzzleBoardManager가 자동으로 AnimatedTile을 로드합니다.")]
         private static void LoadColoredTiles(PuzzleBoardManager boardManager)
         {
-            string tilesPath = "Assets/_NyanLink/Art/Tiles";
-            
-            // 색상별 타일 로드
-            boardManager.redTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/HexagonTile_Red.asset");
-            boardManager.blueTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/HexagonTile_Blue.asset");
-            boardManager.yellowTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/HexagonTile_Yellow.asset");
-            boardManager.purpleTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/HexagonTile_Purple.asset");
-            boardManager.orangeTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/HexagonTile_Orange.asset");
-            boardManager.cyanTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/HexagonTile_Cyan.asset");
-            
-            // 기본 타일도 로드
-            boardManager.hexagonTile = AssetDatabase.LoadAssetAtPath<TileBase>($"{tilesPath}/DefaultHexagonTile.asset");
-            
-            int loadedCount = 0;
-            if (boardManager.redTile != null) loadedCount++;
-            if (boardManager.blueTile != null) loadedCount++;
-            if (boardManager.yellowTile != null) loadedCount++;
-            if (boardManager.purpleTile != null) loadedCount++;
-            if (boardManager.orangeTile != null) loadedCount++;
-            if (boardManager.cyanTile != null) loadedCount++;
-            
-            if (loadedCount < 6)
-            {
-                Debug.LogWarning($"색상별 타일이 일부만 로드되었습니다. ({loadedCount}/6) 테스트 에셋을 생성해주세요.");
-            }
-            else
-            {
-                Debug.Log("색상별 타일이 모두 로드되었습니다.");
-            }
+            // PuzzleBoardManager의 autoLoadTiles가 true이면 자동으로 로드됨
+            Debug.Log("PuzzleBoardManager가 자동으로 AnimatedTile을 로드합니다. (autoLoadTiles = true)");
         }
     }
 }

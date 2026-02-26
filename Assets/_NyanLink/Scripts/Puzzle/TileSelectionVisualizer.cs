@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using NyanLink.Data.Definitions;
+using NyanLink.Data.Enums;
 
 namespace NyanLink.Puzzle
 {
     /// <summary>
     /// 선택된 타일들의 시각적 피드백 관리
-    /// 연결선 표시
+    /// 연결선 표시. 체인 티어(Middle/Long)·선택 색상에 따라 연출 변경 가능 (LineVisualEffectConfig).
     /// </summary>
     public class TileSelectionVisualizer : MonoBehaviour
     {
@@ -14,9 +16,13 @@ namespace NyanLink.Puzzle
         [Tooltip("PuzzleBoardManager 참조")]
         public PuzzleBoardManager boardManager;
 
-        [Header("연결선 설정")]
+        [Header("연결선 연출 (추후 변경 가능)")]
+        [Tooltip("티어/색상별 연결선 연출 설정. 비어있으면 아래 기본값 사용")]
+        public LineVisualEffectConfig lineEffectConfig;
+
+        [Header("연결선 기본값 (lineEffectConfig 없을 때)")]
         [Tooltip("연결선 색상")]
-        public Color lineColor = new Color(0.7f, 0.9f, 1f, 0.8f); // 연한 하늘색
+        public Color lineColor = new Color(0.7f, 0.9f, 1f, 0.8f);
 
         [Tooltip("연결선 두께")]
         [Range(0.01f, 0.1f)]
@@ -30,30 +36,26 @@ namespace NyanLink.Puzzle
         [Tooltip("시각화 디버그 로그 출력")]
         public bool debugLog = false;
 
-        /// <summary>
-        /// 현재 선택된 체인 (미리보기용)
-        /// </summary>
+        /// <summary> 현재 선택된 체인 (미리보기용) </summary>
         private List<Vector3Int> _currentChain = new List<Vector3Int>();
 
-        /// <summary>
-        /// 연결선 LineRenderer
-        /// </summary>
+        /// <summary> 연결선 LineRenderer </summary>
         private LineRenderer _connectionLine;
 
-        /// <summary>
-        /// 연결선 GameObject
-        /// </summary>
+        /// <summary> 연결선 GameObject </summary>
         private GameObject _lineObject;
 
-        /// <summary>
-        /// 현재 미리보기 중인 타일 (마우스 포인터 위치)
-        /// </summary>
+        /// <summary> 현재 미리보기 중인 타일 </summary>
         private Vector3Int? _previewTile = null;
 
-        /// <summary>
-        /// 흐르는 효과용 시간
-        /// </summary>
+        /// <summary> 흐르는 효과용 시간 </summary>
         private float _flowTime = 0f;
+
+        /// <summary> 현재 적용 중인 체인 티어 (0=Short, 1=Middle, 2=Long) </summary>
+        private int _currentChainTier;
+
+        /// <summary> 현재 적용 중인 체인 색상 </summary>
+        private TileColor _currentChainColor;
 
 
         private void Awake()
@@ -74,11 +76,11 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
-        /// 연결선 업데이트 (타일 선택 중 사용)
+        /// 연결선 업데이트 (타일 선택 중 사용).
+        /// chainTier: 0=Short, 1=Middle, 2=Long (Middle/Long일 때 티어별·색상별 연출 적용)
         /// </summary>
-        public void UpdateConnectionLine(List<Vector3Int> selectedChain, Vector3Int? previewTile = null)
+        public void UpdateConnectionLine(List<Vector3Int> selectedChain, Vector3Int? previewTile = null, int chainTier = 0, TileColor? chainColor = null)
         {
-            // 체인 길이가 2 미만이면 연결선 제거
             if (selectedChain == null || selectedChain.Count < 2)
             {
                 ClearConnectionLine();
@@ -86,21 +88,21 @@ namespace NyanLink.Puzzle
                 return;
             }
 
-            // 현재 체인 저장 (미리보기용)
             _currentChain = new List<Vector3Int>(selectedChain);
             _previewTile = previewTile;
+            _currentChainTier = chainTier;
+            _currentChainColor = chainColor ?? (boardManager != null && boardManager.GetTileAtOffset(selectedChain[0]) != null
+                ? boardManager.GetTileAtOffset(selectedChain[0]).Color
+                : TileColor.Red);
 
-            // 연결선 생성
             CreateConnectionLine(selectedChain, previewTile);
         }
 
-
         /// <summary>
-        /// 선택된 타일 체인 시각화 업데이트 (레거시 메서드, 호환성 유지)
+        /// 선택된 타일 체인 시각화 업데이트 (레거시, 호환성 유지)
         /// </summary>
         public void UpdateSelectionVisualization(List<Vector3Int> selectedChain)
         {
-            // 연결선만 업데이트
             UpdateConnectionLine(selectedChain, null);
         }
 
@@ -143,14 +145,30 @@ namespace NyanLink.Puzzle
                 positions.Add(previewPos);
             }
 
-            // 직선으로 연결 (곡률 적용 안 함)
+            // 직선으로 연결
             _connectionLine.positionCount = positions.Count;
             _connectionLine.SetPositions(positions.ToArray());
-            _connectionLine.startWidth = lineWidth;
-            _connectionLine.endWidth = lineWidth;
-            _connectionLine.startColor = lineColor;
-            _connectionLine.endColor = lineColor;
             _connectionLine.useWorldSpace = true;
+
+            // 티어·색상별 연출 적용 (config 있으면 사용, 없으면 기본값)
+            float width = lineWidth;
+            Color color = lineColor;
+            float effectIntensity = 0f;
+            Material tierMaterial = null;
+            if (lineEffectConfig != null)
+            {
+                width = lineEffectConfig.GetLineWidth(_currentChainTier);
+                color = lineEffectConfig.GetLineColor(_currentChainTier, _currentChainColor);
+                effectIntensity = lineEffectConfig.GetEffectIntensity(_currentChainTier, _currentChainColor);
+                tierMaterial = lineEffectConfig.GetMaterial(_currentChainTier);
+            }
+            _connectionLine.startWidth = width;
+            _connectionLine.endWidth = width;
+            _connectionLine.startColor = color;
+            _connectionLine.endColor = color;
+            if (tierMaterial != null)
+                _connectionLine.material = tierMaterial;
+            ApplyEffectIntensityToMaterial(effectIntensity);
             
             // 2D 렌더링 모드 설정
             // View 모드: 카메라를 향하도록 설정 (2D 게임에 적합)
@@ -186,9 +204,16 @@ namespace NyanLink.Puzzle
             }
             
             _connectionLine.enabled = true;
+        }
 
-            // 머티리얼 설정 (흐르는 효과용, 선택적)
-            // 기본 LineRenderer 머티리얼 사용
+        /// <summary>
+        /// 머티리얼에 이펙트 강도 전달 (셰이더에 _EffectIntensity 등이 있으면 추후 연출 변경 가능)
+        /// </summary>
+        private void ApplyEffectIntensityToMaterial(float intensity)
+        {
+            if (_connectionLine == null || _connectionLine.material == null) return;
+            if (_connectionLine.material.HasProperty("_EffectIntensity"))
+                _connectionLine.material.SetFloat("_EffectIntensity", intensity);
         }
 
         /// <summary>
@@ -277,21 +302,22 @@ namespace NyanLink.Puzzle
 
 
         /// <summary>
-        /// 흐르는 효과 업데이트
+        /// 흐르는 효과 업데이트 (UV 오프셋 + 티어/색상 기반 이펙트 강도 유지)
         /// </summary>
         private void UpdateFlowAnimation()
         {
-            if (_connectionLine == null || !_connectionLine.enabled)
-            {
-                return;
-            }
+            if (_connectionLine == null || !_connectionLine.enabled) return;
 
             _flowTime += Time.deltaTime * flowSpeed;
-
-            // UV 오프셋을 사용하여 흐르는 효과 구현
             if (_connectionLine.material != null)
             {
-                _connectionLine.material.SetFloat("_FlowOffset", _flowTime);
+                if (_connectionLine.material.HasProperty("_FlowOffset"))
+                    _connectionLine.material.SetFloat("_FlowOffset", _flowTime);
+                if (lineEffectConfig != null && _connectionLine.material.HasProperty("_EffectIntensity"))
+                {
+                    float intensity = lineEffectConfig.GetEffectIntensity(_currentChainTier, _currentChainColor);
+                    _connectionLine.material.SetFloat("_EffectIntensity", intensity);
+                }
             }
         }
 

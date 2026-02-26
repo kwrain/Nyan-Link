@@ -30,10 +30,21 @@ namespace NyanLink.Core.Managers
         [Tooltip("전리품 테이블 데이터 리소스 경로 (폴더)")]
         public string lootTableFolderPath = "Data/LootTables";
 
+        [Tooltip("밸런스 데이터 리소스 경로 (단일 에셋, 확장자 없이)")]
+        public string balanceDataPath = "Data/BalanceData";
+
+        [Tooltip("색상별 아이템 효과 매핑 데이터 리소스 경로 (단일 에셋, 확장자 없이)")]
+        public string colorEffectMappingPath = "Data/ColorEffectMappingData";
+
         [Header("로드된 데이터 (읽기 전용)")]
-        // BalanceData는 Phase 3 이후에서 사용 예정
-        // private BalanceData _balanceData;
-        // public BalanceData BalanceData => _balanceData;
+        private BalanceData _balanceData;
+        private ColorEffectMappingData _colorEffectMappingData;
+
+        /// <summary> Phase 3: 체인 티어·아이템 제한 등 밸런스 수치 </summary>
+        public BalanceData BalanceData => _balanceData;
+
+        /// <summary> Phase 3: 색상별 아이템 효과 지정 (추후 변경 가능) </summary>
+        public ColorEffectMappingData ColorEffectMapping => _colorEffectMappingData;
 
         private Dictionary<string, StageData> _stageDataDict = new Dictionary<string, StageData>();
         private Dictionary<string, CharacterData> _characterDataDict = new Dictionary<string, CharacterData>();
@@ -68,12 +79,13 @@ namespace NyanLink.Core.Managers
         /// </summary>
         private async Task LoadAllDataAsync()
         {
-            // BalanceData는 Phase 3 이후에서 사용 예정
-            // _balanceData = Resources.Load<BalanceData>(balanceDataPath);
-            // if (_balanceData == null)
-            // {
-            //     Debug.LogWarning($"BalanceData를 찾을 수 없습니다: {balanceDataPath}");
-            // }
+            _balanceData = Resources.Load<BalanceData>(balanceDataPath);
+            if (_balanceData == null)
+                Debug.LogWarning($"BalanceData를 찾을 수 없습니다: {balanceDataPath}");
+
+            _colorEffectMappingData = Resources.Load<ColorEffectMappingData>(colorEffectMappingPath);
+            if (_colorEffectMappingData == null)
+                Debug.LogWarning($"ColorEffectMappingData를 찾을 수 없습니다: {colorEffectMappingPath}");
 
             // 스테이지 데이터 로드
             LoadDataFromFolder<StageData>(stageDataFolderPath, _stageDataDict);

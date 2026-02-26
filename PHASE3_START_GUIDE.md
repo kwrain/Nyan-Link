@@ -94,11 +94,11 @@ Assets/_NyanLink/Scripts/Puzzle/
 
 ## 🎯 Phase 3 작업 내용
 
-### 1. 체인 티어 판정
-- **클래스**: `ChainEvaluator` (새로 생성 필요)
-- **기능**: 체인 길이에 따른 티어 계산
-  - Middle Chain (5~8개): Lv.1 효과
-  - Long Chain (9개 이상): Lv.2 효과
+### 1. 체인 티어 판정 (밸런스 조절 가능)
+- **클래스**: `ChainEvaluator` — `BalanceData` 기반으로 티어 계산
+- **기능**: 체인 길이에 따른 티어 계산. 수치는 **BalanceData**에서 조절 가능
+  - Middle Chain: `middleChainMin`~`middleChainMax` (기본 5~8개) → Lv.1 효과
+  - Long Chain: `longChainMin` 이상 (기본 9개 이상) → Lv.2 효과
 
 ### 2. 아이템 타일 생성 로직
 - **위치**: `TileMatcher.cs` 또는 새로운 클래스
@@ -113,13 +113,9 @@ Assets/_NyanLink/Scripts/Puzzle/
 
 ### 3. 아이템 효과 구현
 
-#### 타일 색상 → 아이템 효과 매핑
-- **Red** → Recovery (회복)
-- **Blue** → TimeFreeze (시간 정지)
-- **Yellow** → Blast (폭발)
-- **Purple** → LineClear (라인 클리어)
-- **Orange** → PowerUp (파워업)
-- **Cyan** → Rainbow (레인보우)
+#### 타일 색상 → 아이템 효과 매핑 (지정 가능)
+- **ColorEffectMappingData** ScriptableObject로 관리. 추후 변경 시 에디터에서만 수정하면 됨
+- 기본 매핑 (데이터 없을 때 폴백): Red→Recovery, Blue→TimeFreeze, Yellow→Blast, Purple→LineClear, Orange→PowerUp, Cyan→Rainbow
 
 #### 타일 관련 효과 (Phase 3에서 완전 구현)
 - **Yellow (Blast)**: 주변 범위 타일 파괴
@@ -144,6 +140,15 @@ Assets/_NyanLink/Scripts/Puzzle/
 - 아이콘 오버레이 또는 특수 이펙트 표시
 - 효과 레벨(Lv.1/Lv.2)에 따른 시각적 차별화
 
+### 6. 연결선(LineRenderer) 티어·색상별 연출 (추후 변경 가능)
+- **LineVisualEffectConfig** ScriptableObject로 티어별·색상별 연출 지정
+- **Short** (아이템 미생성): 기본 연결선
+- **Middle** (Lv.1): 약한 이펙트 (예: 약한 전기) — `tierMiddle` 색상/두께/effectIntensity/머티리얼
+- **Long** (Lv.2): 강한 이펙트 (예: 강한 전기) — `tierLong` 색상/두께/effectIntensity/머티리얼
+- **색상별 보정**: `colorOverrides`로 선택된 타일 색상에 따라 틴트·이펙트 강도 배율 적용
+- 연출 변경 시: 전기 → 불꽃 등 에셋만 교체 (머티리얼, intensity 값 조정)
+- 셰이더에서 `_EffectIntensity`, `_FlowOffset` 사용 시 자동 전달
+
 ---
 
 ## 📋 Phase 3 완료 기준
@@ -166,13 +171,16 @@ Assets/_NyanLink/Scripts/Puzzle/
 
 ### 1. 데이터 구조 확인 및 구현
 
-#### BalanceData.cs 구현 필요
+#### BalanceData.cs ✅ 구현됨 (Phase 3 시작 시)
 - **위치**: `Assets/_NyanLink/Scripts/Data/Definitions/BalanceData.cs`
-- **현재 상태**: 비어있음
-- **필요한 필드**:
-  - 아이템 타일 최대 개수 제한 (기본값: 2)
-  - 체인 티어 판정 기준 (Middle: 5~8개, Long: 9개 이상)
-  - 각 아이템 효과의 기본 수치
+- **구현된 필드**:
+  - 체인 티어 판정 (밸런스 조절): `middleChainMin`(5), `middleChainMax`(8), `longChainMin`(9)
+  - 아이템 타일 최대 개수: `maxItemTilesOnBoard`(2)
+  - `GetEffectLevelForChainLength(int)` 로 티어 계산
+
+#### ColorEffectMappingData.cs ✅ 구현됨
+- **위치**: `Assets/_NyanLink/Scripts/Data/Definitions/ColorEffectMappingData.cs`
+- **역할**: 색상별 아이템 효과 지정 가능 (List&lt;ColorEffectEntry&gt;). 추후 변경 시 에디터에서만 수정
 
 #### TileEffectData.cs 확인
 - **위치**: `Assets/_NyanLink/Scripts/Data/Definitions/TileEffectData.cs`
@@ -215,13 +223,14 @@ Assets/_NyanLink/Scripts/Puzzle/
 ## 🚀 Phase 3 구현 순서 권장
 
 ### 1단계: 데이터 구조 준비
-1. `BalanceData.cs` 구현
-2. `TileInstance.cs`에 `ItemEffectType?` 속성 추가
-3. `ItemEffectEvents.cs` 클래스 생성
+1. ~~`BalanceData.cs` 구현~~ ✅ 완료 (체인 티어·아이템 제한 수치 조절 가능)
+2. ~~`ColorEffectMappingData`~~ ✅ 완료 (색상별 효과 지정 가능)
+3. `TileInstance.cs`는 이미 `TileState`(ItemLv1/ItemLv2) 보유
+4. `ItemEffectEvents.cs` 클래스 생성
 
 ### 2단계: 체인 티어 판정
-1. `ChainEvaluator.cs` 클래스 생성
-2. 체인 길이에 따른 티어 계산 로직 구현
+1. ~~`ChainEvaluator.cs` 클래스 생성~~ ✅ 완료 (`BalanceData` 기반)
+2. ~~체인 길이에 따른 티어 계산~~ ✅ `ChainEvaluator.GetEffectLevel(balanceData, chainLength)`
 
 ### 3단계: 특수 타일 생성 로직
 1. `TileMatcher.cs`의 `ProcessMatch()` 수정
@@ -272,29 +281,26 @@ Assets/_NyanLink/Scripts/Puzzle/
 
 ## 💡 구현 팁
 
-### 1. 타일 색상 → 아이템 효과 매핑
+### 1. 타일 색상 → 아이템 효과 매핑 (데이터 기반)
 ```csharp
-// TileColor → ItemEffectType 매핑
-private ItemEffectType GetItemEffectForColor(TileColor color)
-{
-    return color switch
-    {
-        TileColor.Red => ItemEffectType.Recovery,
-        TileColor.Blue => ItemEffectType.TimeFreeze,
-        TileColor.Yellow => ItemEffectType.Blast,
-        TileColor.Purple => ItemEffectType.LineClear,
-        TileColor.Orange => ItemEffectType.PowerUp,
-        TileColor.Cyan => ItemEffectType.Rainbow,
-        _ => throw new System.ArgumentException($"Unknown color: {color}")
-    };
-}
+// ColorEffectMappingData 사용 (DataManager에서 로드)
+var mapping = DataManager.Instance.ColorEffectMapping;
+if (mapping != null)
+    ItemEffectType effect = mapping.GetEffectForColor(color);
 ```
 
-### 2. 아이템 타일 개수 추적
-- `PuzzleBoardManager`에 `Dictionary<Vector3Int, ItemEffectType>` 추가
-- 또는 `TileInstance`에 `ItemEffectType?` 속성 추가하여 추적
+### 2. 체인 티어 판정 (밸런스 데이터 사용)
+```csharp
+var balance = DataManager.Instance.BalanceData;
+int effectLevel = ChainEvaluator.GetEffectLevel(balance, selectedChain.Count);
+TileState state = ChainEvaluator.EffectLevelToTileState(effectLevel);
+```
 
-### 3. 이벤트 시스템 구조
+### 3. 아이템 타일 개수 추적
+- `PuzzleBoardManager`에서 `TileInstance.State != Normal` 개수로 추적
+- `BalanceData.maxItemTilesOnBoard`로 제한
+
+### 4. 이벤트 시스템 구조
 ```csharp
 public static class ItemEffectEvents
 {

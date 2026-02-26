@@ -163,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dacc9175a304ac9957fbd1b2c00955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Core.Managers.GameManager
-  currentState: 0
 --- !u!4 &84675025
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +451,7 @@ MonoBehaviour:
   boardManager: {fileID: 1774502073}
   tileMatcher: {fileID: 0}
   selectionVisualizer: {fileID: 1774502076}
+  balanceData: {fileID: 0}
   mouseMoveSensitivity: 1
   debugLog: 1
 --- !u!114 &1774502072
@@ -587,12 +587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.PuzzleBoardManager
   tilemap: {fileID: 1774502075}
   hexagonTile: {fileID: 11400000, guid: fc98a4542f8fa4619bf22692d72e2313, type: 2}
-  redTile: {fileID: 11400000, guid: a52c981f0888b41baa8a632599dd8c14, type: 2}
-  blueTile: {fileID: 11400000, guid: 625abd5c997b544419a8a79c52120740, type: 2}
-  yellowTile: {fileID: 11400000, guid: cd26310fd4ed34a8bb10c1ed6b93bd54, type: 2}
-  purpleTile: {fileID: 11400000, guid: e7b3a920c62334726bdb8019ec730ebb, type: 2}
-  orangeTile: {fileID: 11400000, guid: c28c2c7e3a7ab48cab30cba42cd90c90, type: 2}
-  cyanTile: {fileID: 11400000, guid: 034d1a11bff3048a39fe68fdce71ad06, type: 2}
+  autoLoadTiles: 1
   gridShapeData: {fileID: 11400000, guid: aaf4a4cb9defa446a82c99db601ecd74, type: 2}
   autoPositionCamera: 1
   debugLog: 1
@@ -702,6 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.TileSelectionVisualizer
   boardManager: {fileID: 1774502073}
+  lineEffectConfig: {fileID: 11400000, guid: 3c625d85587b24a04ad520f0989e6d5c, type: 2}
   lineColor: {r: 0.7, g: 0.9, b: 1, a: 0.8}
   lineWidth: 0.1
   flowSpeed: 2

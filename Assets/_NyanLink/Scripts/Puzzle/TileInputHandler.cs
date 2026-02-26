@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 using NyanLink.Data.Enums;
+using NyanLink.Data.Definitions;
+using NyanLink.Core.Managers;
 
 namespace NyanLink.Puzzle
 {
@@ -21,6 +23,9 @@ namespace NyanLink.Puzzle
 
         [Tooltip("TileSelectionVisualizer 참조")]
         public TileSelectionVisualizer selectionVisualizer;
+
+        [Tooltip("밸런스 데이터 (비어있으면 DataManager에서 로드). 연결선 티어 연출용")]
+        public BalanceData balanceData;
 
         [Header("입력 설정")]
         [Tooltip("마우스 이동 민감도 (이 값 이상 이동해야 Moved로 판별)")]
@@ -287,22 +292,24 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
-        /// 선택 시각화 업데이트
+        /// 선택 시각화 업데이트 (체인 티어·색상 반영하여 연결선 연출 적용)
         /// </summary>
         private void UpdateSelectionVisualization()
         {
-            if (selectionVisualizer != null)
+            if (selectionVisualizer == null) return;
+
+            if (_selectedChain.Count >= 2)
             {
-                if (_selectedChain.Count >= 2)
-                {
-                    // 마우스 포인터 위치의 타일을 미리보기로 표시
-                    Vector3Int? previewTile = GetTileAtScreenPosition(Input.mousePosition);
-                    selectionVisualizer.UpdateConnectionLine(_selectedChain, previewTile);
-                }
-                else
-                {
-                    selectionVisualizer.ClearConnectionLine();
-                }
+                BalanceData balance = balanceData != null ? balanceData : (DataManager.Instance != null ? DataManager.Instance.BalanceData : null);
+                int chainTier = ChainEvaluator.GetEffectLevel(balance, _selectedChain.Count);
+                TileInstance firstTile = boardManager.GetTileAtOffset(_selectedChain[0]);
+                TileColor chainColor = firstTile != null ? firstTile.Color : TileColor.Red;
+                Vector3Int? previewTile = GetTileAtScreenPosition(Input.mousePosition);
+                selectionVisualizer.UpdateConnectionLine(_selectedChain, previewTile, chainTier, chainColor);
+            }
+            else
+            {
+                selectionVisualizer.ClearConnectionLine();
             }
         }
 

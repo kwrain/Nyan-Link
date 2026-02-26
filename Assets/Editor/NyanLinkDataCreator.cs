@@ -53,14 +53,23 @@ namespace NyanLink.Editor
             CreateScriptableObject<StageData>("StageData");
         }
 
-        // BalanceData는 Phase 3 이후에서 사용 예정
-        /*
         [MenuItem(MENU_BASE + "Data/Balance")]
         public static void CreateBalanceData()
         {
             CreateScriptableObject<BalanceData>("BalanceData");
         }
-        */
+
+        [MenuItem(MENU_BASE + "Data/Color Effect Mapping")]
+        public static void CreateColorEffectMappingData()
+        {
+            CreateScriptableObject<ColorEffectMappingData>("ColorEffectMappingData");
+        }
+
+        [MenuItem(MENU_BASE + "Data/Line Visual Effect")]
+        public static void CreateLineVisualEffectConfig()
+        {
+            CreateScriptableObject<LineVisualEffectConfig>("LineVisualEffectConfig");
+        }
 
         /// <summary>
         /// ScriptableObject 생성 헬퍼 메서드

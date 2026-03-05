@@ -219,16 +219,30 @@ namespace NyanLink.Puzzle
                 return;
             }
 
+            // 추가 전 체인 길이/티어 (일반 → 미들 → 롱 전환 감지용)
+            int prevCount = _selectedChain.Count;
+            BalanceData balance = balanceData != null ? balanceData : (DataManager.Instance != null ? DataManager.Instance.BalanceData : null);
+            int prevTier = balance != null ? ChainEvaluator.GetEffectLevel(balance, prevCount) : 0;
+
             // 체인에 추가
             _selectedChain.Add(touchedTile.Value);
             touchedTileInstance.IsSelected = true;
 
-            if (debugLog)
+            // 추가 후 길이 기준 티어로 연결선 즉시 갱신 (일반 ↔ 미들 ↔ 롱 상태가 바뀌는 순간 반영)
+            int newCount = _selectedChain.Count;
+            int newTier = balance != null ? ChainEvaluator.GetEffectLevel(balance, newCount) : 0;
+            if (selectionVisualizer != null && newCount >= 2)
             {
-                Debug.Log($"[입력] 타일 추가 - Offset{touchedTile.Value}, 색상: {touchedTileInstance.Color}, 체인 길이: {_selectedChain.Count}");
+                TileInstance firstTile = boardManager.GetTileAtOffset(_selectedChain[0]);
+                TileColor chainColor = firstTile != null ? firstTile.Color : TileColor.Red;
+                Vector3Int? previewTile = GetTileAtScreenPosition(Input.mousePosition);
+                selectionVisualizer.UpdateConnectionLine(_selectedChain, previewTile, newTier, chainColor);
             }
 
-            UpdateSelectionVisualization();
+            if (debugLog)
+            {
+                Debug.Log($"[입력] 타일 추가 - Offset{touchedTile.Value}, 색상: {touchedTileInstance.Color}, 체인 길이: {newCount}, 티어: {newTier} (이전: {prevTier})");
+            }
         }
 
         /// <summary>

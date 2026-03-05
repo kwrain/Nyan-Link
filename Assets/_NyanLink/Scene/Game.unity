@@ -449,9 +449,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.TileInputHandler
   boardManager: {fileID: 1774502073}
-  tileMatcher: {fileID: 0}
+  tileMatcher: {fileID: 1774502070}
   selectionVisualizer: {fileID: 1774502076}
-  balanceData: {fileID: 0}
+  balanceData: {fileID: 11400000, guid: feff9150f11044d61924535902347353, type: 2}
   mouseMoveSensitivity: 1
   debugLog: 1
 --- !u!114 &1774502072

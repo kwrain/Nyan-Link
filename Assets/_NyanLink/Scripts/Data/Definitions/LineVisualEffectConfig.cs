@@ -16,8 +16,8 @@ namespace NyanLink.Data.Definitions
         public Color lineColor = new Color(0.7f, 0.9f, 1f, 0.8f);
 
         [Tooltip("연결선 두께")]
-        [Range(0.005f, 0.15f)]
-        public float lineWidth = 0.015f;
+        [Range(0.1f, 0.5f)]
+        public float lineWidth = 0.1f;
 
         [Tooltip("이펙트 강도 (0=없음, 1=최대). 셰이더/머티리얼에서 _EffectIntensity 등으로 사용 가능")]
         [Range(0f, 1f)]
@@ -39,6 +39,9 @@ namespace NyanLink.Data.Definitions
         [Tooltip("이펙트 강도 배율 (1=변경 없음)")]
         [Min(0f)]
         public float effectIntensityMultiplier = 1f;
+
+        [Tooltip("이 색상(원소) 전용 머티리얼 (비어있으면 티어 설정 또는 기본 머티리얼 사용)")]
+        public Material materialOverride;
     }
 
     [CreateAssetMenu(fileName = "LineVisualEffectConfig", menuName = "NyanLink/Data/Line Visual Effect", order = 3)]
@@ -121,8 +124,16 @@ namespace NyanLink.Data.Definitions
         /// <summary>
         /// 적용할 머티리얼 (티어별 override 있으면 사용, 없으면 null = 기본 유지)
         /// </summary>
-        public Material GetMaterial(int tier)
+        public Material GetMaterial(int tier, TileColor chainColor)
         {
+            // 1) 색상별 materialOverride 가 있으면 최우선 사용 (예: 불/물/얼음 등 원소별 연출)
+            var colorOverride = GetColorOverride(chainColor);
+            if (colorOverride != null && colorOverride.materialOverride != null)
+            {
+                return colorOverride.materialOverride;
+            }
+
+            // 2) 색상별 설정이 없으면 티어별 materialOverride 사용
             return GetTierSettings(tier).materialOverride;
         }
     }

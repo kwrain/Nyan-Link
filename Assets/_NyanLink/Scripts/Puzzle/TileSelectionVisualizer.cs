@@ -150,25 +150,8 @@ namespace NyanLink.Puzzle
             _connectionLine.SetPositions(positions.ToArray());
             _connectionLine.useWorldSpace = true;
 
-            // 티어·색상별 연출 적용 (config 있으면 사용, 없으면 기본값)
-            float width = lineWidth;
-            Color color = lineColor;
-            float effectIntensity = 0f;
-            Material tierMaterial = null;
-            if (lineEffectConfig != null)
-            {
-                width = lineEffectConfig.GetLineWidth(_currentChainTier);
-                color = lineEffectConfig.GetLineColor(_currentChainTier, _currentChainColor);
-                effectIntensity = lineEffectConfig.GetEffectIntensity(_currentChainTier, _currentChainColor);
-                tierMaterial = lineEffectConfig.GetMaterial(_currentChainTier);
-            }
-            _connectionLine.startWidth = width;
-            _connectionLine.endWidth = width;
-            _connectionLine.startColor = color;
-            _connectionLine.endColor = color;
-            if (tierMaterial != null)
-                _connectionLine.material = tierMaterial;
-            ApplyEffectIntensityToMaterial(effectIntensity);
+            // 티어·색상별 연출 적용 (상태 변경 시 즉시 반영)
+            ApplyTierVisuals();
             
             // 2D 렌더링 모드 설정
             // View 모드: 카메라를 향하도록 설정 (2D 게임에 적합)
@@ -260,7 +243,8 @@ namespace NyanLink.Puzzle
             
             // 2D용 Material 설정 (기본 Material은 3D용이므로 2D용으로 변경)
             // Sprite-Default Shader를 사용하여 2D 렌더링 보장
-            Material lineMaterial = new Material(Shader.Find("Sprites/Default"));
+            Material lineMaterial = new Material(Shader.Find("NyanLink/LineFlow2D"));
+            // Material lineMaterial = new Material(Shader.Find("Sprites/Default"));
             if (lineMaterial != null)
             {
                 _connectionLine.material = lineMaterial;
@@ -302,22 +286,49 @@ namespace NyanLink.Puzzle
 
 
         /// <summary>
-        /// 흐르는 효과 업데이트 (UV 오프셋 + 티어/색상 기반 이펙트 강도 유지)
+        /// 티어(일반/미들/롱)·색상에 따른 두께·색상·머티리얼·이펙트 강도를 적용. 상태 변경 시 즉시 반영되도록 연결선 그릴 때와 매 프레임 호출.
+        /// </summary>
+        private void ApplyTierVisuals()
+        {
+            if (_connectionLine == null) return;
+
+            float width = lineWidth;
+            Color color = lineColor;
+            float effectIntensity = 0f;
+            Material tierMaterial = null;
+            if (lineEffectConfig != null)
+            {
+                width = lineEffectConfig.GetLineWidth(_currentChainTier);
+                color = lineEffectConfig.GetLineColor(_currentChainTier, _currentChainColor);
+                effectIntensity = lineEffectConfig.GetEffectIntensity(_currentChainTier, _currentChainColor);
+                tierMaterial = lineEffectConfig.GetMaterial(_currentChainTier, _currentChainColor);
+            }
+            _connectionLine.startWidth = width;
+            _connectionLine.endWidth = width;
+            _connectionLine.startColor = color;
+            _connectionLine.endColor = color;
+            if (tierMaterial != null)
+                _connectionLine.material = tierMaterial;
+            // LineFlow2D 셰이더의 Tint Color(_Color) 적용 (머티리얼 할당 후 설정해야 반영됨)
+            if (_connectionLine.material != null && _connectionLine.material.HasProperty("_Color"))
+                _connectionLine.material.SetColor("_Color", color);
+            ApplyEffectIntensityToMaterial(effectIntensity);
+        }
+
+        /// <summary>
+        /// 흐르는 효과 업데이트 (UV 오프셋 + 티어/색상 기반 이펙트 강도 유지). 티어별 두께·색 등도 매 프레임 재적용하여 상태 변경 즉시 반영.
         /// </summary>
         private void UpdateFlowAnimation()
         {
             if (_connectionLine == null || !_connectionLine.enabled) return;
+
+            ApplyTierVisuals();
 
             _flowTime += Time.deltaTime * flowSpeed;
             if (_connectionLine.material != null)
             {
                 if (_connectionLine.material.HasProperty("_FlowOffset"))
                     _connectionLine.material.SetFloat("_FlowOffset", _flowTime);
-                if (lineEffectConfig != null && _connectionLine.material.HasProperty("_EffectIntensity"))
-                {
-                    float intensity = lineEffectConfig.GetEffectIntensity(_currentChainTier, _currentChainColor);
-                    _connectionLine.material.SetFloat("_EffectIntensity", intensity);
-                }
             }
         }
 

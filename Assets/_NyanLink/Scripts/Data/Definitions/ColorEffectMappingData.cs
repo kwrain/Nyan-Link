@@ -77,13 +77,15 @@ namespace NyanLink.Data.Definitions
         {
             return color switch
             {
-                TileColor.Red => ItemEffectType.Recovery,
-                TileColor.Blue => ItemEffectType.TimeFreeze,
-                TileColor.Yellow => ItemEffectType.Blast,
-                TileColor.Purple => ItemEffectType.LineClear,
-                TileColor.Orange => ItemEffectType.PowerUp,
-                TileColor.Cyan => ItemEffectType.Rainbow,
-                _ => ItemEffectType.Recovery
+                // 기본 매핑은 언제든지 데이터 에셋으로 덮어쓸 수 있다.
+                // 여기서는 직관적인 6색 → 6효과 기본값만 제공한다.
+                TileColor.Red    => ItemEffectType.StaminaBoost,   // 스태미너 추가
+                TileColor.Yellow => ItemEffectType.AreaBlast,      // 주변 타일 파괴
+                TileColor.Blue   => ItemEffectType.HorizontalLine, // 가로 라인
+                TileColor.Purple => ItemEffectType.DiagonalLeft,   // 왼쪽 대각선
+                TileColor.Orange => ItemEffectType.DiagonalRight,  // 오른쪽 대각선
+                TileColor.Cyan   => ItemEffectType.Rainbow,        // 레인보우
+                _ => ItemEffectType.StaminaBoost
             };
         }
 

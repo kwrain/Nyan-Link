@@ -247,6 +247,28 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
+        /// 현재 보드에 존재하는 모든 타일 Offset 좌표 열거
+        /// </summary>
+        public IEnumerable<Vector3Int> GetAllTileOffsets()
+        {
+            return _tiles.Keys;
+        }
+
+        public int GetItemTileCount()
+        {
+            int count = 0;
+            foreach (var kv in _tiles)
+            {
+                TileInstance tile = kv.Value;
+                if (tile != null && (tile.State == TileState.ItemLv1 || tile.State == TileState.ItemLv2))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
         /// 셀 중심 월드 위치 계산
         /// </summary>
         public Vector3 GetCellCenterWorld(Vector3Int offset)

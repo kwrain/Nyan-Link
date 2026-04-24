@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AnimatedTile
   m_AnimatedSprites:
   - {fileID: -6733206522963538419, guid: bb1d927d8e3794578a2f10c685883d01, type: 2}
+  - {fileID: -6096626539844338125, guid: 618afbb73840747e5a14adc672b321af, type: 2}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0

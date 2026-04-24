@@ -177,16 +177,23 @@ Phase 8: 밸런싱 및 최적화
    - `ItemEffectData`에서 효과 수치 로드
    - **참고**: Phase 2에서 모든 색상(6가지) 랜덤 생성 구조 준비 완료
 
-3. **아이템 효과 구현**
-   - **타일 관련 효과 (Phase 3에서 완전 구현)**:
-     - **Yellow (Blast)**: 주변 범위 타일 파괴
-     - **Purple (LineClear)**: 가로/대각선 라인 제거
-     - **Cyan (Rainbow)**: Rainbow Tile 생성 또는 Rainbow Bomb 발동
-   - **시스템 의존 효과 (이벤트 기반, Phase 4/5에서 실제 동작)**:
-     - **Red (Recovery)**: 스태미나 즉시 회복 → 이벤트 발행 (Phase 4에서 구독)
-     - **Blue (TimeFreeze)**: 스태미나 감소/타이머 정지 → 이벤트 발행 (Phase 4에서 구독)
-     - **Orange (PowerUp)**: 다음 보스 공격 대미지 증가 → 이벤트 발행 (Phase 5에서 구독)
-   - **참고**: Phase 3에서는 이벤트 시스템(`ItemEffectEvents`)을 통해 효과를 발행하고, Phase 4/5에서 실제 시스템과 연결하여 동작하도록 설계
+3. **아이템 효과 구현 (6종, Lv.1/Lv.2)**
+   - **색상 → 효과 매핑 (기본값, ColorEffectMappingData로 변경 가능)**:
+     - Red → StaminaBoost (스태미너 추가 회복)
+     - Yellow → AreaBlast (주변 타일 파괴)
+     - Blue → HorizontalLine (가로 라인 파괴)
+     - Purple → DiagonalLeft (왼쪽 대각선 라인 파괴)
+     - Orange → DiagonalRight (오른쪽 대각선 라인 파괴)
+     - Cyan → Rainbow (레인보우)
+   - **각 효과 상세**:
+     1. AreaBlast: Lv.1 = 반경 1 주변 타일 제거, Lv.2 = 반경 2까지 제거
+     2. HorizontalLine: Lv.1 = 기준 Y줄 전체 제거, Lv.2 = 기준 줄 + 위/아래 줄까지 총 3줄 제거
+     3. DiagonalLeft: Lv.1 = 좌상–우하 대각선 1줄 제거, Lv.2 = 평행 3줄 제거
+     4. DiagonalRight: Lv.1 = 우상–좌하 대각선 1줄 제거, Lv.2 = 평행 3줄 제거
+     5. Rainbow: Lv.1 = 와일드 타일 생성 (어떤 색 체인에도 포함 가능), Lv.2 = 보드 전체 타일 제거
+     6. StaminaBoost: Lv.1/2 = 스태미너 추가 회복 (정확한 수치는 TileEffectData에서 조정)
+   - **아이템 동시 사용 규칙**:
+     - 같은 체인에 여러 아이템 타일이 포함되면, **각 아이템 효과가 개별적으로 발동** (합성 효과는 도입하지 않음)
 
 4. **아이템 타일 사용 로직**
    - 타일맵에 배치된 아이템 효과를 가진 타일을 **연결해서 제거할 때** 효과가 발생

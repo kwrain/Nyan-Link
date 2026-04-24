@@ -7,10 +7,25 @@ using NyanLink.Core;
 namespace NyanLink.Core.Managers
 {
     /// <summary>
-    /// ScriptableObject 로드 및 관리 매니저
+    /// ScriptableObject 로드 및 관리 매니저.
+    /// 게임 시작 전(BeforeSceneLoad)에 가장 먼저 생성·초기화됩니다.
     /// </summary>
     public class DataManager : Singleton<DataManager>
     {
+        /// <summary>
+        /// 프리팹 경로. Addressables 주소 또는 Resources 하위 경로(확장자 없이).
+        /// 예: Resources/Managers/DataManager.prefab → "Managers/DataManager"
+        /// </summary>
+        static DataManager()
+        {
+            prefabPath = "Managers/DataManager";
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void EnsureCreatedBeforeGameStart()
+        {
+            _ = Instance;
+        }
         [Header("데이터 리소스 경로")]
         [Tooltip("스테이지 데이터 리소스 경로 (폴더)")]
         public string stageDataFolderPath = "Data/Stages";
@@ -30,15 +45,12 @@ namespace NyanLink.Core.Managers
         [Tooltip("전리품 테이블 데이터 리소스 경로 (폴더)")]
         public string lootTableFolderPath = "Data/LootTables";
 
-        [Tooltip("밸런스 데이터 리소스 경로 (단일 에셋, 확장자 없이)")]
-        public string balanceDataPath = "Data/BalanceData";
 
-        [Tooltip("색상별 아이템 효과 매핑 데이터 리소스 경로 (단일 에셋, 확장자 없이)")]
-        public string colorEffectMappingPath = "Data/ColorEffectMappingData";
+
 
         [Header("로드된 데이터 (읽기 전용)")]
-        private BalanceData _balanceData;
-        private ColorEffectMappingData _colorEffectMappingData;
+        [SerializeField]private BalanceData _balanceData;
+        [SerializeField] private ColorEffectMappingData _colorEffectMappingData;
 
         /// <summary> Phase 3: 체인 티어·아이템 제한 등 밸런스 수치 </summary>
         public BalanceData BalanceData => _balanceData;
@@ -58,6 +70,9 @@ namespace NyanLink.Core.Managers
         protected override void Awake()
         {
             base.Awake();
+
+            // 게임 시작 전 동기적으로 초기화 완료까지 대기 (다른 시스템이 데이터 사용 전 준비 보장)
+            Initialize().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -79,14 +94,6 @@ namespace NyanLink.Core.Managers
         /// </summary>
         private async Task LoadAllDataAsync()
         {
-            _balanceData = Resources.Load<BalanceData>(balanceDataPath);
-            if (_balanceData == null)
-                Debug.LogWarning($"BalanceData를 찾을 수 없습니다: {balanceDataPath}");
-
-            _colorEffectMappingData = Resources.Load<ColorEffectMappingData>(colorEffectMappingPath);
-            if (_colorEffectMappingData == null)
-                Debug.LogWarning($"ColorEffectMappingData를 찾을 수 없습니다: {colorEffectMappingPath}");
-
             // 스테이지 데이터 로드
             LoadDataFromFolder<StageData>(stageDataFolderPath, _stageDataDict);
 

@@ -115,25 +115,42 @@ Assets/_NyanLink/Scripts/Puzzle/
 
 #### 타일 색상 → 아이템 효과 매핑 (지정 가능)
 - **ColorEffectMappingData** ScriptableObject로 관리. 추후 변경 시 에디터에서만 수정하면 됨
-- 기본 매핑 (데이터 없을 때 폴백): Red→Recovery, Blue→TimeFreeze, Yellow→Blast, Purple→LineClear, Orange→PowerUp, Cyan→Rainbow
+- 기본 매핑 (데이터 없을 때 폴백, 언제든지 에셋으로 덮어쓸 수 있음):
+  - Red → StaminaBoost (스태미너 추가 회복)
+  - Yellow → AreaBlast (주변 타일 파괴)
+  - Blue → HorizontalLine (가로 라인 파괴)
+  - Purple → DiagonalLeft (왼쪽 대각선 라인 파괴)
+  - Orange → DiagonalRight (오른쪽 대각선 라인 파괴)
+  - Cyan → Rainbow (레인보우)
 
-#### 타일 관련 효과 (Phase 3에서 완전 구현)
-- **Yellow (Blast)**: 주변 범위 타일 파괴
-- **Purple (LineClear)**: 가로/대각선 라인 제거
-- **Cyan (Rainbow)**: Rainbow Tile 생성 또는 Rainbow Bomb 발동
+#### 아이템 효과 6종 (Lv.1 / Lv.2)
+1. **AreaBlast (주변 타일 파괴)**
+   - Lv.1: 기준 타일 주변 **거리 1(반경 1)** 타일 제거
+   - Lv.2: Lv.1 + **거리 2(반경 2)**까지 제거 (중심 기준 반경 2 헥사곤 범위 전체 삭제)
 
-#### 시스템 의존 효과 (이벤트 기반, Phase 4/5에서 실제 동작)
-- **Red (Recovery)**: 스태미나 즉시 회복 → 이벤트 발행 (Phase 4에서 구독)
-- **Blue (TimeFreeze)**: 스태미나 감소/타이머 정지 → 이벤트 발행 (Phase 4에서 구독)
-- **Orange (PowerUp)**: 다음 보스 공격 대미지 증가 → 이벤트 발행 (Phase 5에서 구독)
+2. **HorizontalLine (가로 타일 파괴)**
+   - Lv.1: 기준 타일과 **Y축이 같은 모든 타일**을 좌우로 일직선 제거 (가로 한 줄 전체)
+   - Lv.2: Lv.1 + **Y-1 줄, Y+1 줄**도 함께 제거 → 총 3줄 가로 라인 제거
 
-**참고**: Phase 3에서는 이벤트 시스템(`ItemEffectEvents`)을 통해 효과를 발행하고, Phase 4/5에서 실제 시스템과 연결하여 동작하도록 설계
+3. **DiagonalLeft (왼쪽 대각선 타일 파괴)**
+   - Lv.1: 기준 타일을 지나는 **왼쪽 위 ↔ 오른쪽 아래 방향 대각선 한 줄** 전체 제거
+   - Lv.2: Lv.1 + 그와 **평행한 양 옆 대각선 2줄**도 함께 제거 → 좌상–우하 방향 평행 3줄 제거
+
+4. **DiagonalRight (오른쪽 대각선 타일 파괴)**
+   - Lv.1: 기준 타일을 지나는 **오른쪽 위 ↔ 왼쪽 아래 방향 대각선 한 줄** 전체 제거
+   - Lv.2: Lv.1 + 그와 **평행한 양 옆 대각선 2줄**도 함께 제거 → 우상–좌하 방향 평행 3줄 제거
+
+5. **Rainbow (레인보우)**
+   - Lv.1: 보드에 **색상 상관없이 어떤 체인에도 포함될 수 있는 와일드 타일** 생성
+   - Lv.2: **보드 전체 타일 제거** (전면 정리 효과)
+
+6. **StaminaBoost (스태미너 추가)**
+   - Lv.1: 스태미너 추가 회복 1단계 (정확한 회복량은 `TileEffectData`에서 레벨별로 설정)
+   - Lv.2: 스태미너 추가 회복 2단계 (Lv.1보다 더 큰 회복량)
 
 ### 4. 아이템 타일 사용 로직
 - 타일맵에 배치된 아이템 효과를 가진 타일을 **연결해서 제거할 때** 효과가 발생
-- 체인에 포함된 모든 아이템 타일의 효과가 각각 발동
-- 동일한 종류의 아이템 타일이 여러 개 포함되어도 각각 효과 발동
-- 예: Recovery 타일 1개 + Blast 타일 1개를 동시에 연결 제거 → Recovery 효과 + Blast 효과 모두 발동
+- 동일 체인 안에 아이템이 여러 개 있으면, **각 아이템이 자신의 타입/Lv에 맞는 효과를 개별적으로 발동** (합성 효과는 추후 검토)
 
 ### 5. 아이템 타일 시각적 표현
 - 아이템 효과를 가진 타일은 일반 타일과 구분되도록 시각적 표시
@@ -153,17 +170,17 @@ Assets/_NyanLink/Scripts/Puzzle/
 
 ## 📋 Phase 3 완료 기준
 
-- [ ] 체인 길이에 따라 올바른 티어 아이템 타일이 타일맵에 생성됨
-- [ ] 전체 타일맵 아이템 타일 최대 개수 제한이 정확히 동작함
-- [ ] 타일맵에 아이템 타일이 최대 개수 이상일 때 더 이상 생성되지 않음
-- [ ] 아이템 타일을 연결 제거할 때 효과가 정확히 발동함
-- [ ] 여러 아이템 타일이 동시에 제거될 때 모든 효과가 각각 발동함
-- [ ] 동일 종류 아이템 타일도 각각 효과가 발동함
-- [ ] 타일 관련 효과(Blast, LineClear, Rainbow)가 정확히 동작함
-- [ ] 시스템 의존 효과(Recovery, TimeFreeze, PowerUp)가 이벤트를 정확히 발행함
-- [ ] 아이템 타일 사용 시 시각적 피드백이 표시됨
+- [x] 체인 길이에 따라 올바른 티어 아이템 타일이 타일맵에 생성됨
+- [x] 전체 타일맵 아이템 타일 최대 개수 제한이 정확히 동작함
+- [x] 타일맵에 아이템 타일이 최대 개수 이상일 때 더 이상 생성되지 않음
+- [x] 아이템 타일을 연결 제거할 때 효과가 정확히 발동함
+- [x] 여러 아이템 타일이 동시에 제거될 때 모든 효과가 각각 발동함 (연쇄 발동 포함)
+- [x] 동일 종류 아이템 타일도 각각 효과가 발동함
+- [x] 타일 관련 효과 6종(AreaBlast, HorizontalLine, DiagonalLeft/Right, Rainbow) 정확히 동작함
+- [x] StaminaBoost는 이벤트(ItemEffectEvents.OnStaminaBoost) 발행, 실제 스태미너 갱신은 Phase 4에서 구독
+- [ ] 아이템 타일 사용 시 시각적 피드백 (아이콘/이펙트) — AnimatedTile ItemLv1/2로 구분 가능, 추가 연출은 선택
 
-**참고**: Recovery, TimeFreeze, PowerUp 효과는 Phase 3에서 이벤트만 발행하고, 실제 동작은 Phase 4/5에서 구현됨
+**참고**: StaminaBoost는 Phase 3에서 이벤트만 발행하고, 실제 스태미너 적용은 Phase 4에서 구현
 
 ---
 

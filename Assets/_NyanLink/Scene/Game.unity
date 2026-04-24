@@ -128,7 +128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 84675025}
-  - component: {fileID: 84675024}
   - component: {fileID: 84675023}
   m_Layer: 0
   m_Name: GameManager
@@ -151,18 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.PuzzleBoardInitializer
   createDefaultGridIfMissing: 1
   initializationDelay: 0.1
---- !u!114 &84675024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 84675022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03dacc9175a304ac9957fbd1b2c00955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Core.Managers.GameManager
 --- !u!4 &84675025
 Transform:
   m_ObjectHideFlags: 0
@@ -434,6 +421,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Puzzle.TileMatcher
   boardManager: {fileID: 1774502073}
+  balanceData: {fileID: 11400000, guid: feff9150f11044d61924535902347353, type: 2}
+  tileEffectData: {fileID: 11400000, guid: c3990261b35ae4d35935ca66b47326db, type: 2}
   minMatchCount: 2
   debugLog: 1
 --- !u!114 &1774502071

@@ -33,6 +33,8 @@ namespace NineMood.Puzzle
 
         public void ProcessMatch(List<Vector3Int> selectedChain)
         {
+            if (GameManager.IsCreated && GameManager.Instance.CurrentState != NineMood.Core.GameState.RunnerPhase &&
+                GameManager.Instance.CurrentState != NineMood.Core.GameState.BossPhase) return;
             if (selectedChain == null || selectedChain.Count < minMatchCount) return;
             if (!ValidateChain(selectedChain)) return;
 

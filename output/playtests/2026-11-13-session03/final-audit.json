@@ -1,0 +1,66 @@
+{
+  "baselineAndVerifiedRemoteCommit": "47a43f8358e43d35392b0f420057d4b27f1e85fc",
+  "currentTrackedChanges": [
+    "Assets/Editor/NyanLinkSession02Validation.cs",
+    "Assets/Resources/Data/Stages/StageData.asset",
+    "Assets/Tests/NyanLinkSession02PlayDriver.cs",
+    "Assets/_NyanLink/Scripts/Boss/BossController.cs",
+    "Assets/_NyanLink/Scripts/Boss/BossPatternBase.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/SaveManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs",
+    "Assets/_NyanLink/Scripts/Core/SceneLoader.cs",
+    "Assets/_NyanLink/Scripts/Data/Definitions/StageData.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileAnimation.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs",
+    "Assets/_NyanLink/Scripts/Runner/ObstacleController.cs",
+    "Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs",
+    "Assets/_NyanLink/Scripts/Runner/PlayerCharacter.cs",
+    "Assets/_NyanLink/Scripts/Runner/RunnerController.cs",
+    "Assets/_NyanLink/Scripts/Runner/RunnerProgressSystem.cs",
+    "Assets/_NyanLink/Scripts/UI/BossHUD.cs",
+    "Assets/_NyanLink/Scripts/UI/RunnerWarningHUD.cs",
+    "Docs/WORK_ITEMS.md"
+  ],
+  "existingMetaChanged": [],
+  "deleted": [],
+  "duplicateAssetGuids": {},
+  "missingScriptMeta": [],
+  "unresolvedGuids": {},
+  "screenshots": {
+    "01-reentry-board.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "566420f3f5495e181f91b7df3d82e3ba626d8356a216f60e816dc5168498bf56"
+    },
+    "02-paused-runner.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "50637864d11517176e284f660c92288b92f6b404a93c90e0d405104e8c96e235"
+    },
+    "03-jump-prewarning.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "5767e4bbd9b2021f4108f56d8f366dec7b7feaa27fd1af9b81b7f1a9094ec9a4"
+    },
+    "04-retry-warning.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "237cfc4873f4486477f722d98b05db200d7b57393f1ba44455c11e3333261739"
+    },
+    "05-block-reserved.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "8e6888b740c5e93477ccd7b593541e3b48644e62a52f83cbad22d395e5ba1f93"
+    },
+    "06-boss-entry.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "8484162e7fbc65ac18f528f115897a4f220eb6134b34de50ed4de1491231f283"
+    }
+  }
+}

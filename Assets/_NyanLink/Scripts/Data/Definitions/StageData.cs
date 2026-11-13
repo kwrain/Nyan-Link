@@ -45,6 +45,9 @@ namespace NineMood.Data.Definitions
         [Tooltip("장애물 충돌 기본 데미지")]
         [Min(0f)] public float obstacleBaseDamage = 20f;
 
+        [Min(0.1f), Tooltip("장애물 접근 속도 (월드 단위/초)")]
+        public float obstacleMoveSpeed = 4f;
+
         [Tooltip("챕터 난이도 계수. ActualDamage = obstacleBaseDamage × chapterCoefficient")]
         [Min(0f)] public float chapterCoefficient = 1.0f;
 

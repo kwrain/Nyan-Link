@@ -1,0 +1,5 @@
+PASS Main→Game→Main cycles, fresh 39-cell board, live scene references, shared-root duplicates, result retry, no stale subscriptions
+System.Exception: FAIL Purple speed multiplier is connected to travel
+  at NyanLinkSession03Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:116 
+  at NyanLinkSession03Validation+<Sequence>d__60.MoveNext () [0x0090b] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:321 
+  at NyanLinkSession03Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:102 

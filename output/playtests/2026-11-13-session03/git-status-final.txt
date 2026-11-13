@@ -1,0 +1,55 @@
+HEAD/main and verified origin/main: 47a43f8358e43d35392b0f420057d4b27f1e85fc
+Session03 changes remain uncommitted/unpushed.
+ M Assets/Editor/NyanLinkSession02Validation.cs
+ M Assets/Resources/Data/Stages/StageData.asset
+ M Assets/Tests/NyanLinkSession02PlayDriver.cs
+ M Assets/_NyanLink/Scripts/Boss/BossController.cs
+ M Assets/_NyanLink/Scripts/Boss/BossPatternBase.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/SaveManager.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs
+ M Assets/_NyanLink/Scripts/Core/SceneLoader.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/StageData.cs
+ M Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileAnimation.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs
+ M Assets/_NyanLink/Scripts/Runner/ObstacleController.cs
+ M Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs
+ M Assets/_NyanLink/Scripts/Runner/PlayerCharacter.cs
+ M Assets/_NyanLink/Scripts/Runner/RunnerController.cs
+ M Assets/_NyanLink/Scripts/Runner/RunnerProgressSystem.cs
+ M Assets/_NyanLink/Scripts/UI/BossHUD.cs
+ M Assets/_NyanLink/Scripts/UI/RunnerWarningHUD.cs
+ M Docs/WORK_ITEMS.md
+?? Assets/Editor/NyanLinkSession03Validation.cs
+?? Assets/Editor/NyanLinkSession03Validation.cs.meta
+?? Assets/_NyanLink/Scripts/Core/SceneSingleton.cs
+?? Assets/_NyanLink/Scripts/Core/SceneSingleton.cs.meta
+?? Assets/_NyanLink/Scripts/UI/GamePausePanel.cs
+?? Assets/_NyanLink/Scripts/UI/GamePausePanel.cs.meta
+?? Docs/Development/SESSION-03-HANDOFF.txt
+?? output/playtests/2026-11-13-session03/01-reentry-board.png
+?? output/playtests/2026-11-13-session03/02-paused-runner.png
+?? output/playtests/2026-11-13-session03/03-jump-prewarning.png
+?? output/playtests/2026-11-13-session03/04-retry-warning.png
+?? output/playtests/2026-11-13-session03/05-block-reserved.png
+?? output/playtests/2026-11-13-session03/06-boss-entry.png
+?? output/playtests/2026-11-13-session03/attempt01-play-results.txt
+?? output/playtests/2026-11-13-session03/attempt01-play.log
+?? output/playtests/2026-11-13-session03/attempt02-play-results.txt
+?? output/playtests/2026-11-13-session03/attempt02-play.log
+?? output/playtests/2026-11-13-session03/compile-attempt01.log
+?? output/playtests/2026-11-13-session03/compile.log
+?? output/playtests/2026-11-13-session03/final-audit.json
+?? output/playtests/2026-11-13-session03/play-results.txt
+?? output/playtests/2026-11-13-session03/play.log
+?? output/playtests/2026-11-13-session03/regression-session02.log
+?? output/playtests/2026-11-13-session03/regression-session02/01-board39-1080x1920.png
+?? output/playtests/2026-11-13-session03/regression-session02/02-diagonal-chain-three.png
+?? output/playtests/2026-11-13-session03/regression-session02/03-board39-1284x2778.png
+?? output/playtests/2026-11-13-session03/regression-session02/geometry-results.txt
+?? output/playtests/2026-11-13-session03/regression-session02/play-results.txt
+?? output/playtests/2026-11-13-session03/whitespace-check.txt

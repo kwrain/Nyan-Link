@@ -25,9 +25,23 @@ namespace NineMood.Runner
         public RunnerState CurrentState { get; private set; } = RunnerState.Run;
 
         private float _stateTimer;
+        private float _boostTimer;
+        public float ActionTimeRemaining => _stateTimer;
+        public float BoostTimeRemaining => _boostTimer;
+        public float SpeedMultiplier => _boostTimer > 0f ? (Balance?.runSpeedMultiplier ?? 1.5f) : 1f;
         private BalanceData Balance => DataManager.Instance?.BalanceData;
 
         // ── 라이프사이클 ───────────────────────────────────────
+
+        private void Awake()
+        {
+            var visual = transform.Find("RunnerVisual");
+            if (visual != null)
+            {
+                var player = visual.GetComponent<PlayerCharacter>() ?? visual.gameObject.AddComponent<PlayerCharacter>();
+                player.controller = this;
+            }
+        }
 
         private void OnEnable()
         {
@@ -43,6 +57,8 @@ namespace NineMood.Runner
 
         private void Update()
         {
+            if (!GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
+            _boostTimer = Mathf.Max(0f, _boostTimer - Time.deltaTime);
             if (CurrentState == RunnerState.Run) return;
 
             _stateTimer -= Time.deltaTime;
@@ -55,7 +71,6 @@ namespace NineMood.Runner
         /// <summary>ObstacleController가 장애물 판정 실패 시 호출</summary>
         public void TriggerStumble()
         {
-            if (CurrentState == RunnerState.Invincible) return;
             TransitionTo(RunnerState.Stumble);
         }
 
@@ -65,6 +80,7 @@ namespace NineMood.Runner
         {
             if (GameManager.Instance?.CurrentState != GameState.RunnerPhase) return;
 
+            if (color == TileColor.Purple) _boostTimer = Mathf.Max(_boostTimer, Balance?.runSpeedDuration ?? 3f);
             RunnerState action = actionMap != null
                 ? actionMap.GetAction(color)
                 : ColorActionMapData.GetDefaultAction(color);
@@ -77,7 +93,11 @@ namespace NineMood.Runner
         {
             // Briefing 복귀 또는 Result(Lose) 시 러너 초기 자세로 리셋
             if (state == GameState.Briefing || state == GameState.Result)
+            {
+                _boostTimer = 0f;
                 ForceRun();
+            }
+            else if (state == GameState.BossPhase && !(GameManager.Instance?.IsResuming ?? false)) ForceRun();
         }
 
         // ── 내부 ───────────────────────────────────────────────

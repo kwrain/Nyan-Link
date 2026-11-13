@@ -6,7 +6,6 @@ using NineMood.Core.Managers;
 using NineMood.Data.Definitions;
 using NineMood.Data.Enums;
 using NineMood.Puzzle;
-using NineMood.Services.Core;
 using UnityEngine;
 
 namespace NineMood.Boss
@@ -15,11 +14,14 @@ namespace NineMood.Boss
     /// 보스 전투 상태 머신. GameState.BossPhase 동안 HP·Groggy·패턴을 관리한다.
     /// GameManager.TriggerStageClear() 호출로 씬을 종료한다.
     /// </summary>
-    public class BossController : Singleton<BossController>
+    public class BossController : SceneSingleton<BossController>
     {
         // ── Inspector ─────────────────────────────────────────────
         [Header("데이터")]
         public BossBattleConfig config;
+        [Tooltip("전투 규칙 정비 후 활성화. 현재는 보스 진입까지만 실행")]
+        public bool enableCombat;
+        private bool _battleStarted;
         public BalanceData      balance;
 
         [Header("패턴 컴포넌트 (Inspector에서 할당)")]
@@ -61,6 +63,7 @@ namespace NineMood.Boss
         private void OnDisable()
         {
             GameEvents.OnGameStateChanged -= OnGameStateChanged;
+            AbortBattle();
             GameEvents.OnMatchCompleted   -= OnMatchCompleted;
             ItemEffectEvents.OnPowerUp    -= OnPowerUp;
         }
@@ -69,10 +72,18 @@ namespace NineMood.Boss
 
         private void OnGameStateChanged(GameState state)
         {
+            if (state == GameState.Paused) return;
             if (state == GameState.BossPhase)
-                StartBattle();
-            else if (state != GameState.BossPhase && _state != BossState.Idle)
-                AbortBattle();
+            {
+                if (GameManager.Instance != null && GameManager.Instance.IsResuming) return;
+                if (enableCombat && !_battleStarted) StartBattle();
+                else if (!_battleStarted && config != null)
+                {
+                    MaxHP = CurrentHP = config.maxHP;
+                    GameEvents.TriggerBossHPChanged(CurrentHP, MaxHP);
+                }
+            }
+            else AbortBattle();
         }
 
         private void StartBattle()
@@ -83,6 +94,7 @@ namespace NineMood.Boss
                 return;
             }
 
+            _battleStarted = true;
             MaxHP      = config.maxHP;
             CurrentHP  = MaxHP;
             PhaseIndex = 0;
@@ -100,6 +112,7 @@ namespace NineMood.Boss
 
         private void AbortBattle()
         {
+            _battleStarted = false;
             StopAllCoroutines();
             GetActivePattern()?.Cancel();
             IsGroggy = false;

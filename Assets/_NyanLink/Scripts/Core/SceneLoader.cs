@@ -1,4 +1,5 @@
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 namespace NineMood.Core
 {
@@ -7,7 +8,7 @@ namespace NineMood.Core
         public const string SceneGame = "Game";
         public const string SceneMainMenu = "Main";
 
-        public static void LoadGame() => SceneManager.LoadScene(SceneGame);
-        public static void LoadMainMenu() => SceneManager.LoadScene(SceneMainMenu);
+        public static void LoadGame() { Time.timeScale = 1f; SceneManager.LoadScene(SceneGame); }
+        public static void LoadMainMenu() { Time.timeScale = 1f; SceneManager.LoadScene(SceneMainMenu); }
     }
 }

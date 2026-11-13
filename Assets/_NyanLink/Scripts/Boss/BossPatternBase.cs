@@ -59,6 +59,8 @@ namespace NineMood.Boss
             _onFailed?.Invoke();
         }
 
+        protected virtual void OnDisable() => Cancel();
+
         protected abstract void OnRun();
         protected abstract void OnCancel();
     }

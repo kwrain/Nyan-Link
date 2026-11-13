@@ -25,7 +25,8 @@ using Object = UnityEngine.Object;
 public static class NyanLinkSession02Validation
 {
     const string Key = "NyanLink.Session02";
-    const string Output = "output/playtests/2026-11-13-session02";
+    static readonly string Output = Environment.GetEnvironmentVariable("NYANLINK_VALIDATION_OUTPUT")
+        ?? "output/playtests/2026-11-13-session02";
     const string BestKey = "NyanLink_BestScore";
     const BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
     static readonly List<string> results = new List<string>();

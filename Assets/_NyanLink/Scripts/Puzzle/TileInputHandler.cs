@@ -73,6 +73,13 @@ namespace NineMood.Puzzle
 
         private void OnStateChanged(GameState state)
         {
+            if (state == GameState.Briefing)
+            {
+                _inputLocked = false;
+                _lockTimer = 0f;
+                _activeFingerIndex = -1;
+                _usingTouch = false;
+            }
             if (state != GameState.RunnerPhase && state != GameState.BossPhase) ClearSelection();
         }
 

@@ -1,6 +1,6 @@
 using NineMood.Data.Definitions;
 using NineMood.Data.Enums;
-using NineMood.Services.Core;
+using NineMood.Core;
 using UnityEngine;
 
 namespace NineMood.Core.Managers
@@ -8,7 +8,7 @@ namespace NineMood.Core.Managers
     /// <summary>
     /// 점수 계산 및 최고 점수 관리. PlayerPrefs로 최고 점수를 저장한다.
     /// </summary>
-    public class ScoreManager : Singleton<ScoreManager>
+    public class ScoreManager : SceneSingleton<ScoreManager>
     {
         private const string BestScoreKey = "NyanLink_BestScore";
 
@@ -18,6 +18,7 @@ namespace NineMood.Core.Managers
         protected override void Awake()
         {
             base.Awake();
+            if (!IsOwner) return;
             BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
         }
 

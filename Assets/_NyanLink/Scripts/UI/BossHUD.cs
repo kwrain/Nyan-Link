@@ -26,6 +26,14 @@ namespace NineMood.UI
         [Header("Phase")]
         [SerializeField] private TextMeshProUGUI textPhase;
 
+        private CanvasGroup _group;
+        private void Awake()
+        {
+            _group = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
+            _group.alpha = 0f;
+            _group.blocksRaycasts = false;
+        }
+
         private void OnEnable()
         {
             GameEvents.OnGameStateChanged            += OnGameStateChanged;
@@ -48,16 +56,12 @@ namespace NineMood.UI
             GameEvents.OnBossPatternInstructionChanged -= OnBossPatternInstructionChanged;
         }
 
-        private void Start()
-        {
-            gameObject.SetActive(false);
-        }
-
         private void OnGameStateChanged(GameState state)
         {
-            gameObject.SetActive(state == GameState.BossPhase);
-            if (state == GameState.BossPhase)
-                ResetDisplay();
+            if (state == GameState.Paused) return;
+            _group.alpha = state == GameState.BossPhase ? 1f : 0f;
+            if (state == GameState.BossPhase &&
+                !(NineMood.Core.Managers.GameManager.Instance?.IsResuming ?? false)) ResetDisplay();
         }
 
         private void ResetDisplay()

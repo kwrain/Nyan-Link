@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using NineMood.Data.Definitions;
 using NineMood.Runner;
-using NineMood.Services.Core;
+using NineMood.Core;
 using UnityEngine;
 
 namespace NineMood.Core.Managers
@@ -16,7 +16,7 @@ namespace NineMood.Core.Managers
     ///
     /// 파일 경로: Application.persistentDataPath/saves/checkpoint_{stageId}.json
     /// </summary>
-    public class SaveManager : Singleton<SaveManager>
+    public class SaveManager : SceneSingleton<SaveManager>
     {
         [Header("스테이지 (null이면 저장 비활성)")]
         public StageData stageData;

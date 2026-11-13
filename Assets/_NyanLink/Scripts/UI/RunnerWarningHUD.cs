@@ -29,11 +29,15 @@ namespace NineMood.UI
         private float _elapsed;
         private bool  _warningActive;
         private Color _actionColor;
+        private RunnerState _action;
+        private ObstacleSpawner _spawner;
+        public float Remaining => _spawner != null ? _spawner.WarningRemaining : Mathf.Max(0f, _totalDuration - _elapsed);
 
         // ── 라이프사이클 ──────────────────────────────────────────────
 
         private void Awake()
         {
+            _spawner = FindFirstObjectByType<ObstacleSpawner>();
             if (warningPanel == null)
                 BuildUI();
         }
@@ -61,7 +65,10 @@ namespace NineMood.UI
             if (!_warningActive || _totalDuration <= 0f) return;
 
             _elapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(1f - _elapsed / _totalDuration);
+            float fill = Mathf.Clamp01(Remaining / _totalDuration);
+            if (actionLabel != null) actionLabel.text = GetActionLabel(_action) +
+                (_spawner != null && _spawner.CurrentObstacle != null && _spawner.CurrentObstacle.HasSuccessReservation ? " READY " : " ") +
+                Mathf.CeilToInt(Remaining);
 
             if (timerBar != null)
             {
@@ -75,6 +82,7 @@ namespace NineMood.UI
 
         private void ShowWarning(RunnerState action, float duration)
         {
+            _action = action;
             _totalDuration = duration;
             _elapsed       = 0f;
             _warningActive = true;

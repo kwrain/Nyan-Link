@@ -72,6 +72,14 @@ namespace NineMood.Puzzle
             _activeCoroutines[offset] = c;
         }
 
+        public void CancelAll(Tilemap tilemap)
+        {
+            StopAllCoroutines();
+            foreach (var cell in _activeCoroutines.Keys)
+                if (tilemap != null) tilemap.SetTransformMatrix(cell, Matrix4x4.identity);
+            _activeCoroutines.Clear();
+        }
+
         private void CancelAt(Vector3Int offset)
         {
             if (_activeCoroutines.TryGetValue(offset, out Coroutine c) && c != null)

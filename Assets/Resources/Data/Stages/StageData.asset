@@ -27,6 +27,7 @@ MonoBehaviour:
     requiredColor: 1
   - triggerDistance: 0.75
     requiredColor: 2
+  obstacleMoveSpeed: 4
   obstacleBaseDamage: 20
   chapterCoefficient: 1
   bossConfig: {fileID: 11400000, guid: 35e86864374d24ab8bde68d3b40eae70, type: 2}

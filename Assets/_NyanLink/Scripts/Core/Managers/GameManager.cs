@@ -1,55 +1,57 @@
-using NineMood.Data.Definitions;
-using NineMood.Services.Core;
+using NineMood.Puzzle;
+using NineMood.Runner;
+using NineMood.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace NineMood.Core.Managers
 {
-    /// <summary>
-    /// 게임 상태 머신 — 기획서 05 확정 구조.
-    /// Briefing → RunnerPhase → BossPhase → Result(Win)
-    ///                       ↘ Result(Lose) ← 스태미나 소진
-    /// </summary>
-    public class GameManager : Singleton<GameManager>
+    public class GameManager : SceneSingleton<GameManager>
     {
         public GameState CurrentState { get; private set; } = GameState.Briefing;
-
-        /// <summary>현재 Result 상태의 승패 구분. Result 상태가 아닐 때는 의미 없음.</summary>
         public ResultType CurrentResult { get; private set; }
+        public GameState StateBeforePause { get; private set; } = GameState.Briefing;
+        public bool IsResuming { get; private set; }
+        private bool _bossAppeared;
 
         protected override void Awake()
         {
             base.Awake();
+            if (!IsOwner) return;
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             SceneManager.sceneLoaded += OnSceneLoaded;
+            var debugPanel = FindFirstObjectByType<GameStateDebugPanel>();
+            if (debugPanel != null) debugPanel.gameObject.SetActive(false);
+            // 기존 씬 GUID와 계층을 유지하면서 최소 일시정지 UI를 연결한다.
+            if (GetComponent<GamePausePanel>() == null) gameObject.AddComponent<GamePausePanel>();
         }
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (IsOwner) Time.timeScale = 1f;
+            base.OnDestroy();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == SceneLoader.SceneGame)
-                SetState(GameState.Briefing);
+            if (scene != gameObject.scene) return;
+            Time.timeScale = 1f;
+            PublishState(GameState.Briefing);
         }
-
-        // ── 공개 제어 메서드 ────────────────────────────────────
 
         public void StartGame()
         {
+            Time.timeScale = 1f;
+            IsResuming = false;
+            _bossAppeared = false;
+            PublishState(GameState.Briefing);
+            FindFirstObjectByType<PuzzleBoardManager>()?.ResetBoard();
             ScoreManager.Instance?.ResetScore();
             StaminaManager.Instance?.ResetStamina();
-            // Briefing을 항상 경유 — RunnerProgressSystem/ObstacleSpawner의 거리·인덱스·
-            // _bossFightTriggered가 Briefing 핸들러에서만 리셋되므로, 직행 시 GameOver/StageClear
-            // 이후 재시작이 이전 거리에서 멈추거나(softlock) 잘못된 위치에서 재개되는 문제가 있었음.
-            SetState(GameState.Briefing);
-            SetState(GameState.RunnerPhase);
-            // 각 시스템의 리셋 이후 체크포인트가 있으면 덮어쓰기 복원
-            SaveManager.Instance?.TryRestoreCheckpoint();
+            PublishState(GameState.RunnerPhase);
+            SaveManager.Instance?.TryRestoreCheckpoint(); // 저장 정책 전체 정비는 세션 06.
         }
 
         public void RetryGame()
@@ -60,39 +62,37 @@ namespace NineMood.Core.Managers
 
         public void PauseGame()
         {
-            if (CurrentState == GameState.RunnerPhase || CurrentState == GameState.BossPhase)
-            {
-                Time.timeScale = 0f;
-                SetState(GameState.Paused);
-            }
+            if (CurrentState != GameState.RunnerPhase && CurrentState != GameState.BossPhase) return;
+            StateBeforePause = CurrentState;
+            Time.timeScale = 0f;
+            PublishState(GameState.Paused);
         }
 
         public void ResumeGame()
         {
-            if (CurrentState == GameState.Paused)
-            {
-                Time.timeScale = 1f;
-                SetState(GameState.RunnerPhase);
-            }
+            if (CurrentState != GameState.Paused) return;
+            Time.timeScale = 1f;
+            IsResuming = true;
+            PublishState(StateBeforePause);
+            IsResuming = false;
         }
 
-        /// <summary>스태미나 소진 시 StaminaManager가 호출</summary>
         public void TriggerGameOver()
         {
             if (CurrentState != GameState.RunnerPhase && CurrentState != GameState.BossPhase) return;
-            Time.timeScale = 1f;
             SetResult(ResultType.Lose);
         }
 
-        /// <summary>진행도 100% 도달 시 RunnerProgressSystem이 호출</summary>
         public void TriggerBossFight()
         {
-            if (CurrentState != GameState.RunnerPhase) return;
-            SetState(GameState.BossPhase);
+            if (CurrentState != GameState.RunnerPhase || _bossAppeared) return;
+            var obstacles = FindFirstObjectByType<ObstacleSpawner>();
+            if (obstacles == null || !obstacles.AllObstaclesCleared) return;
+            _bossAppeared = true;
+            PublishState(GameState.BossPhase);
             GameEvents.TriggerBossAppeared();
         }
 
-        /// <summary>보스 처치 시 BossController가 호출 (Phase 4)</summary>
         public void TriggerStageClear()
         {
             if (CurrentState != GameState.BossPhase) return;
@@ -100,20 +100,17 @@ namespace NineMood.Core.Managers
             SetResult(ResultType.Win);
         }
 
-        // ── 내부 ───────────────────────────────────────────────
-
-        private void SetState(GameState state)
+        private void PublishState(GameState state)
         {
             CurrentState = state;
-            Debug.Log($"[GameManager] 상태 전환 → {state}");
             GameEvents.TriggerGameStateChanged(state);
         }
 
-        // Result 상태 진입 시 ResultType도 함께 발행
         private void SetResult(ResultType result)
         {
             CurrentResult = result;
-            SetState(GameState.Result);
+            Time.timeScale = 0f;
+            PublishState(GameState.Result);
             GameEvents.TriggerResultSet(result);
         }
     }

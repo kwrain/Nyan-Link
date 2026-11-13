@@ -1,4 +1,4 @@
-using NineMood.Services.Core;
+using NineMood.Core;
 using NineMood.Data.Definitions;
 using NineMood.Data.Enums;
 using NineMood.Puzzle;
@@ -16,7 +16,7 @@ namespace NineMood.Core.Managers
     /// 재도전 중에도 RunnerPhase 상태가 유지되므로 감소·시간 누적 모두 그대로 진행.
     /// BossPhase 중 자연감소 정지 — 패턴 실패 데미지는 TakeDamage로 직접 처리.
     /// </summary>
-    public class StaminaManager : Singleton<StaminaManager>
+    public class StaminaManager : SceneSingleton<StaminaManager>
     {
         [Header("스테이지 데이터 (null = BalanceData 기본값)")]
         public StageData stageData;
@@ -33,6 +33,7 @@ namespace NineMood.Core.Managers
         protected override void Awake()
         {
             base.Awake();
+            if (!IsOwner) return;
             ResetStamina();
         }
 
@@ -50,7 +51,7 @@ namespace NineMood.Core.Managers
 
         private void Update()
         {
-            if (GameManager.Instance == null) return;
+            if (!GameManager.IsCreated) return;
             if (GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
 
             _elapsedRunnerTime += Time.deltaTime;
@@ -91,13 +92,13 @@ namespace NineMood.Core.Managers
 
         public void TakeDamage(float amount)
         {
-            if (amount <= 0f) return;
+            if (amount <= 0f || !CanChangeStamina()) return;
             ApplyDelta(-amount);
         }
 
         public void Recover(float amount)
         {
-            if (amount <= 0f) return;
+            if (amount <= 0f || !CanChangeStamina()) return;
             ApplyDelta(amount);
         }
 
@@ -111,6 +112,9 @@ namespace NineMood.Core.Managers
         }
 
         // ── 내부 ───────────────────────────────────────────────
+
+        private bool CanChangeStamina() => GameManager.IsCreated &&
+            (GameManager.Instance.CurrentState == GameState.RunnerPhase || GameManager.Instance.CurrentState == GameState.BossPhase);
 
         private void ApplyDelta(float delta)
         {

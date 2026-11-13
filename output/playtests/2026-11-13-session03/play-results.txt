@@ -1,0 +1,6 @@
+PASS Main→Game→Main cycles, fresh 39-cell board, live scene references, shared-root duplicates, result retry, no stale subscriptions
+PASS Purple boost, prewarning, early-input rejection, 20 damage, repeated 2-second retry, decay while held, reservation pause and restart reset
+PASS Jump→Slide→Block through default StageData to one boss entry; reserved success independent of animation; wrong-match lock; yellow no-damage pass
+PASS Isolated legacy boss timer pauses and resumes without battle/HP reset (combat rules deferred)
+PASS 225 Play assertions; user saves preserved; no destroyed/duplicate event subscribers
+PASS Session03 completed without runtime errors

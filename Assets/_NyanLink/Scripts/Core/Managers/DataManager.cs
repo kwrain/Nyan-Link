@@ -61,6 +61,7 @@ namespace NineMood.Core.Managers
         protected override void Awake()
         {
             base.Awake();
+            if (!IsCreated || Instance != this) return;
 
             // 게임 시작 전 동기적으로 초기화 완료까지 대기 (다른 시스템이 데이터 사용 전 준비 보장)
             Initialize().GetAwaiter().GetResult();

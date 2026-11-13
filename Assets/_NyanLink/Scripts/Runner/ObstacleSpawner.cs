@@ -4,6 +4,7 @@ using NineMood.Core;
 using NineMood.Core.Managers;
 using NineMood.Data.Definitions;
 using NineMood.Data.Enums;
+using NineMood.Puzzle;
 using UnityEngine;
 
 namespace NineMood.Runner
@@ -56,149 +57,157 @@ namespace NineMood.Runner
         [Header("레이어")]
         public string obstacleLayer = "TopView";
 
-        /// <summary>다음에 스폰할 장애물 인덱스. SaveManager가 체크포인트 저장에 사용.</summary>
         public int NextObstacleIndex => _nextObstacleIndex;
-
+        public int ClearedObstacleCount => _nextObstacleIndex;
+        public int TotalObstacleCount => _sortedObstacles != null ? _sortedObstacles.Count : 0;
+        public bool AllObstaclesCleared => _sortedObstacles != null && _nextObstacleIndex >= _sortedObstacles.Count && _current == null && _retryRemaining <= 0f;
+        public ObstacleController CurrentObstacle => _current;
+        public float RetryRemaining => _retryRemaining;
+        public bool IsPreWarning => _preWarningFired;
+        public float NextStopDistance => _sortedObstacles != null && _nextObstacleIndex < _sortedObstacles.Count
+            ? _sortedObstacles[_nextObstacleIndex].triggerDistance * progressSystem.StageLength : progressSystem.StageLength;
+        public float WarningRemaining => _retryRemaining > 0f ? _retryRemaining :
+            _current != null ? _current.TimeUntilCollision :
+            Mathf.Max(0f, NextStopDistance - progressSystem.CurrentDistance) / Mathf.Max(0.01f, progressSystem.RunnerSpeed);
         private List<ObstacleEntry> _sortedObstacles;
-        private int       _nextObstacleIndex;
-        private bool      _active;
-        private bool      _preWarningFired;
-        private bool      _waitingForClear;     // 현재 장애물 클리어 대기 중
-        private Coroutine _retryCoroutine;
-
+        private int _nextObstacleIndex;
+        private bool _preWarningFired;
+        private float _retryRemaining;
+        private ObstacleController _current;
+        private PuzzleBoardManager _board;
         private BalanceData Balance => DataManager.Instance?.BalanceData;
 
-        // ── 라이프사이클 ──────────────────────────────────────────────
-
-        private void OnEnable()
-        {
-            GameEvents.OnGameStateChanged     += OnGameStateChanged;
-            ObstacleController.OnObstacleFailed  += HandleObstacleFailed;
-            ObstacleController.OnObstacleCleared += HandleObstacleCleared;
-        }
-
+        private void Awake() => _board = FindFirstObjectByType<PuzzleBoardManager>();
+        private void OnEnable() => GameEvents.OnGameStateChanged += OnGameStateChanged;
         private void OnDisable()
         {
-            GameEvents.OnGameStateChanged     -= OnGameStateChanged;
-            ObstacleController.OnObstacleFailed  -= HandleObstacleFailed;
-            ObstacleController.OnObstacleCleared -= HandleObstacleCleared;
+            GameEvents.OnGameStateChanged -= OnGameStateChanged;
+            CancelActive();
         }
 
         private void Update()
         {
-            if (!_active || progressSystem == null) return;
-            if (_sortedObstacles == null || _nextObstacleIndex >= _sortedObstacles.Count) return;
-            if (_waitingForClear) return;   // 재도전 처리 중 — 신규 스폰·경고 모두 중단
-
-            float dist     = progressSystem.CurrentDistance;
-            float speed    = progressSystem.RunnerSpeed;
-            float stageLen = progressSystem.StageLength;
-
-            // ── 사전 경고 ─────────────────────────────────────────────
-            if (!_preWarningFired)
+            if (!GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase ||
+                progressSystem == null || _sortedObstacles == null || AllObstaclesCleared) return;
+            if (_retryRemaining > 0f)
             {
-                var   next        = _sortedObstacles[_nextObstacleIndex];
-                float triggerDist = next.triggerDistance * stageLen;
-                float timeLeft    = speed > 0f ? (triggerDist - dist) / speed : float.MaxValue;
-
-                if (timeLeft <= preWarningTime && timeLeft > 0f)
-                {
-                    _preWarningFired = true;
-                    OnPreWarningBegan?.Invoke(
-                        ColorActionMapData.GetDefaultAction(next.requiredColor), timeLeft);
-                }
+                _retryRemaining = Mathf.Max(0f, _retryRemaining - Time.deltaTime);
+                if (_retryRemaining == 0f) SpawnCurrent();
+                return;
             }
-
-            // ── 스폰 ──────────────────────────────────────────────────
-            while (_nextObstacleIndex < _sortedObstacles.Count)
+            if (_current != null) return;
+            float timeLeft = WarningRemaining;
+            if (!_preWarningFired && timeLeft <= preWarningTime)
             {
-                float triggerDist = _sortedObstacles[_nextObstacleIndex].triggerDistance * stageLen;
-                if (dist >= triggerDist)
-                {
-                    OnPreWarningEnded?.Invoke();
-                    DoSpawn(_sortedObstacles[_nextObstacleIndex]);
-                    progressSystem?.SetPaused(true);    // 판정 완료(성공/실패)까지 진행률 동결
-                    _nextObstacleIndex++;
-                    _preWarningFired = false;
-                    _waitingForClear = true;
-                    break;  // 한 프레임에 하나씩만 스폰 (dist는 루프 진입 시점에 고정)
-                }
-                else
-                {
-                    break;
-                }
+                _preWarningFired = true;
+                PrepareRequiredColor();
+                OnPreWarningBegan?.Invoke(RequiredAction(), timeLeft);
+            }
+            if (progressSystem.CurrentDistance >= NextStopDistance)
+            {
+                progressSystem.SetPaused(true);
+                SpawnCurrent();
             }
         }
 
-        // ── 재도전 이벤트 핸들러 ─────────────────────────────────────
-
-        private void HandleObstacleFailed()
+        private RunnerState RequiredAction() => ColorActionMapData.GetDefaultAction(_sortedObstacles[_nextObstacleIndex].requiredColor);
+        private void PrepareRequiredColor()
         {
-            // 잔존 장애물(씬 리셋 직후) 이벤트 방어 — 인덱스 0이면 무시
-            if (_nextObstacleIndex <= 0) return;
-
-            // progressSystem은 스폰 시 이미 SetPaused(true) 상태
-            if (_retryCoroutine != null)
-                StopCoroutine(_retryCoroutine);
-            _retryCoroutine = StartCoroutine(RetryRoutine(_nextObstacleIndex - 1));
+            if (_board == null) return;
+            TileColor? color = _nextObstacleIndex < TotalObstacleCount ? _sortedObstacles[_nextObstacleIndex].requiredColor : (TileColor?)null;
+            bool repaired = _board.SetRequiredMatchColor(color);
+            if (!repaired && _board.IsInitialized)
+                Debug.LogWarning("[ObstacleSpawner] 보호 조건으로 요구 색 보정 불가. 다음 리필에서 재검사합니다.");
         }
 
-        private void HandleObstacleCleared()
+        private void SpawnCurrent()
         {
-            _waitingForClear = false;
-            progressSystem?.SetPaused(false);
-        }
-
-        private IEnumerator RetryRoutine(int entryIndex)
-        {
-            // retryDelay 동안 HUD 경고 재표시
-            var   entry  = _sortedObstacles[entryIndex];
-            RunnerState action = ColorActionMapData.GetDefaultAction(entry.requiredColor);
-            OnPreWarningBegan?.Invoke(action, retryDelay);
-
-            yield return new WaitForSeconds(retryDelay);
-
             OnPreWarningEnded?.Invoke();
-            DoSpawn(entry);     // _nextObstacleIndex는 그대로 (재도전이므로 증가 없음)
-
-            _retryCoroutine = null;
-        }
-
-        /// <summary>체크포인트 복원 — SaveManager가 StartGame 직후 호출한다.</summary>
-        public void RestoreCheckpoint(int nextObstacleIndex)
-        {
-            _nextObstacleIndex = Mathf.Clamp(nextObstacleIndex, 0,
-                _sortedObstacles != null ? _sortedObstacles.Count : 0);
             _preWarningFired = false;
-            _waitingForClear = false;
-        }
-
-        // ── 스폰 내부 ─────────────────────────────────────────────────
-
-        private void DoSpawn(ObstacleEntry entry)
-        {
-            if (runner == null) return;
-
-            RunnerState required    = ColorActionMapData.GetDefaultAction(entry.requiredColor);
-            float       warningDist = Balance?.obstacleWarningDistance ?? 5f;
-            float       damage      = stageData?.ActualObstacleDamage  ?? 20f;
-
-            float worldY     = runner.transform.position.y + spawnY;
-            Vector3 spawnPos = new Vector3(spawnX, worldY, 0f);
-
-            GameObject prefab = GetPrefab(required);
-            GameObject go     = prefab != null
-                ? Instantiate(prefab, spawnPos, Quaternion.identity)
-                : CreatePlaceholder(entry.requiredColor, worldY);
-
-            var obstacle = go.GetComponent<ObstacleController>()
-                           ?? go.AddComponent<ObstacleController>();
-            obstacle.Initialize(required, runner, warningDist, damage);
-
+            if (runner == null || _nextObstacleIndex >= TotalObstacleCount) return;
+            PrepareRequiredColor();
+            var entry = _sortedObstacles[_nextObstacleIndex];
+            float y = runner.transform.position.y + spawnY;
+            var prefab = GetPrefab(RequiredAction());
+            var go = prefab != null ? Instantiate(prefab, new Vector3(spawnX, y, 0f), Quaternion.identity)
+                : CreatePlaceholder(entry.requiredColor, y);
+            _current = go.GetComponent<ObstacleController>() ?? go.AddComponent<ObstacleController>();
+            _current.Initialize(RequiredAction(), runner, Balance?.obstacleWarningDistance ?? 5f,
+                stageData?.ActualObstacleDamage ?? 20f, entry.requiredColor);
+            _current.moveSpeed = stageData != null ? stageData.obstacleMoveSpeed : 4f;
+            _current.Resolved += HandleResolved;
+            _current.InputWindowOpened += HandleInputWindow;
             int layer = LayerMask.NameToLayer(obstacleLayer);
             if (layer >= 0) SetLayerRecursive(go, layer);
         }
 
+        private void HandleInputWindow(ObstacleController obstacle)
+        {
+            if (obstacle == _current) OnPreWarningBegan?.Invoke(obstacle.RequiredAction, obstacle.TimeUntilCollision);
+        }
+
+        private void HandleResolved(ObstacleController obstacle, bool success)
+        {
+            if (obstacle != _current || !GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
+            obstacle.Resolved -= HandleResolved;
+            obstacle.InputWindowOpened -= HandleInputWindow;
+            _current = null;
+            OnPreWarningEnded?.Invoke();
+            if (success)
+            {
+                _nextObstacleIndex++;
+                progressSystem.SetPaused(false);
+                PrepareRequiredColor();
+            }
+            else
+            {
+                _retryRemaining = retryDelay;
+                OnPreWarningBegan?.Invoke(RequiredAction(), retryDelay);
+            }
+        }
+
+        private void CancelActive()
+        {
+            _retryRemaining = 0f;
+            _preWarningFired = false;
+            if (_current != null)
+            {
+                _current.Resolved -= HandleResolved;
+                _current.InputWindowOpened -= HandleInputWindow;
+                _current.gameObject.SetActive(false);
+                Destroy(_current.gameObject);
+                _current = null;
+            }
+            OnPreWarningEnded?.Invoke();
+        }
+
+        public void RestoreCheckpoint(int nextObstacleIndex)
+        {
+            CancelActive();
+            _nextObstacleIndex = Mathf.Clamp(nextObstacleIndex, 0, TotalObstacleCount);
+            progressSystem?.SetPaused(false);
+            PrepareRequiredColor();
+        }
+
+        private void OnGameStateChanged(GameState state)
+        {
+            if (state == GameState.Paused || state == GameState.RunnerPhase) return;
+            CancelActive();
+            if (state == GameState.Briefing)
+            {
+                _nextObstacleIndex = 0;
+                _sortedObstacles = stageData != null ? new List<ObstacleEntry>(stageData.obstacles) : new List<ObstacleEntry>
+                {
+                    new ObstacleEntry { triggerDistance = 0.25f, requiredColor = TileColor.Red },
+                    new ObstacleEntry { triggerDistance = 0.5f, requiredColor = TileColor.Blue },
+                    new ObstacleEntry { triggerDistance = 0.75f, requiredColor = TileColor.Yellow }
+                };
+                _sortedObstacles.Sort((a,b) => a.triggerDistance.CompareTo(b.triggerDistance));
+                progressSystem?.SetPaused(false);
+                PrepareRequiredColor();
+            }
+            else _board?.SetRequiredMatchColor(null);
+        }
         private GameObject GetPrefab(RunnerState action) => action switch
         {
             RunnerState.Jump  => jumpObstaclePrefab,
@@ -243,49 +252,5 @@ namespace NineMood.Runner
                 SetLayerRecursive(child.gameObject, layer);
         }
 
-        // ── 게임 상태 변경 ───────────────────────────────────────────
-
-        private void OnGameStateChanged(GameState state)
-        {
-            _active = state == GameState.RunnerPhase;
-            if (state == GameState.RunnerPhase)
-            {
-                // Briefing 없이 RetryGame() 직행 시 잔류 상태 방지
-                _waitingForClear = false;
-                if (_retryCoroutine != null)
-                {
-                    StopCoroutine(_retryCoroutine);
-                    _retryCoroutine = null;
-                }
-            }
-
-            if (state == GameState.Briefing)
-            {
-                if (_retryCoroutine != null)
-                {
-                    StopCoroutine(_retryCoroutine);
-                    _retryCoroutine = null;
-                }
-                _nextObstacleIndex = 0;
-                _preWarningFired   = false;
-                _waitingForClear   = false;
-
-                if (stageData?.HasObstacles == true)
-                {
-                    _sortedObstacles = new List<ObstacleEntry>(stageData.obstacles);
-                    _sortedObstacles.Sort((a, b) =>
-                        a.triggerDistance.CompareTo(b.triggerDistance));
-                }
-                else
-                {
-                    _sortedObstacles = new List<ObstacleEntry>
-                    {
-                        new ObstacleEntry { triggerDistance = 0.25f, requiredColor = TileColor.Red    },
-                        new ObstacleEntry { triggerDistance = 0.50f, requiredColor = TileColor.Blue   },
-                        new ObstacleEntry { triggerDistance = 0.75f, requiredColor = TileColor.Yellow },
-                    };
-                }
-            }
-        }
     }
 }

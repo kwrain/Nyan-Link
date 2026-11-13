@@ -34,7 +34,8 @@ namespace NineMood.Runner
         public float stumbleShake  = 0.15f;
 
         // ── 내부 ───────────────────────────────────────────────
-        private SpriteRenderer _sr;
+        private Renderer _sr;
+        private Material _ownedMaterial;
         private Vector3 _baseLocalPos;
         private Vector3 _baseLocalScale;
         private Color   _baseColor;
@@ -43,15 +44,17 @@ namespace NineMood.Runner
 
         private void Awake()
         {
-            _sr = GetComponent<SpriteRenderer>();
+            _sr = GetComponent<Renderer>();
             if (_sr == null)
             {
-                _sr = gameObject.AddComponent<SpriteRenderer>();
-                _sr.sprite = BuildPlaceholderSprite();
-                _sr.color  = new Color(1f, 0.55f, 0.1f);   // 주황 (고양이 느낌)
+                var sprite = gameObject.AddComponent<SpriteRenderer>();
+                sprite.sprite = BuildPlaceholderSprite();
+                _sr = sprite;
+                SetColor(new Color(1f, 0.55f, 0.1f));   // 주황 (고양이 느낌)
                 transform.localScale = Vector3.one * 0.8f;
             }
-            _baseColor = _sr.color;
+            if (!(_sr is SpriteRenderer)) _ownedMaterial = _sr.material;
+            _baseColor = _sr is SpriteRenderer sr ? sr.color : _ownedMaterial.color;
 
             // TopView 레이어 자동 설정
             int layer = LayerMask.NameToLayer("TopView");
@@ -64,7 +67,7 @@ namespace NineMood.Runner
             _baseLocalScale = transform.localScale;
 
             if (controller == null)
-                controller = GetComponent<RunnerController>();
+                controller = GetComponentInParent<RunnerController>();
         }
 
         private void Update()
@@ -105,7 +108,7 @@ namespace NineMood.Runner
                     break;
 
                 case RunnerState.Block:
-                    _sr.color = new Color(0.3f, 0.5f, 1f);      // 파란색
+                    SetColor(new Color(1f, 0.9f, 0.2f));      // 노랑 방어
                     transform.localScale = _baseLocalScale * 1.15f;
                     break;
 
@@ -114,12 +117,12 @@ namespace NineMood.Runner
                     break;
 
                 case RunnerState.Invincible:
-                    _sr.color = new Color(0.2f, 1f, 0.85f);     // 시안색
+                    SetColor(new Color(0.2f, 1f, 0.85f));     // 시안색
                     _activeRoutine = StartCoroutine(FlashRoutine());
                     break;
 
                 case RunnerState.Stumble:
-                    _sr.color = Color.red;
+                    SetColor(Color.red);
                     _activeRoutine = StartCoroutine(StumbleRoutine());
                     break;
 
@@ -186,8 +189,19 @@ namespace NineMood.Runner
         {
             transform.localPosition = _baseLocalPos;
             transform.localScale    = _baseLocalScale;
-            _sr.color               = _baseColor;
+            SetColor(_baseColor);
             _sr.enabled             = true;
+        }
+
+        private void SetColor(Color color)
+        {
+            if (_sr is SpriteRenderer sprite) sprite.color = color;
+            else if (_ownedMaterial != null) _ownedMaterial.color = color;
+        }
+
+        private void OnDestroy()
+        {
+            if (_ownedMaterial != null) Destroy(_ownedMaterial);
         }
 
         /// <summary>32×32 흰색 텍스처로 기본 스프라이트 생성</summary>

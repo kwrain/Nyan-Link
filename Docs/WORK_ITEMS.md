@@ -1,8 +1,8 @@
 # 검증 및 후속 작업 목록
 
-항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
-공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 수정은 미커밋.
-근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
+항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
+공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03 수정은 미커밋·미푸시.
+근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
 
 ## 미검증
 
@@ -18,26 +18,19 @@
 - 확인할 동작·기대 결과: 실제 클릭/터치로 Play와 시작 버튼이 반응하고 드래그부터 장애물·보스·결과까지 진행.
 - 세션 01 확인: 실제 Button.onClick 콜백 호출.
 - 세션 02 확인: 가상 Mouse/Touchscreen에 New Input System 상태 이벤트를 주입하여 실제 UI/Update/Enhanced Touch 경로 검증 완료(V-005). 실제 사람의 마우스 조작·물리 터치 기기·전체 완주는 수행하지 않음.
-- 검증 방법: I-001은 완료. I-002 및 후속 전투 기능을 각 담당 세션에서 정비한 뒤 Main부터 직접 조작하여 완주. 보스 전투·아이템·성장 구현 완료로 해석하지 않음.
+- 세션 03 확인: 가상 Mouse로 일시정지 메뉴·재시작·로비 왕복, 빨강/파랑/노랑 장애물 통과→BossPhase까지 자동 검증. 보스 승리까지의 전체 완주는 미검증(V-006).
+- 검증 방법: I-001/I-002는 완료. I-002 및 후속 전투 기능을 각 담당 세션에서 정비한 뒤 Main부터 직접 조작하여 완주. 보스 전투·아이템·성장 구현 완료로 해석하지 않음.
 - 관련: I-001, I-002, I-005, D-001.
 
 ## 미해결
-
-### I-002 — Main↔Game 반복 진입의 싱글톤·씬 참조 유실
-- 관련: 외부 NineMood.Services.Core.Singleton, Game.unity의 Managers, GameManager.cs, SaveManager.cs, PuzzleBoardInitializer.cs, BossController.cs.
-- 증상·영향: 첫 Game 진입은 정상. Main으로 나갔다 다시 진입하면 기존 persistent Managers/BossController와 새 씬 인스턴스가 중복되고 SaveManager가 파괴된 씬 참조를 유지. 보드가 초기화되지 않음.
-- 재현: CLI `NyanLinkSession01Validation.RunLifecycle` 또는 Main→Play→시작 후 SceneLoader.LoadMainMenu()→Play. `lifecycle-results.txt`, `lifecycle-focused.log`, `05-game-reentry.png` 참고.
-- 원인: 여러 싱글톤과 PuzzleBoardInitializer가 동일한 DontDestroyOnLoad 루트에 있고, 외부 싱글톤은 중복 시 GameObject 전체를 파괴함. 파괴 예정인 중복 GameManager도 Awake 이후 이벤트를 잠시 구독할 수 있음.
-- 다음 조치: 세션 03에서 영구 매니저/씬 소유 시스템 경계와 중복 Awake 가드, 씬 참조 재연결·이벤트 구독 수명 정비. 정확한 현재 검사 결과는 lifecycle-results.txt를 우선.
-- 세션 02 확인: 기존 공유 DontDestroyOnLoad 루트와 참조 소유 구조는 수정하지 않음. 이번 반복 진입 재시험은 세션 03으로 이관하며 세션 01 재현 근거를 유지. 최초 진입은 새 입력·보드로 통과.
-- 관련: V-002, I-005.
 
 ### I-003 — HUD 겹침과 한글 글리프 누락
 - 관련: Game.unity, GameStateDebugPanel.cs, GameReadyPanel.cs, TextMesh Pro 폰트.
 - 증상·영향: 디버그 패널이 상단 HUD와 겹치고 시작 버튼 한글 등이 사각형으로 표시됨. 실제 캡처 02/03에서 확인.
 - 재현: Game View 1284×2778에서 Main→Play. 세션 01 `02-game-ready.png`, `03-game-running.png` 참고. 세션 02의 1080×1920/1284×2778 캡처에서도 상단 디버그 HUD 겹침이 남음.
 - 원인: 테스트용 디버그 UI가 활성 상태이며 기본 LiberationSans SDF가 한글을 제공하지 않음.
-- 다음 조치: 세션 08에서 한글 폰트·HUD·안전 영역 정비. 세션 01은 기존 UI와 리소스를 보존.
+- 세션 03 부분 조치: 기존 디버그 패널은 활성 플레이에서 제외. Pause 메뉴와 READY 표시는 추가했으나 경고/HP 간격이 좁은 현상과 한글 폰트 문제는 남음. 세션 03 03/04/05 PNG에서 확인.
+- 다음 조치: 세션 08에서 한글 폰트·HUD·안전 영역 정비. 기존 UI와 리소스 보존.
 - 관련: D-001.
 
 ### I-004 — 후속 성장 데이터 ID 공란
@@ -48,9 +41,10 @@
 
 ### I-005 — 기존 상태·전투·저장은 1.1 규칙 구현 완료 상태가 아님
 - 관련: GameManager.ResumeGame, BossController, TileMatcher, SaveManager.
-- 정적 확인된 남은 작업: ResumeGame은 정지 전 상태 대신 RunnerPhase로 복귀. BossController는 패턴 성공 고정 피해와 기존 그로기 계산을 사용. SaveManager는 보드/보스/지속 효과/버전/원자 쓰기를 저장하지 않으며 읽기 실패 파일을 삭제하는 기존 경로가 있음.
-- 영향·재현 조건: 보스 중 정지/재개, 보스 패턴 성공·그로기 공격, 구간 저장·손상된 저장 파일 로드. 이 동작들은 이번 세션에서 실행하지 않았음. 코드 분기로 확인한 차이이며 실제 증상의 정도는 후속 실행 검증 필요.
-- 다음 조치: 세션 03/04/05/06에서 순서대로 정비. 기존 저장 파일로 실험하지 말고 복사본 또는 격리 경로 사용. 이번 smoke는 SaveManager.stageData를 메모리에서만 null로 하여 사용자 체크포인트 읽기/쓰기를 차단.
+- 정적 확인된 남은 작업: BossController는 패턴 성공 고정 피해와 기존 그로기 계산을 사용. SaveManager는 보드/보스/지속 효과/버전/원자 쓰기를 저장하지 않으며 읽기 실패 파일을 삭제하는 기존 경로가 있음.
+- 세션 03 완료 부분: 정지 전 Runner/Boss 상태로 복귀, HP·타이머·보드·장애물 보존 검증(V-006). 기본 BossController.enableCombat=false로 보스 진입까지만 활성화. 기존 전투 코드는 보존.
+- 남은 영향·재현 조건: 보스 패턴 성공·그로기 공격, 구간 저장·손상된 저장 파일 로드. 전투 규칙·저장 전체는 미검증. 고립된 기존 보스 타이머 정지/재개 검사는 1.1 전투 검증이 아님.
+- 다음 조치: 세션 04/05/06에서 순서대로 정비. 기존 저장 파일로 실험하지 말고 복사본 또는 격리 경로 사용. 이번 smoke는 SaveManager.stageData를 메모리에서만 null로 하여 사용자 체크포인트 읽기/쓰기를 차단.
 - 관련: I-002, V-002.
 
 ## 실기기 테스트 필요
@@ -61,7 +55,8 @@
 - 절차: Main→Game 진입, Play/시작 터치, HUD/안전 영역/39칸 전체 표시, 인접 드래그·되돌리기·오인식·보정 확인. 각 플랫폼의 관련 대기 항목을 함께 검증하고 실제 화면 촬영.
 - 기대 결과: 화면 잘림·중복 입력·글리프 누락 없이 버튼과 타일 입력이 시각 위치와 일치.
 - 기존 확인: 세션 01은 52칸/1284×2778 및 콜백 경로. 세션 02는 Mac Editor에서 39칸 전체 표시와 마우스/Enhanced Touch 가상 기기 입력, 터치 1.3배 겹침 영역의 가까운 중심 선택, 1080×1920 및 1284×2778 렌더링을 확인(V-005). 터치 상단 보정은 0으로 두고 실기기 튜닝 대기. 기기·시뮬레이터·모바일 빌드는 실행하지 않음.
-- 대기 사유: 연결된 실기기를 사용하지 않았으며 세션 02/08 정비가 남음.
+- 세션 03 추가 대상: 실제 기기에서 장애물 경고 중 정지→재개, 실패 재도전 대기 중 정지, Boss 상태 복귀, 재시작·로비 반복. HP·예약·남은 시간이 보존되고 입력이 중복되지 않아야 함. Mac 자동 검증 V-006과 별개.
+- 대기 사유: 연결된 실기기를 사용하지 않았으며 세션 08 UI 정비가 남음.
 - 관련: V-001, V-002, I-001, I-003.
 
 ## 완료 이력
@@ -112,3 +107,24 @@
 - 검증 도구 초기 실패(컴파일 인수/백그라운드/해상도/편집기 Screen 문맥)는 수정 후 재실행. 과거 실패 로그와 최종 성공 로그를 구분해 보존함. 검증 도구의 성공은 실제 사람·기기 조작을 대체하지 않음(V-002/D-001).
 - 사용자 저장 보호: SaveManager.stageData를 플레이 메모리에서만 null로 두고, 최고 점수 PlayerPrefs와 원래 입력 설정/장치를 테스트 종료 시 복원. 씬·저장 파일에 테스트 배치를 저장하지 않음.
 - 근거: `output/playtests/2026-11-13-session02/geometry-results.txt`, `play-results.txt`, `play.log`, 실제 PNG 3장. 추가 자동 커밋/푸시 없음.
+
+### I-002 — 씬 재진입·싱글톤 참조 유실 해결 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 기준선 커밋 `47a43f8`; 수정은 세션 03 미커밋 작업 트리.
+- 관련: SceneSingleton.cs, Game/Score/Stamina/SaveManager, BossController, DataManager, SceneLoader, PuzzleBoardManager.
+- 기존 증상: Main→Game 재진입 시 persistent Managers/BossController가 씬 객체를 참조하고 중복 루트를 파괴하여 보드 초기화 유실. 세션 01 lifecycle-results.txt에 실패 근거 보존.
+- 조치: 씬 서비스는 씬과 함께 소멸하는 SceneSingleton으로 분리. 공유 루트 중복 시 해당 컴포넌트만 제거, Awake 소유자 가드, 이벤트 구독 해제, 씬 이동 시 timeScale 복원. DataManager만 전역 데이터 수명 유지.
+- 검증: Unity 6000.3.14f1 Mac Editor Main→Game→Main 3회, 매회 39칸·서비스 각 1개·EventSystem 1개·Save 씬 참조 유효·DataManager 동일 인스턴스·파괴된/중복 이벤트 구독 0. 공유 Managers/Boss 루트에 중복 컴포넌트 생성해도 원래 루트 보존. Result 재시작도 통과.
+- 근거: 세션 03 play-results.txt, play.log, 01-reentry-board.png, V-006. Player 빌드와 실기기 검증은 V-001/D-001 유지.
+
+### V-006 — 세션 03 상태·장애물 자동 검증 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 관련 커밋 기준선 `47a43f8`; 수정은 로컬 미커밋.
+- 관련: GameManager, SceneSingleton, Runner/Obstacle 스크립트, GamePausePanel, BossController/BossPatternBase, Session03Validation, Session02PlayDriver.
+- 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor, 실제 렌더 1080×1920. 활성 대상 iOS이나 실제 iOS 실행 아님.
+- 결과: CLI 컴파일 종료 0, 그래픽 플레이 225 assertion 통과·런타임 오류 0. 씬 왕복·중복 컴포넌트, Result 정지·재시작, 실제 UI Pause/Resume/Restart/Home 입력 확인.
+- 보존: Runner/Boss 원래 상태, 보드 색·아이템·HP·거리·경과시간·행동/가속/재도전 타이머·장애물 위치/인스턴스·성공 예약이 정지 중 보존. 재시작은 전부 초기화. 보스는 격리된 기존 타이머/HP 재개 검사를 별도 통과.
+- 장애물: 기본 StageData 250/5=50초 기본 이동, 2초 사전 경고, 입력 구간 밖 조기 매칭 거부, 정답 완료 예약, 애니메이션 종료 후에도 예약 성공, 오답 매칭 0.5초 잠금, 실패 20 피해·2초 후 같은 인덱스/새 인스턴스, 반복 실패 중 진행률 고정·자연 감소 유지, 보라 1.5배/3초, 노랑 성공 충돌 피해 0. 빨강→파랑→노랑→보스 진입 이벤트 1회 확인.
+- 사용자 데이터: SaveManager.stageData는 메모리에서만 null로 격리. 사용자 저장 파일 SHA 목록 전후 일치. 입력 장치·설정/최고 점수/임시 Game View 복원. 씬 파일 저장 없음.
+- 초기 검증 도구 실패: compile-attempt01은 StageData 새 필드 추가 누락 후 수정. attempt01/02는 입력 처리 전 값을 읽는 검사 순서 문제로 실패. 런타임 LateUpdate 검사로 수정하고 최종 성공. 실패 로그도 보존.
+- 근거: output/playtests/2026-11-13-session03/play-results.txt, play.log, compile.log, 실제 PNG 6장. 01 재진입 보드, 02 Pause 메뉴, 03 Jump 사전 경고, 04 실패 재도전, 05 Block READY, 06 Boss 진입. 이미지 직접 열람 확인.
+- 회귀 확인: 세션 03 코드에서 세션 02 좌표 9,855 및 Play 368 assertion 재실행 통과, 프로세스 종료 0. regression-session02/ 결과와 regression-session02.log. 기존 세션 02 결과 파일은 덮어쓰지 않음.
+- 한계: 보스 내부 전투는 기본 비활성(세션 04). 전체 승리·아이템/성장/저장 정책·Player/실기기 검증이 아님. V-001/V-002/I-003/I-004/I-005/D-001 유지.

@@ -6,7 +6,9 @@ using UnityEngine;
 public sealed class NyanLinkSession02PlayDriver : MonoBehaviour
 {
     public Action Tick;
+    public Action LateTick;
     private void Awake() => DontDestroyOnLoad(gameObject);
     private void Update() => Tick?.Invoke();
+    private void LateUpdate() => LateTick?.Invoke();
 }
 #endif

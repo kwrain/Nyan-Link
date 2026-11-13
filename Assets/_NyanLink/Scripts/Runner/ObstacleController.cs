@@ -1,153 +1,121 @@
+using System;
 using System.Collections;
 using NineMood.Core;
 using NineMood.Core.Managers;
 using NineMood.Data.Enums;
+using NineMood.Puzzle;
 using UnityEngine;
 
 namespace NineMood.Runner
 {
-    /// <summary>
-    /// 개별 장애물 — 기획서02 §3.2 예고/입력/결과 3단계.
-    ///
-    ///   Approach  : 오른쪽에서 왼쪽으로 이동. 아직 예고 없음.
-    ///   Warning   : runner와의 거리 ≤ warningDistance → 색상 강조 + 펄싱.
-    ///               이 구간이 입력 창(플레이어가 퍼즐 타일을 매칭하는 시간).
-    ///   Judged    : 러너 X 위치 도달 → 현재 RunnerState 비교.
-    ///               성공 = 무피해 통과, 실패 = TriggerStumble + 스태미나 데미지.
-    ///
-    /// </summary>
+    /// <summary>성공 예약은 이 장애물 인스턴스에만 속하고 충돌 때 한 번 판정한다.</summary>
     public class ObstacleController : MonoBehaviour
     {
-        // ── 정적 이벤트 (ObstacleSpawner가 구독해 재도전 처리) ────────
-        public static event System.Action OnObstacleFailed;
-        public static event System.Action OnObstacleCleared;
-
-        [Header("이동")]
-        public float moveSpeed       = 4f;
-        public float judgmentOffsetX = 0f;
-        public float despawnX        = -15f;
-
-        private RunnerState      _requiredAction;
+        public static event Action OnObstacleFailed;
+        public static event Action OnObstacleCleared;
+        public event Action<ObstacleController, bool> Resolved;
+        public event Action<ObstacleController> InputWindowOpened;
+        public float moveSpeed = 4f;
+        public float judgmentOffsetX;
+        public float despawnX = -15f;
+        public TileColor RequiredColor { get; private set; }
+        public RunnerState RequiredAction { get; private set; }
+        public bool HasSuccessReservation { get; private set; }
+        public bool IsResolved { get; private set; }
+        public bool IsInitialized { get; private set; }
+        public float DistanceToRunner => _runner != null ? transform.position.x - _judgmentX : float.PositiveInfinity;
+        public float TimeUntilCollision => Mathf.Max(0f, DistanceToRunner / Mathf.Max(0.01f, moveSpeed));
+        public bool IsInputWindowOpen => IsInitialized && !IsResolved && DistanceToRunner >= 0f && DistanceToRunner <= _warningDistance;
         private RunnerController _runner;
-        private float            _warningDistance;
-        private float            _obstacleDamage;
+        private float _warningDistance, _damage, _judgmentX;
+        private bool _warningShown;
+        private SpriteRenderer _sprite;
 
-        private float          _judgmentX;
-        private ObstaclePhase  _phase = ObstaclePhase.Approach;
-        private SpriteRenderer _sr;
-        private Color          _warningColor;
-
-        private enum ObstaclePhase { Approach, Warning, Judged }
-
-        // ── 초기화 ────────────────────────────────────────────────────
-
-        private void OnEnable()  => GameEvents.OnGameStateChanged += OnGameStateChanged;
-        private void OnDisable() => GameEvents.OnGameStateChanged -= OnGameStateChanged;
-
-        private void OnGameStateChanged(GameState state)
+        private void OnEnable()
         {
-            // RunnerPhase 이탈 시 즉시 파괴 — 잔존 장애물의 이벤트 오염 방지
-            if (state != GameState.RunnerPhase)
-                Destroy(gameObject);
+            GameEvents.OnMatchCompleted += OnMatch;
+            GameEvents.OnGameStateChanged += OnState;
+        }
+        private void OnDisable()
+        {
+            GameEvents.OnMatchCompleted -= OnMatch;
+            GameEvents.OnGameStateChanged -= OnState;
+        }
+        private void OnState(GameState state)
+        {
+            if (state == GameState.Briefing) { gameObject.SetActive(false); Destroy(gameObject); }
         }
 
-        public void Initialize(RunnerState required, RunnerController runner,
-                               float warningDistance, float obstacleDamage)
+        public void Initialize(RunnerState required, RunnerController runner, float warningDistance,
+            float obstacleDamage, TileColor? requiredColor = null)
         {
-            _requiredAction  = required;
-            _runner          = runner;
+            RequiredAction = required;
+            RequiredColor = requiredColor ?? (required == RunnerState.Jump ? TileColor.Red :
+                required == RunnerState.Slide ? TileColor.Blue : TileColor.Yellow);
+            _runner = runner;
             _warningDistance = warningDistance;
-            _obstacleDamage  = obstacleDamage;
-            _judgmentX       = runner != null
-                ? runner.transform.position.x + judgmentOffsetX
-                : judgmentOffsetX;
-
-            _sr = GetComponentInChildren<SpriteRenderer>();
-            if (_sr == null) _sr = GetComponent<SpriteRenderer>();
+            _damage = obstacleDamage;
+            _judgmentX = runner != null ? runner.transform.position.x + judgmentOffsetX : judgmentOffsetX;
+            _sprite = GetComponentInChildren<SpriteRenderer>();
+            HasSuccessReservation = false;
+            IsResolved = false;
+            _warningShown = false;
+            IsInitialized = true;
         }
-
-        // ── 업데이트 ──────────────────────────────────────────────────
 
         private void Update()
         {
-            if (_phase == ObstaclePhase.Judged) return;
-
+            if (!IsInitialized || IsResolved || !GameManager.IsCreated ||
+                GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
             transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-
-            if (_phase == ObstaclePhase.Approach)
+            if (!_warningShown && DistanceToRunner <= _warningDistance)
             {
-                float distToRunner = _runner != null
-                    ? transform.position.x - _runner.transform.position.x
-                    : float.MaxValue;
-
-                if (distToRunner <= _warningDistance)
-                {
-                    _phase = ObstaclePhase.Warning;
-                    OnWarningEnter();
-                }
+                _warningShown = true;
+                InputWindowOpened?.Invoke(this);
+                StartCoroutine(Pulse());
             }
-
-            if (transform.position.x <= _judgmentX)
-                Judge();
-
-            if (transform.position.x < despawnX)
-                Destroy(gameObject);
+            if (transform.position.x <= _judgmentX) Judge();
         }
 
-        // ── 단계 전환 ─────────────────────────────────────────────────
-
-        private void OnWarningEnter()
+        private void OnMatch(int chainLength, int scoreGained, int tilesRemoved, TileColor color)
         {
-            _warningColor = GetWarningColor(_requiredAction);
-            if (_sr != null) _sr.color = _warningColor;
-
-            StartCoroutine(PulseRoutine());
+            if (!GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase ||
+                !IsInputWindowOpen || chainLength < 2 || tilesRemoved <= 0) return;
+            if (color == RequiredColor) HasSuccessReservation = true;
+            else FindFirstObjectByType<TileInputHandler>()?.LockInput(DataManager.Instance?.BalanceData?.mistakeLockDuration ?? 0.5f);
         }
 
-        private IEnumerator PulseRoutine()
+        private IEnumerator Pulse()
         {
-            float t = 0f;
-            while (_phase == ObstaclePhase.Warning)
+            float elapsed = 0f;
+            while (!IsResolved)
             {
-                t += Time.deltaTime;
-                // 2.5Hz 사인파 펄싱 (alpha 0.35 ~ 1.0)
-                float alpha = 0.35f + 0.65f * Mathf.Abs(Mathf.Sin(t * Mathf.PI * 2.5f));
-                if (_sr != null)
-                    _sr.color = new Color(_warningColor.r, _warningColor.g, _warningColor.b, alpha);
+                elapsed += Time.deltaTime;
+                Color color = RequiredColor == TileColor.Red ? Color.red : RequiredColor == TileColor.Blue ? Color.blue : Color.yellow;
+                color.a = 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(elapsed * Mathf.PI * 2.5f));
+                if (_sprite != null) _sprite.color = color;
                 yield return null;
             }
         }
 
         private void Judge()
         {
-            _phase = ObstaclePhase.Judged;
-
-            bool success = _runner != null && _runner.CurrentState == _requiredAction;
-
-            if (success)
+            if (IsResolved) return;
+            IsResolved = true;
+            bool success = HasSuccessReservation;
+            if (_sprite != null) _sprite.color = success ? Color.green : Color.red;
+            if (!success)
             {
-                if (_sr != null) _sr.color = Color.green;
-                OnObstacleCleared?.Invoke();
-            }
-            else
-            {
-                if (_sr != null) _sr.color = Color.red;
                 _runner?.TriggerStumble();
-                StaminaManager.Instance?.TakeDamage(_obstacleDamage);
-                OnObstacleFailed?.Invoke();
+                StaminaManager.Instance?.TakeDamage(_damage);
             }
-
+            // 사망/리셋으로 이미 소유자가 취소했으면 이벤트로 재도전을 되살리지 않는다.
+            if (GameManager.IsCreated && GameManager.Instance.CurrentState == GameState.RunnerPhase)
+            {
+                Resolved?.Invoke(this, success);
+                if (success) OnObstacleCleared?.Invoke(); else OnObstacleFailed?.Invoke();
+            }
             Destroy(gameObject, 0.3f);
         }
-
-        // ── 색상 유틸 ─────────────────────────────────────────────────
-
-        private static Color GetWarningColor(RunnerState action) => action switch
-        {
-            RunnerState.Jump  => new Color(1f, 0.3f, 0.3f),
-            RunnerState.Slide => new Color(0.3f, 0.5f, 1f),
-            RunnerState.Block => new Color(1f, 0.9f, 0.2f),
-            _                 => Color.white
-        };
     }
 }

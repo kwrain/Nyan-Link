@@ -80,6 +80,7 @@ namespace NineMood.Puzzle
         /// 그리드가 생성되었는지 여부
         /// </summary>
         private bool _isInitialized = false;
+        public bool IsInitialized => _isInitialized;
 
         private void Awake()
         {
@@ -104,7 +105,6 @@ namespace NineMood.Puzzle
         {
             if (_isInitialized)
             {
-                Debug.LogWarning("PuzzleBoardManager: 이미 초기화되었습니다.");
                 return;
             }
 
@@ -129,6 +129,14 @@ namespace NineMood.Puzzle
             {
                 PositionCameraAtCenter();
             }
+        }
+
+        public void ResetBoard()
+        {
+            if (!_isInitialized) { Initialize(); return; }
+            tileAnimation?.CancelAll(tilemap);
+            CreateGrid();
+            if (autoPositionCamera) FitCameraToBoard();
         }
 
         /// <summary>

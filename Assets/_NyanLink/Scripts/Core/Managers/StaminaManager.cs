@@ -105,6 +105,8 @@ namespace NineMood.Core.Managers
             GameEvents.TriggerStaminaChanged(CurrentStamina, MaxStamina);
         }
 
+        public void RestoreEffects(float freezeRemaining) => DecayFreezeRemaining=freezeRemaining;
+
         public void TakeDamage(float amount)
         {
             if (amount <= 0f || !CanChangeStamina()) return;

@@ -1,0 +1,160 @@
+HEAD/verified origin main: de2a22c520b7c76e9967531c487ad57730cadeec
+Session06 uncommitted/unpushed; no staged changes.
+ M Assets/Editor/NyanLinkSession05Validation.cs
+ M Assets/_NyanLink/Scripts/Boss/BossController.cs
+ M Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/SaveManager.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs
+ M Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs
+ M Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs
+ M Assets/_NyanLink/Scripts/Runner/RunnerController.cs
+ M Assets/_NyanLink/Scripts/UI/GameHUD.cs
+ M Assets/_NyanLink/Scripts/UI/GameReadyPanel.cs
+ M Assets/_NyanLink/Scripts/UI/ItemTileLabels.cs
+ M Docs/WORK_ITEMS.md
+?? Assets/Editor/NyanLinkSession06Validation.cs
+?? Assets/Editor/NyanLinkSession06Validation.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Persistence.meta
+?? Assets/_NyanLink/Scripts/Core/Persistence/SaveData.cs
+?? Assets/_NyanLink/Scripts/Core/Persistence/SaveData.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Persistence/SaveStore.cs
+?? Assets/_NyanLink/Scripts/Core/Persistence/SaveStore.cs.meta
+?? Docs/Development/SESSION-06-HANDOFF.txt
+?? Docs/Development/SESSION-06-SCHEMA.txt
+?? output/playtests/2026-11-13-session06/01-runner-saved.png
+?? output/playtests/2026-11-13-session06/02-continue-choice.png
+?? output/playtests/2026-11-13-session06/03-runner-restored.png
+?? output/playtests/2026-11-13-session06/04-retry-saved.png
+?? output/playtests/2026-11-13-session06/05-boss-failure-saved.png
+?? output/playtests/2026-11-13-session06/06-groggy-saved.png
+?? output/playtests/2026-11-13-session06/07-boss-restored.png
+?? output/playtests/2026-11-13-session06/08-cold-continue-ready.png
+?? output/playtests/2026-11-13-session06/09-cold-restored-board.png
+?? output/playtests/2026-11-13-session06/active-root.txt
+?? output/playtests/2026-11-13-session06/attempt01-play-results.txt
+?? output/playtests/2026-11-13-session06/attempt01-play.log
+?? output/playtests/2026-11-13-session06/attempt02-01-runner-saved.png
+?? output/playtests/2026-11-13-session06/attempt02-02-continue-choice.png
+?? output/playtests/2026-11-13-session06/attempt02-play-results.txt
+?? output/playtests/2026-11-13-session06/attempt02-play.log
+?? output/playtests/2026-11-13-session06/attempt03-01-runner-saved.png
+?? output/playtests/2026-11-13-session06/attempt03-02-continue-choice.png
+?? output/playtests/2026-11-13-session06/attempt03-03-runner-restored.png
+?? output/playtests/2026-11-13-session06/attempt03-04-retry-saved.png
+?? output/playtests/2026-11-13-session06/attempt03-05-boss-failure-saved.png
+?? output/playtests/2026-11-13-session06/attempt03-play-results.txt
+?? output/playtests/2026-11-13-session06/attempt03-play.log
+?? output/playtests/2026-11-13-session06/attempt04-play-results.txt
+?? output/playtests/2026-11-13-session06/attempt04-play.log
+?? output/playtests/2026-11-13-session06/cold-results.txt
+?? output/playtests/2026-11-13-session06/cold.log
+?? output/playtests/2026-11-13-session06/compile.log
+?? output/playtests/2026-11-13-session06/environment.txt
+?? output/playtests/2026-11-13-session06/expected-cold.json
+?? output/playtests/2026-11-13-session06/final-audit.json
+?? output/playtests/2026-11-13-session06/pass01-01-runner-saved.png
+?? output/playtests/2026-11-13-session06/pass01-02-continue-choice.png
+?? output/playtests/2026-11-13-session06/pass01-03-runner-restored.png
+?? output/playtests/2026-11-13-session06/pass01-04-retry-saved.png
+?? output/playtests/2026-11-13-session06/pass01-05-boss-failure-saved.png
+?? output/playtests/2026-11-13-session06/pass01-06-groggy-saved.png
+?? output/playtests/2026-11-13-session06/pass01-07-boss-restored.png
+?? output/playtests/2026-11-13-session06/pass01-08-cold-continue-ready.png
+?? output/playtests/2026-11-13-session06/pass01-09-cold-restored-board.png
+?? output/playtests/2026-11-13-session06/pass01-cold-results.txt
+?? output/playtests/2026-11-13-session06/pass01-cold.log
+?? output/playtests/2026-11-13-session06/pass01-expected-cold.json
+?? output/playtests/2026-11-13-session06/pass01-play-results.txt
+?? output/playtests/2026-11-13-session06/pass01-play.log
+?? output/playtests/2026-11-13-session06/pass02-01-runner-saved.png
+?? output/playtests/2026-11-13-session06/pass02-02-continue-choice.png
+?? output/playtests/2026-11-13-session06/pass02-03-runner-restored.png
+?? output/playtests/2026-11-13-session06/pass02-04-retry-saved.png
+?? output/playtests/2026-11-13-session06/pass02-05-boss-failure-saved.png
+?? output/playtests/2026-11-13-session06/pass02-06-groggy-saved.png
+?? output/playtests/2026-11-13-session06/pass02-07-boss-restored.png
+?? output/playtests/2026-11-13-session06/pass02-08-cold-continue-ready.png
+?? output/playtests/2026-11-13-session06/pass02-09-cold-restored-board.png
+?? output/playtests/2026-11-13-session06/pass02-cold-results.txt
+?? output/playtests/2026-11-13-session06/pass02-cold.log
+?? output/playtests/2026-11-13-session06/pass02-expected-cold.json
+?? output/playtests/2026-11-13-session06/pass02-play-results.txt
+?? output/playtests/2026-11-13-session06/pass02-play.log
+?? output/playtests/2026-11-13-session06/play-results.txt
+?? output/playtests/2026-11-13-session06/play.log
+?? output/playtests/2026-11-13-session06/regression-session02.log
+?? output/playtests/2026-11-13-session06/regression-session02/01-board39-1080x1920.png
+?? output/playtests/2026-11-13-session06/regression-session02/02-diagonal-chain-three.png
+?? output/playtests/2026-11-13-session06/regression-session02/03-board39-1284x2778.png
+?? output/playtests/2026-11-13-session06/regression-session02/geometry-results.txt
+?? output/playtests/2026-11-13-session06/regression-session02/play-results.txt
+?? output/playtests/2026-11-13-session06/regression-session05.log
+?? output/playtests/2026-11-13-session06/regression-session05/01-item-types-and-levels.png
+?? output/playtests/2026-11-13-session06/regression-session05/02-color-selection-runner.png
+?? output/playtests/2026-11-13-session06/regression-session05/03-recolored-items.png
+?? output/playtests/2026-11-13-session06/regression-session05/04-chain-effects.png
+?? output/playtests/2026-11-13-session06/regression-session05/05-frozen-obstacle.png
+?? output/playtests/2026-11-13-session06/regression-session05/06-color-selection-groggy.png
+?? output/playtests/2026-11-13-session06/regression-session05/07-items-groggy.png
+?? output/playtests/2026-11-13-session06/regression-session05/08-item-chain-victory.png
+?? output/playtests/2026-11-13-session06/regression-session05/play-results.txt
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/both-corrupt/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/both-corrupt/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/cases/preserved/20261113T072437383-3c00d360d9294441a5203e7a76c8eabb.json
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/cases/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/cases/profile-v1.json.tmp-88404d5c030a48289f4a98849ba478dc
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/play/checkpoint_prototype-stage-01.json
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/play/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-4e529a4531444cfd947f98e13e59889a/play/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/both-corrupt/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/both-corrupt/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/cases/preserved/20261113T073548324-70195a77fb784721830678cf264af951.json
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/cases/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/cases/profile-v1.json.tmp-94e1ba3443d547869a028439d661db9e
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/play/checkpoint_prototype-stage-01.json
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/play/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-9409d04f009e4d64b57954a82a20c0c5/play/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/both-corrupt/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/both-corrupt/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/cases/preserved/20261113T073301927-843712a6dcbb425e8abe0c61e84eeffa.json
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/cases/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/cases/profile-v1.json.tmp-07954dd354f64a66806a2f2fbe160017
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/play/checkpoint_prototype-stage-01.json
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/play/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-9d8f35911ca543daa0b742a636193f57/play/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/both-corrupt/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/both-corrupt/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/cases/preserved/20261113T072741950-acd431cfb40545a3a60b5b640b39c7cf.json
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/cases/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/cases/profile-v1.json.tmp-5fdf5d87c2934d8abc5d1101b8822b70
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/play/checkpoint_prototype-stage-01.json
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/play/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-a77872bd80944302b27f5fb0802c782d/play/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/both-corrupt/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/both-corrupt/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/cases/preserved/20261113T071937949-2e95bcc62f1e4a9eb530af67a3d2bd7b.json
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/cases/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/cases/profile-v1.json.tmp-8143fa45aee447f5834e02980f000f09
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/play/checkpoint_prototype-stage-01.json
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/play/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-ad4edc3a323e479bbcc60965a4739198/play/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/both-corrupt/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/both-corrupt/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/cases/preserved/20261113T072151212-10d711cda7d24de3b91ba49ad3a162e0.json
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/cases/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/cases/profile-v1.json.tmp-152d778c493843d48fc69e27beb91c73
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/play/checkpoint_prototype-stage-01.json
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/play/profile-v1.json
+?? output/playtests/2026-11-13-session06/sandbox-ed94e6b8b65448a5aa103edcf518bcb7/play/profile-v1.json.bak
+?? output/playtests/2026-11-13-session06/sandbox-fe2026c3f611428a9a6a8f7c6fc12c79/cases/preserved/20261113T071732455-a2c9ed1b977d4473a8169eb3d8c55fbe.json
+?? output/playtests/2026-11-13-session06/sandbox-fe2026c3f611428a9a6a8f7c6fc12c79/cases/profile-v1.json
+?? output/playtests/2026-11-13-session06/schema-example.json
+?? output/playtests/2026-11-13-session06/tests-summary.json
+?? output/playtests/2026-11-13-session06/whitespace-check.txt

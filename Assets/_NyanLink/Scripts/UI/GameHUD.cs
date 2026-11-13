@@ -24,6 +24,9 @@ namespace NineMood.UI
         [SerializeField] private Slider sliderProgress;
 
         private TextMeshProUGUI _chainTier;
+        private TextMeshProUGUI _saveStatus;
+        private void LateUpdate()
+        { if(_saveStatus!=null) _saveStatus.text=(SaveManager.Instance?.HasWriteError ?? false) ? "SAVE UNAVAILABLE - last checkpoint retained" : ""; }
         private void Awake()
         {
             _chainTier = new GameObject("Chain Tier",typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
@@ -34,6 +37,9 @@ namespace NineMood.UI
             if (textScore != null) _chainTier.font = textScore.font;
             _chainTier.fontSize = 26; _chainTier.alignment = TextAlignmentOptions.Center;
             _chainTier.raycastTarget = false;
+            _saveStatus=new GameObject("Save status",typeof(RectTransform)).AddComponent<TextMeshProUGUI>();_saveStatus.transform.SetParent(transform,false);
+            _saveStatus.rectTransform.anchorMin=new Vector2(.1f,.555f);_saveStatus.rectTransform.anchorMax=new Vector2(.9f,.57f);_saveStatus.rectTransform.offsetMin=_saveStatus.rectTransform.offsetMax=Vector2.zero;
+            _saveStatus.fontSize=22;_saveStatus.color=new Color(1f,.4f,.3f);_saveStatus.alignment=TextAlignmentOptions.Center;_saveStatus.raycastTarget=false;
         }
         private void OnMatch(int connected,int gained,int removed,NineMood.Data.Enums.TileColor color)
         {

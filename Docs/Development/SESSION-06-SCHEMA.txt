@@ -1,0 +1,80 @@
+Nyan-Link save schema 1 (prototype criteria1.1 / 2026-11-13)
+
+파일: Application.persistentDataPath/saves/profile-v1.json
+유효 이전 문서: profile-v1.json.bak
+미커밋 파일: profile-v1.json.tmp-<GUID> (자동 복원하지 않음)
+보존 손상 원본: saves/preserved/<UTC>-<GUID>.json
+구형 체크포인트: saves/checkpoint_<stageId>.json (읽기/삭제/부분 변환하지 않고 그대로 보존)
+실제 예제: output/playtests/2026-11-13-session06/schema-example.json
+예제의 코인/장비/진행은 자동 검사 전용 가상 데이터이며 실제 사용자 저장 아님.
+
+최상위 SaveDocument
+- schemaVersion: int, 현재1. 미래/미지원 값은 쓰기 금지. 프로젝트 세션 번호와 무관.
+- revision: long, 성공한 저장마다 이전 읽기 문서+1.
+- checksum: string, checksum=""으로 정규화한 JsonUtility.ToJson 문서의 UTF8 SHA256 소문자 hex.
+- hasCheckpoint: bool. 진행 존재의 권위값. false이면 checkpoint를 무시/정규화하여 null 취급.
+- checkpoint: RunCheckpoint (Unity JsonUtility 특성상 hasCheckpoint=false여도 기본 빈 객체가 JSON에 나타날 수 있음).
+- permanent: PermanentData (진행 초기화로 지우지 않음).
+- pendingClears: List<PendingClear> (지급 대기 승리, 진행 초기화로 지우지 않음).
+
+RunCheckpoint
+- runId: 새 게임 GUID, 이어하기는 동일값. stageId: 현재 ScriptableObject의 안정 ID.
+- rulesSignature: Stage 거리/속도/장애물/피해/감소·Balance/Boss 설정의 SHA256. 변경된 규칙은 이어하기 거부/원본 보존.
+- boundary enum: ObstacleSuccess0 / ObstacleRetry1 / BossSuccess2 / BossFailure3 / GroggyEnd4.
+- phase: 기존 GameState.RunnerPhase1 또는 BossPhase2. Paused3/Result4/ColorSelection5는 디스크 실행 단계가 아님.
+- distance, hp, maxHP, elapsed (러너 경과), score.
+- obstacleIndex: 성공 완료 수, 실패 시 다음 같은 인덱스. retryRemaining: 실패 경계의 남은 대기. 성공 예약은 저장하지 않고 새 장애물은 미예약.
+- runnerState, actionRemaining, boostRemaining: 경계의 행동/가속 상태. 진행 중 애니메이션 프레임 자체는 저장하지 않음.
+- freezeRemaining: Stamina/Boss가 공유하는 남은 시간 정지.
+- requiredColor: 다음 요구 색 enum0..5, 없으면-1.
+- board: 정확히39개의 TileRecord. x=0..행길이-1, y=0..6, z=0 암묵값. odd-r 6/5 교차.
+- randomState: UnityEngine.Random.State JSON 문자열. 복원 API 마지막에 적용.
+- boss: BossRecord.
+
+TileRecord
+- x,y: 마스크 안 고유 위치. 중복/누락 거부.
+- color: TileColor Red0 Blue1 Yellow2 Purple3 Orange4 Cyan5 (현재 연결 색).
+- state: TileState Normal0 ItemLv1=1 ItemLv2=2.
+- itemType: ItemEffectType None0 Recovery1 TimeFreeze2 Blast3 LineClear4 PowerUp5 ColorShift6.
+- Normal은None, 아이템은실제종류1..6. 종류별 최대2. Color와 ItemType은 청록 재색칠 후 다를 수 있음.
+- 예: color=Blue1,state=ItemLv2=2,itemType=PowerUp5는 파란색으로 연결되는 공격버프Lv2이며 시간 정지가 아니다.
+
+BossRecord
+- active: BossPhase의 활성 전투 여부. hp/maxHP/phase(내부0부터), attackBonus, failureShield.
+- nextStep: None0(러너), Groggy1(성공 직후), Interval2(실패/그로기 종료 뒤).
+- groggyRemaining / intervalRemaining: 해당 단계의 시계. 사용하지 않는 시계는0 정규화.
+- nextSequence: Interval일 때 이미 확정한 다음 타임어택 색 순서. 강화된 단계 길이와 일치해야 함. Groggy 동안에는 그로기 종료 후 HP로 강화 단계가 정해지므로 다음 순서를 미리 강제하지 않음.
+- 실패 피해/성공 결과를 재실행하지 않고 이 상태를 직접 복원. HP0 승리/HP0 패배는 재개용 진행에서 제거, 완료는 pendingClears로 이동.
+
+PermanentData (07 세션 계약)
+- coins: int>=0.
+- equipment: {instanceId:string 고유, dataId:string, level1..5, equippedSlot:-1 또는0..2} 목록.
+- 장착 슬롯0..2당 최대1개. 실제 dataId 조회/슬롯 종류/비용·옵션 계산은07에서 구현.
+- clears: {stageId 고유, cleared:bool, firstRewardGranted:bool, bestScore:int>=0}.
+- rewardReceipts: 중복 없는 지급 완료 runId 목록.
+PendingClear
+- {runId 고유,stageId,score}. 실제 승리는 여기까지 기록하고07의 지급 서비스가 처리.
+- TryApplyReward(runId,grant) 한 트랜잭션에서 코인/장비+clears+rewardReceipts+pending 제거를 반영.
+- grant는 임시 복제 PermanentData에만 변경. 예외/검증 실패/파일 쓰기 실패면 현재 정상 파일을 부분 변경하지 않음.
+- 첫 보상 선택/장비 추첨/상태별 성장 UI는 이 저장 계약을 사용하는07의 책임. 실제 100코인 자동 지급을06에서 선행 연결하지 않음.
+
+검증/로드 정책
+1. schemaVersion/체크섬/필수목록/영구 기록 범위/보드 마스크·아이템 정체성·한도/유한 타이머를 먼저 검사.
+2. 현재 stageId/rulesSignature/최대HP/거리·인덱스/보스단계·다음 순서/요구 색 쌍/난수를 검사. 통과 전 런타임 변경 없음.
+3. 주 문서가 손상이면 유효 백업만 사용. 읽기는 원본 변경 없음. 다음 성공 쓰기 때 손상 주 원본을 별도 보존 후 교체.
+4. 주 문서가 미래 버전이면 이전 백업으로 자동 다운그레이드하지 않음. UI에서 미지원/보존 사유 안내.
+5. 주/백업 모두 손상 시 성장 기록을 빈 값으로 추정하지 않음. SaveManager는 저장 불가로 유지하고 정상 보존본을 따로 복구해야 함.
+6. Temp는 완료 교체되지 않은 데이터. 주/백업보다 더 최근이라고 자동 채택하지 않음.
+7. 백업 복구는 전체 한 문서의 이전 revision을 복원하므로 코인/장비/영수증도 같은 revision. 일부 항목만 서로 다른 세대에서 섞지 않음.
+
+쓰기/업데이트 계약
+- 단일 Unity 게임 스레드의 SaveManager가 유일한 게임 문서 작성자. 구독자가 파일을 별도로 덮어쓰지 말 것.
+- SaveStore.Write는 저수준 원자 저장 도구. 게임은 Load.Usable 확인/복제/변경/검증을 하는 SaveManager.Commit 계열 API를 사용.
+- 새로운 시스템 필드/타입 변경은 schemaVersion을 올리고 실제 예제/이전 파일로 마이그레이션 테스트. 알 수 없는 필드를 같은 버전으로 임의 추가했다가 덮어쓰지 말 것.
+- 기존 무버전 checkpoint는 보드/효과/영구 기록이 없어 동일상태 복원이 불가능. 구형파일을 별도 보존하고 새 파일에서 시작하는 정책을 선택. 임의 색 보드나 HP 추측 변환을 만들지 않음.
+- 새 게임/패배는 checkpoint만 제거. 승리는 checkpoint 제거+PendingClear. 일시정지는 현재 메모리 상태 보존이며 저장 파일 로드나 초기화 아님.
+- 저장 시점은 안정된 구간 경계. 마지막 경계 뒤 조작은 앱 재실행에서 되돌아갈 수 있음을 제품 UI에 안내.
+- 영구 기록 변경과 지급 영수증은 단일 Write. 파일을 둘로 나누어 코인만 먼저 저장하지 말 것.
+
+검증 한계
+- Mac Editor 실제 파일 I/O와 독립 Unity 프로세스 재실행 검사. 모바일 Player/강제 종료 중 실제 fsync·교체/OS 전원 차단까지 통과한 결과가 아님. D-002 유지.

@@ -1,0 +1,144 @@
+냥링크 프로토타입 세션 06 인수인계
+작성일·최근 확인일: 2026-11-13 (Asia/Seoul)
+결과: 버전 JSON·구간 경계 이어하기·보드/아이템 정체성/효과 복원 검증 완료. 세션07 진행 가능.
+
+1. 기준·작업 경로·커밋 상태
+- 확정 기준: Docs/Development/프로토타입 확정 기준.txt 및 Docs/냥링크 통합 기획서.docx 1.1. 현재 전체 규칙, 세션05 인수인계/WORK_ITEMS/이전 기록과 현재 코드를 확인. Docs/Plan 원안보다 1.1 우선.
+- 실제 경로: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+- 브랜치 main. 적용 AGENTS.md는 루트, 하위 추가 지침 없음.
+- 사용자 요청으로 세션05 전체 코드·메타·문서·로그/실제 PNG를 de2a22c520b7c76e9967531c487ad57730cadeec (fix: integrate item chains freeze and color selection)에 커밋·푸시. origin/main 해시 일치를 ls-remote로 확인.
+- 원격 https://github.com/kwrain/Nyan-Link.git. 명령 단위 SSH 인증 사용, origin URL 변경·강제 푸시 없음.
+- 세션06 변경은 로컬 미커밋·미푸시. 해당 세션 프롬프트의 추가 자동 커밋·푸시·배포·새 채팅 금지 유지.
+- 기존 파일 삭제/리소스 교체/기존 .meta GUID 변경/패키지 삭제 없음. 전체 재작성 대신 저장 책임 및 필요한 캡처/복원 API를 정비.
+
+2. 기존 사용자 데이터 보존
+- 현재 프로젝트 설정 DefaultCompany / NyanLink. 실제 원래 경로: /Users/kiwoolee/Library/Application Support/DefaultCompany/NyanLink
+- 작업 전 saves 디렉터리 및 기존 게임 체크포인트는 없었음. persistentDataPath 전체에는 Unity 자체 메타데이터2개 파일만 존재.
+- 외부 복사 백업:
+/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session06-save-backup
+- manifest.json에 원래 경로/파일 목록/크기/SHA256/게임 저장 디렉터리 유무 기록. 복사본과 원본의 SHA256이 모두 일치함을 실제 확인. 원본을 삭제/이동/덮어쓰지 않음.
+- 실제 저장 검사는 output/playtests/2026-11-13-session06/sandbox-<GUID>/play 및 cases 하위만 사용. Editor 전용 SaveManager.TestDirectoryOverride를 Play 초기화 전에 지정, 종료 시 해제.
+- 원래 saves 경로의 파일명/SHA 목록 전후 일치 검사. Unity 엔진 자체 Analytics 파일은 엔진이 갱신할 수 있으며 게임 저장 검증과 구분. 원본 게임 경로에 테스트 데이터를 만들지 않음.
+- 백업의 Unity 메타데이터를 현재 앱 폴더에 일괄 덮어쓰지 말 것. 추후 게임 파일이 생기면 해당 파일만 별도 복사/확인하여 복구. 이번에 이전 게임 진행이 있었다고 보고하지 않음.
+
+3. 완료한 규칙
+저장 형식/안전성:
+- 단일 profile-v1.json에 schemaVersion1, revision, SHA256 checksum, 진행 유무/체크포인트, 영구 기록과 미지급 완료 기록을 함께 저장. 암호화 없음.
+- 같은 디렉터리에 고유 temp 작성→Flush(true)→File.Replace(기존 파일) 또는 File.Move(최초 파일). 기존 유효 문서는 .bak에 별도 원자 저장 후 교체. 중단된 temp는 읽기 대상이 아님.
+- 주 파일 손상 시 검증된 .bak로 복구. 손상 원본은 읽을 때 수정하지 않으며, 다음 성공 쓰기 전에 preserved/에 바이트 그대로 따로 보존. 유효 백업도 없으면 영구 기록을 추정 초기화하지 않고 저장 불가 상태를 안내.
+- 미래/미지원 schemaVersion은 백업으로 다운그레이드하거나 덮어쓰지 않음. 기존 checkpoint_<stage>.json은 보드/효과가 없어 안전한 동일 복원이 불가능하므로 원본 그대로 보존, 자동 부분 변환 안 함. 새 게임은 다른 새 파일 사용.
+- 체크섬/형식/열거형/39칸 마스크·중복/아이템 종류별 한도/HP·타이머/스테이지 규칙 서명 검증 후 복원. 잘못된 요청은 런타임 상태나 정상 문서를 부분 변경하지 않음.
+경계/복원:
+- 장애물 성공·실패(남은 재도전 포함), 보스 성공·실패, 그로기 종료에서 저장 요청. LateUpdate에서 전체 매칭/리필 완료 후 안정 상태 캡처. 매 매칭마다 저장하지 않음.
+- 그로기 종료는 피해/버프 소모/강화 완료 후 다음 패턴으로 넘어가는 추가 안정 경계로 저장. 성공은 그로기5초 진입 상태, 실패/그로기 종료는 전환 대기 잔여와 미리 확정한 다음 순서를 저장.
+- 저장 경계에 사용자 Pause가 겹쳐도 기반 Runner/Boss 상태로 저장. Pause 화면 자체를 디스크 진행 단계로 저장하지 않음. 미완료 청록 선택/연쇄는 끝날 때까지 저장을 미룸.
+- 보드 위치·현재 색·아이템 레벨(State)·실제 ItemType을 모두 복원. 재색칠된 파란 PowerUp2가 파란 TimeFreeze2로 잘못 바뀌지 않음. 복원 시 애니메이션/선택/진행 중 장애물 예약은 재생하지 않음.
+- HP/최대HP·점수·러너 시간/거리·장애물 완료 수·재도전 잔여·행동 상태/잔여·가속 잔여·시간 정지 잔여, 보스 HP/페이즈/다음 단계/그로기·전환 시간·방어권/공격 버프를 복원.
+- 엔진 난수 상태와 전환 시 미리 확정한 다음 패턴 순서를 보존. 실패 체크포인트 재접속으로 다음 순서를 다시 추첨하지 않음.
+- 이어하기에서 판정 피해·패턴 결과·진입 승패 이벤트를 다시 발행하지 않음. 다음 재도전/패턴만 남은 시간 뒤 이어짐. 복원된50% 버프가 실제 다음 주황 공격에 한 번 적용됨.
+- 시작 화면에 CONTINUE / NEW GAME과 마지막 저장 경계 정책 표시. New Game/Retry/패배는 진행만 초기화. 코인/장비/클리어·첫 보상/영수증/미지급 완료 기록 유지. 메모리 Pause/Resume는 디스크 복원이 아님.
+- 밝은 기존 아이템 애니메이션 프레임에서도 종류 표식이 사라지지 않도록 작은 어두운 배지 배경을 추가. 최종 새 프로세스에서 PWR2 표식 활성과 실제 대비 확인.
+- 저장 실패 시 게임 화면에 SAVE UNAVAILABLE와 마지막 체크포인트 유지 안내. 상세 원인은 LastMessage/로그에 남김. 저장 실패를 성공으로 표시하지 않음.
+07용 영구 계약:
+- 영구 코인, 장비 인스턴스 ID/데이터 ID/레벨/장착 슬롯, 스테이지 클리어/최고점/첫 보상 여부, 지급 영수증 목록 마련.
+- 승리 시 runId별 PendingClear를 한 번 기록하고 진행 체크포인트를 제거. 이 단계는 지급 완료/성장 구현이 아님.
+- TryApplyReward(runId, grant)는 미지급 기록 확인→코인/장비 변경+클리어/영수증 기록+PendingClear 제거를 한 문서에서 원자 커밋. 같은 runId 재호출은 쓰기/지급 없이 거부.
+- TryUpdatePermanent(update)는 장비 변경·강화 비용/레벨 등의 일괄 저장 지점. 음수 코인/잘못된 레벨·슬롯/중복 인스턴스·장착 슬롯 등은 거부. 실제 장비 UI·보상 추첨·능력치 계산은 세션07.
+
+4. 변경 파일
+추가 및 각각 .meta:
+- Assets/_NyanLink/Scripts/Core/Persistence/SaveData.cs
+- Assets/_NyanLink/Scripts/Core/Persistence/SaveStore.cs
+- 위 Persistence 폴더 .meta
+- Assets/Editor/NyanLinkSession06Validation.cs
+수정:
+- Assets/_NyanLink/Scripts/Core/Managers/{SaveManager,GameManager,StaminaManager}.cs
+- Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs
+- Assets/_NyanLink/Scripts/Runner/{RunnerController,ObstacleSpawner}.cs
+- Assets/_NyanLink/Scripts/Boss/BossController.cs
+- Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs
+- Assets/_NyanLink/Scripts/UI/{GameReadyPanel,GameHUD,ItemTileLabels}.cs
+- 회귀용 Assets/Editor/NyanLinkSession05Validation.cs (별도 출력 폴더 환경 변수만 추가)
+- Docs/WORK_ITEMS.md, 본 인수인계 및 SESSION-06-SCHEMA.txt
+- output/playtests/2026-11-13-session06/ (격리된 예제/결과/로그/실제 PNG)
+Main/Game 씬 YAML과 기존 .meta 유지. Unity 자동 사용자 설정 변경 여부는 최종 Git 목록 우선.
+
+5. 데이터·API·이벤트 계약
+- 자세한 스키마와 마이그레이션 원칙은 SESSION-06-SCHEMA.txt. schema-example.json은 실제 테스트에서 쓴 가상 코인/장비·경계 데이터 예제이며 사용자 실제 저장이 아님.
+- SaveStore.Load: Missing(새 빈 문서), Ready, Recovered(유효 백업), Corrupt, Unsupported, IoError. Usable인 경우만 SaveManager가 문서를 복제하여 변경. Load 자체는 파일을 수정/삭제하지 않음.
+- hasCheckpoint가 진행 유무의 권위값. Unity JsonUtility는 null 클래스를 빈 기본 객체로 직렬화할 수 있으므로 checkpoint 객체 존재만으로 이어하기를 판단하지 말 것. Store 읽기/복제에서 false면 null로 정규화.
+- checksum은 checksum 필드를 빈 문자열로 둔 JsonUtility 정규 JSON의 UTF8 SHA256. 들여쓰기·필드 값의 직렬화 기준은 SaveStore를 통일해 사용. 외부 편집 파일을 신뢰하지 않음.
+- SaveManager.CurrentRunId는 새 게임마다 GUID, 이어하기는 같은 ID. stageData=null이면 기존 검증 도구처럼 저장 비활성. public Store는 저수준 저장 도구, 게임 서비스는 검증/복제/트랜잭션이 있는 SaveManager API를 사용.
+- RequestBoundary(kind): 명시적 소유자 판정/보스 경계에서 호출. CheckpointSaved/Restored는 관찰용. 저장은 LateUpdate 순서1000, 리필 전 스냅샷/파일 쓰기를 이벤트 구독자가 중복 구현하지 말 것.
+- Capture/ValidateRuntime/TryRestoreCheckpoint/HasCurrentCheckpoint/BeginNewRun/ClearCurrentCheckpoint/CompleteCurrentRun. Restore는 검증 후 GameManager.RestorePhase(IsResuming)→진행/재도전→HP·효과·점수→러너/보스→보드/요구 색→난수 순으로 연결.
+- RestorePhase는 복원 단계로 전환할 뿐 새로운 BossAppeared를 발행하지 않음. Boss.RestoreBoundary는 HP/페이즈/그로기 HUD 정보만 발행, PatternResult/실패 피해를 반복하지 않음.
+- Boss.CaptureBoundary는 사용하지 않는 전환 타이머를0으로 정규화. 패턴 실행 중간은 저장 경계가 아니며 nextSequence가 없는 불완전 단계로 저장하지 말 것.
+- PuzzleBoardManager.RestoreTiles는 명시적 위치/색/State/ItemType으로39칸 복원 후 스케일 연출을 정리, 요구 색 최소 쌍을 검증/확보. 임의 난수로 보드를 새로 생성하는 복원이 아님.
+- RulesSignature는 Stage의 거리/속도/피해/장애물/감소값과 Balance/Boss 설정의 서명. 규칙이 달라진 진행은 자동 이어하기하지 않고 원본 보존/새 게임으로 분리. 영구 기록은 유지.
+- 현재 maxHP 검증은 Balance.maxStamina와 비교. 세션07에서 장비 능력치가 적용되면 실제 유효 최대HP 및 규칙 서명/호환 정책과 함께 수정해야 함. 이 세션의 가상 장비 레코드가 실제 능력치에 이미 연결된 것은 아님.
+
+6. 검증 환경·명령
+- macOS27.2 arm64 / Unity6000.3.14f1 / URP17.3.0 / InputSystem1.19.0. 활성 대상iOS지만 실제 실행은 Mac Editor, Player/실기기 아님.
+- 실제 persistentDataPath와 격리 저장 경로는 environment.txt 기록.
+변수:
+unity='/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity'
+project='/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link'
+초기 컴파일:
+"$unity" -batchmode -quit -projectPath "$project" -logFile "$project/output/playtests/2026-11-13-session06/compile.log"
+- 종료0. 이후 최종 Play/새 프로세스/회귀에서도 전체 소스 재컴파일.
+최종 그래픽 검사:
+"$unity" -projectPath "$project" -executeMethod NyanLinkSession06Validation.Run -logFile "$project/output/playtests/2026-11-13-session06/play.log"
+- 최종486 Play assertion 통과, 프로세스 종료0·게임 경로 런타임 오류0.
+- 실제 Mouse 이벤트로 Main→Game→저장/로비 왕복/이어하기, 장애물 성공·실패/재도전·보스 성공/실패·그로기 진입/종료·강화/단일 처치/영구 기록 계약 검사.
+- 정상 JSON의 체크섬 불일치, 구문 손상, 정상 백업, 둘 다 손상, 미래 버전, 임시 파일 직후 중단 주입, 잘못된39칸/중복/NaN 타이머/규칙 서명 거부.
+- 세션07 계약은 격리된 테스트 코인321→421/가상 장비2개/클리어·첫 보상·영수증 데이터로 확인. 실제 보상/UI 구현이 아님.
+- 첫 시뮬레이션 틱 전에 복원 이벤트에서 모든 값·보드/ItemType/난수를 정확 비교. 이어하기 후 실제 플레이가 진행한 한 프레임의 거리 차이를 복원 실패로 혼동하지 않음.
+- 검사 목적의 메모리 배치(잔여 가속/시간 정지/경계 데이터 포함)와 구간 가속8배 사용. 실제 아이템 입력은 세션05/회귀와 구분해 검증.
+완전 종료 후 새 Unity 프로세스:
+"$unity" -projectPath "$project" -executeMethod NyanLinkSession06Validation.RunColdContinue -logFile "$project/output/playtests/2026-11-13-session06/cold.log"
+- 앞 프로세스를 완전히 종료하고 같은 디스크 파일로 Main부터 다시 시작. 강화 단계1/HP48·다음순서/보드·종류/효과·가속/영구기록·첫보상 플래그/중복 이벤트/종류 표식58 assertion 통과·종료0·런타임 오류0. cold-results.txt 참조.
+- Cold 검사를 단독 재실행하기 전에 Run으로 새 fixture를 먼저 생성해야 함. Cold 마지막 UI Retry 검사가 진행을 지우므로 종료 후 같은 fixture에 이어하기가 없는 것은 정상.
+사용자 보호/설정:
+- 원래 게임 저장 경로의 파일명/SHA 전후 일치. 최고 점수 PlayerPrefs·입력 기기/설정·Game View 복원. 씬 파일 저장 안 함.
+- 초기 실패/수정: attempt01은 JsonUtility null 기본 객체 문제→hasCheckpoint, attempt02는 첫 시뮬레이션 뒤 값을 비교하던 검사 순서→복원 이벤트 즉시 비교 및 준비 UI 겹침 정리, attempt03은 보스의 오래된 음수 전환 타이머→경계 정규화, attempt04는 검사 입력이 장애물 입력 시간을 넘겨 이미 실패했던 배치→저장용 효과 준비와 정답 입력 분리.
+- pass01은479/새 프로세스57 통과, pass02는강화·체크섬/보드 검증485 통과의 중간 증거. 최종에는 Pause가 겹친 경계 저장도 포함. 실패/중간 성공은 접두사로 보존.
+
+7. 실제 화면
+모두 output/playtests/2026-11-13-session06/ 실제 Unity1080×1920 캡처. 생성/합성 이미지 아님. 샘플 보드/효과/HP를 포함.
+- 01-runner-saved.png: 시간 정지/가속과 재색칠된 PowerUp2를 가진 성공 경계.
+- 02-continue-choice.png: CONTINUE / NEW GAME, 마지막 경계 정책과 영구 기록 유지 안내.
+- 03-runner-restored.png: 같은39칸/아이템 정체성/HP·점수·잔여 효과 복원.
+- 04-retry-saved.png: 실패 후 같은 장애물/잔여2초 경계.
+- 05-boss-failure-saved.png: 실패 판정 후 HP·방어권 소모·다음 전환 상태 저장.
+- 06-groggy-saved.png: 성공 후 그로기5초/효과 잔여 경계.
+- 07-boss-restored.png: 강화된 보스HP48/120·다음 단계 복원.
+- 08-cold-continue-ready.png / 09-cold-restored-board.png: 별도 Unity 프로세스의 실제 이어하기와 강화 상태·재색칠 아이템 복원.
+- 스냅샷을 정확히 비교하기 위해 도구가 잠깐 timeScale0으로 표본을 고정할 수 있음. 제품 Pause/Resume 검사는 실제 버튼으로 별도 수행.
+
+8. 남은 항목·복구·다음 세션
+- 세션07 진행 가능. 코인100/첫 장비/이후 추첨·장착·Lv5 강화·실제 능력치·결과 UI는 아직 다음 범위. 영구 계약과 중복 방지 원리를 그대로 사용.
+- V-001 Player 빌드/새 캐시, V-002 사람의 무보정 전체 완주 미검증. I-003 폰트/HUD/결과 문구·안전 영역, I-004 실제 성장 데이터ID 남음.
+- 실기기: D-001 기존 터치/UI, D-002 모바일 파일 교체/앱 강제 종료·백그라운드/실제 저장 수명 검증. Mac의 temp 중단 주입/정상 프로세스 종료는 모바일 전원 차단 검증이 아님.
+- 손상 주 파일+백업 모두 복구 불가 또는 미래 버전일 때 원본을 지우지 말 것. UI에서 사유를 확인하고 보존본/지원 버전으로 별도 복원. 정상 성장을 빈 새 파일로 자동 대체하지 말 것.
+- 백업 복구는 .bak 파일도 먼저 별도로 복사한 뒤 검증된 문서를 사용. .tmp는 미커밋 파일이므로 자동으로 최신 저장이라 간주하지 말 것. 백업 복구는 이전 유효 revision으로 돌아갈 수 있음.
+- 원래 사용자 상태 백업은2장 경로. 세션06 이전 프로젝트 복원 기준선은 로컬/원격 de2a22c520b7c76e9967531c487ad57730cadeec. 현재 작업에 덮어쓰기 대신 새 빈 폴더:
+restore='/private/tmp/Nyan-Link-before-session06'
+mkdir "$restore"
+git archive de2a22c520b7c76e9967531c487ad57730cadeec | tar -x -C "$restore"
+- Library 재생성/SSH Git 패키지 권한 필요 가능. 원본 Library 삭제/reset/checkout으로 사용자 작업 덮어쓰기 금지. 세션01 외부 전체 원본 백업도 유지.
+- 현재06 작업 보존 시 새 Persistence 소스/폴더 .meta·검증 소스/문서·출력 미추적 파일도 함께 보존. 최종 Git 목록 참고. 새 게임 저장파일과 프로젝트 소스 복구는 별개임.
+
+9. 아이템 회귀 검사
+NYANLINK_SESSION05_OUTPUT='output/playtests/2026-11-13-session06/regression-session05' "$unity" -projectPath "$project" -executeMethod NyanLinkSession05Validation.Run -logFile "$project/output/playtests/2026-11-13-session06/regression-session05.log"
+- 종료0, Play316 assertion 통과·런타임 오류0.6종×2티어/연쇄/한도/시간정지/선택중 중첩Pause/보스 보호/치명 연쇄 취소/로비 정리 유지.
+- 기존 세션05 출력은 덮어쓰지 않음. 해당 도구는 stageData=null로 저장 비활성, 실제 저장 검사는 세션06 전용 override 사용.
+
+10. 보드·입력 회귀 및 종료 확인
+NYANLINK_VALIDATION_OUTPUT='output/playtests/2026-11-13-session06/regression-session02' "$unity" -projectPath "$project" -executeMethod NyanLinkSession02Validation.Run -logFile "$project/output/playtests/2026-11-13-session06/regression-session02.log"
+- 종료0, Geometry9,855 / Play368 assertion 통과·런타임 오류0.39칸/6방향/터치·마우스/체인 취소·되돌리기·단일Release/리필·보정/두 세로 해상도 유지.
+- 최종 저장486, 독립 프로세스58, 아이템 회귀316, 보드 좌표9,855/Play368. 각 최종 프로세스 종료0. tests-summary.json 참조.
+- 기능 회귀 완료 후 아이템 표식의 밝은 프레임 대비만 보완했고, 최종 Cold58에서 같은 fixture를 실제로 다시 복원·표식 표시·UI 재시작까지 확인. 핵심 저장/전투 코드 추가 변경 없음.
+- 원래 실제 saves 폴더는 종료 시에도 없음을 확인. external 백업 manifest의 원본 게임 저장 부재와 일치. 초기 메타데이터 보존본은 그대로 유지.
+- final-audit.json에 기존 .meta 변경0/파일 삭제0/중복 에셋GUID0/누락 스크립트 메타0/해석 불가 참조GUID0 및 실제PNG9장의1080×1920 크기·SHA256 기록.
+- git diff --check 종료0, 새 소스/문서 whitespace 진단 없음. git-status-final.txt/whitespace-check.txt 참조.
+- HEAD/확인한 origin main은de2a22c, 세션06은 로컬 미커밋·미푸시, staged 변경 없음. 세션07 진행 가능.

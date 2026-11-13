@@ -1,0 +1,4 @@
+System.NullReferenceException: Object reference not set to an instance of an object
+  at NyanLinkSession06Validation.StorageCases () [0x00064] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:348 
+  at NyanLinkSession06Validation+<Sequence>d__86.MoveNext () [0x00612] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:390 
+  at NyanLinkSession06Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:106 

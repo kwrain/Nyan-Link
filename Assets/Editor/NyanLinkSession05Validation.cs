@@ -26,7 +26,7 @@ using Object = UnityEngine.Object;
 public static class NyanLinkSession05Validation
 {
     const string Key = "NyanLink.Session05";
-    const string Output = "output/playtests/2026-11-13-session05";
+    static readonly string Output = Environment.GetEnvironmentVariable("NYANLINK_SESSION05_OUTPUT") ?? "output/playtests/2026-11-13-session05";
     const BindingFlags PrivateInstance = BindingFlags.NonPublic | BindingFlags.Instance;
     static readonly List<string> results = new List<string>();
     static readonly List<string> errors = new List<string>();

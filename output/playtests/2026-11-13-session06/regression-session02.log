@@ -1,0 +1,1725 @@
+Unity Editor version:    6000.3.14f1 (d68c3f99a318)
+Branch:                  6000.3/staging
+Build type:              Release
+Batch mode:              NO
+macOS version:           Version 27.2 (Build 26B123)
+Darwin version:          27.2.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-11-13T07:45:34Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee" at "2026-11-13T07:45:34.267443Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+-projectPath
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+-executeMethod
+NyanLinkSession02Validation.Run
+-logFile
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/output/playtests/2026-11-13-session06/regression-session02.log
+Successfully changed project path to: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              ce42534a415a44089d1a1b63a261dd0e
+  Correlation Id:          101200e2e7925c753b65ac071170326e
+  External correlation Id: 3354439490669831562
+  Machine Id:              /WjKvKF+OzgsHfl3D08tQZYCd8Q=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kiwoolee" (connect: 0.00s, validation: 0.01s, handshake: 0.58s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee-notifications" at "2026-11-13T07:45:34.854671Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Module] Licensing Background thread has ended after 0.60s
+Player connection [8330449664]  Target information:
+
+Player connection [8330449664]  * "[IP] 192.168.0.98 [Port] 55505 [Flags] 2 [Guid] 1786016789 [EditorId] 1786016789 [Version] 1048832 [Id] OSXEditor(0,Kiwoo-MacBook-Pro-M1.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8330449664] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8330449664] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-48878" after 0.1 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Refreshing native plugins compatible for Editor in 0.64 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.3.14f1 (d68c3f99a318)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+ preferred device: Apple M1 Pro (high power)
+Metal devices available: 1
+0: Apple M1 Pro (high power)
+Using device Apple M1 Pro (high power)
+Initializing Metal device caps: Apple M1 Pro
+Mac GPU Family: 2
+Apple GPU Family: 7
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56878
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.007899 seconds.
+- Loaded All Assemblies, in  0.418 seconds
+[usbmuxd] Start listen thread
+[usbmuxd] Listen thread started
+[usbmuxd] Send listen message
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.421 seconds
+Domain Reload Profiling: 840ms
+	BeginReloadAssembly (170ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (21ms)
+	RebuildCommonClasses (33ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (40ms)
+	LoadAllAssembliesAndSetupDomain (166ms)
+		LoadAssemblies (149ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (161ms)
+			TypeCache.Refresh (152ms)
+				TypeCache.ScanAssembly (137ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (2ms)
+	FinalizeReload (422ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (383ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (154ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (65ms)
+			ProcessInitializeOnLoadAttributes (94ms)
+			ProcessInitializeOnLoadMethodAttributes (66ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 83 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.2d.tilemap.extras@6.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tilemap.extras@3dde84bf3867)
+    com.unity.addressables@2.9.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.addressables@8460f1c9c927)
+    com.unity.ads@4.16.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ads@e89225828059)
+    com.unity.ai.navigation@2.0.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ai.navigation@734c2c4c5591)
+    com.unity.analytics@3.8.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
+    com.unity.collab-proxy@2.12.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.ide.rider@3.0.39 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.26 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.inputsystem@1.19.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83)
+    com.unity.timeline@1.8.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.visualscripting@8bed5ad90189)
+    com.unity.xr.legacyinputhelpers@2.1.13 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
+    com.unity.services.core@1.16.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.core@8ba50f624741)
+    com.unity.2d.animation@13.0.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.animation@7396d8477ca9)
+    com.unity.2d.pixel-perfect@5.1.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.pixel-perfect@09d99455b901)
+    com.unity.2d.psdimporter@12.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.psdimporter@9abe0f7cac7e)
+    com.unity.2d.spriteshape@13.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.spriteshape@0738bab11647)
+    com.unity.2d.aseprite@3.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.aseprite@809e3a168ff7)
+    com.unity.2d.tooling@1.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tooling@127d960d4dc1)
+    com.unity.services.analytics@6.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
+    com.unity.profiling.core@1.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.profiling.core@8a49f7027d06)
+    com.unity.scriptablebuildpipeline@2.6.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.scriptablebuildpipeline@36e3b5898ee2)
+    com.unity.services.cloud-diagnostics@1.0.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.cloud-diagnostics@d0dda3e9b17e)
+    com.unity.services.levelplay@9.2.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.levelplay@2d2a5e1fe9e9)
+    com.unity.purchasing@5.0.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.purchasing@015b4cec2127)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.searcher@d45a78918735)
+    com.unity.burst@1.8.29 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.burst@6bb9aca3ef38)
+    com.unity.mathematics@1.3.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
+    com.unity.collections@2.6.5 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.collections@12999e356c23)
+    com.unity.2d.common@12.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.common@2af7c9b44b5c)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.4.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.test-framework.performance@aa81a99c4a75)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.sprite@d14b9d497a24)
+    com.unity.2d.tilemap@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tilemap@43eb9b2da17d)
+    com.unity.feature.2d@2.0.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.feature.2d@0309d34ea7f2)
+    com.unity.multiplayer.center@1.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.render-pipelines.universal@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.universal@3b809f23691d)
+    com.unity.test-framework@1.6.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.test-framework@aebcb98460c6)
+    com.unity.ugui@2.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ugui@8ccc29d23a79)
+    com.unity.modules.accessibility@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
+    com.unity.render-pipelines.core@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.core@02dfbe8e43de)
+    com.unity.shadergraph@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.shadergraph@28ee1cc75774)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
+  Git packages:
+    com.boxqkrtm.ide.cursor@https://github.com/boxqkrtm/com.unity.ide.cursor.git (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.boxqkrtm.ide.cursor@53e1baac3cde)
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a)
+    com.ninemood.services@ssh://git@github.com/kwrain/NineMood.Services.git (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.ninemood.services@f78dd7921baf)
+[Package Manager] com.unity.services.cloud-diagnostics is deprecated: Attention: Cloud Diagnostics is deprecated, and will be phased out in future versions of Unity. For more robust reports and device information, including information on Application Not Responding (ANR) errors for Android, use the diagnostics (https://docs.unity.com/en/us/cloud/developer-data/diagnostics) experience available in Unity 6.2 and later.
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.03 seconds
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-e3581c700b0e6612c8018d106fe8ca26
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 41.7105ms
+Starting: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/900b0aEDbg.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly unityeditor.ios.extensions.xcode has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll"
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@6bb9aca3ef38/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 26.1155ms
+ExitCode: 0 Duration: 0s840ms
+[ 973/1565  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.81 seconds), 1 items updated, 1565 evaluated
+AssetDatabase: script compilation time: 1.595646s
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  1.383 seconds
+Refreshing native plugins compatible for Editor in 28.80 ms, found 4 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 7.14 ms, found 4 plugins.
+﻿﻿﻿﻿ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  4.967 seconds
+Domain Reload Profiling: 6351ms
+	BeginReloadAssembly (251ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (33ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (131ms)
+	RebuildCommonClasses (28ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (19ms)
+	LoadAllAssembliesAndSetupDomain (1074ms)
+		LoadAssemblies (737ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (389ms)
+			TypeCache.Refresh (289ms)
+				TypeCache.ScanAssembly (241ms)
+			BuildScriptInfoCaches (86ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (4968ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (4787ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (46ms)
+			SetLoadedEditorAssemblies (6ms)
+			BeforeProcessingInitializeOnLoad (230ms)
+			ProcessInitializeOnLoadAttributes (4401ms)
+			ProcessInitializeOnLoadMethodAttributes (102ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (14ms)
+Asset Pipeline Refresh (id=f13a5eb006db449ef8a4f58d34308e66): Total: 10.240 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=6927 ms
+		Asset DB Callback time: managed=139 ms, native=35 ms
+		Scripting: domain reloads=1, domain reload time=1445 ms, compile time=1597 ms, other=94 ms
+		Project Asset Count: scripts=2236, non-scripts=3612
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 37.594ms
+	ApplyChangesToAssetFolders: 0.519ms
+	Scan: 1399.602ms
+	OnSourceAssetsModified: 0.001ms
+	CategorizeAssetsWithTransientArtifact: 101.838ms
+	ProcessAssetsWithTransientArtifactChanges: 80.505ms
+	CategorizeAssets: 93.800ms
+	ImportOutOfDateAssets: 5013.874ms (3413.552ms without children)
+		CompileScripts: 1596.594ms
+		ReloadNativeAssets: 0.000ms
+		UnloadImportedAssets: 1.585ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.083ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 1.059ms
+	PostProcessAllAssets: 139.715ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
+	UnloadStreamsBegin: 4.379ms
+	PersistCurrentRevisions: 0.153ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 5.899ms
+	Untracked: 3368.220ms
+
+Application.AssetDatabase Initial Refresh End
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.09 seconds
+Scanning for USB devices : 0.871ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-NyanLink
+Cannot add menu item 'Assets/Create/NyanLink/Data/Balance' for method 'RuntimeMethodInfo.CreateBalanceData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Boss Battle Config' for method 'RuntimeMethodInfo.CreateBossBattleConfig' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Character' for method 'RuntimeMethodInfo.CreateCharacterData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Color Effect Mapping' for method 'RuntimeMethodInfo.CreateColorEffectMappingData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Equipment' for method 'RuntimeMethodInfo.CreateEquipmentData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Grid Shape' for method 'RuntimeMethodInfo.CreateGridShapeData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Line Visual Effect' for method 'RuntimeMethodInfo.CreateLineVisualEffectConfig' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Loot Table' for method 'RuntimeMethodInfo.CreateLootTableData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Stage' for method 'RuntimeMethodInfo.CreateStageData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Tile Effect' for method 'RuntimeMethodInfo.CreateTileEffectData' because a menu item with the same name already exists.
+2026-11-13 16:45:49.886 Unity[48878:5488738] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7808187840 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 127 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/_NyanLink/Scene/Main.unity'
+	Deserialize:            39.257 ms
+	Integration:            369.282 ms
+	Integration of assets:  4.625 ms
+	Thread Wait Time:       0.018 ms
+	Total Operation Time:   413.182 ms
+Unloading 9676 unused Assets / (3.0 MB). Loaded Objects now: 10522.
+Memory consumption went from 286.6 MB to 283.7 MB.
+Total: 32.526625 ms (FindLiveObjects: 1.941708 ms CreateObjectMapping: 0.375500 ms MarkObjects: 21.597792 ms  DeleteObjects: 8.609083 ms)
+
+[LAYOUT] About to load UserSettings/Layouts/default-6000.dwlt, keepMainWindow=False
+[LAYOUT] About to save layout /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/UserSettings/Layouts/default-6000.dwlt
+[LAYOUT] About to save layout /Users/kiwoolee/Library/Preferences/Unity/Editor-5.x/Layouts/current/default-6000.dwlt
+[MODES] ModeService[default].InitializeCurrentMode
+[MODES] ModeService[default].RaiseModeChanged(default, default)
+This project uses Input Manager, which is marked for deprecation. To manage input in your project, use the <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">Input System package</a> instead.
+[Session02] PASS Geometry: 9855 assertions (negative rows, 6 neighbors, distances, radius/line, 39-cell mask)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation:ValidateGeometry () (at Assets/Editor/NyanLinkSession02Validation.cs:123)
+NyanLinkSession02Validation:Run () (at Assets/Editor/NyanLinkSession02Validation.cs:129)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+Opening scene 'Assets/_NyanLink/Scene/Main.unity'
+Unloading 19 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/_NyanLink/Scene/Main.unity'
+	Deserialize:            1.447 ms
+	Integration:            223.336 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.011 ms
+	Total Operation Time:   224.796 ms
+Unloading 3 unused Assets / (5.2 MB). Loaded Objects now: 10782.
+Memory consumption went from 349.6 MB to 344.4 MB.
+Total: 17.281666 ms (FindLiveObjects: 0.476500 ms CreateObjectMapping: 0.206583 ms MarkObjects: 16.520500 ms  DeleteObjects: 0.077083 ms)
+
+[Project] Loading completed in 18.038 seconds
+	Project init time: 				14.281 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.184 seconds
+		Asset Database init time: 		0.444 seconds
+		Global illumination init time: 	0.001 seconds
+		Assemblies load time: 			0.856 seconds
+		Unity extensions init time: 	0.019 seconds
+		Asset Database refresh time: 	10.243 seconds
+	Scene opening time: 			3.161 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1794555952273,"processId":48878,"projectLoad":18.038236125,"projectInit":14.280527208,"templateInit":0.0,"packageManagerInit":0.18399575,"assetDatabaseInit":0.443526709,"globalIlluminationInit":0.001391709,"assembliesLoad":0.855826125,"unityExtensionsInit":0.019340084,"assetDatabaseRefresh":10.242959083,"sceneOpening":3.161443916}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1794555952274,"processId":48878,"editorVersion":"6000.3.14f1 (d68c3f99a318)","branch":"6000.3/staging","buildType":"Release","platform":"OSX"}
+Subscribe to USB device events
+Scanning for USB devices : 0.590ms
+Thread 0x7046a47000 may have been prematurely finalized
+SpriteAtlasPacking completed in 0.009473 sec
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+<CFData 0x780851c960 [0x1e5384fc8]>{length = 6, capacity = 6, bytes = 0xf84d897d7c54}
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  1.106 seconds
+Refreshing native plugins compatible for Editor in 28.79 ms, found 4 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+[BuildProfileEnvironmentConfig] 빌드 프로필에 따라 환경 설정: production
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Services.Editor.BuildProfile.BuildProfileEnvironmentConfig:OnBuildingConfiguration (Unity.Services.Core.Configuration.Editor.ConfigurationBuilder) (at ./Library/PackageCache/com.ninemood.services@f78dd7921baf/Editor/BuildProfile/BuildProfileEnvironmentConfig.cs:53)
+Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder:BuildConfiguration () (at ./Library/PackageCache/com.unity.services.core@8ba50f624741/Editor/Core/Configuration/ProjectConfigurationBuilder.cs:63)
+Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder:InitializeConfiguration () (at ./Library/PackageCache/com.unity.services.core@8ba50f624741/Editor/Core/Configuration/ProjectConfigurationBuilder.cs:52)
+Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder:SetUpPlayModeConfigOnEnteringPlayMode (UnityEditor.EnterPlayModeOptions) (at ./Library/PackageCache/com.unity.services.core@8ba50f624741/Editor/Core/Configuration/ProjectConfigurationBuilder.cs:37)
+
+(Filename: ./Library/PackageCache/com.ninemood.services@f78dd7921baf/Editor/BuildProfile/BuildProfileEnvironmentConfig.cs Line: 53)
+
+Refreshing native plugins compatible for Editor in 5.40 ms, found 4 plugins.
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.674 seconds
+Domain Reload Profiling: 3784ms
+	BeginReloadAssembly (695ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (238ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (335ms)
+	RebuildCommonClasses (29ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (17ms)
+	LoadAllAssembliesAndSetupDomain (357ms)
+		LoadAssemblies (219ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (206ms)
+			TypeCache.Refresh (13ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (179ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (2674ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (1614ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (41ms)
+			SetLoadedEditorAssemblies (6ms)
+			BeforeProcessingInitializeOnLoad (194ms)
+			ProcessInitializeOnLoadAttributes (1291ms)
+			ProcessInitializeOnLoadMethodAttributes (80ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (757ms)
+Asset Pipeline Refresh (id=8e0460368a102446ab59f4a8015dc631): Total: 3.962 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2824 ms
+		Asset DB Callback time: managed=19 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=1117 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=2236, non-scripts=3612
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.000ms
+	InvokePackagesCallback: 1.559ms
+	ApplyChangesToAssetFolders: 0.373ms
+	Scan: 0.000ms
+	OnSourceAssetsModified: 0.001ms
+	CategorizeAssetsWithTransientArtifact: 0.002ms
+	ProcessAssetsWithTransientArtifactChanges: 6.779ms
+	CategorizeAssets: 57.962ms
+	ImportOutOfDateAssets: 2717.039ms (2712.711ms without children)
+		CompileScripts: 0.756ms
+		CollectScriptTypesHashes: 1.163ms
+		ReloadNativeAssets: 0.665ms
+		UnloadImportedAssets: 0.719ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.729ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.003ms
+		OnDemandSchedulerStart: 0.293ms
+	PostProcessAllAssets: 19.762ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.498ms
+	UnloadStreamsBegin: 0.744ms
+	PersistCurrentRevisions: 0.138ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 3.720ms
+	Untracked: 1157.542ms
+
+CharacterData의 ID가 없습니다: CharacterData
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+NineMood.Core.Managers.DataManager:LoadDataFromFolder<NineMood.Data.Definitions.CharacterData> (string,System.Collections.Generic.Dictionary`2<string, NineMood.Data.Definitions.CharacterData>) (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:141)
+NineMood.Core.Managers.DataManager/<LoadAllDataAsync>d__22:MoveNext () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:102)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder:Start<NineMood.Core.Managers.DataManager/<LoadAllDataAsync>d__22> (NineMood.Core.Managers.DataManager/<LoadAllDataAsync>d__22&)
+NineMood.Core.Managers.DataManager:LoadAllDataAsync ()
+NineMood.Core.Managers.DataManager/<Initialize>d__21:MoveNext () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:80)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder:Start<NineMood.Core.Managers.DataManager/<Initialize>d__21> (NineMood.Core.Managers.DataManager/<Initialize>d__21&)
+NineMood.Core.Managers.DataManager:Initialize ()
+NineMood.Core.Managers.DataManager:Awake () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:67)
+UnityEngine.GameObject:Internal_AddComponentWithType (System.Type)
+UnityEngine.GameObject:AddComponent (System.Type) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/GameObject.bindings.cs:246)
+UnityEngine.GameObject:AddComponent<NineMood.Core.Managers.DataManager> () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/GameObject.bindings.cs:251)
+NineMood.Services.Core.Singleton`1<NineMood.Core.Managers.DataManager>:get_Instance () (at ./Library/PackageCache/com.ninemood.services@f78dd7921baf/Runtime/Core/Singleton.cs:47)
+NineMood.Core.Managers.DataManager:EnsureCreatedBeforeGameStart () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:18)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs Line: 141)
+
+EquipmentData의 ID가 없습니다: EquipmentData
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+NineMood.Core.Managers.DataManager:LoadDataFromFolder<NineMood.Data.Definitions.EquipmentData> (string,System.Collections.Generic.Dictionary`2<string, NineMood.Data.Definitions.EquipmentData>) (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:141)
+NineMood.Core.Managers.DataManager/<LoadAllDataAsync>d__22:MoveNext () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:105)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder:Start<NineMood.Core.Managers.DataManager/<LoadAllDataAsync>d__22> (NineMood.Core.Managers.DataManager/<LoadAllDataAsync>d__22&)
+NineMood.Core.Managers.DataManager:LoadAllDataAsync ()
+NineMood.Core.Managers.DataManager/<Initialize>d__21:MoveNext () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:80)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder:Start<NineMood.Core.Managers.DataManager/<Initialize>d__21> (NineMood.Core.Managers.DataManager/<Initialize>d__21&)
+NineMood.Core.Managers.DataManager:Initialize ()
+NineMood.Core.Managers.DataManager:Awake () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:67)
+UnityEngine.GameObject:Internal_AddComponentWithType (System.Type)
+UnityEngine.GameObject:AddComponent (System.Type) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/GameObject.bindings.cs:246)
+UnityEngine.GameObject:AddComponent<NineMood.Core.Managers.DataManager> () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/GameObject.bindings.cs:251)
+NineMood.Services.Core.Singleton`1<NineMood.Core.Managers.DataManager>:get_Instance () (at ./Library/PackageCache/com.ninemood.services@f78dd7921baf/Runtime/Core/Singleton.cs:47)
+NineMood.Core.Managers.DataManager:EnsureCreatedBeforeGameStart () (at Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs:18)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs Line: 141)
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            1.754 ms
+	Integration:            332.930 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.007 ms
+	Total Operation Time:   334.693 ms
+Created GICache directory at /Users/kiwoolee/Library/Caches/com.unity3d.UnityEditor/GiCache. Took: 0.011s, timestamps: [23.887 - 23.898]
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "vfWvKXhi"... (expires: 2026-11-13T08:51:32Z)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Session02] GameView group=iOS; build target=iOS
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:421)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:284)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 421)
+
+[Session02] View=60522 selected=37 requested=1080x1920 target=(1080.00, 1920.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:446)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:284)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 446)
+
+[Session02] GameView count=1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:448)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:284)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 448)
+
+[Session02] Input step advanced; frame=139, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Actual rendering size 1080x1920
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:285)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 285)
+
+[Session02] Input step advanced; frame=460, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=522, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+Unloading 38 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 7.954917 ms
+Loaded scene 'Assets/_NyanLink/Scene/Game.unity'
+	Deserialize:            35.620 ms
+	Integration:            376.968 ms
+	Integration of assets:  0.529 ms
+	Thread Wait Time:       5.179 ms
+	Total Operation Time:   418.296 ms
+Unloading 184 unused Assets / (41.2 MB). Loaded Objects now: 12261.
+Memory consumption went from 0.69 GB to 0.65 GB.
+Total: 39.140291 ms (FindLiveObjects: 1.347917 ms CreateObjectMapping: 0.232625 ms MarkObjects: 29.708500 ms  DeleteObjects: 7.850791 ms)
+
+Android Extension - Scanning For ADB Devices 3844 ms
+Android Extension - Scanning For ADB Devices 140 ms
+[Session02] Input step advanced; frame=611, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=624, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Android Extension - Scanning For ADB Devices 113 ms
+[Session02] Input step advanced; frame=681, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+Ignoring depth surface load action as it is memoryless
+Ignoring depth surface store action as it is memoryless
+Android Extension - Scanning For ADB Devices 119 ms
+[Session02] PASS Actual Main→Game→Start via queued mouse, 39 visible cells, screen mapping and viewport boundaries
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:312)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+[Session02] PASS Required-color API: minimum repair, transitions, items/selection/protection preserved, atomic failure
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation:CheckRepair () (at Assets/Editor/NyanLinkSession02Validation.cs:279)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:313)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+[Session02] Input step advanced; frame=707, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=717, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=726, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=735, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=764, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=774, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=784, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=794, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=803, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=812, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=816, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=819, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] PASS Queued mouse: diagonal selection, backtracking, single release, other-color cancel without lock
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:336)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+[Session02] Input step advanced; frame=825, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=832, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=839, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 20)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=852, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=855, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=863, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 40)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=875, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=882, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=889, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 60)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=902, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=909, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=916, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 80)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=928, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=935, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=941, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 100)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=954, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=960, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=965, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 120)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=978, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=984, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=991, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=997, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1004, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1010, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 140)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] PASS Six visual neighbor directions, no seventh neighbor, one event per release, in-place refill and post-refill repair
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:366)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+[Session02] Input step advanced; frame=1023, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1033, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1042, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1052, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1062, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1071, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 160)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:116)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:192)
+NineMood.Puzzle.TileInputHandler:OnFingerUp (UnityEngine.InputSystem.EnhancedTouch.Finger) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:135)
+UnityEngine.InputSystem.Utilities.DelegateHelpers:InvokeCallbacksSafe<UnityEngine.InputSystem.EnhancedTouch.Finger> (UnityEngine.InputSystem.Utilities.CallbackArray`1<System.Action`1<UnityEngine.InputSystem.EnhancedTouch.Finger>>&,UnityEngine.InputSystem.EnhancedTouch.Finger,string,object) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Utilities/DelegateHelpers.cs:46)
+UnityEngine.InputSystem.EnhancedTouch.Finger:OnTouchRecorded (UnityEngine.InputSystem.LowLevel.InputStateHistory/Record) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/EnhancedTouch/Finger.cs:202)
+UnityEngine.InputSystem.LowLevel.InputStateHistory:RecordStateChange (UnityEngine.InputSystem.InputControl,void*,double) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/State/InputStateHistory.cs:427)
+UnityEngine.InputSystem.LowLevel.InputStateHistory:UnityEngine.InputSystem.LowLevel.IInputStateChangeMonitor.NotifyControlStateChanged (UnityEngine.InputSystem.InputControl,double,UnityEngine.InputSystem.LowLevel.InputEventPtr,long) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/State/InputStateHistory.cs:666)
+UnityEngine.InputSystem.InputManager:FireStateChangeNotifications (int,double,UnityEngine.InputSystem.LowLevel.InputEvent*) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManagerStateMonitors.cs:394)
+UnityEngine.InputSystem.InputManager:UpdateState (UnityEngine.InputSystem.InputDevice,UnityEngine.InputSystem.LowLevel.InputUpdateType,void*,uint,uint,double,UnityEngine.InputSystem.LowLevel.InputEventPtr) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManager.cs:4074)
+UnityEngine.InputSystem.LowLevel.InputState:Change<UnityEngine.InputSystem.LowLevel.TouchState> (UnityEngine.InputSystem.InputControl,UnityEngine.InputSystem.LowLevel.TouchState&,UnityEngine.InputSystem.LowLevel.InputUpdateType,UnityEngine.InputSystem.LowLevel.InputEventPtr) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/State/InputState.cs:125)
+UnityEngine.InputSystem.Touchscreen:OnStateEvent (UnityEngine.InputSystem.LowLevel.InputEventPtr) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Devices/Touchscreen.cs:805)
+UnityEngine.InputSystem.Touchscreen:UnityEngine.InputSystem.LowLevel.IInputStateCallbackReceiver.OnStateEvent (UnityEngine.InputSystem.LowLevel.InputEventPtr) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Devices/Touchscreen.cs:871)
+UnityEngine.InputSystem.InputManager:OnUpdate (UnityEngine.InputSystem.LowLevel.InputUpdateType,UnityEngine.InputSystem.LowLevel.InputEventBuffer&) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManager.cs:3523)
+UnityEngine.InputSystem.LowLevel.NativeInputRuntime/<>c__DisplayClass7_0:<set_onUpdate>b__0 (UnityEngineInternal.Input.NativeInputUpdateType,UnityEngineInternal.Input.NativeInputEventBuffer*) (at ./Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/NativeInputRuntime.cs:65)
+UnityEngineInternal.Input.NativeInputSystem:NotifyUpdate (UnityEngineInternal.Input.NativeInputUpdateType,intptr) (at /Users/bokken/build/output/unity/unity/Modules/Input/Private/Input.cs:132)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[Session02] Input step advanced; frame=1084, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1093, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1129, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1138, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] PASS Queued Enhanced Touch with mouse connected; external lock cancellation and expiry
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:385)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+[Session02] GameView group=iOS; build target=iOS
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:421)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:404)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 421)
+
+[Session02] View=60522 selected=38 requested=1284x2778 target=(1284.00, 2778.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:446)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:404)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 446)
+
+[Session02] GameView count=1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:448)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:404)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 448)
+
+[Session02] Input step advanced; frame=1147, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] Input step advanced; frame=1208, focus=True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:187)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 187)
+
+[Session02] PASS Anchor/transform picking; full board bounds at 1080x1920 and 1284x2778; 368 Play assertions
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation/<PlaySequence>d__45:MoveNext () (at Assets/Editor/NyanLinkSession02Validation.cs:410)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+[Session02] PASS Play suite completed without runtime errors
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:Pass (string) (at Assets/Editor/NyanLinkSession02Validation.cs:59)
+NyanLinkSession02Validation:Finish (System.Exception) (at Assets/Editor/NyanLinkSession02Validation.cs:482)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 59)
+
+Thread 0x170d73000 may have been prematurely finalized
+[LAYOUT] About to save layout /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/UserSettings/Layouts/default-6000.dwlt
+[LAYOUT] About to save layout /Users/kiwoolee/Library/Preferences/Unity/Editor-5.x/Layouts/current/default-6000.dwlt
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: No process found listening on port 8080
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+MCPForUnity.Editor.Helpers.McpLog:Info (string,bool) (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Helpers/McpLog.cs:40)
+MCPForUnity.Editor.Services.ServerManagementService:StopLocalHttpServerInternal (bool,System.Nullable`1<int>,bool) (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/ServerManagementService.cs:650)
+MCPForUnity.Editor.Services.ServerManagementService:StopLocalHttpServer () (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/ServerManagementService.cs:340)
+MCPForUnity.Editor.Services.McpEditorShutdownCleanup:OnEditorQuitting () (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/McpEditorShutdownCleanup.cs:60)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+NyanLinkSession02Validation:Finish (System.Exception) (at Assets/Editor/NyanLinkSession02Validation.cs:502)
+NyanLinkSession02Validation:Tick () (at Assets/Editor/NyanLinkSession02Validation.cs:186)
+NyanLinkSession02PlayDriver:Update () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:11)
+
+(Filename: ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Helpers/McpLog.cs Line: 40)
+
+Killing ADB server in 0.063595 seconds.
+Thread 0x7056f07000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kiwoolee-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kiwoolee channel disconnected successfully.
+Thread 0x16feaf000 may have been prematurely finalized
+Thread 0x16ff3b000 may have been prematurely finalized
+Thread 0x170053000 may have been prematurely finalized
+Thread 0x16ffc7000 may have been prematurely finalized
+Thread 0x1700df000 may have been prematurely finalized
+Thread 0x17016b000 may have been prematurely finalized
+Thread 0x1701f7000 may have been prematurely finalized
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      ALC ILPP context 1 is unloading
+debugger-agent: Unable to listen on 44
+[usbmuxd] Stop listen thread
+[usbmuxd] Error: 
+[usbmuxd] Listen thread exiting

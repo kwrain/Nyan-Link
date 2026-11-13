@@ -16,11 +16,20 @@ namespace NineMood.Boss.Patterns
         public int NextIndex { get; private set; }
         public float RemainingTime { get; private set; }
         public TileColor? RequiredColor => IsRunning && NextIndex < _sequence.Count ? _sequence[NextIndex] : (TileColor?)null;
+        private List<TileColor> _prepared;
+        public void PrepareSequence(System.Collections.Generic.IEnumerable<TileColor> sequence) => _prepared=sequence==null ? null : new List<TileColor>(sequence);
+        public static List<TileColor> CreateSequence(NineMood.Data.Definitions.BossBattleConfig config,int phase)
+        {
+            var sequence=new List<TileColor>();
+            int length=config.timeAttackSequenceLength+phase*config.sequenceGrowthPerPhase;
+            for(int i=0;i<length;i++) sequence.Add((TileColor)Random.Range(0,6));
+            return sequence;
+        }
         protected override void OnRun()
         {
             _sequence.Clear(); NextIndex = 0;
-            int length = Config.timeAttackSequenceLength + PhaseIndex * Config.sequenceGrowthPerPhase;
-            for (int i = 0; i < length; i++) _sequence.Add((TileColor)Random.Range(0,6));
+            _sequence.AddRange(_prepared ?? CreateSequence(Config,PhaseIndex));
+            _prepared=null;
             RemainingTime = Mathf.Max(Config.minimumTimeLimit,Config.inputTimeLimit - PhaseIndex * Config.timeReductionPerPhase);
             GameEvents.OnMatchCompleted += OnMatch;
             PrepareNext();

@@ -1,0 +1,38 @@
+{
+  "unity": "6000.3.14f1",
+  "environment": "macOS27.2 arm64 Editor (active iOS target; no mobile Player/device execution)",
+  "compileExit": 0,
+  "session06": {
+    "playAssertions": 486,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "coldSeparateUnityProcess": {
+    "playAssertions": 58,
+    "exit": 0,
+    "runtimeErrors": 0,
+    "strengthenedPhase": 1,
+    "bossHP": 48,
+    "recoloredItem": "Blue ItemLv2 PowerUp",
+    "includesActualUIProgressOnlyRestart": true
+  },
+  "session05Regression": {
+    "playAssertions": 316,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "session02Regression": {
+    "geometryAssertions": 9855,
+    "playAssertions": 368,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "userGameSaves": "Original directory absent before and after; all actual I/O uses generated sandbox override",
+  "screenshots": 9,
+  "unverified": [
+    "Player build/clean environment restore",
+    "physical input/manual unmodified full clear",
+    "Android/iOS real save filesystem and app lifecycle/power loss",
+    "actual reward/equipment/growth integration: session07"
+  ]
+}

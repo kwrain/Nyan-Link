@@ -1,0 +1,73 @@
+{
+  "baselineAndVerifiedRemoteCommit": "de2a22c520b7c76e9967531c487ad57730cadeec",
+  "trackedChanges": [
+    "Assets/Editor/NyanLinkSession05Validation.cs",
+    "Assets/_NyanLink/Scripts/Boss/BossController.cs",
+    "Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/SaveManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs",
+    "Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs",
+    "Assets/_NyanLink/Scripts/Runner/RunnerController.cs",
+    "Assets/_NyanLink/Scripts/UI/GameHUD.cs",
+    "Assets/_NyanLink/Scripts/UI/GameReadyPanel.cs",
+    "Assets/_NyanLink/Scripts/UI/ItemTileLabels.cs",
+    "Docs/WORK_ITEMS.md"
+  ],
+  "existingMetaChanged": [],
+  "deleted": [],
+  "duplicateAssetGuids": {},
+  "missingScriptMeta": [],
+  "unresolvedGuids": {},
+  "screenshots": {
+    "01-runner-saved.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "03331104825ead8fdaf7108b5e644bfd90ca1bdc626b33baf1499c0425ef9b8e"
+    },
+    "02-continue-choice.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "4d183bda2b1cf7f5cbeab8a73f0eee726ed9e7201ec5fc059828777af2646b96"
+    },
+    "03-runner-restored.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "661612edb865cec1a81e7d4050d4f289c96cc904fbce4e615079dc3997a11ddc"
+    },
+    "04-retry-saved.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "ab7730f0f529ea1509f0d583e4f0b6619af94cdd9ab1f388385412e6cda75844"
+    },
+    "05-boss-failure-saved.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "4c332a39a1c5f99f56b6c1f0d4689de4fd23417ec1678079e8dc42550a49ca9f"
+    },
+    "06-groggy-saved.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "c99411af79520da44483549942b84ac8022b0c840629edf221bd2a367ad27032"
+    },
+    "07-boss-restored.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "0352362b7f8b1d4a25fb0bcc0fb3d0b11c4813c957f6fa049db3f9be0b3ffb28"
+    },
+    "08-cold-continue-ready.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "f1390f11a96fa58be4df95e878993f2a958c088283fb1acccb17e16977c8cbe9"
+    },
+    "09-cold-restored-board.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "e000de6040c7984a5aa09403628f2e57c667b9cb083fd6c48e9b802b4af2b240"
+    }
+  },
+  "originalGameSaveDirectory": "/Users/kiwoolee/Library/Application Support/DefaultCompany/NyanLink/saves",
+  "originalGameSaveDirectoryExistsAfterTests": false,
+  "externalBackup": "/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session06-save-backup"
+}

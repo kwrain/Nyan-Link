@@ -43,23 +43,22 @@ namespace NineMood.Core.Managers
             PublishState(GameState.Briefing);
         }
 
-        public void StartGame()
+        public void StartGame() => StartRun(true);
+        public void RetryGame() => StartRun(false);
+        private void StartRun(bool continueSaved)
         {
-            Time.timeScale = 1f;
-            IsResuming = false;
-            _bossAppeared = false;
+            Time.timeScale=1f;IsResuming=false;_bossAppeared=false;
             PublishState(GameState.Briefing);
             FindFirstObjectByType<PuzzleBoardManager>()?.ResetBoard();
-            ScoreManager.Instance?.ResetScore();
-            StaminaManager.Instance?.ResetStamina();
+            ScoreManager.Instance?.ResetScore();StaminaManager.Instance?.ResetStamina();
             PublishState(GameState.RunnerPhase);
-            SaveManager.Instance?.TryRestoreCheckpoint(); // 저장 정책 전체 정비는 세션 06.
+            if(continueSaved && (SaveManager.Instance?.TryRestoreCheckpoint() ?? false)) return;
+            SaveManager.Instance?.BeginNewRun();
         }
-
-        public void RetryGame()
+        public void RestorePhase(GameState phase)
         {
-            SaveManager.Instance?.ClearCurrentCheckpoint();
-            StartGame();
+            _bossAppeared=phase==GameState.BossPhase;
+            IsResuming=true;PublishState(phase);IsResuming=false;
         }
 
         public void PauseGame()
@@ -116,7 +115,7 @@ namespace NineMood.Core.Managers
         public void TriggerStageClear()
         {
             if (CurrentState != GameState.BossPhase) return;
-            SaveManager.Instance?.ClearCurrentCheckpoint();
+            SaveManager.Instance?.CompleteCurrentRun();
             SetResult(ResultType.Win);
         }
 
@@ -128,6 +127,7 @@ namespace NineMood.Core.Managers
 
         private void SetResult(ResultType result)
         {
+            if(result==ResultType.Lose) SaveManager.Instance?.ClearCurrentCheckpoint();
             CurrentResult = result;
             Time.timeScale = 0f;
             PublishState(GameState.Result);

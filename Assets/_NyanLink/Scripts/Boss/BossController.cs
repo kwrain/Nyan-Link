@@ -4,6 +4,7 @@ using NineMood.Core.Managers;
 using NineMood.Data.Definitions;
 using NineMood.Data.Enums;
 using NineMood.Puzzle;
+using NineMood.Core.Persistence;
 using UnityEngine;
 
 namespace NineMood.Boss
@@ -34,6 +35,7 @@ namespace NineMood.Boss
         public bool PreserveItems => _battleStarted && !IsGroggy;
         public bool IsDefeated { get; private set; }
         private bool _battleStarted;
+        private System.Collections.Generic.List<TileColor> _nextSequence;
         private bool _groggyPending;
         private float _transitionRemaining;
         private BossState _state;
@@ -87,6 +89,7 @@ namespace NineMood.Boss
         {
             _battleStarted = false;
             _groggyPending = false;
+            _nextSequence=null;
             timeAttackPattern?.Cancel();
             rhythmNotePattern?.Cancel(); colorQuotaPattern?.Cancel(); memorySequencePattern?.Cancel();
             IsGroggy = false;
@@ -99,6 +102,8 @@ namespace NineMood.Boss
             if (!IsActive) return;
             _state = BossState.Pattern;
             GameEvents.TriggerBossPatternStarted(BossBattleType.TimeAttack);
+            timeAttackPattern.PrepareSequence(_nextSequence);
+            _nextSequence=null;
             timeAttackPattern.Run(config,balance,PhaseIndex,() => ResolvePattern(true),() => ResolvePattern(false));
         }
         private void ResolvePattern(bool success)
@@ -116,11 +121,13 @@ namespace NineMood.Boss
             {
                 _state = BossState.Interval;
                 _transitionRemaining = config.patternInterval;
+                _nextSequence=TimeAttackPattern.CreateSequence(config,PhaseIndex);
                 bool shield = HasFailureShield;
                 HasFailureShield = false;
                 GameEvents.TriggerBossPatternResult(false); // 실패당 정확히 한 번
                 if (!shield) StaminaManager.Instance?.TakeDamage(config.failureStaminaDamage);
             }
+            if(IsActive) SaveManager.Instance?.RequestBoundary(success ? CheckpointBoundary.BossSuccess : CheckpointBoundary.BossFailure);
         }
         private void Update()
         {
@@ -151,12 +158,36 @@ namespace NineMood.Boss
                 }
                 _state = BossState.Interval;
                 _transitionRemaining = config.patternInterval;
+                _nextSequence=TimeAttackPattern.CreateSequence(config,PhaseIndex);
+                SaveManager.Instance?.RequestBoundary(CheckpointBoundary.GroggyEnd);
             }
             else if (_state == BossState.Interval)
             {
                 _transitionRemaining -= Time.deltaTime;
                 if (_transitionRemaining <= 0f) StartPattern();
             }
+        }
+        public BossRecord CaptureBoundary()
+        {
+            return new BossRecord { active=_battleStarted, hp=CurrentHP,maxHP=MaxHP,phase=PhaseIndex,
+                attackBonus=PendingAttackBonus,failureShield=HasFailureShield,
+                nextStep=!_battleStarted ? BossNextStep.None : (IsGroggy || _groggyPending ? BossNextStep.Groggy : BossNextStep.Interval),
+                groggyRemaining=_groggyPending ? config.GetGroggyDuration(balance) : IsGroggy ? Mathf.Max(0f,GroggyRemaining) : 0f,
+                intervalRemaining=_state==BossState.Interval && !_groggyPending ? Mathf.Max(0f,_transitionRemaining) : 0f,
+                nextSequence=_nextSequence==null ? new System.Collections.Generic.List<TileColor>() : new System.Collections.Generic.List<TileColor>(_nextSequence) };
+        }
+        public void RestoreBoundary(BossRecord record)
+        {
+            AbortBattle();IsDefeated=false;
+            PendingAttackBonus=record.attackBonus;HasFailureShield=record.failureShield;
+            if(!record.active) return;
+            _battleStarted=true;CurrentHP=record.hp;MaxHP=record.maxHP;PhaseIndex=record.phase;
+            _nextSequence=new System.Collections.Generic.List<TileColor>(record.nextSequence);
+            IsGroggy=record.nextStep==BossNextStep.Groggy;
+            _state=IsGroggy ? BossState.Groggy : BossState.Interval;
+            GroggyRemaining=record.groggyRemaining;_transitionRemaining=record.intervalRemaining;
+            GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);GameEvents.TriggerBossPhaseChanged(PhaseIndex);
+            if(IsGroggy) GameEvents.TriggerBossGroggyStarted(GroggyRemaining);
         }
         /// <summary>05 세션용: 입력/연출/장애물과 독립된 보스 제한 시간(그로기 포함) 정지.</summary>
         public void FreezeTimersFor(float seconds)

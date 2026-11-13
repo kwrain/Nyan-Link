@@ -196,6 +196,21 @@ namespace NineMood.Puzzle
         /// <summary>
         /// 특정 ItemEffectType의 아이템 타일 수를 반환. TileMatcher.CanPlaceItemTile에서 사용.
         /// </summary>
+        public void RestoreTiles(System.Collections.Generic.IEnumerable<NineMood.Core.Persistence.TileRecord> tiles,int requiredColor)
+        {
+            tileAnimation?.CancelAll(tilemap);
+            _tiles.Clear();tilemap.ClearAllTiles();
+            RequiredMatchColor=null;
+            foreach(var record in tiles)
+            {
+                var tile=SpawnTile(new Vector3Int(record.x,record.y,0),record.color,record.state);
+                tile.SetItemType(record.itemType);
+            }
+            tileAnimation?.CancelAll(tilemap);
+            RequiredMatchColor=requiredColor<0 ? (TileColor?)null : (TileColor)requiredColor;
+            EnsureRequiredColorPair();FitCameraToBoard();
+        }
+
         public int CountItemsOfType(ItemEffectType effectType)
         {
             int count = 0;

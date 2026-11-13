@@ -1,0 +1,6 @@
+git diff --check exit=0
+Assets/Editor/NyanLinkSession06Validation.cs: no whitespace diagnostics
+Assets/_NyanLink/Scripts/Core/Persistence/SaveData.cs: no whitespace diagnostics
+Assets/_NyanLink/Scripts/Core/Persistence/SaveStore.cs: no whitespace diagnostics
+Docs/Development/SESSION-06-HANDOFF.txt: no whitespace diagnostics
+Docs/Development/SESSION-06-SCHEMA.txt: no whitespace diagnostics

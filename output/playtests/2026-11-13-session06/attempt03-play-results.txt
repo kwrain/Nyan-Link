@@ -1,0 +1,4 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+System.Exception: Timeout: Boss success saved after refill
+  at NyanLinkSession06Validation+<Wait>d__41.MoveNext () [0x00047] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:136 
+  at NyanLinkSession06Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:106 

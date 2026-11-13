@@ -164,6 +164,7 @@ namespace NineMood.Runner
                 _retryRemaining = retryDelay;
                 OnPreWarningBegan?.Invoke(RequiredAction(), retryDelay);
             }
+            SaveManager.Instance?.RequestBoundary(success ? NineMood.Core.Persistence.CheckpointBoundary.ObstacleSuccess : NineMood.Core.Persistence.CheckpointBoundary.ObstacleRetry);
         }
 
         private void CancelActive()
@@ -189,6 +190,13 @@ namespace NineMood.Runner
             PrepareRequiredColor();
         }
 
+        public void RestoreBoundary(int index,float retryRemaining)
+        {
+            RestoreCheckpoint(index);
+            _retryRemaining=retryRemaining;
+            progressSystem.SetPaused(retryRemaining>0f);
+            if(retryRemaining>0f) OnPreWarningBegan?.Invoke(RequiredAction(),retryRemaining);
+        }
         private void OnGameStateChanged(GameState state)
         {
             if (state == GameState.Paused || state == GameState.ColorSelection || state == GameState.RunnerPhase) return;

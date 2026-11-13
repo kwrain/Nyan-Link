@@ -1,0 +1,3 @@
+PASS Cold Unity restart: all checkpoint fields and item identity exact, permanent record intact, actual UI restart progress-only
+PASS 57 cold Play assertions
+PASS Session06 completed without runtime errors

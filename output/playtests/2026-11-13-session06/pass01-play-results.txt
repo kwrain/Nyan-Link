@@ -1,0 +1,4 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+PASS Actual success/retry/boss failure/success/groggy-exit boundaries; exact board/item/effect restore, no duplicate damage/results, pause vs disk, atomic permanent/reward contract
+PASS 479 Play assertions; cold checkpoint prepared
+PASS Session06 completed without runtime errors

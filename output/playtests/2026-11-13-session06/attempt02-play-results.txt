@@ -1,0 +1,7 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+System.Exception: FAIL Distance actual=62.61494 expected=62.5
+  at NyanLinkSession06Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:120 
+  at NyanLinkSession06Validation.Near (System.Single value, System.Single expected, System.String text) [0x00000] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:292 
+  at NyanLinkSession06Validation.Compare (NineMood.Core.Persistence.RunCheckpoint cp) [0x00047] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:326 
+  at NyanLinkSession06Validation+<Reload>d__84.MoveNext () [0x0017d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:340 
+  at NyanLinkSession06Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession06Validation.cs:106 

@@ -71,6 +71,12 @@ namespace NineMood.Runner
         // ── 공개 메서드 ────────────────────────────────────────
 
         /// <summary>ObstacleController가 장애물 판정 실패 시 호출</summary>
+        public void RestoreBoundary(RunnerState state,float actionRemaining,float boostRemaining)
+        {
+            ForceRun();_boostTimer=boostRemaining;
+            if(state!=RunnerState.Run) TransitionTo(state);
+            _stateTimer=actionRemaining;
+        }
         public void TriggerStumble()
         {
             TransitionTo(RunnerState.Stumble);

@@ -47,12 +47,16 @@ namespace NineMood.Core.Managers
         private void OnEnable()
         {
             ItemEffectEvents.OnRecovery += OnRecovery;
+            ItemEffectEvents.OnTimeFreeze += OnTimeFreeze;
+            GameEvents.OnItemUseCompleted += OnItemUse;
             GameEvents.OnMatchCompleted += OnMatchCompleted;
         }
 
         private void OnDisable()
         {
             ItemEffectEvents.OnRecovery -= OnRecovery;
+            ItemEffectEvents.OnTimeFreeze -= OnTimeFreeze;
+            GameEvents.OnItemUseCompleted -= OnItemUse;
             GameEvents.OnMatchCompleted -= OnMatchCompleted;
         }
 
@@ -115,6 +119,11 @@ namespace NineMood.Core.Managers
 
         // ── 이벤트 핸들러 ──────────────────────────────────────
 
+        private void OnTimeFreeze(float seconds)
+        {
+            if (GameManager.Instance?.CurrentState == GameState.RunnerPhase || (NineMood.Boss.BossController.Instance?.CanUseItems ?? false)) PauseDecay(seconds);
+        }
+        private void OnItemUse(int score,int removed) => Recover(removed * _recoveryPerTile);
         private void OnRecovery(float percent) => Recover(percent * MaxStamina);
 
         private void OnMatchCompleted(int chainLength, int scoreGained, int tilesRemoved, TileColor color)

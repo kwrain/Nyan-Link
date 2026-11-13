@@ -13,6 +13,7 @@ namespace NineMood.Core.Managers
         public GameState StateBeforePause { get; private set; } = GameState.Briefing;
         public bool IsResuming { get; private set; }
         private bool _bossAppeared;
+        private GameState _stateBeforeColorChoice;
 
         protected override void Awake()
         {
@@ -25,6 +26,7 @@ namespace NineMood.Core.Managers
             if (debugPanel != null) debugPanel.gameObject.SetActive(false);
             // 기존 씬 GUID와 계층을 유지하면서 최소 일시정지 UI를 연결한다.
             if (GetComponent<GamePausePanel>() == null) gameObject.AddComponent<GamePausePanel>();
+            if (GetComponent<ColorSelectionPanel>() == null) gameObject.AddComponent<ColorSelectionPanel>();
         }
 
         protected override void OnDestroy()
@@ -62,7 +64,7 @@ namespace NineMood.Core.Managers
 
         public void PauseGame()
         {
-            if (CurrentState != GameState.RunnerPhase && CurrentState != GameState.BossPhase) return;
+            if (CurrentState != GameState.RunnerPhase && CurrentState != GameState.BossPhase && CurrentState != GameState.ColorSelection) return;
             StateBeforePause = CurrentState;
             Time.timeScale = 0f;
             PublishState(GameState.Paused);
@@ -71,9 +73,27 @@ namespace NineMood.Core.Managers
         public void ResumeGame()
         {
             if (CurrentState != GameState.Paused) return;
-            Time.timeScale = 1f;
+            Time.timeScale = StateBeforePause == GameState.ColorSelection ? 0f : 1f;
             IsResuming = true;
             PublishState(StateBeforePause);
+            IsResuming = false;
+        }
+
+        public bool BeginColorChoice()
+        {
+            if (CurrentState == GameState.ColorSelection) return true;
+            if (CurrentState != GameState.RunnerPhase && CurrentState != GameState.BossPhase) return false;
+            _stateBeforeColorChoice = CurrentState;
+            Time.timeScale = 0f;
+            PublishState(GameState.ColorSelection);
+            return true;
+        }
+        public void CompleteColorChoice()
+        {
+            if (CurrentState != GameState.ColorSelection) return;
+            Time.timeScale = 1f;
+            IsResuming = true;
+            PublishState(_stateBeforeColorChoice);
             IsResuming = false;
         }
 

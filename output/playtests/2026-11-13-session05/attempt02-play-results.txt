@@ -1,0 +1,7 @@
+PASS All six types generate Lv1/Lv2, last cell, no new-item recursion, per-type2 cap without global slots
+PASS All 6x2 effects via single click: exact area, recovery/freeze/buff, color shift and retained identity, nested modal pause
+PASS Recursive overlap, unique removed set, all effects before refill, generated item survives chain
+System.Exception: FAIL Tile animation advances during freeze
+  at NyanLinkSession05Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession05Validation.cs:116 
+  at NyanLinkSession05Validation+<Sequence>d__84.MoveNext () [0x01156] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession05Validation.cs:446 
+  at NyanLinkSession05Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession05Validation.cs:102 

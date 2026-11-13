@@ -40,8 +40,10 @@ namespace NineMood.UI
             int tier = DataManager.Instance.BalanceData.GetChainMultiplier(connected);
             _chainTier.text = $"CHAIN {connected}  /  TIER x{tier}";
         }
+        private void OnItemUse(int score,int removed) => _chainTier.text=$"ITEM USE  /  REMOVED {removed}";
         private void OnEnable()
         {
+            GameEvents.OnItemUseCompleted += OnItemUse;
             GameEvents.OnMatchCompleted += OnMatch;
             GameEvents.OnScoreChanged    += UpdateScore;
             GameEvents.OnStaminaChanged  += UpdateStamina;
@@ -51,6 +53,7 @@ namespace NineMood.UI
 
         private void OnDisable()
         {
+            GameEvents.OnItemUseCompleted -= OnItemUse;
             GameEvents.OnMatchCompleted -= OnMatch;
             GameEvents.OnScoreChanged    -= UpdateScore;
             GameEvents.OnStaminaChanged  -= UpdateStamina;

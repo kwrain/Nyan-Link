@@ -26,11 +26,11 @@ namespace NineMood.Core.Managers
         /// 실제 제거 수 × 기본 점수 × 직접 연결 수의 티어 배율. effectLevel은 구형 호출 호환용.
         /// 연속 콤보/치명타를 사용하지 않는다.
         /// </summary>
-        public void AddScore(int chainLength, int effectLevel, int tilesRemoved, TileColor chainColor)
+        public void AddScore(int chainLength, int effectLevel, int tilesRemoved, TileColor chainColor, bool isItemUse = false)
         {
             BalanceData balance  = DataManager.Instance?.BalanceData;
             int   baseScore      = balance != null ? balance.baseScorePerTile : 10;
-            float multiplier     = (balance != null ? balance.GetChainMultiplier(chainLength) : chainLength >= 9 ? 4 : chainLength >= 5 ? 2 : 1); // 직접 연결 수의 체인 티어
+            float multiplier     = isItemUse ? 1f : (balance != null ? balance.GetChainMultiplier(chainLength) : chainLength >= 9 ? 4 : chainLength >= 5 ? 2 : 1); // 직접 연결 수의 체인 티어
 
             if (tilesRemoved < 0 || !GameManager.IsCreated || (GameManager.Instance.CurrentState != GameState.RunnerPhase && GameManager.Instance.CurrentState != GameState.BossPhase)) return;
             int gained = Mathf.RoundToInt(tilesRemoved * baseScore * multiplier);
@@ -47,7 +47,8 @@ namespace NineMood.Core.Managers
             }
 
             GameEvents.TriggerScoreChanged(CurrentScore, gained);
-            GameEvents.TriggerMatchCompleted(chainLength, gained, tilesRemoved, chainColor);
+            if (isItemUse) GameEvents.TriggerItemUseCompleted(gained,tilesRemoved);
+            else GameEvents.TriggerMatchCompleted(chainLength, gained, tilesRemoved, chainColor);
         }
 
         public void ResetScore()

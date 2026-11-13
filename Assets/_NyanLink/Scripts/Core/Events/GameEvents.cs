@@ -15,7 +15,8 @@ namespace NineMood.Core
         RunnerPhase, // 러너 + 퍼즐 진행 중
         BossPhase,   // 보스 전투 중
         Paused,      // 일시정지
-        Result       // 결과 화면 (승/패 공통) — ResultType으로 구분
+        Result,      // 결과 화면 (승/패 공통) — ResultType으로 구분
+        ColorSelection // 청록 선택. 별도의 사용자 Pause가 이 상태 위에 중첩될 수 있다.
     }
 
     /// <summary>
@@ -56,6 +57,8 @@ namespace NineMood.Core
 
         /// <summary>보스 등장 (진행도 100% 도달)</summary>
         public static event Action OnBossAppeared;
+        public static event Action<int,int> OnItemUseCompleted; // score, 실제 제거 수. 색상 액션/패턴 입력 아님
+        public static void TriggerItemUseCompleted(int score,int removed) => OnItemUseCompleted?.Invoke(score,removed);
 
         // ── 보스전 ─────────────────────────────────────────────
         /// <summary>보스 HP 변경 (current, max)</summary>

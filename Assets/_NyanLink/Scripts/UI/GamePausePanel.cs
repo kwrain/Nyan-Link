@@ -50,7 +50,7 @@ namespace NineMood.UI
         private void OnState(GameState state)
         {
             _overlay.SetActive(state == GameState.Paused);
-            PauseButton.gameObject.SetActive(state == GameState.RunnerPhase || state == GameState.BossPhase);
+            PauseButton.gameObject.SetActive(state == GameState.RunnerPhase || state == GameState.BossPhase || state == GameState.ColorSelection);
         }
         private void Update()
         {

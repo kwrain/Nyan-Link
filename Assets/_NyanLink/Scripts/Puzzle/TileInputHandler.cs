@@ -185,9 +185,13 @@ namespace NineMood.Puzzle
         {
             if (!_isInputActive) return;
             var chain = new List<Vector3Int>(_selectedChain);
-            bool canMatch = CanAcceptInput() && chain.Count >= 2;
+            bool canMatch = CanAcceptInput();
             ClearSelection();
-            if (canMatch && tileMatcher != null) tileMatcher.ProcessMatch(chain);
+            if (canMatch && tileMatcher != null)
+            {
+                if (chain.Count >= 2) tileMatcher.ProcessMatch(chain);
+                else if (chain.Count == 1) tileMatcher.TryUseItem(chain[0]);
+            }
         }
 
         /// <summary>화면→타일 중심 판정. 카메라 영역 밖은 보정으로도 선택할 수 없다.</summary>

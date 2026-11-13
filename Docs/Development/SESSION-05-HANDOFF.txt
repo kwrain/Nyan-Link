@@ -1,0 +1,152 @@
+냥링크 프로토타입 세션 05 인수인계
+작성일·최근 확인일: 2026-11-13 (Asia/Seoul)
+결과: 아이템 6종×2티어·연쇄·시간 정지·색상 선택의 상태/전투 연결 검증 완료. 세션 06 진행 가능.
+
+1. 기준·경로·보존 상태
+- 기준: Docs/Development/프로토타입 확정 기준.txt 및 Docs/냥링크 통합 기획서.docx 1.1. 현재 텍스트 전체 규칙·세션04 인수인계·WORK_ITEMS·이전 인수인계/현재 코드 확인. Docs/Plan 원안보다 1.1 우선.
+- 실제 작업 경로: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+- 브랜치 main. 적용 AGENTS.md는 루트, 하위 추가 지침 없음.
+- 사용자 요청에 따라 세션04 전체 변경·메타·문서·로그/실제 PNG를 118b8f8c0036262dba76b658c03595c0347e2e65 (fix: implement prototype time attack and combat rules)에 커밋하고 기존 origin/main으로 푸시함. ls-remote refs/heads/main 일치 확인.
+- 원격: https://github.com/kwrain/Nyan-Link.git. SSH 인증은 git -c 'url.git@github.com:.insteadOf=https://github.com/'으로 명령 단위 사용. origin URL 변경/강제 푸시 없음.
+- 세션05 변경은 로컬 미커밋·미푸시. 해당 세션 프롬프트의 추가 자동 커밋·푸시 금지 유지. 사용자 파일 삭제·기존 .meta GUID 변경·패키지 삭제·배포·추가 채팅 생성 없음.
+- 저장/보상/성장/최종 아트·화면 전체는 세션06~08로 유지. 기존 테스트 리소스와 UGUI 사용.
+
+2. 완료한 규칙
+생성·연쇄:
+- 직접 연결 5~8개 Lv1, 9개 이상 Lv2, 마지막 셀 생성. 종류별 최대2개이며 다른 종류 합계의 별도 슬롯 제한 없음.
+- 연쇄로 기존 아이템을 모두 소비한 뒤 남아 있는 같은 종류 수를 기준으로 생성 한도를 검사. 한도면 새 생성만 생략, 제거/점수/회복은 정상 처리.
+- 단독 마우스/터치 Release에서도 아이템 사용. 정상 타일 1개는 사용 안 함. 같은 색 체인에 포함된 기존 아이템도 사용.
+- 기존 타일만 대상으로 폭발/라인을 큐로 전파하고 셀별 1회 발동. 실제 고유 제거 수를 HashSet으로 집계. 모든 기존 효과가 끝난 후 한 번 집계·제자리 리필·새 아이템 생성. 새 타일/아이템은 해당 연쇄에서 다시 제거/발동하지 않음.
+- 단독 사용은 체인 티어x1, 실제 제거수×10 점수 및 ×0.3 회복. 별도 ItemUseCompleted 이벤트로 색상 액션/장애물 정답/보스 순서 입력/그로기 직접 공격과 구분.
+6종×2티어:
+- Recovery: 최대 HP10%/30% 즉시 회복, 일반 제거 회복 별도.
+- TimeFreeze:3/7초. 자연 감소·보스 패턴/그로기/전환 대기만 정지. 주행 경과/진행·입력·타일 애니메이션·장애물 이동은 유지. 남은 시간과 새 효과 중 max, 합산 안 함.
+- Blast: 육각 반경1/2. LineClear: 가로1줄/3축 라인. 기존 아이템을 맞히면 해당 종류/레벨의 효과를 한 번 연쇄.
+- PowerUp: 다음 유효 보스 공격+50%/100%. 높은 값만 유지. 단독 효과 자체는 색상 공격이 아니며 그로기 직접 공격 이벤트에서 한 번 소모. 주행에서 보스 진입까지 유지.
+- ColorShift: Lv1 무작위6색 중1색, Lv2 실제6색 UGUI 선택. 모든 타일 색을 바꾸되 기존 아이템의 종류·레벨·위치는 보존.
+- 보드 요구 색 인접 쌍 확보가 최종 우선. 선택 색과 장애물/패턴 요구 색이 다르면 보정에 필요한 일반 타일 최소 쌍은 요구 색으로 돌아갈 수 있음. 이 보정은 아이템 종류/레벨을 바꾸지 않음.
+상태/보스:
+- 색상 선택은 별도 ColorSelection 상태와 timeScale0. 입력/진행/장애물/보스·효과 시간 보존. 선택 후 원래 Runner/Boss 상태로 IsResuming=true 발행, 초기화 없이 복귀.
+- 선택 중 PAUSE→RESUME는 같은 선택창으로 돌아가며 계속 timeScale0. RESTART/HOME은 선택 콜백·남은 효과를 취소하고 새 게임/로비로 이동.
+- 같은 연쇄에 청록Lv2가 여러 개 있으면 기존 발동 순서대로 선택하고 마지막 선택까지 게임 정지 유지. 매칭 제거/집계/리필은 다시 실행하지 않음.
+- 매칭이 먼저 보스 HP0/Result를 만들면 대기 청록 선택을 취소하고 승리를 유지. 결과에서 입력/진행 정지.
+- 보스 패턴/전환 대기 중에는 아이템 효과·생성 금지. 체인에 기존 아이템을 보존, 실제 제거수만 점수/회복. 단독 사용은 패턴 단계 진행 안 함. 보존된 아이템2개 연결은 순서 입력 가능하되 제거0/점수0/회복0.
+- 시간 정지의 유일한 시계는 StaminaManager.DecayFreezeRemaining. Boss.TimerFreezeRemaining은 같은 값을 읽으므로 주행→보스 이월/정지/재개에서 두 시계가 어긋나지 않음.
+표시/연출:
+- 보드에 REC/FRZ/BLAST/LINE/PWR/COLOR +1/2 표식. 재색칠 뒤에도 실제 종류가 보임. 단독 사용 결과는 ITEM USE로 체인 표시와 구분. TIME FREEZE 잔여 시간 표시.
+- 기존 TileAnimation 컴포넌트가 씬에 연결되지 않았음을 실행 검사에서 발견하여 보드 Awake에서 기존 코드 컴포넌트를 연결. Tilemap LockTransform을 해제해 스폰/제거 스케일 연출이 실제로 진행되게 함. 새 아트 제작이나 리소스 교체 없음.
+- 색 선택 중 스폰 연출이 정지된 작은 타일 모습이 배경에 보일 수 있음. 선택/재개 후 원래 연출이 계속됨. 선택 시 애니메이션 강제 완료로 상태를 바꾸지 않음.
+
+3. 변경 파일
+수정:
+- Assets/_NyanLink/Scripts/Core/Events/GameEvents.cs
+- Assets/_NyanLink/Scripts/Core/Managers/{GameManager,ScoreManager,StaminaManager}.cs
+- Assets/_NyanLink/Scripts/Boss/BossController.cs
+- Assets/_NyanLink/Scripts/Puzzle/{TileMatcher,TileInputHandler,TileInstance,PuzzleBoardManager,TileAnimation}.cs
+- Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs
+- Assets/_NyanLink/Scripts/UI/{GamePausePanel,GameHUD}.cs
+- Assets/Editor/NyanLinkSession04Validation.cs (별도 출력 경로 환경 변수만 추가)
+- Docs/WORK_ITEMS.md, 본 인수인계
+추가 및 각각 .meta:
+- Assets/_NyanLink/Scripts/UI/ColorSelectionPanel.cs
+- Assets/_NyanLink/Scripts/UI/ItemTileLabels.cs
+- Assets/Editor/NyanLinkSession05Validation.cs
+추가 결과 폴더: output/playtests/2026-11-13-session05/
+씬 YAML/기존 에셋·메타는 유지. 선택창·아이템 표식·애니메이션 연결은 씬 소유 런타임 컴포넌트로 추가. Unity 자동 사용자 설정 여부는 최종 Git 목록을 우선.
+
+4. 데이터·API·이벤트 계약 (세션06 필수)
+TileInstance:
+- Color는 현재 연결 색, State는 Normal/ItemLv1/ItemLv2, ItemType은 기존 아이템 효과 정체성. ColorShift 뒤 Color와 ItemType은 다를 수 있음.
+- 생성 시 원래 색 매핑으로 ItemType 설정. RecolorAll은 Color만 바꿈. State→Normal은 ItemType=None, Item→Lv변경은 기존 종류 유지. Reset은 종류 초기화.
+- SetItemType(type)은 상태가 아이템일 때 명시적인 종류 복원 지점. DefaultItemType(color)은 신규/구형 데이터 폴백용.
+- 세션06 저장은 위치/Color/State뿐 아니라 ItemType도 반드시 저장·복원할 것. 재색칠된 아이템을 Color로 다시 유추하면 종류·한도가 손상됨. 이번 세션에서 저장 구현을 선행하지 않음.
+PuzzleBoardManager:
+- CountItemsOfType는 Color가 아닌 ItemType 기준.
+- RecolorAll(color): 활성 타일 전체 색만 변경, 타입/레벨/위치 보존, 마지막에 EnsureRequiredColorPair. 선택/보스 요구 색과의 정합을 이 경로로 유지.
+TileMatcher:
+- ProcessMatch(List<Vector3Int>) 기존 진입 유지, TryUseItem(cell) 단독 사용 API(bool).
+- IsResolving은 동기 연쇄부터 모든 청록 선택 종료까지 true, 새 처리 거부. Briefing/Result/OnDisable은 큐 취소.
+- LastDirectCount/LastRemovedCount/LastActivatedCount는 마지막 요청 결과의 읽기 전용 검사 값.
+- OnItemActivated는 각 기존 원본 아이템당 한 번, 기존 보드를 읽는 시점(제거/리필 전). 관찰 전용이며 구독자가 보드를 재작성하지 말 것.
+- OnColorShift는 전체 리필+RecolorAll 후 알림. 구독자가 같은 색 적용/제거/집계를 다시 실행하지 말 것. 청록 적용은 큐 순서대로, 신규 타일도 최종 색을 얻지만 제거/효과는 재진입하지 않음.
+ScoreManager/GameEvents:
+- AddScore(...,bool isItemUse=false) 선택 인수 추가. 기존 체인은 기존 OnMatchCompleted 한 번. 단독은 OnItemUseCompleted(scoreGained,actualRemoved) 한 번, OnMatchCompleted를 발행하지 않음.
+- StaminaManager는 두 완료 이벤트 각각 해당 제거수 회복. 하나의 요청에 두 이벤트를 모두 발행하면 안 됨.
+- OnItemActivated(sourceCell,type,level) 추가. 기존 OnRecovery/OnTimeFreeze/OnPowerUp 서명 유지.
+시간/선택:
+- StaminaManager는 OnTimeFreeze→PauseDecay를 구독. active Runner 또는 Boss 그로기에서 아이템 획득. DecayFreezeRemaining 하나를 active Runner/Boss에서만 감소. ColorSelection/Paused/Result에서 효과 잔여 시간도 보존. 새 게임 ResetStamina가 초기화.
+- Boss.FreezeTimersFor는 같은 Stamina 시계로 위임. Boss 시작/종료에서 주행 효과 시계를 임의로0으로 만들지 않음.
+- GameState.ColorSelection을 enum 맨 뒤에 추가하여 기존 직렬화 인덱스0~4 유지.
+- GameManager.BeginColorChoice/CompleteColorChoice가 직전 Runner/Boss를 보존. PauseGame은 ColorSelection도 허용, ResumeGame은 그 상태일 때 timeScale0 복귀. 색 선택 완료는 IsResuming=true 상태 이벤트를 발행하여 보스 재시작 방지.
+- ColorSelectionPanel.Show(Action<TileColor>), ColorButtons[6], IsOpen. 중복 Release/Paused 상태 버튼 호출은 무시. 선택 큐는 미완료 트랜잭션의 일시 UI이며 재시작/씬 이탈 시 폐기.
+- 세션06은 매 타일/애니메이션이 아닌 승인된 구간 경계 저장. 재색칠 종류, 주행 가속/시간 정지 잔여, 보스 버프/방어권 및 다음 단계 등을 저장해야 함. 구간 저장에 선택 중인 콜백 자체를 직렬화하지 말 것.
+
+5. 검증 환경·실행
+- macOS27.2 arm64, Unity6000.3.14f1, URP17.3.0, InputSystem1.19.0. 활성 빌드 대상iOS지만 실행은 Mac Editor. Player/실기기/시뮬레이터 아님.
+변수:
+unity='/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity'
+project='/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link'
+출력 폴더: output/playtests/2026-11-13-session05/
+컴파일:
+"$unity" -batchmode -quit -projectPath "$project" -logFile "$project/output/playtests/2026-11-13-session05/compile.log"
+- 초기 생산 코드 컴파일 종료0.최종 플레이/회귀 실행에서도 변경 소스 전체 재컴파일.
+실제 그래픽 플레이:
+"$unity" -projectPath "$project" -executeMethod NyanLinkSession05Validation.Run -logFile "$project/output/playtests/2026-11-13-session05/play.log"
+- 최종 종료0, 316 Play assertion 통과, 게임 경로 런타임 오류0. batchmode/nographics/quit 없이 실행하고 도구가 종료.
+- 실제 InputSystem 가상 Mouse 이벤트→UI/입력 Update/Release. 6종×2티어 생성/단독 효과, 종류별2개·총11개 배치, 최소/긴 체인·한도 시 집계, 실제 영역7/19·5/17, 기존 아이템 단발 재귀/리필 순서/새 생성 보호.
+- 시간 정지3/7·max갱신, 자연 감소만 정지·경과/진행/입력/타일행렬/장애물 이동 지속, Pause 보존, 주행→보스 동일시계, 패턴/그로기 정지.
+- 보스 패턴 보호/단독 사용 거부/7개 실제 제거수 티어4 점수280·회복2.1, 보존 아이템0제거 무보상, 실제 버프50/100% 중복·다음공격1회·그 다음 무버프.
+- 청록6색창/전체 변색/아이템 정체성 유지, 선택중 퍼즐 차단/중첩 Pause/원래 BossGroggy 복귀/같은 장애물 유지, 다중 선택 큐, 처치시 선택 취소/단일 승리, 재시작/Home 정리.
+- 보드/HP/아이템은 검사 목적의 메모리 배치. 사람의 실제 무보정 완주/실기기 테스트와 구분.
+사용자 저장 보호:
+- SaveManager.stageData를 메모리에서만 null로 두어 원본 체크포인트 읽기/쓰기/삭제 차단. 사용자 저장 폴더 파일명/SHA 목록 전후 일치. 최고 점수 PlayerPrefs·입력 설정/기기·GameView 복원, 씬 파일 저장 없음.
+초기 실패 보존:
+- compile-attempt01-validator.log: 검사 도구의 지역변수 이름 충돌 수정. 해당 CLI는 컴파일 실패로 대기하여 이번 검사 프로세스만 SIGTERM 종료 후 재실행.
+- attempt01: 연쇄 테스트 아이템 좌표가 폭발2 반경 밖이었음. 실제 반경 안에 같은종류2개+라인을 배치하여 소모 후 생성 한도까지 검증하도록 수정.
+- attempt02: 타일 애니메이션 검사 실패로 기존 컴포넌트 미연결을 확인. 기존 TileAnimation 런타임 연결/LockTransform 정비 후 실제 행렬 변화 검사 통과.
+- 초기 실패 로그/결과/PNG는 attempt 접두사로 최종 성공과 구분 보존.
+
+6. 실제 화면
+모두 output/playtests/2026-11-13-session05/의 실제 Unity 캡처1080×1920. 생성/합성 이미지 아님. 테스트용 보드/아이템 배치를 포함.
+- 01-item-types-and-levels.png: 종류·레벨 표식과 다른종류10개를 유지한 새11번째 아이템. 리필 스케일 연출 중 일부 타일이 작게 보임.
+- 02-color-selection-runner.png: 주행 중 실제6색 선택, 게임/퍼즐/시간 정지. Pause 버튼으로 수동 일시정지 중첩 가능.
+- 03-recolored-items.png: 전체 색 변경 후 원래 효과 종류가 보존됨. 단독 사용 후 리필 시점 포함.
+- 04-chain-effects.png: 원본6종 겹친 재귀 효과 완료/제자리 리필, 단일 사용 점수.
+- 05-frozen-obstacle.png: 자연 감소 시간 정지 상태에서도 움직이던 장애물을 게임 Pause로 정지. 해제 후 같은 인스턴스 계속.
+- 06-color-selection-groggy.png: 그로기 중 색 선택/시간 보존. 선택 후 같은 그로기로 복귀.
+- 07-items-groggy.png: 시간 정지/버프 적용·소모와 그로기 HP 반영.
+- 08-item-chain-victory.png: 청록Lv2를 포함한 치명 연쇄가 선택창을 취소하고 단일 CLEAR Result로 끝남.
+전체 폰트·아이콘·레이아웃 정비와 실기기 가독성은 세션08. 기존 리소스·메타를 보존한 기능용 표식이며 최종 아트 아님.
+
+7. 남은 항목과 다음 세션
+- V-008 시간 정지 통합은 이번 검증 완료 이력으로 이동. 세션05 자동 검증 V-009 추가. I-005는 저장 계약/안전 파일 처리 미완성만 남음.
+- 미검증 V-001: Player빌드·빈 캐시 복구. V-002: 실제 사람 무보정 완주·난이도. 실제 입력 기기 검증을 자동 Mouse/Touch 성공으로 대체하지 않음.
+- 미해결 I-003 폰트/HUD/안전영역/문구(기존 승리 CONTINUE는 실제 RetryGame), I-004 캐릭터/장비ID, I-005 저장/이어하기. 보상/성장은 다음 범위.
+- 실기기 필요 D-001: Android/iOS 터치·다른 화면비/노치·아이템 단독/체인·6색선택/중첩Pause·앱전환·타이머. 기기 미사용.
+- 세션06은 본 파일/WORK_ITEMS/1.1을 먼저 읽고 저장을 구현. ItemType과 잔여 효과를 새 필수 데이터로 취급하고 기존 사용자 파일을 바로 덮어쓰지 말 것. 저장 시점/손상된 구형 파일 삭제 경로는 아직 정비되지 않았음.
+
+8. 재현·복구
+- Unity를 미리 켜둘 필요 없음. 동일 프로젝트 Editor를 닫고 위 CLI 실행. 그래픽 검사는 로그인된 Mac 화면 세션 필요.
+- 수동: Main→Play→시작→같은색5~8/9+ 연결→생긴 아이템 단독 터치 또는 체인에 포함. 청록2 선택창에서 Pause/Resume/색 선택. 보스 패턴 중 단독 아이템은 거부, 그로기에서 사용.
+- 실제 수동은 구형 저장 자동 복원이 개입할 수 있음. 별도 프로필/저장 복사본 사용. 원본 저장 삭제로 시험하지 말 것.
+- 세션05 이전 기준선118b8f8c0036262dba76b658c03595c0347e2e65는 로컬/원격에 보존. 현재 폴더 덮어쓰기 대신 새 빈 폴더 복원:
+restore='/private/tmp/Nyan-Link-before-session05'
+mkdir "$restore"
+git archive 118b8f8c0036262dba76b658c03595c0347e2e65 | tar -x -C "$restore"
+- Library 재생성/SSH Git 패키지 인증 필요 가능. 원본 Library 삭제/reset/checkout으로 현재 작업 덮어쓰기 금지.
+- 원래 사용자 미커밋·미추적 상태의 외부 백업과 실제 복원 근거는 SESSION-01-HANDOFF.txt의 Nyan-Link-session01-backup 유지.
+- 현재05는 미커밋이므로 보존 시 새 소스·.meta·문서·출력(미추적)을 함께 복사. 최종 Git 목록 참고.
+
+9. 기존 보스 회귀 검사
+NYANLINK_SESSION04_OUTPUT='output/playtests/2026-11-13-session05/regression-session04' "$unity" -projectPath "$project" -executeMethod NyanLinkSession04Validation.Run -logFile "$project/output/playtests/2026-11-13-session05/regression-session04.log"
+- 종료0, Play180 assertion 통과·런타임 오류0. 자연 장애물3종→보스, 기존 공식/그로기·정지·강화·승패/직접 피해 API·저장 보호/씬 구독 정리 재확인.
+- 신규 ItemUse 이벤트로 구독 검사2개가 늘어 기존178보다 많음. 기존 세션04 결과는 덮어쓰지 않음. 도구의 출력 경로 환경 변수만 추가했으며 검사 기대값을 완화하지 않음.
+
+10. 보드·입력 회귀와 종료 검사
+NYANLINK_VALIDATION_OUTPUT='output/playtests/2026-11-13-session05/regression-session02' "$unity" -projectPath "$project" -executeMethod NyanLinkSession02Validation.Run -logFile "$project/output/playtests/2026-11-13-session05/regression-session02.log"
+- 종료0, Geometry9,855 / Play368 assertion 통과·런타임 오류0. 39칸/6방향·되돌리기/취소/제자리 리필·요구 색 보정/마우스·가상 EnhancedTouch/1080×1920와1284×2778 재확인.
+- 최종: 세션05 Play316, 보스 회귀180, 보드 좌표9,855/Play368. 모든 최종 프로세스 종료0. tests-summary.json 참조.
+- 최종 실제 PNG8장 모두1080×1920. 직접 열어 선택 UI/아이템 표식/연쇄·시간 정지/보스·처치 표시 확인. 리필/선택/결과 정지 시점의 작은 타일은 실제 진행 중인 스폰 연출 상태이며, 임의 보정/합성하지 않음.
+- final-audit.json: 기존 .meta 변경0, 기존 파일 삭제0, 중복 에셋 GUID0, 누락 스크립트 메타0, 해석 불가 참조 GUID0. PNG크기·SHA256 기록.
+- git diff --check 종료0, 새 소스/문서 whitespace 진단 없음. whitespace-check.txt 참조.
+- HEAD/확인한 origin/main은118b8f8. 세션05는 미커밋·미푸시, staged 변경 없음. 최종 변경 목록은 git-status-final.txt. 세션06 진행 가능.

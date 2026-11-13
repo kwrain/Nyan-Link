@@ -1,0 +1,30 @@
+{
+  "unity": "6000.3.14f1",
+  "environment": "macOS27.2 arm64 Editor (active iOS target, no device/Player execution)",
+  "initialProductionCompileExit": 0,
+  "session05": {
+    "playAssertions": 316,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "session04Regression": {
+    "playAssertions": 180,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "session02Regression": {
+    "geometryAssertions": 9855,
+    "playAssertions": 368,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "userSaves": "File list/SHA hashes unchanged; SaveManager.stageData isolated null in play memory",
+  "screenshots": 8,
+  "unverified": [
+    "Player build and clean cache restore",
+    "physical input/device execution",
+    "unmodified manual full clear/difficulty",
+    "checkpoint/board ItemType/effect persistence; session06",
+    "growth/reward integration; session07"
+  ]
+}

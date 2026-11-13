@@ -191,7 +191,7 @@ namespace NineMood.Runner
 
         private void OnGameStateChanged(GameState state)
         {
-            if (state == GameState.Paused || state == GameState.RunnerPhase) return;
+            if (state == GameState.Paused || state == GameState.ColorSelection || state == GameState.RunnerPhase) return;
             CancelActive();
             if (state == GameState.Briefing)
             {

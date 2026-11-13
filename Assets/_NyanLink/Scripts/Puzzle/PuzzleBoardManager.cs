@@ -91,8 +91,8 @@ namespace NineMood.Puzzle
                     Debug.LogError("PuzzleBoardManager: Tilemap 컴포넌트를 찾을 수 없습니다!");
             }
 
-            if (tileAnimation == null)
-                tileAnimation = GetComponent<TileAnimation>();
+            if (tileAnimation == null) tileAnimation = GetComponent<TileAnimation>();
+            if (tileAnimation == null) tileAnimation = gameObject.AddComponent<TileAnimation>();
 
             if (autoLoadTiles)
                 LoadAnimatedTiles();
@@ -198,18 +198,21 @@ namespace NineMood.Puzzle
         /// </summary>
         public int CountItemsOfType(ItemEffectType effectType)
         {
-            ColorEffectMappingData mapping = DataManager.Instance?.ColorEffectMapping;
             int count = 0;
-            foreach (var kv in _tiles)
-            {
-                TileInstance tile = kv.Value;
-                if (tile == null || !tile.IsActive || tile.State == TileState.Normal) continue;
-                ItemEffectType tileEffect = mapping != null
-                    ? mapping.GetEffectForColor(tile.Color)
-                    : DefaultEffectForColor(tile.Color);
-                if (tileEffect == effectType) count++;
-            }
+            foreach (var tile in _tiles.Values)
+                if (tile.IsActive && tile.State != TileState.Normal && tile.ItemType == effectType) count++;
             return count;
+        }
+        /// <summary>청록은 색만 바꾸며 아이템 종류/레벨/위치는 보존. 요구 색 보정이 최종 우선한다.</summary>
+        public void RecolorAll(TileColor color)
+        {
+            foreach (var tile in _tiles.Values)
+            {
+                if (!tile.IsActive) continue;
+                tile.Color = color;
+                tilemap.SetTile(tile.OffsetPosition,GetTileByColorAndState(color,tile.State) ?? hexagonTile);
+            }
+            EnsureRequiredColorPair();
         }
 
         private static ItemEffectType DefaultEffectForColor(TileColor color) => color switch
@@ -281,6 +284,8 @@ namespace NineMood.Puzzle
             TileState tileState = state ?? TileState.Normal;
 
             TileInstance tileInstance = new TileInstance(offset, tileColor, tileState);
+            if (tileState != TileState.Normal)
+                tileInstance.SetItemType(DataManager.Instance?.ColorEffectMapping?.GetEffectForColor(tileColor) ?? DefaultEffectForColor(tileColor));
             _tiles[offset] = tileInstance;
 
             TileBase tileToPlace = GetTileByColorAndState(tileColor, tileState) ?? hexagonTile;

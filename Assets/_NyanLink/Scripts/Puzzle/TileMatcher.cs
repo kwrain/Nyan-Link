@@ -1,289 +1,145 @@
 using System.Collections.Generic;
-using UnityEngine;
-using NineMood.Data.Enums;
-using NineMood.Data.Definitions;
-using NineMood.Core.Managers;
 using NineMood.Boss;
+using NineMood.Core;
+using NineMood.Core.Managers;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
+using NineMood.UI;
+using UnityEngine;
 
 namespace NineMood.Puzzle
 {
-    /// <summary>
-    /// 타일 매칭 로직 처리
-    /// ItemEffectType 기준 (2026-06-24 확정): Recovery/TimeFreeze/Blast/LineClear/PowerUp/ColorShift
-    /// </summary>
+    /// <summary>한 요청은 기존 타일만 수집·연쇄한 후 단일 집계/리필. 청록 선택은 커밋 후 수행.</summary>
     public class TileMatcher : MonoBehaviour
     {
-        [Header("참조")]
         public PuzzleBoardManager boardManager;
         public BalanceData balanceData;
-
-        [Header("매칭 설정")]
-        [Tooltip("최소 매칭 개수")]
         public int minMatchCount = 2;
-
-        [Header("디버그")]
-        public bool debugLog = false;
-
+        public bool debugLog;
+        public bool IsResolving { get; private set; }
+        public int LastRemovedCount { get; private set; }
+        public int LastDirectCount { get; private set; }
+        public int LastActivatedCount { get; private set; }
+        private readonly Queue<int> _colorShifts = new Queue<int>();
+        private BalanceData Balance => balanceData != null ? balanceData : DataManager.Instance?.BalanceData;
+        private bool IsPlaying => GameManager.Instance?.CurrentState == GameState.RunnerPhase || GameManager.Instance?.CurrentState == GameState.BossPhase;
+        private bool ItemsAllowed => GameManager.Instance?.CurrentState == GameState.RunnerPhase || (BossController.Instance?.CanUseItems ?? false);
         private void Awake()
         {
-            if (boardManager == null)
-                boardManager = FindFirstObjectByType<PuzzleBoardManager>();
+            if (boardManager == null) boardManager = FindFirstObjectByType<PuzzleBoardManager>();
+            if (GetComponent<ItemTileLabels>() == null) gameObject.AddComponent<ItemTileLabels>();
         }
-
-        // ── 공개 진입점 ────────────────────────────────────────────────
-
+        private void OnEnable() => GameEvents.OnGameStateChanged += OnState;
+        private void OnDisable() { GameEvents.OnGameStateChanged -= OnState; Cancel(); }
+        private void Cancel() { _colorShifts.Clear(); IsResolving = false; }
+        private void OnState(GameState state)
+        {
+            if (state == GameState.Briefing || state == GameState.Result) Cancel();
+        }
         public void ProcessMatch(List<Vector3Int> selectedChain)
         {
-            if (GameManager.IsCreated && GameManager.Instance.CurrentState != NineMood.Core.GameState.RunnerPhase &&
-                GameManager.Instance.CurrentState != NineMood.Core.GameState.BossPhase) return;
-            if (selectedChain == null || selectedChain.Count < minMatchCount) return;
-            if (!ValidateChain(selectedChain)) return;
-
-            TileInstance firstTile = boardManager.GetTileAtOffset(selectedChain[0]);
-            TileColor chainColor   = firstTile?.Color ?? TileColor.Red;
-            int chainLength        = selectedChain.Count;
-            bool preserveItems = GameManager.Instance?.CurrentState == NineMood.Core.GameState.BossPhase
-                && !(BossController.Instance?.CanUseItems ?? false);
-
-            BalanceData balance = ResolveBalance();
-            int effectLevel = ChainEvaluator.GetEffectLevel(balance, chainLength);
-
-            // 아이템 타일 생성 가능 여부 (타입별 1개 제한)
-            bool canCreateItem      = false;
-            TileState itemState     = TileState.Normal;
-            Vector3Int itemPosition = selectedChain[chainLength - 1];
-            ItemEffectType itemType = ResolveEffectType(chainColor);
-
-            if (!preserveItems && balance != null && effectLevel > 0)
-            {
-                canCreateItem = CanPlaceItemTile(balance, itemType);
-                if (canCreateItem)
-                    itemState = ChainEvaluator.EffectLevelToTileState(effectLevel);
-
-                if (debugLog)
-                    Debug.Log($"[매칭] 체인 {chainLength}, 색상 {chainColor}, 효과 Lv{effectLevel}, 아이템 생성 {canCreateItem}");
-            }
-
-            // 제거 타일 수집 (체인 + 아이템 효과 연쇄)
-            HashSet<Vector3Int> tilesToRemove = new HashSet<Vector3Int>();
-            if (preserveItems)
-            {
-                foreach (var cell in selectedChain)
-                    if (boardManager.GetTileAtOffset(cell).State == TileState.Normal) tilesToRemove.Add(cell);
-            }
-            else ApplyItemEffects(selectedChain, tilesToRemove, balance);
-
-            int tilesRemoved = tilesToRemove.Count;
-            RemoveMatchedTiles(tilesToRemove);
-
-            ScoreManager.Instance?.AddScore(chainLength, effectLevel, tilesRemoved, chainColor);
-            SpawnNewTiles(tilesToRemove, canCreateItem, itemPosition, chainColor, itemState);
+            if (!IsPlaying || IsResolving || !ValidateChain(selectedChain)) return;
+            Resolve(new List<Vector3Int>(selectedChain),false);
         }
-
-        // ── 내부 헬퍼 ─────────────────────────────────────────────────
-
-        private BalanceData ResolveBalance() =>
-            balanceData ?? DataManager.Instance?.BalanceData;
-
+        public bool TryUseItem(Vector3Int cell)
+        {
+            var tile = boardManager.GetTileAtOffset(cell);
+            if (!IsPlaying || !ItemsAllowed || IsResolving || tile == null || !tile.IsActive || tile.State == TileState.Normal) return false;
+            Resolve(new List<Vector3Int> { cell },true);
+            return true;
+        }
         private bool ValidateChain(List<Vector3Int> chain)
         {
             if (chain == null || chain.Count < minMatchCount) return false;
-            TileInstance first = boardManager.GetTileAtOffset(chain[0]);
+            var first = boardManager.GetTileAtOffset(chain[0]);
             if (first == null) return false;
-            TileColor color = first.Color;
-            var unique = new HashSet<Vector3Int>();
-
-            for (int i = 0; i < chain.Count; i++)
+            var seen = new HashSet<Vector3Int>();
+            for (int i=0;i<chain.Count;i++)
             {
-                TileInstance t = boardManager.GetTileAtOffset(chain[i]);
-                if (t == null || !t.IsActive || t.Color != color || !unique.Add(chain[i])) return false;
-                if (i > 0 && !HexOffsetUtils.IsAdjacent(chain[i - 1], chain[i])) return false;
+                var tile=boardManager.GetTileAtOffset(chain[i]);
+                if (tile==null || !tile.IsActive || tile.Color!=first.Color || !seen.Add(chain[i])) return false;
+                if (i>0 && !HexOffsetUtils.IsAdjacent(chain[i-1],chain[i])) return false;
             }
             return true;
         }
-
-        private bool CanPlaceItemTile(BalanceData balance, ItemEffectType type)
+        private void Resolve(List<Vector3Int> chain,bool solo)
         {
-            if (balance.maxItemsPerType <= 0) return true; // 0 = 무제한
-            return boardManager.CountItemsOfType(type) < balance.maxItemsPerType;
-        }
-
-        private void RemoveMatchedTiles(IEnumerable<Vector3Int> offsets)
-        {
-            foreach (var o in offsets) boardManager.RemoveTile(o);
-        }
-
-        private void SpawnNewTiles(
-            IEnumerable<Vector3Int> emptyPositions,
-            bool createItem, Vector3Int itemPos,
-            TileColor itemColor, TileState itemState)
-        {
-            foreach (var pos in emptyPositions)
+            IsResolving = true;
+            _colorShifts.Clear();
+            bool useItems = ItemsAllowed;
+            TileColor chainColor=boardManager.GetTileAtOffset(chain[0]).Color;
+            var removed=new HashSet<Vector3Int>();
+            var sources=new Queue<Vector3Int>();
+            var activated=new HashSet<Vector3Int>();
+            void Affect(Vector3Int cell)
             {
-                if (createItem && pos == itemPos)
-                    boardManager.SpawnTile(pos, itemColor, itemState);
-                else
-                    boardManager.SpawnTile(pos, boardManager.GetRandomTileColor(), TileState.Normal);
+                var tile=boardManager.GetTileAtOffset(cell);
+                if (tile==null || !tile.IsActive || (!useItems && tile.State!=TileState.Normal)) return;
+                if (removed.Add(cell) && tile.State!=TileState.Normal) sources.Enqueue(cell);
             }
-            boardManager.EnsureRequiredColorPair();
-        }
-
-        // ── 색상 → 아이템 효과 매핑 ───────────────────────────────────
-
-        private ItemEffectType ResolveEffectType(TileColor color)
-        {
-            ColorEffectMappingData mapping = DataManager.Instance?.ColorEffectMapping;
-            if (mapping != null) return mapping.GetEffectForColor(color);
-
-            return color switch
+            foreach (var cell in chain) Affect(cell);
+            while (sources.Count>0)
             {
-                TileColor.Red    => ItemEffectType.Recovery,
-                TileColor.Blue   => ItemEffectType.TimeFreeze,
-                TileColor.Yellow => ItemEffectType.Blast,
-                TileColor.Purple => ItemEffectType.LineClear,
-                TileColor.Orange => ItemEffectType.PowerUp,
-                TileColor.Cyan   => ItemEffectType.ColorShift,
-                _                => ItemEffectType.None
-            };
-        }
-
-        // ── 아이템 효과 연쇄 처리 ─────────────────────────────────────
-
-        private void ApplyItemEffects(
-            List<Vector3Int> chain,
-            HashSet<Vector3Int> tilesToRemove,
-            BalanceData balance)
-        {
-            var itemQueue             = new Queue<Vector3Int>();
-            var processedItemSources  = new HashSet<Vector3Int>();
-
-            foreach (var offset in chain)
-                AddAffectedTile(offset, tilesToRemove, itemQueue, processedItemSources);
-
-            while (itemQueue.Count > 0)
-            {
-                var offset = itemQueue.Dequeue();
-                if (!processedItemSources.Add(offset)) continue;
-
-                TileInstance tile = boardManager.GetTileAtOffset(offset);
-                if (tile == null || tile.State == TileState.Normal) continue;
-
-                int level = tile.State == TileState.ItemLv2 ? 2 : 1;
-                ItemEffectType effect = ResolveEffectType(tile.Color);
-
-                if (debugLog)
-                    Debug.Log($"[아이템 효과] {effect} Lv{level} @ {offset}");
-
-                switch (effect)
+                var cell=sources.Dequeue();
+                if (!activated.Add(cell)) continue;
+                var tile=boardManager.GetTileAtOffset(cell);
+                int level=tile.State==TileState.ItemLv2 ? 2 : 1;
+                ItemEffectType type=tile.ItemType;
+                // 기존 타일은 아직 제거/재색칠하지 않으므로 모든 연쇄가 같은 스냅샷을 본다.
+                ItemEffectEvents.TriggerItemActivated(cell,type,level);
+                switch(type)
                 {
                     case ItemEffectType.Recovery:
-                        ApplyRecovery(level, balance);
-                        break;
+                        ItemEffectEvents.TriggerRecovery(level==2 ? Balance?.healPercentLv2 ?? .3f : Balance?.healPercentLv1 ?? .1f); break;
                     case ItemEffectType.TimeFreeze:
-                        ApplyTimeFreeze(level, balance);
-                        break;
-                    case ItemEffectType.Blast:
-                        ApplyBlast(offset, level, balance, tilesToRemove, itemQueue, processedItemSources);
-                        break;
-                    case ItemEffectType.LineClear:
-                        ApplyLineClear(offset, level, tilesToRemove, itemQueue, processedItemSources);
-                        break;
+                        ItemEffectEvents.TriggerTimeFreeze(level==2 ? Balance?.freezeDurationLv2 ?? 7f : Balance?.freezeDurationLv1 ?? 3f); break;
                     case ItemEffectType.PowerUp:
-                        ApplyPowerUp(level, balance);
-                        break;
-                    case ItemEffectType.ColorShift:
-                        ApplyColorShift(level);
-                        break;
+                        ItemEffectEvents.TriggerPowerUp(Balance?.GetPowerUpBonus(level) ?? (level==2 ? 1f : .5f)); break;
+                    case ItemEffectType.ColorShift: _colorShifts.Enqueue(level); break;
+                    case ItemEffectType.Blast:
+                        int radius=level==2 ? Balance?.blastRangeLv2 ?? 2 : Balance?.blastRangeLv1 ?? 1;
+                        foreach (var other in HexOffsetUtils.GetRange(cell,radius)) Affect(other); break;
+                    case ItemEffectType.LineClear:
+                        foreach (var other in boardManager.GetAllTileOffsets())
+                            if (HexOffsetUtils.IsOnLine(cell,other,level==2)) Affect(other); break;
                 }
             }
+            LastRemovedCount=removed.Count;
+            LastDirectCount=chain.Count;
+            LastActivatedCount=activated.Count;
+            foreach (var cell in removed) boardManager.RemoveTile(cell);
+            int effectLevel=solo ? 0 : ChainEvaluator.GetEffectLevel(Balance,chain.Count);
+            ItemEffectType newType=DataManager.Instance?.ColorEffectMapping?.GetEffectForColor(chainColor) ?? TileInstance.DefaultItemType(chainColor);
+            // 기존 연쇄로 소비한 아이템을 제외한 최종 개수로 제한을 검사한다.
+            bool createItem=useItems && !solo && effectLevel>0 &&
+                ((Balance?.maxItemsPerType ?? 2)<=0 || boardManager.CountItemsOfType(newType)<(Balance?.maxItemsPerType ?? 2));
+            ScoreManager.Instance?.AddScore(chain.Count,effectLevel,removed.Count,chainColor,solo);
+            Vector3Int last=chain[chain.Count-1];
+            foreach (var cell in removed)
+                boardManager.SpawnTile(cell,createItem && cell==last ? chainColor : boardManager.GetRandomTileColor(),
+                    createItem && cell==last ? ChainEvaluator.EffectLevelToTileState(effectLevel) : TileState.Normal);
+            boardManager.EnsureRequiredColorPair();
+            ContinueColorShifts();
         }
-
-        private void AddAffectedTile(
-            Vector3Int offset,
-            HashSet<Vector3Int> tilesToRemove,
-            Queue<Vector3Int> itemQueue,
-            HashSet<Vector3Int> processedItemSources)
+        private void ContinueColorShifts()
         {
-            TileInstance tile = boardManager.GetTileAtOffset(offset);
-            if (tile == null || !tile.IsActive) return;
-            if (tilesToRemove.Add(offset) && tile.State != TileState.Normal
-                && !processedItemSources.Contains(offset))
-                itemQueue.Enqueue(offset);
-        }
-
-        // ── 아이템 효과 구현 ──────────────────────────────────────────
-
-        /// <summary>Red — 스태미나 즉시 회복 (% 기반, StaminaManager가 MaxStamina 적용)</summary>
-        private void ApplyRecovery(int level, BalanceData balance)
-        {
-            float percent = level >= 2
-                ? balance?.healPercentLv2 ?? 0.30f
-                : balance?.healPercentLv1 ?? 0.10f;
-            ItemEffectEvents.TriggerRecovery(percent);
-        }
-
-        /// <summary>Blue — 스태미나 감소 / 타이머 정지 (Phase 3 구현)</summary>
-        private void ApplyTimeFreeze(int level, BalanceData balance)
-        {
-            float duration = level >= 2
-                ? balance?.freezeDurationLv2 ?? 7f
-                : balance?.freezeDurationLv1 ?? 3f;
-            ItemEffectEvents.TriggerTimeFreeze(duration);
-            // TODO(Phase3): StaminaManager.PauseDecay(duration) 연동
-        }
-
-        /// <summary>Yellow — 주변 N칸 범위 파괴</summary>
-        private void ApplyBlast(
-            Vector3Int center, int level, BalanceData balance,
-            HashSet<Vector3Int> tilesToRemove,
-            Queue<Vector3Int> itemQueue, HashSet<Vector3Int> processed)
-        {
-            int radius = level >= 2
-                ? balance?.blastRangeLv2 ?? 2
-                : balance?.blastRangeLv1 ?? 1;
-
-            foreach (var o in HexOffsetUtils.GetRange(center, radius))
-                AddAffectedTile(o, tilesToRemove, itemQueue, processed);
-        }
-
-        /// <summary>
-        /// Purple — 라인 제거
-        /// Lv1: 가로 1줄 / Lv2: 가로 + 좌대각 + 우대각 3방향
-        /// </summary>
-        private void ApplyLineClear(
-            Vector3Int center, int level,
-            HashSet<Vector3Int> tilesToRemove,
-            Queue<Vector3Int> itemQueue, HashSet<Vector3Int> processed)
-        {
-            foreach (var offset in boardManager.GetAllTileOffsets())
-                if (HexOffsetUtils.IsOnLine(center, offset, level >= 2))
-                    AddAffectedTile(offset, tilesToRemove, itemQueue, processed);
-        }
-
-        /// <summary>Orange — 다음 보스 공격 데미지 버프 적용</summary>
-        private void ApplyPowerUp(int level, BalanceData balance)
-        {
-            float bonus = balance?.GetPowerUpBonus(level) ?? (level >= 2 ? 1.0f : 0.5f);
-            ItemEffectEvents.TriggerPowerUp(bonus);
-            // TODO(Phase4): BossPhaseManager에서 OnPowerUp 구독 후 다음 공격에 버프 적용
-        }
-
-        /// <summary>
-        /// Cyan — 보드 전체 색상 통일
-        /// Lv1: 랜덤 1색 / Lv2: (UI로 색상 선택, Phase6 구현)
-        /// </summary>
-        private void ApplyColorShift(int level)
-        {
-            if (level >= 2)
+            if (!IsPlaying && GameManager.Instance?.CurrentState!=GameState.ColorSelection) { Cancel(); return; }
+            while (_colorShifts.Count>0)
             {
-                // TODO(Phase6): 색상 선택 UI 표시 후 SetAllTileColor 호출
-                Debug.Log("[ColorShift Lv2] 색상 선택 UI 미구현 — Phase6 예정");
-                return;
+                if (_colorShifts.Dequeue()==1) ApplyColor((TileColor)Random.Range(0,6));
+                else
+                {
+                    var panel=GameManager.Instance.GetComponent<ColorSelectionPanel>();
+                    if (panel!=null && panel.Show(color=> { ApplyColor(color); ContinueColorShifts(); })) return;
+                }
             }
-            TileColor[] colors = (TileColor[])System.Enum.GetValues(typeof(TileColor));
-            TileColor target = colors[Random.Range(0, colors.Length)];
-            ItemEffectEvents.TriggerColorShift(target);
-            // TODO(Phase2): boardManager.SetAllTileColor(target) 구현 후 연동
+            IsResolving=false;
+            GameManager.Instance?.CompleteColorChoice();
+        }
+        private void ApplyColor(TileColor color)
+        {
+            boardManager.RecolorAll(color);
+            ItemEffectEvents.TriggerColorShift(color);
         }
     }
 
@@ -294,6 +150,8 @@ namespace NineMood.Puzzle
     public static class ItemEffectEvents
     {
         /// <summary>Red Recovery — 페이로드: 회복 비율 (0~1). StaminaManager가 MaxStamina 곱해 적용</summary>
+        public static event System.Action<Vector3Int,ItemEffectType,int> OnItemActivated;
+        public static void TriggerItemActivated(Vector3Int source,ItemEffectType type,int level) => OnItemActivated?.Invoke(source,type,level);
         public static event System.Action<float> OnRecovery;
         public static void TriggerRecovery(float percent) => OnRecovery?.Invoke(percent);
 

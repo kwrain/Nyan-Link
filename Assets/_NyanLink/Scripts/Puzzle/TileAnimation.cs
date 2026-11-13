@@ -56,6 +56,7 @@ namespace NineMood.Puzzle
         public void PlaySpawnOnTilemap(Tilemap tilemap, Vector3Int offset, System.Action onComplete = null)
         {
             CancelAt(offset);
+            tilemap.SetTileFlags(offset,tilemap.GetTileFlags(offset) & ~TileFlags.LockTransform);
             var c = StartCoroutine(SpawnTilemapCoroutine(tilemap, offset, onComplete));
             _activeCoroutines[offset] = c;
         }
@@ -68,6 +69,7 @@ namespace NineMood.Puzzle
         public void PlayRemoveOnTilemap(Tilemap tilemap, Vector3Int offset, System.Action onComplete = null)
         {
             CancelAt(offset);
+            tilemap.SetTileFlags(offset,tilemap.GetTileFlags(offset) & ~TileFlags.LockTransform);
             var c = StartCoroutine(RemoveTilemapCoroutine(tilemap, offset, onComplete));
             _activeCoroutines[offset] = c;
         }

@@ -1,0 +1,67 @@
+{
+  "baselineAndVerifiedRemoteCommit": "118b8f8c0036262dba76b658c03595c0347e2e65",
+  "trackedChanges": [
+    "Assets/Editor/NyanLinkSession04Validation.cs",
+    "Assets/_NyanLink/Scripts/Boss/BossController.cs",
+    "Assets/_NyanLink/Scripts/Core/Events/GameEvents.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileAnimation.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileInstance.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs",
+    "Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs",
+    "Assets/_NyanLink/Scripts/UI/GameHUD.cs",
+    "Assets/_NyanLink/Scripts/UI/GamePausePanel.cs",
+    "Docs/WORK_ITEMS.md"
+  ],
+  "existingMetaChanged": [],
+  "deleted": [],
+  "duplicateAssetGuids": {},
+  "missingScriptMeta": [],
+  "unresolvedGuids": {},
+  "screenshots": {
+    "01-item-types-and-levels.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "eecc57d73420c894d6e4409a803055f1e9d513e3ca60e2c9b7c1c30742866a31"
+    },
+    "02-color-selection-runner.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "90a9adff6f018e7f7a4dae4eea98f25f37e92d14988dd3102d8cd1b942a5bee5"
+    },
+    "03-recolored-items.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "ca86dd12e0c51fcd84c285f376a495ed120fe505a72ba51927118ec8cb7d61d9"
+    },
+    "04-chain-effects.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "bd7619354c2c9d25e78eb54e42c78dc307c305ce9d42b3310cf9c293775fb9b8"
+    },
+    "05-frozen-obstacle.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "b2c9c90af0aa93ade20d9517c94d3a78406d93b0dd7be92c4d6b9deb35a9ef83"
+    },
+    "06-color-selection-groggy.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "7a3dbe0fd59a2238cf83fe3769286b6eb06d63970a28a523d6ff80e531fc0552"
+    },
+    "07-items-groggy.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "d84f77d2ef4d2fa6fca70290e559a8cb38efb14246916f41ec3e5d9475a88ea6"
+    },
+    "08-item-chain-victory.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "e44d5b40afaf5b0353424799decfc5962724a6d6ce9401294150cb22b6b6c744"
+    }
+  }
+}

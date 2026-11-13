@@ -1,8 +1,8 @@
 # 검증 및 후속 작업 목록
 
-항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
-공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04 수정은 미커밋·미푸시.
-근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
+항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산, 세션 05는 아이템·색 선택·시간 정지 통합 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
+공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 미커밋·미푸시.
+근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`, `output/playtests/2026-11-13-session05/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
 
 ## 미검증
 
@@ -23,14 +23,6 @@
 - 검증 방법: Main부터 직접 조작하여 보스 승리까지 무보정 완주. 후속 아이템/보상/성장 통합까지 완료한 것으로 해석하지 않음.
 - 관련: I-001, I-002, I-005, D-001.
 
-### V-008 — 시간 정지 API의 아이템 통합·구간 이월
-- 등록일·최근 확인일: 2026-11-13.
-- 관련: BossController.FreezeTimersFor/TimerFreezeRemaining, StaminaManager.PauseDecay/DecayFreezeRemaining, TileMatcher.ApplyTimeFreeze.
-- 구현/확인 범위: 보스 그로기 시계 API의 max 갱신·정지·만료는 V-007에서 직접 호출해 확인. Stamina API는 추가했으나 아이템 이벤트 연결/자동 실행·주행→보스 잔여 효과 동기화는 미수행.
-- 기대 결과: 3/7초 정지는 자연 감소·보스/그로기 제한 시간만 멈추고 입력·장애물·연출·러너 경과는 유지. 재사용 max, 게임 Pause는 효과 시간도 보존, 구간 전환에서 남은 시간만 이월.
-- 미검증 사유·다음 조치: 전체 아이템 연결은 승인된 세션 05 범위. 해당 세션에서 가상 입력·실제 프레임으로 파랑 아이템 사용/중첩/만료·보스 진입·정지/재개를 함께 검사. 보스 API 직접 성공만으로 아이템 전체 성공으로 처리하지 말 것.
-- 관련: I-005, D-001.
-
 ## 미해결
 
 ### I-003 — HUD 겹침과 한글 글리프 누락
@@ -49,15 +41,15 @@
 - 재현: Main 플레이 시작 로그의 'ID가 없습니다'.
 - 다음 조치: 세션 07에서 승인된 고양이·고정 장비 데이터 계약과 함께 ID를 정하고 연결. 임의 성장 데이터 선행 구현은 하지 않음.
 
-### I-005 — 아이템 전체·저장 규칙 통합 미완성
-- 관련: BossController, TileMatcher/ItemEffectEvents, StaminaManager, SaveManager.
+### I-005 — 구간 저장·이어하기/안전 파일 처리 미완성
 - 등록일·최근 확인일: 2026-11-13.
-- 이전 차이: 보스 Resume가 Runner로 복귀, 패턴 성공 고정 피해·구형 콤보/그로기 계산, 저장 필수 필드/안전 쓰기 부족.
-- 완료 부분: 상태 보존은 세션 03(V-006), 타임어택·점수·회복·직접 연결 공격·청록/버프·단일 처치·강화 타이밍은 세션 04(V-007). 현재 enableCombat=true로 TimeAttack만 활성. 구형 전투 공식/보류 패턴은 보존하되 호출하지 않음.
-- 남은 작업·영향: 세션 05의 아이템 단독 사용·6종 효과 전체/연쇄/종류별 한도·청록 선택·TimeFreeze 자동 연결·지속 효과 이월. 세션 06의 보드/보스/효과/버전/원자 저장과 손상 처리. SaveManager에는 읽기 실패 파일 삭제의 기존 경로가 남아 있음.
-- 재현: 파랑 아이템 효과는 현재 OnTimeFreeze 이벤트까지만 발행하며 새 시계 API에 자동 연결되지 않음. 청록 Lv2 선택 UI 없음. 구간 저장/손상 저장은 원본으로 실행하지 말 것.
-- 다음 조치: 세션 05/06에서 순서대로 정비. 격리 저장 경로·복사본으로 검증. 현재 자동 검사는 SaveManager.stageData를 메모리에서 null로 하여 사용자 파일 읽기/쓰기/삭제를 차단.
-- 관련: V-002, V-007, V-008, D-001.
+- 관련: SaveManager, TileInstance.ItemType, StaminaManager.DecayFreezeRemaining, BossController/RunnerController.
+- 이전 차이: 일시정지/보스 계산/아이템 전체 연결/저장 필수 필드 부족. 상태는 세션03, 전투는 세션04, 아이템·시간 정지·색 선택은 세션05(V-009/V-008)에서 정비·검증.
+- 남은 작업·영향: 세션06의 버전 JSON·보드 Color/State/ItemType·보스 단계/HP·방어권/버프·효과 잔여·경과/거리/재도전 경계·원자 쓰기/백업/호환 검사. SaveManager에는 읽기 실패 파일 삭제의 기존 경로가 남아 있음.
+- 재현: 현재 체크포인트는 보드/색 변경된 아이템 정체성과 지속 효과 등을 복원하지 않음. 실제 파일 경로로 새 기능을 시험하지 않았으므로 손실 양상까지 검증한 것은 아님.
+- 다음 조치: 세션06에서 격리 경로·복사본으로 안전하게 구현·검증. ItemType을 현재 Color로 다시 유추하면 청록 변색 후 잘못된 아이템으로 복원됨. 원본 저장 파일을 삭제/덮어쓰는 실험 금지.
+- 현재 자동 검사는 SaveManager.stageData를 메모리에서 null로 두어 사용자 체크포인트 읽기/쓰기/삭제 차단. 파일명/SHA 전후 일치.
+- 관련: V-002, V-008, V-009, D-001.
 
 ## 실기기 테스트 필요
 
@@ -69,6 +61,7 @@
 - 기존 확인: 세션 01은 52칸/1284×2778 및 콜백 경로. 세션 02는 Mac Editor에서 39칸 전체 표시와 마우스/Enhanced Touch 가상 기기 입력, 터치 1.3배 겹침 영역의 가까운 중심 선택, 1080×1920 및 1284×2778 렌더링을 확인(V-005). 터치 상단 보정은 0으로 두고 실기기 튜닝 대기. 기기·시뮬레이터·모바일 빌드는 실행하지 않음.
 - 세션 03 추가 대상: 실제 기기에서 장애물 경고 중 정지→재개, 실패 재도전 대기 중 정지, Boss 상태 복귀, 재시작·로비 반복. HP·예약·남은 시간이 보존되고 입력이 중복되지 않아야 함. Mac 자동 검증 V-006과 별개.
 - 세션 04 추가 대상: 실제 보스 순서 입력, 그로기 공격/아이템 구분, 패턴·그로기 중 정지/재개, 타이머·강화·승패 표시. Mac 가상 마우스 검증 V-007과 별개.
+- 세션05 추가 대상: 6종×2티어 단독 터치/같은색 체인·빠른 반복 입력·연쇄·종류별 한도·변색 후 종류 표시, 6색 창/중첩Pause/색 선택 뒤 같은 상태 복귀, TimeFreeze 중 실제 터치와 장애물 이동·앱 전환. 자동 Mouse 성공을 실기기 결과로 대체하지 않음.
 - 대기 사유: 연결된 실기기를 사용하지 않았으며 세션 08 UI 정비가 남음.
 - 관련: V-001, V-002, I-001, I-003.
 
@@ -160,3 +153,32 @@
 - 초기 실패: 비활성 BossHUD의 CanvasGroup 가짜 null 처리 수정(attempt01), 기존 효과 열거형 연결 수정(I-007, attempt02). pass01의165개 성공 뒤 주행 효과 이월 검사를 추가해 최종178개 통과.
 - 한계: 입력/보드/HP의 격리된 테스트 배치 포함. 실제 사람 무보정 완주/실기기/전체 아이템·저장·성장 성공 아님. V-001/V-002/V-008/I-003/I-004/I-005/D-001 유지.
 - 사용자 저장 파일 SHA 전후 일치, 최고 점수/입력/임시 Game View 복원, 씬 저장 없음. 근거 output/playtests/2026-11-13-session04/{play-results.txt,play.log,regression-session03/}, SESSION-04-HANDOFF.txt.
+
+### V-008 — 시간 정지 API·아이템 통합·구간 이월 검증 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 기준 커밋118b8f8, 세션05 로컬 수정.
+- 관련: StaminaManager, BossController, ItemEffectEvents, TileMatcher, Session05Validation.
+- 기존 미검증: 파랑 이벤트가 시계 API에 미연결, Stamina와 Boss의 독립 시계/주행→보스 이월 확인 필요.
+- 조치: 실제 파랑3/7초 이벤트 연결. StaminaManager.DecayFreezeRemaining 하나를 사용하고 Boss는 같은 값을 읽음. 입력/연출/장애물은 전역 timeScale로 멈추지 않음.
+- 검증 환경·결과: Unity6000.3.14f1 Mac Editor 실제 가상 Mouse 단독 사용, 짧은 효과 재사용 max/긴 값 보존, 자연 감소만 정지·경과/주행 지속·타일 행렬 변화·장애물 이동, 게임 Pause 잔여 보존, Boss 진입 동일 잔여·패턴/그로기 시간 정지. 색 선택/중첩Pause 동안 효과 시계도 보존. 재시작0 초기화.
+- 근거: 세션05 play-results.txt/play.log, 05-frozen-obstacle.png, 07-items-groggy.png, V-009. 디스크 저장 이월은 I-005/세션06, 실기기 D-001 유지.
+
+### I-008 — 기존 타일 애니메이션 미연결 해결 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 관련: PuzzleBoardManager.Awake, TileAnimation, Game.unity의 tileAnimation:null.
+- 증상·재현: SpawnTile 후 시간 경과에도 실제 Tilemap 행렬이 변하지 않음. 보드 GetComponent<TileAnimation>()도 null. 세션05 attempt02의 TimeFreeze 중 연출 검사에서 확인.
+- 조치: 기존 TileAnimation 코드를 보드 씬 소유 컴포넌트로 런타임 연결, SetTransformMatrix에 필요한 LockTransform 해제. 기존 .meta/씬 연결은 보존.
+- 확인: 새 생성 시 실제 행렬 변화와 Freeze 중 지속, Pause/색 선택 중 정지, 재시작 CancelAll 초기화. 새 생성과 이전 제거의 동일 셀 코루틴 취소 계약 유지. V-009 및 보스 회귀 통과.
+
+### V-009 — 세션05 아이템·상태·전투 자동 검증 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 기준 커밋118b8f8, 세션05 미커밋 작업 트리.
+- 관련: TileMatcher/TileInstance/TileInputHandler/PuzzleBoardManager/TileAnimation, ColorSelectionPanel/ItemTileLabels, GameManager/GamePausePanel/GameHUD, Score/StaminaManager/BossController, GameEvents, Session05Validation.
+- 환경: macOS27.2 arm64 Unity6000.3.14f1 Editor, 실제1080×1920. 활성 iOS 대상이지만 Player/실기기 아님.
+- 결과: CLI 컴파일 종료0, 최종 Play316 assertion 통과·종료0·게임 경로 런타임 오류0. 실제 Mouse 이벤트로 6종×2티어 생성/단독 효과, 마지막 셀·종류별2개·총11개, 한도 시 점수/제거 유지.
+- 연쇄: 기존6종 재귀·겹침은 셀별1회, 실제 고유 제거수 점수/회복, 7/19 반경·5/17 라인, 동일종류2개 소비 후 새 생성, 새 타일/아이템은 연쇄 재발동 없음. 모든 효과의 기존 보드39개 관찰 후 단일 집계/리필.
+- 선택/보존: Color/ItemType 분리로 전체 변색 후 종류/레벨/개수 보존·원래 효과 발동. Lv2 실제6색창, 퍼즐 차단·Runner/그로기 복귀·중첩Pause/같은 장애물 유지·다중선택 큐. 단독 사용은 MatchCompleted와 별도 이벤트.
+- 보스: 패턴 아이템 효과/생성 금지·기존 아이템 보존·실제7개 점수280/회복2.1·0제거 무보상·단독 입력 거부. 실제50/100% 최대 버프·다음 공격1회 소모, 치명 연쇄에서 청록 선택 취소/단일 승리, Restart/Home 초기화·구독 정리.
+- 시간 정지 상세: V-008. 보드/HP 검사 배치를 포함하며 수동 무보정 완주/난이도 검증이 아님.
+- 보스 회귀: 현재 소스에서 세션04 Play180 assertion 통과·종료0·런타임 오류0. 새 ItemUse 이벤트로 구독 검사 수가 늘어 기존178보다2개 많음. 기존 세션04 출력은 별도 폴더로 보존.
+- 보드/입력 회귀: 세션02 Geometry9,855 / Play368 통과·종료0·런타임 오류0. 새 단독 입력/타일 연출 후 기존39칸/6방향/보정/마우스·가상EnhancedTouch/두 해상도 유지. regression-session02/ 근거.
+- 초기 실패: 검사 지역변수 이름 충돌 수정(compile-attempt01-validator), 잘못된 반경 밖 검사 배치 수정(attempt01), 실제 미연결 애니메이션 수정(I-008, attempt02). 실패 증거 보존.
+- 사용자 저장 파일명/SHA 전후 일치, 최고 점수/입력 장치·설정/임시GameView 복원, 씬 파일 저장 없음. 실제PNG8장.
+- 근거: output/playtests/2026-11-13-session05/{play-results.txt,play.log,regression-session04/}, SESSION-05-HANDOFF.txt. V-001/V-002/I-003/I-004/I-005/D-001 유지.

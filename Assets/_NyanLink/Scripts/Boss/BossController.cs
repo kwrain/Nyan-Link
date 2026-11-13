@@ -24,7 +24,7 @@ namespace NineMood.Boss
         public bool IsGroggy { get; private set; }
         public int PhaseIndex { get; private set; }
         public float GroggyRemaining { get; private set; }
-        public float TimerFreezeRemaining { get; private set; }
+        public float TimerFreezeRemaining => StaminaManager.Instance?.DecayFreezeRemaining ?? 0f;
         public bool TimersFrozen => TimerFreezeRemaining > 0f;
         public float PendingAttackBonus { get; private set; }
         public bool HasFailureShield { get; private set; }
@@ -55,7 +55,7 @@ namespace NineMood.Boss
         }
         private void OnState(GameState state)
         {
-            if (state == GameState.Paused) return;
+            if (state == GameState.Paused || state == GameState.ColorSelection) return;
             if (state == GameState.BossPhase)
             {
                 if (!(GameManager.Instance?.IsResuming ?? false) && enableCombat && !_battleStarted) StartBattle();
@@ -79,7 +79,6 @@ namespace NineMood.Boss
             MaxHP = CurrentHP = config.maxHP;
             PhaseIndex = 0;
             // 주행에서 얻은 다음 보스 공격 버프/실패 방어권은 유지한다.
-            TimerFreezeRemaining = 0f;
             GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);
             GameEvents.TriggerBossPhaseChanged(0);
             StartPattern();
@@ -91,7 +90,7 @@ namespace NineMood.Boss
             timeAttackPattern?.Cancel();
             rhythmNotePattern?.Cancel(); colorQuotaPattern?.Cancel(); memorySequencePattern?.Cancel();
             IsGroggy = false;
-            GroggyRemaining = TimerFreezeRemaining = _transitionRemaining = 0f;
+            GroggyRemaining = _transitionRemaining = 0f;
             _state = IsDefeated ? BossState.Dead : BossState.Idle;
             FindFirstObjectByType<PuzzleBoardManager>()?.SetRequiredMatchColor(null);
         }
@@ -135,11 +134,7 @@ namespace NineMood.Boss
                 GameEvents.TriggerBossGroggyStarted(GroggyRemaining);
                 return;
             }
-            if (TimersFrozen)
-            {
-                TimerFreezeRemaining = Mathf.Max(0f,TimerFreezeRemaining - Time.deltaTime);
-                return;
-            }
+            if (TimersFrozen) return;
             if (_state == BossState.Groggy)
             {
                 GroggyRemaining = Mathf.Max(0f,GroggyRemaining - Time.deltaTime);
@@ -167,7 +162,7 @@ namespace NineMood.Boss
         public void FreezeTimersFor(float seconds)
         {
             if (CanUseItems && !float.IsNaN(seconds) && !float.IsInfinity(seconds))
-                TimerFreezeRemaining = Mathf.Max(TimerFreezeRemaining,seconds);
+                StaminaManager.Instance?.PauseDecay(seconds);
         }
         /// <summary>유효한 다음 공격까지 높은 버프만 보관. 청록/패턴 성공으로 소모하지 않는다.</summary>
         public void GrantAttackBuff(float bonus)

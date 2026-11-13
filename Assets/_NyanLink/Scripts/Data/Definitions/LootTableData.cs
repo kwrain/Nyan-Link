@@ -10,6 +10,8 @@ namespace NineMood.Data.Definitions
     [CreateAssetMenu(fileName = "LootTableData", menuName = "NyanLink/Data/Loot Table", order = 5)]
     public class LootTableData : ScriptableObject
     {
+        [Tooltip("Prototype first clear: exactly one equipment ID")]
+        public string firstGuaranteedEquipmentId;
         [System.Serializable]
         public class LootEntry
         {

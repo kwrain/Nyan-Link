@@ -1,0 +1,2 @@
+PASS 118 Play assertions
+PASS Session07 completed without runtime errors

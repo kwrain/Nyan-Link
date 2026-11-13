@@ -27,7 +27,7 @@ using Object = UnityEngine.Object;
 public static class NyanLinkSession06Validation
 {
     const string Key = "NyanLink.Session06";
-    const string Output = "output/playtests/2026-11-13-session06";
+    static readonly string Output = Environment.GetEnvironmentVariable("NYANLINK_SESSION06_OUTPUT") ?? "output/playtests/2026-11-13-session06";
     const BindingFlags PrivateInstance = BindingFlags.NonPublic | BindingFlags.Instance;
     static readonly List<string> results = new List<string>();
     static readonly List<string> errors = new List<string>();
@@ -457,10 +457,10 @@ public static class NyanLinkSession06Validation
         yield return Reload(endCp);Capture("07-boss-restored.png");yield return .1f;
         // Session07 contract: pending completion, reward and clear/receipt in one atomic transaction.
         Time.timeScale=1f;string rewardedRun=save.CurrentRunId;boss.ApplyDamage(999);
-        Assert(save.Store.Load().data.checkpoint==null && save.Store.Load().data.pendingClears.Any(p=>p.runId==rewardedRun),"Completion queues durable reward metadata without growth implementation");
+        Assert(save.Store.Load().data.checkpoint==null && save.Store.Load().data.permanent.rewardReceipts.Contains(rewardedRun),"Session07 completion automatically pays durable reward and receipt");
         string pendingDocument=File.ReadAllText(save.Store.FilePath);save.CompleteCurrentRun();
         Assert(File.ReadAllText(save.Store.FilePath)==pendingDocument,"Duplicate completion does not write or enqueue twice");
-        Assert(save.TryApplyReward(rewardedRun,p=>{p.coins+=100;p.equipment.Add(new EquipmentRecord{instanceId="test-hat",dataId="test-hat-data",level=1,equippedSlot=0});p.clears.Add(new ClearRecord{stageId=save.stageData.stageId,firstRewardGranted=true});}),"Atomic reward/profile/clear receipt contract");
+        Assert(save.Store.Load().data.permanent.coins==421 && save.Store.Load().data.permanent.equipment.Count==2,"Actual reward +100/hat added to retained legacy record");
         string committed=File.ReadAllText(save.Store.FilePath);
         Assert(!save.TryApplyReward(rewardedRun,p=>p.coins+=100) && File.ReadAllText(save.Store.FilePath)==committed,"Duplicate reward cannot pay twice");
         Assert(!save.TryUpdatePermanent(p=>p.coins=-99) && File.ReadAllText(save.Store.FilePath)==committed,"Rejected permanent mutation leaves committed data unchanged");

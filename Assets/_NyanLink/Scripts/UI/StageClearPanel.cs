@@ -26,7 +26,11 @@ namespace NineMood.UI
 
         private void Start()
         {
-            if (buttonContinue != null) buttonContinue.onClick.AddListener(OnClickContinue);
+            if (buttonContinue != null)
+            {
+                buttonContinue.onClick.AddListener(OnClickContinue);
+                buttonContinue.GetComponentInChildren<TextMeshProUGUI>().text="RETRY";
+            }
             if (buttonMainMenu != null) buttonMainMenu.onClick.AddListener(OnClickMainMenu);
         }
 
@@ -35,6 +39,7 @@ namespace NineMood.UI
         {
             if (result == ResultType.Win)
             {
+                if(SaveManager.Instance?.stageData!=null) NineMood.Core.Persistence.ProgressionService.RecoverPending();
                 RefreshUI();
                 gameObject.SetActive(true);
             }

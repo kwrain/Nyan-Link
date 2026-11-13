@@ -1,8 +1,8 @@
 # 검증 및 후속 작업 목록
 
-항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산, 세션 05는 아이템·색 선택·시간 정지, 세션 06은 안전 저장·경계 이어하기 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
-공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 사용자 요청으로 `de2a22c520b7c76e9967531c487ad57730cadeec`에 커밋·푸시함. 세션 06은 미커밋·미푸시.
-근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`, `output/playtests/2026-11-13-session05/`, `output/playtests/2026-11-13-session06/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
+항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산, 세션 05는 아이템·색 선택·시간 정지, 세션 06은 안전 저장·경계 이어하기, 세션 07은 보상·장비·Lv.5 성장 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
+공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 사용자 요청으로 `de2a22c520b7c76e9967531c487ad57730cadeec`에 커밋·푸시함. 세션 06은 사용자 요청으로 `fbda2526f941c4e9552866b72e0b4eed0d8b2482`에 커밋·푸시함. 세션 07은 현재 사용자 AGENTS 지침에 따라 검증 뒤 로컬 커밋하며 미푸시(메시지 feat: add atomic clear rewards and equipment progression).
+근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`, `output/playtests/2026-11-13-session05/`, `output/playtests/2026-11-13-session06/`, `output/playtests/2026-11-13-session07/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
 
 ## 미검증
 
@@ -32,15 +32,10 @@
 - 원인: 테스트용 디버그 UI가 활성 상태이며 기본 LiberationSans SDF가 한글을 제공하지 않음.
 - 세션 03 부분 조치: 기존 디버그 패널은 활성 플레이에서 제외. Pause 메뉴와 READY 표시는 추가했으나 경고/HP 간격이 좁은 현상과 한글 폰트 문제는 남음. 세션 03 03/04/05 PNG에서 확인.
 - 세션 04 부분 조치: 비활성 BossHUD를 활성화하고 CanvasGroup 누락 오류 수정, 순서·HP·타이머/그로기·강화 표시 연결. 보스와 플레이어 HP 간격 조정, CHAIN/TIER 표시. 승리 CONTINUE는 실제로 RetryGame에 연결되어 있으므로 기능은 다시하기지만 문구는 세션 08에서 명확히 정비.
+- 세션07 부분 조치: 승리 보상/RETRY·장비 최소 UGUI 연결, 보상과 최고점 문구 겹침/로비 중첩 캔버스 크기 및 준비 HUD의 장비HP 미리보기 수정. 전체 UI·한글 폰트/안전영역은 후속 범위 유지.
 - 세션06 부분 조치: 준비 화면 CONTINUE/NEW GAME과 마지막 경계 정책을 영어로 표시하여 실제 선택 가능. 안내와 버튼 겹침 수정. 전체 한국어 폰트/결과 문구 정비는 남음.
 - 다음 조치: 세션 08에서 한글 폰트·HUD·안전 영역 정비. 기존 UI와 리소스 보존.
 - 관련: D-001.
-
-### I-004 — 후속 성장 데이터 ID 공란
-- 관련: Resources/Data/Characters/CharacterData.asset, Equipment/EquipmentData.asset, DataManager.cs.
-- 증상·영향: 시작 시 CharacterData/EquipmentData ID 공란 경고. 해당 데이터는 ID 조회 사전에 등록되지 않음. Main→Game 진입은 가능.
-- 재현: Main 플레이 시작 로그의 'ID가 없습니다'.
-- 다음 조치: 세션 07에서 승인된 고양이·고정 장비 데이터 계약과 함께 ID를 정하고 연결. 임의 성장 데이터 선행 구현은 하지 않음.
 
 ## 실기기 테스트 필요
 
@@ -53,6 +48,7 @@
 - 세션 03 추가 대상: 실제 기기에서 장애물 경고 중 정지→재개, 실패 재도전 대기 중 정지, Boss 상태 복귀, 재시작·로비 반복. HP·예약·남은 시간이 보존되고 입력이 중복되지 않아야 함. Mac 자동 검증 V-006과 별개.
 - 세션 04 추가 대상: 실제 보스 순서 입력, 그로기 공격/아이템 구분, 패턴·그로기 중 정지/재개, 타이머·강화·승패 표시. Mac 가상 마우스 검증 V-007과 별개.
 - 세션05 추가 대상: 6종×2티어 단독 터치/같은색 체인·빠른 반복 입력·연쇄·종류별 한도·변색 후 종류 표시, 6색 창/중첩Pause/색 선택 뒤 같은 상태 복귀, TimeFreeze 중 실제 터치와 장애물 이동·앱 전환. 자동 Mouse 성공을 실기기 결과로 대체하지 않음.
+- 세션07 추가 대상: 3슬롯 보유품 스크롤·장착/해제·Lv5/코인부족 버튼, 저장 진행 잠금·명시적 NEW RUN SETUP, 전체 해상도에서 보상/능력치 가독성.
 - 대기 사유: 연결된 실기기를 사용하지 않았으며 세션 08 UI 정비가 남음.
 - 관련: V-001, V-002, I-001, I-003.
 
@@ -62,10 +58,19 @@
 - 대상: Android/iOS 실제 Player와 앱별 저장 공간. 저장 직전/중/직후 백그라운드·강제 종료, OS 저장 실패/공간 부족, 앱 업데이트 후 구버전/미지원 파일.
 - 절차·기대: 장애물 성공/실패·보스 성공/실패/그로기 경계에 반복 종료→재실행. 주/백업 중 온전한 한 문서로 코인/장비/영수증/보드/효과가 같은 revision으로 복원되고 원본 손상 파일은 보존. 미지원 파일 덮어쓰기 금지. New Game은 진행만 초기화.
 - 기존 확인: Mac Editor 실제 File.Replace/Flush(true), temp 완료 직후 예외 주입, 손상·체크섬·백업·미지원 버전·독립 Unity 프로세스 재실행 V-010 통과. 모바일 IL2CPP/전원 차단/실제 디스크 장애 시험이 아님.
+- 세션07 추가 대상: 첫 클리어/이후 추첨/강화 비용 차감/장착 저장의 직전·직후 강제 종료를 반복해 영수증·코인·장비·레벨의 일관성 및 재지급 방지 확인.
 - 대기 사유: 연결 실기기와 모바일 Player 미사용. 세션08 또는 해당 플랫폼 환경 확보 시 실행. D-001 입력/UI 항목도 함께 확인.
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### I-004 — 성장 데이터 ID 공란 해결 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 기준 커밋 fbda252, 세션07 로컬 커밋(상단 메시지 참조).
+- 관련: Resources/Data/Characters/CharacterData.asset, Equipment/*.asset, DataManager, ProgressionService.
+- 기존 증상: 캐릭터·장비 ID 공란으로 조회 사전에서 제외되고 시작 경고 발생.
+- 조치: 기존 에셋 GUID 유지, prototype-cat-01/prototype-hat-01과 신규 prototype-outfit-01/prototype-weapon-01 고정ID 등록, 슬롯별 Lv1~5 옵션 명시. 기존 미등록 저장 장비는 원본 보존·능력치 제외/장착 거부.
+- 근거: Unity 실제 ID 조회 및 장비3종/5레벨 검사, 각 슬롯 Lv5 비용·장착·피해 반영 성공. output/playtests/2026-11-13-session07/, SESSION-07-HANDOFF.txt. Player/실기기 검증과 별개.
+
 
 ### V-003 — 작업 보존·복원 검증 완료
 - 등록일·최근 확인일·수행일: 2026-11-13.
@@ -206,3 +211,15 @@
 - 초기 실패·중간 성공: null 클래스의 기본 객체 직렬화→hasCheckpoint, 첫 프레임 뒤 비교→복원 콜백 즉시 비교, 보스 비활성 전환 타이머 정규화, 검사 오답 입력 시간 초과 배치 수정. attempt01~04/pass01~02 접두사로 로그/PNG 보존.
 - 근거: output/playtests/2026-11-13-session06/{play-results.txt,cold-results.txt,play.log,cold.log,schema-example.json,environment.txt}, SESSION-06-HANDOFF/SCHEMA.txt.
 - 한계: 격리된 파일·메모리 배치, Mac Editor·정상 프로세스 재실행/중단 주입. 실제 사용자 무보정 플레이/성장·모바일 저장의 증거가 아님. V-001/V-002/I-003/I-004/D-001/D-002 유지.
+
+### V-011 — 세션07 보상·장비 성장 검증
+- 등록일·최근 확인일·수행일: 2026-11-13. 기준 fbda252, 세션07 로컬 커밋(상단 메시지 참조).
+- 관련: ProgressionService, EquipmentPanel, Game/Save/StaminaManager, BalanceData/BossController, Main/StageClear/GameReadyPanel, 고정 장비/캐릭터/전리품 데이터, Session07Validation.
+- 환경: macOS27.2 arm64 / Unity6000.3.14f1 Mac Editor 실제1080×1920. 활성 대상iOS이나 Player/실기기 아님.
+- 확인: 첫100코인/확정모자, 이후 Hat/Outfit/Weapon 각10% 및 없음70%의 고정 분기, Coin 엔트리 무시, 같은 runId 중복 완료/승리/Result/지급/로비 회복 무쓰기, 난수 비소모, temp flush 교체 중단 후 단일 회복 지급.
+- 성장: 3슬롯 각 Lv1→5 비용100/150/200/250 총700, 3개2100. 부족/없는ID/미등록ID/Lv5 요청 파일 불변. 슬롯 교체1개만 장착, 해제·재장착과 저장 복원. 미지원 스키마/미등록 레코드는 원본 유지.
+- 실제 입력: 첫 클리어→결과 장비창→장착/Lv2→재도전 HP110, 후속 클리어 자금으로 모자Lv5→3슬롯 HP135/공격1.1, 실제 빨강4.4 및 주황+50%13.2 피해, 다음 저장 경계/기존 진행 보호. 여행·보스HP·일부 runId/API자금은 격리 fixture이며 사람 무보정 완주 아님.
+- 보호: 외부 저장 백업/manifest SHA 확인. 원래 게임 saves 폴더는 없었으며 원래 파일명·SHA 전후 일치. 최고점·입력 장치/설정·GameView 복원, 씬/.meta GUID 유지.
+- 초기 실패/시각 결함: 검사 정리 콜백 누락으로 최초 도구 컴파일 실패→수정. 중간 기능 검사는 성공했으나 실제 PNG에서 결과 문구 겹침/로비 캔버스 크기0 발견→배치/stretch/정렬과 전체 크기·실제 열기/닫기 검사 보강. 중간 근거는 pass01/pass02-main-layout-issue와 compile-attempt01-validator.log 보존.
+- 최종 전체 CLI 컴파일 종료0. 성장 Play182 / 새 프로세스 Cold118 통과·각 종료0·게임 경로 런타임 오류0. 원본06 예제 checksum/서명/진행 호환 및 읽기 후 바이트 불변, 실제 준비HP135/NEW GAME 문구 동기화 확인. 저장 회귀500 / 아이템·전투 회귀318 Play 통과·각 종료0·런타임 오류0(추가 UI 구독으로 이전 검사 수와 차이). 근거 output/playtests/2026-11-13-session07/{play-results.txt,cold-results.txt,play.log,cold.log,profile-example.json}, SESSION-07-HANDOFF.txt.
+- 한계: V-001 Player/새 캐시, V-002 실제 물리 입력·무보정 완주, I-003 전체 UI/폰트, D-001/D-002 실기기 항목 유지. 임의 디스크 편집 방지/다중 프로세스 동시 저장/장기 경제 통계 검증은 아님.

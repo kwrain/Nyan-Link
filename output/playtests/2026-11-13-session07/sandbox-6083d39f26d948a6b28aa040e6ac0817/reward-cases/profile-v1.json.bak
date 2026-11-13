@@ -1,0 +1,91 @@
+{
+    "schemaVersion": 1,
+    "revision": 12,
+    "checksum": "25d40b0602e76754ae4b0b80e9c0de29eaef6c93ca21d48b564209ef058581b5",
+    "hasCheckpoint": false,
+    "checkpoint": {
+        "runId": "",
+        "stageId": "",
+        "rulesSignature": "",
+        "randomState": "",
+        "boundary": 0,
+        "phase": 0,
+        "distance": 0.0,
+        "hp": 0.0,
+        "maxHP": 0.0,
+        "elapsed": 0.0,
+        "freezeRemaining": 0.0,
+        "boostRemaining": 0.0,
+        "actionRemaining": 0.0,
+        "retryRemaining": 0.0,
+        "runnerState": 0,
+        "obstacleIndex": 0,
+        "score": 0,
+        "requiredColor": -1,
+        "board": [],
+        "boss": {
+            "active": false,
+            "failureShield": false,
+            "hp": 0.0,
+            "maxHP": 0.0,
+            "attackBonus": 0.0,
+            "groggyRemaining": 0.0,
+            "intervalRemaining": 0.0,
+            "phase": 0,
+            "nextStep": 0,
+            "nextSequence": []
+        }
+    },
+    "permanent": {
+        "coins": 600,
+        "equipment": [
+            {
+                "instanceId": "reward-first",
+                "dataId": "prototype-hat-01",
+                "level": 1,
+                "equippedSlot": -1
+            },
+            {
+                "instanceId": "reward-roll-0-11",
+                "dataId": "prototype-hat-01",
+                "level": 1,
+                "equippedSlot": -1
+            },
+            {
+                "instanceId": "reward-roll-1-5",
+                "dataId": "prototype-outfit-01",
+                "level": 1,
+                "equippedSlot": -1
+            },
+            {
+                "instanceId": "reward-roll-2-19",
+                "dataId": "prototype-weapon-01",
+                "level": 1,
+                "equippedSlot": -1
+            },
+            {
+                "instanceId": "reward-coin-filter",
+                "dataId": "prototype-hat-01",
+                "level": 1,
+                "equippedSlot": -1
+            }
+        ],
+        "clears": [
+            {
+                "stageId": "prototype-stage-01",
+                "cleared": true,
+                "firstRewardGranted": true,
+                "bestScore": 103
+            }
+        ],
+        "rewardReceipts": [
+            "first",
+            "roll-0-11",
+            "roll-1-5",
+            "roll-2-19",
+            "roll-3-0",
+            "coin-filter"
+        ]
+    },
+    "pendingClears": []
+}

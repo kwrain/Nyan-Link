@@ -217,7 +217,9 @@ namespace NineMood.Boss
         {
             if (!CanUseColorActions || connected < 2 || removed <= 0) return false;
             if (color == TileColor.Cyan) { GrantFailureShield(); return true; }
-            float damage = balance.GetPrototypeGroggyDamage(connected,color,config.GetGroggyDamageMultiplier(balance),PendingAttackBonus);
+            float coefficient=GameManager.Instance.RunStats.attack;
+            if(coefficient<=0f) coefficient=balance.attackCoefficient;
+            float damage = balance.GetPrototypeGroggyDamage(connected,color,config.GetGroggyDamageMultiplier(balance),PendingAttackBonus,coefficient);
             if (damage <= 0f) return false;
             PendingAttackBonus = 0f;
             ApplyDamage(damage);

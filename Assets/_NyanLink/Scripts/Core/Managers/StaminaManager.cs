@@ -80,7 +80,8 @@ namespace NineMood.Core.Managers
         {
             BalanceData b = DataManager.Instance?.BalanceData;
 
-            MaxStamina         = b?.maxStamina            ?? 100f;
+            MaxStamina         = GameManager.IsCreated && GameManager.Instance.RunStats.maxHP>0
+                ? GameManager.Instance.RunStats.maxHP : NineMood.Core.Persistence.ProgressionService.Stats().maxHP;
             _recoveryPerTile   = b?.staminaRecoveryPerTile ?? 0.3f;
             _elapsedRunnerTime = 0f;
             DecayFreezeRemaining = 0f;

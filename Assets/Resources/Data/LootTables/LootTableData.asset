@@ -14,4 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.LootTableData
   bossId: prototype-boss-01
   bossName: Prototype Boss 01
-  lootEntries: []
+  firstGuaranteedEquipmentId: prototype-hat-01
+  lootEntries:
+  - itemId: prototype-hat-01
+    itemType: 0
+    dropChance: 0.1
+    quantity: 1
+    minQuantity: 1
+    maxQuantity: 1
+  - itemId: prototype-outfit-01
+    itemType: 0
+    dropChance: 0.1
+    quantity: 1
+    minQuantity: 1
+    maxQuantity: 1
+  - itemId: prototype-weapon-01
+    itemType: 0
+    dropChance: 0.1
+    quantity: 1
+    minQuantity: 1
+    maxQuantity: 1

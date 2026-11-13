@@ -127,8 +127,8 @@ namespace NineMood.Data.Definitions
         [Min(0f)] public float attackCoefficient = 1f;
 
         public int GetChainMultiplier(int connected) => connected >= 9 ? 4 : connected >= 5 ? 2 : 1;
-        public float GetPrototypeGroggyDamage(int connected, TileColor color, float groggyMultiplier, float bonus) =>
-            color == TileColor.Cyan ? 0f : Mathf.Max(0,connected) * attackCoefficient * groggyMultiplier
+        public float GetPrototypeGroggyDamage(int connected, TileColor color, float groggyMultiplier, float bonus, float? effectiveAttack = null) =>
+            color == TileColor.Cyan ? 0f : Mathf.Max(0,connected) * (effectiveAttack ?? attackCoefficient) * groggyMultiplier
                 * (color == TileColor.Orange ? 2f : 1f) * (1f + Mathf.Max(0f,bonus));
 
         // ── 공개 메서드 ─────────────────────────────────────────────────

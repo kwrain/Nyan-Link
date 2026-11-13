@@ -1,0 +1,80 @@
+{
+    "schemaVersion": 1,
+    "revision": 36,
+    "checksum": "c8c4d1170e19cd852b4380b4890d0453e30c71f964f14c49914eac741c7cdcc1",
+    "hasCheckpoint": false,
+    "checkpoint": {
+        "runId": "",
+        "stageId": "",
+        "rulesSignature": "",
+        "randomState": "",
+        "boundary": 0,
+        "phase": 0,
+        "distance": 0.0,
+        "hp": 0.0,
+        "maxHP": 0.0,
+        "elapsed": 0.0,
+        "freezeRemaining": 0.0,
+        "boostRemaining": 0.0,
+        "actionRemaining": 0.0,
+        "retryRemaining": 0.0,
+        "runnerState": 0,
+        "obstacleIndex": 0,
+        "score": 0,
+        "requiredColor": -1,
+        "board": [],
+        "boss": {
+            "active": false,
+            "failureShield": false,
+            "hp": 0.0,
+            "maxHP": 0.0,
+            "attackBonus": 0.0,
+            "groggyRemaining": 0.0,
+            "intervalRemaining": 0.0,
+            "phase": 0,
+            "nextStep": 0,
+            "nextSequence": []
+        }
+    },
+    "permanent": {
+        "coins": 0,
+        "equipment": [
+            {
+                "instanceId": "reward-c409fb8708ff4dcc9ce583a3fe78ad45",
+                "dataId": "prototype-hat-01",
+                "level": 5,
+                "equippedSlot": -1
+            },
+            {
+                "instanceId": "reward-play-0-5",
+                "dataId": "prototype-outfit-01",
+                "level": 1,
+                "equippedSlot": 1
+            },
+            {
+                "instanceId": "reward-play-1-8",
+                "dataId": "prototype-weapon-01",
+                "level": 1,
+                "equippedSlot": 2
+            }
+        ],
+        "clears": [
+            {
+                "stageId": "prototype-stage-01",
+                "cleared": true,
+                "firstRewardGranted": true,
+                "bestScore": 80
+            }
+        ],
+        "rewardReceipts": [
+            "c409fb8708ff4dcc9ce583a3fe78ad45",
+            "play-0-5",
+            "play-1-8",
+            "play-2-0",
+            "play-3-0",
+            "play-4-0",
+            "play-5-1"
+        ]
+    },
+    "pendingClears": []
+}

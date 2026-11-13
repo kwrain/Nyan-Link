@@ -55,6 +55,7 @@ namespace NineMood.UI
             GameEvents.OnStaminaChanged  += UpdateStamina;
             GameEvents.OnProgressChanged += UpdateProgress;
             GameEvents.OnGameStateChanged += OnGameStateChanged;
+            NineMood.Core.Persistence.ProgressionService.Changed += RefreshReadyStats;
         }
 
         private void OnDisable()
@@ -65,6 +66,7 @@ namespace NineMood.UI
             GameEvents.OnStaminaChanged  -= UpdateStamina;
             GameEvents.OnProgressChanged -= UpdateProgress;
             GameEvents.OnGameStateChanged -= OnGameStateChanged;
+            NineMood.Core.Persistence.ProgressionService.Changed -= RefreshReadyStats;
         }
 
         private void Start()
@@ -72,8 +74,9 @@ namespace NineMood.UI
             if (textScore != null) textScore.text = "0";
 
             // 스태미나 초기값
-            float max = DataManager.Instance?.BalanceData?.maxStamina ?? 100f;
-            UpdateStamina(max, max);
+            var stamina=StaminaManager.Instance;
+            if(stamina!=null) UpdateStamina(stamina.CurrentStamina,stamina.MaxStamina);
+            RefreshReadyStats();
             UpdateProgress(0f);
         }
 
@@ -100,6 +103,17 @@ namespace NineMood.UI
                 sliderProgress.value = progress;
         }
 
-        private void OnGameStateChanged(GameState state) { if (state == GameState.Briefing && _chainTier != null) _chainTier.text = ""; }
+        private void RefreshReadyStats()
+        {
+            if(GameManager.Instance?.CurrentState!=GameState.Briefing) return;
+            float max=NineMood.Core.Persistence.ProgressionService.Stats().maxHP;
+            UpdateStamina(max,max);
+        }
+        private void OnGameStateChanged(GameState state)
+        {
+            if(state!=GameState.Briefing) return;
+            if(_chainTier!=null) _chainTier.text="";
+            RefreshReadyStats();
+        }
     }
 }

@@ -54,12 +54,14 @@ namespace NineMood.UI
         private void OnEnable()
         {
             GameEvents.OnGameStateChanged += OnGameStateChanged;
+            NineMood.Core.Persistence.ProgressionService.Changed += RefreshButtons;
             RefreshButtons();
         }
 
         private void OnDisable()
         {
             GameEvents.OnGameStateChanged -= OnGameStateChanged;
+            NineMood.Core.Persistence.ProgressionService.Changed -= RefreshButtons;
         }
 
         private void OnDestroy()

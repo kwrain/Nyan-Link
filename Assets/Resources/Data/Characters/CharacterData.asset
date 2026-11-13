@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91cfe9e4ee4bb405e936126f8eaafaa9, type: 3}
   m_Name: CharacterData
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.CharacterData
-  characterId: 
-  characterName: 
+  characterId: prototype-cat-01
+  characterName: Trail Cat
   description: 
   maxHP: 100
-  attack: 10
+  attack: 1
   recovery: 1
-  criticalChance: 0.1
+  criticalChance: 0
   criticalMultiplier: 2
   promotionPieceCount: 100
   promotionGrade: 1

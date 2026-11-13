@@ -1,0 +1,41 @@
+{
+  "compile": {
+    "exitCode": 0
+  },
+  "play": {
+    "assertions": 182,
+    "exitCode": 0
+  },
+  "cold": {
+    "assertions": 118,
+    "exitCode": 0
+  },
+  "regressionSession06": {
+    "assertions": 500,
+    "exitCode": 0
+  },
+  "regressionSession05": {
+    "assertions": 318,
+    "exitCode": 0
+  },
+  "gameRuntimeErrors": 0,
+  "environment": "Unity6000.3.14f1 macOS27.2 arm64 Editor 1080x1920",
+  "deviceTested": false,
+  "playerBuildTested": false,
+  "isolatedFixtureLimitations": [
+    "travel/obstacle completion placement",
+    "boss HP placement",
+    "deterministic branch run IDs",
+    "API case coin budgets"
+  ],
+  "effectiveRuntimeStats": {
+    "maxHP": 135,
+    "attack": 1.1,
+    "redTwoTilesDamage": 4.4,
+    "orangeTwoTilesWith50PercentBuffDamage": 13.2
+  },
+  "originalGameSavesDirectoryExists": false,
+  "originalGameSaveFiles": [],
+  "externalBackup": "/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session07-save-backup",
+  "backupCopiesSHA256Verified": 2
+}

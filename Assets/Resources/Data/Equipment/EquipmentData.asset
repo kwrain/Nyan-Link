@@ -12,13 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0f07141e12b4109a9908334ee3198f, type: 3}
   m_Name: EquipmentData
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.EquipmentData
-  equipmentId: 
-  equipmentName: 
+  equipmentId: prototype-hat-01
+  equipmentName: Trail Hat
   description: 
   equipmentType: 0
   grade: 0
   isBossExclusive: 0
   bossId: 
-  levelStats: []
+  levelStats:
+  - level: 1
+    hpBonus: 5
+    attackBonus: 0.00
+    recoveryBonus: 0
+    criticalChanceBonus: 0
+  - level: 2
+    hpBonus: 10
+    attackBonus: 0.00
+    recoveryBonus: 0
+    criticalChanceBonus: 0
+  - level: 3
+    hpBonus: 15
+    attackBonus: 0.00
+    recoveryBonus: 0
+    criticalChanceBonus: 0
+  - level: 4
+    hpBonus: 20
+    attackBonus: 0.00
+    recoveryBonus: 0
+    criticalChanceBonus: 0
+  - level: 5
+    hpBonus: 25
+    attackBonus: 0.00
+    recoveryBonus: 0
+    criticalChanceBonus: 0
   promotionMaterialIds: []
   promotionGrade: 1

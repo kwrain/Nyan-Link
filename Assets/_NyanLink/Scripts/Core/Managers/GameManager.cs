@@ -12,6 +12,7 @@ namespace NineMood.Core.Managers
         public ResultType CurrentResult { get; private set; }
         public GameState StateBeforePause { get; private set; } = GameState.Briefing;
         public bool IsResuming { get; private set; }
+        public NineMood.Core.Persistence.EffectiveStats RunStats { get; private set; }
         private bool _bossAppeared;
         private GameState _stateBeforeColorChoice;
 
@@ -27,6 +28,7 @@ namespace NineMood.Core.Managers
             // 기존 씬 GUID와 계층을 유지하면서 최소 일시정지 UI를 연결한다.
             if (GetComponent<GamePausePanel>() == null) gameObject.AddComponent<GamePausePanel>();
             if (GetComponent<ColorSelectionPanel>() == null) gameObject.AddComponent<ColorSelectionPanel>();
+            if (GetComponent<EquipmentPanel>() == null) gameObject.AddComponent<EquipmentPanel>();
         }
 
         protected override void OnDestroy()
@@ -48,6 +50,7 @@ namespace NineMood.Core.Managers
         private void StartRun(bool continueSaved)
         {
             Time.timeScale=1f;IsResuming=false;_bossAppeared=false;
+            RunStats=NineMood.Core.Persistence.ProgressionService.Stats();
             PublishState(GameState.Briefing);
             FindFirstObjectByType<PuzzleBoardManager>()?.ResetBoard();
             ScoreManager.Instance?.ResetScore();StaminaManager.Instance?.ResetStamina();
@@ -116,6 +119,7 @@ namespace NineMood.Core.Managers
         {
             if (CurrentState != GameState.BossPhase) return;
             SaveManager.Instance?.CompleteCurrentRun();
+            if(SaveManager.Instance?.stageData!=null) NineMood.Core.Persistence.ProgressionService.RecoverPending();
             SetResult(ResultType.Win);
         }
 

@@ -24,6 +24,8 @@ namespace NineMood.UI
 
         private void Start()
         {
+            NineMood.Core.Persistence.ProgressionService.RecoverPending();
+            if(GetComponent<EquipmentPanel>()==null) gameObject.AddComponent<EquipmentPanel>();
             int best = PlayerPrefs.GetInt(BestScoreKey, 0);
             if (textBestScore != null)
                 textBestScore.text = $"BEST: {best:N0}";

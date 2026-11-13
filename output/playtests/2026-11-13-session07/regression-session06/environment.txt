@@ -1,0 +1,3 @@
+Unity=6000.3.14f1
+persistentDataPath=/Users/kiwoolee/Library/Application Support/DefaultCompany/NyanLink
+isolatedStorage=/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/output/playtests/2026-11-13-session07/regression-session06/sandbox-608e42ad51054fcdb930a0c5de8817c7/play

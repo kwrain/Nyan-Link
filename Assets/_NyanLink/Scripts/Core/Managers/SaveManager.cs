@@ -158,10 +158,20 @@ namespace NineMood.Core.Managers
             public float speed,length,decay,decayGrowth,obstacleSpeed,obstacleDamage;
             public List<ObstacleEntry> obstacles;
         }
-        public string RulesSignature => SaveStore.Hash(JsonUtility.ToJson(new Rules {
+        private string BaseRulesSignature => SaveStore.Hash(JsonUtility.ToJson(new Rules {
             stageId=stageData.stageId,speed=stageData.runnerSpeed,length=stageData.stageLength,decay=stageData.stageDecayMultiplier,
             decayGrowth=stageData.decayIncreasePerSecond,obstacleSpeed=stageData.obstacleMoveSpeed,obstacleDamage=stageData.ActualObstacleDamage,
             obstacles=stageData.obstacles,balance=JsonUtility.ToJson(DataManager.Instance.BalanceData),boss=JsonUtility.ToJson(Boss.config) }));
+        public string RulesSignature
+        {
+            get
+            {
+                var stats=ProgressionService.Stats();
+                // Base loadouts retain Session06 signatures; changed stats must not resume old runs.
+                return stats.maxHP==100f && stats.attack==1f ? BaseRulesSignature
+                    : SaveStore.Hash(BaseRulesSignature+":"+stats.maxHP.ToString("R",System.Globalization.CultureInfo.InvariantCulture)+":"+stats.attack.ToString("R",System.Globalization.CultureInfo.InvariantCulture));
+            }
+        }
         public RunCheckpoint Capture(CheckpointBoundary boundary)
         {
             var stamina=StaminaManager.Instance;
@@ -180,7 +190,7 @@ namespace NineMood.Core.Managers
             var temporary=new SaveDocument {checkpoint=cp};
             if(!SaveStore.Validate(temporary,out error)) return false;
             error="Checkpoint boundary is incompatible; original preserved";
-            if(cp.distance>stageData.stageLength || cp.maxHP!=DataManager.Instance.BalanceData.maxStamina || cp.boss.phase>Boss.config.phaseHPThresholds.Count) return false;
+            if(cp.distance>stageData.stageLength || cp.maxHP!=ProgressionService.Stats().maxHP || cp.boss.phase>Boss.config.phaseHPThresholds.Count) return false;
             var obstacles=stageData.obstacles.OrderBy(o=>o.triggerDistance).ToArray();
             if(cp.phase==GameState.RunnerPhase)
             {

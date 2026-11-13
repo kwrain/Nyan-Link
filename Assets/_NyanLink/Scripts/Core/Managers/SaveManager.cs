@@ -18,14 +18,14 @@ namespace NineMood.Core.Managers
         public StageData stageData;
         public RunnerProgressSystem progressSystem;
         public ObstacleSpawner obstacleSpawner;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         public static string TestDirectoryOverride;
 #endif
         public static string StorageDirectory
         {
             get
             {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
                 if(!string.IsNullOrEmpty(TestDirectoryOverride)) return TestDirectoryOverride;
 #endif
                 return Path.Combine(Application.persistentDataPath,"saves");

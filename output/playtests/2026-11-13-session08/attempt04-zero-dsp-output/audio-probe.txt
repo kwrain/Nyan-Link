@@ -1,0 +1,5 @@
+masterMute=False
+listenerPause=False
+sourcePlaying=True
+peak=0
+sampleRate=48000

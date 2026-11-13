@@ -51,6 +51,8 @@ namespace NineMood.Core
         // ── 러너 ───────────────────────────────────────────────
         /// <summary>스태미나 변경 (current, max)</summary>
         public static event Action<float, float> OnStaminaChanged;
+        public static event Action<float> OnPlayerHit;
+        public static void TriggerPlayerHit(float amount)=>OnPlayerHit?.Invoke(amount);
 
         /// <summary>스테이지 진행도 변경 (0~1)</summary>
         public static event Action<float> OnProgressChanged;

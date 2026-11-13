@@ -79,6 +79,7 @@ public static class NyanLinkSession04Validation
         expires = EditorApplication.timeSinceStartup + 210;
         next = EditorApplication.timeSinceStartup + 3;
         work = new Stack<IEnumerator>(); work.Push(Sequence());
+        EditorApplication.LockReloadAssemblies();
         EditorApplication.update += KeepAlive;
     }
     static void KeepAlive()
@@ -504,6 +505,7 @@ public static class NyanLinkSession04Validation
         if (error == null && errors.Count == 0) Pass("Session04 completed without runtime errors");
         File.WriteAllLines(Path.Combine(Output,"play-results.txt"),results);
         SessionState.SetBool(Key,false);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error == null && errors.Count == 0 ? 0 : 1);
     }
 }

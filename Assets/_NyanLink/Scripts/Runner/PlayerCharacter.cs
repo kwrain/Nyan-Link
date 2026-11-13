@@ -162,8 +162,8 @@ namespace NineMood.Runner
             while (elapsed < duration)
             {
                 Vector3 shake = new Vector3(
-                    Random.Range(-stumbleShake, stumbleShake),
-                    Random.Range(-stumbleShake, stumbleShake), 0f);
+                    Mathf.Sin(elapsed*83f)*stumbleShake,
+                    Mathf.Sin(elapsed*107f)*stumbleShake, 0f);
                 transform.localPosition = _baseLocalPos + shake;
                 elapsed += Time.deltaTime;
                 yield return null;

@@ -1,0 +1,57 @@
+Unity Editor version:    6000.3.14f1 (d68c3f99a318)
+Branch:                  6000.3/staging
+Build type:              Release
+Batch mode:              NO
+macOS version:           Version 27.2 (Build 26B123)
+Darwin version:          27.2.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-11-13T08:47:11Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee" at "2026-11-13T08:47:11.98355Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+-projectPath
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+-executeMethod
+NyanLinkSession08Validation.Run
+-logFile
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/output/playtests/2026-11-13-session08/play.log
+Successfully changed project path to: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              d92a43b8d3e6418d8dfd33e6c33f59e3
+  Correlation Id:          101200e2e7925c753b65ac071170326e
+  External correlation Id: 3485222190455162021
+  Machine Id:              /WjKvKF+OzgsHfl3D08tQZYCd8Q=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kiwoolee" (connect: 0.00s, validation: 0.01s, handshake: 0.76s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee-notifications" at "2026-11-13T08:47:12.751344Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Module] Licensing Background thread has ended after 0.78s

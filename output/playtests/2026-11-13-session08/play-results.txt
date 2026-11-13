@@ -1,0 +1,6 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+UNVERIFIED AudioListener output peak0 despite active source; audible output requires separate listening check
+PASS Three portrait sizes, simulated notch/home insets,40:60 logical split, safe controls and board
+PASS Actual success/retry/boss failure/success/groggy-exit boundaries; exact board/item/effect restore, no duplicate damage/results, pause vs disk, atomic permanent/reward contract
+PASS 602 Play assertions; cold checkpoint prepared
+PASS Session08 completed without runtime errors

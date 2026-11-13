@@ -29,30 +29,37 @@ namespace NineMood.Core
         [Header("퍼즐 뷰")]
         public float puzzleOrthoSize = 5f;
 
+        private Rect lastSafe;
         private void Awake() => ApplySplit();
+        private void Update() {if(Application.isPlaying && lastSafe!=NineMood.UI.PrototypeSafeArea.Pixels) ApplySplit();}
 
         private void OnValidate() => ApplySplit();
 
         [ContextMenu("Apply Split")]
         public void ApplySplit()
         {
+            Rect safe=Application.isPlaying ? NineMood.UI.PrototypeSafeArea.Pixels : new Rect(0,0,Screen.width,Screen.height);
+            lastSafe=safe;
+            float width=Mathf.Max(1,Screen.width),height=Mathf.Max(1,Screen.height);
+            Rect viewport=new Rect(safe.x/width,safe.y/height,safe.width/width,safe.height/height);
             // ── 하단: 퍼즐 뷰 (Viewport y=0 ~ puzzleRatio) ──────
             if (cameraPuzzle != null)
             {
-                cameraPuzzle.rect             = new Rect(0f, 0f, 1f, puzzleRatio);
+                cameraPuzzle.rect             = new Rect(viewport.x,viewport.y,viewport.width,viewport.height*(puzzleRatio-.065f));
                 cameraPuzzle.orthographicSize = puzzleOrthoSize;
             }
 
             // ── 상단: 러너 뷰 (Viewport y=puzzleRatio ~ 1) ──────
             if (cameraRunner != null)
             {
-                cameraRunner.rect             = new Rect(0f, puzzleRatio, 1f, 1f - puzzleRatio);
+                cameraRunner.rect             = new Rect(viewport.x,viewport.y+viewport.height*puzzleRatio,viewport.width,viewport.height*(1f-puzzleRatio));
                 cameraRunner.orthographicSize = runnerOrthoSize;
 
                 Vector3 pos = cameraRunner.transform.position;
                 pos.y = runnerWorldY;
                 cameraRunner.transform.position = pos;
             }
+            if(Application.isPlaying) ApplyCullingMasks();
         }
 
         /// <summary>

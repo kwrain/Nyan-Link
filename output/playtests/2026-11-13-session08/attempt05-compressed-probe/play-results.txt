@@ -1,0 +1,12 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+UNVERIFIED AudioListener output peak0 despite active source; audible output requires separate listening check
+System.Exception: FAIL Imported SFX contains nonzero PCM data
+  at NyanLinkSession08Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:121 
+  at NyanLinkSession08Validation+<LayoutCases>d__86.MoveNext () [0x00735] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:396 
+  at NyanLinkSession08Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:107 
+RUNTIME_ERROR Cannot get data on compressed samples for audio clip "clear". Changing the load type to DecompressOnLoad on the audio clip will fix this.
+UnityEngine.AudioClip:GetData (single[],int)
+NyanLinkSession08Validation/<LayoutCases>d__86:MoveNext () (at Assets/Editor/NyanLinkSession08Validation.cs:396)
+NyanLinkSession08Validation:Tick () (at Assets/Editor/NyanLinkSession08Validation.cs:107)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+

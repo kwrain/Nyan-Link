@@ -1,0 +1,5 @@
+result=Succeeded
+errors=0
+warnings=1
+size=333434762
+duration=00:01:03.1312040

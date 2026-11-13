@@ -19,6 +19,9 @@ namespace NineMood.Core.Managers
         [Header("SFX - Game State")]
         public AudioClip sfxGameOver;
         public AudioClip sfxStageClear;
+        public AudioClip sfxHit;
+        public int PlayedSfxCount {get;private set;}
+        public AudioClip LastSfx {get;private set;}
 
         [Header("BGM")]
         public AudioClip bgmGame;
@@ -33,6 +36,14 @@ namespace NineMood.Core.Managers
         protected override void Awake()
         {
             base.Awake();
+            if(!IsCreated || Instance!=this)return;
+            sfxMatchShort ??= Resources.Load<AudioClip>("Audio/Prototype/match-short");
+            sfxMatchMiddle ??= Resources.Load<AudioClip>("Audio/Prototype/match-middle");
+            sfxMatchLong ??= Resources.Load<AudioClip>("Audio/Prototype/match-long");
+            sfxItemEffect ??= Resources.Load<AudioClip>("Audio/Prototype/item");
+            sfxGameOver ??= Resources.Load<AudioClip>("Audio/Prototype/lose");
+            sfxStageClear ??= Resources.Load<AudioClip>("Audio/Prototype/clear");
+            sfxHit ??= Resources.Load<AudioClip>("Audio/Prototype/hit");
 
             _sfxSource = gameObject.AddComponent<AudioSource>();
             _sfxSource.playOnAwake = false;
@@ -46,6 +57,8 @@ namespace NineMood.Core.Managers
         private void OnEnable()
         {
             GameEvents.OnMatchCompleted   += OnMatchCompleted;
+            GameEvents.OnItemUseCompleted += OnItem;
+            GameEvents.OnPlayerHit += OnHit;
             GameEvents.OnGameStateChanged += OnGameStateChanged;
             GameEvents.OnResultSet        += OnResultSet;
         }
@@ -53,9 +66,14 @@ namespace NineMood.Core.Managers
         private void OnDisable()
         {
             GameEvents.OnMatchCompleted   -= OnMatchCompleted;
+            GameEvents.OnItemUseCompleted -= OnItem;
+            GameEvents.OnPlayerHit -= OnHit;
             GameEvents.OnGameStateChanged -= OnGameStateChanged;
             GameEvents.OnResultSet        -= OnResultSet;
         }
+
+        private void OnItem(int score,int removed) {if(removed>0)PlaySFX(sfxItemEffect);}
+        private void OnHit(float amount) {if(amount>0)PlaySFX(sfxHit);}
 
         private void OnMatchCompleted(int chainLength, int scoreGained, int tilesRemoved, NineMood.Data.Enums.TileColor chainColor)
         {
@@ -74,7 +92,8 @@ namespace NineMood.Core.Managers
 
         private void OnGameStateChanged(GameState state)
         {
-            if (state == GameState.RunnerPhase)
+            if(state==GameState.Paused || state==GameState.ColorSelection) _bgmSource?.Pause();
+            if (state == GameState.RunnerPhase || state==GameState.BossPhase)
                 PlayBGM(bgmGame);
         }
 
@@ -91,13 +110,14 @@ namespace NineMood.Core.Managers
         public void PlaySFX(AudioClip clip)
         {
             if (clip == null || _sfxSource == null) return;
+            PlayedSfxCount++;LastSfx=clip;
             _sfxSource.PlayOneShot(clip, sfxVolume);
         }
 
         public void PlayBGM(AudioClip clip)
         {
             if (clip == null || _bgmSource == null) return;
-            if (_bgmSource.clip == clip && _bgmSource.isPlaying) return;
+            if (_bgmSource.clip == clip) { _bgmSource.UnPause();if(_bgmSource.isPlaying)return; }
             _bgmSource.clip = clip;
             _bgmSource.volume = bgmVolume;
             _bgmSource.Play();

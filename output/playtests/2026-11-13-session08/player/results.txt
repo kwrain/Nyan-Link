@@ -1,0 +1,11 @@
+PASS Native Mac Player starts Main
+PASS Player includes sound resources
+PASS Player serialized tile references render39 cells
+PASS Player runtime stats initialize
+PASS Player includes selection shader
+PASS Native Player input selects adjacent pair
+PASS Player release scores and refills
+PASS Player sound dispatched with single listener
+PASS Player writes isolated profile
+AUDIO sourcePlaying=True listenerVolume=1 peak=0
+PASS Native Player has no runtime errors

@@ -1,15 +1,16 @@
 # 검증 및 후속 작업 목록
 
-항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산, 세션 05는 아이템·색 선택·시간 정지, 세션 06은 안전 저장·경계 이어하기, 세션 07은 보상·장비·Lv.5 성장 점검이다. 게임 전체의 규칙 검증 결과가 아니다.
-공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 사용자 요청으로 `de2a22c520b7c76e9967531c487ad57730cadeec`에 커밋·푸시함. 세션 06은 사용자 요청으로 `fbda2526f941c4e9552866b72e0b4eed0d8b2482`에 커밋·푸시함. 세션 07은 현재 사용자 AGENTS 지침에 따라 검증 뒤 로컬 커밋하며 미푸시(메시지 feat: add atomic clear rewards and equipment progression).
-근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`, `output/playtests/2026-11-13-session05/`, `output/playtests/2026-11-13-session06/`, `output/playtests/2026-11-13-session07/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
+항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산, 세션 05는 아이템·색 선택·시간 정지, 세션 06은 안전 저장·경계 이어하기, 세션 07은 보상·장비·Lv.5 성장, 세션08은 화면·안전 영역·최소 사운드·통합/Player 검증이다. 게임 전체의 규칙 검증 결과가 아니다.
+공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 사용자 요청으로 `de2a22c520b7c76e9967531c487ad57730cadeec`에 커밋·푸시함. 세션 06은 사용자 요청으로 `fbda2526f941c4e9552866b72e0b4eed0d8b2482`에 커밋·푸시함. 세션07은 사용자 요청으로 cd4d74c3a294ff9cec3c01b517a8cd4ab2416c35에 커밋·푸시. 세션08은 AGENTS에 따라 검증 뒤 로컬 커밋, 미푸시(메시지 feat: polish prototype presentation and validate full play flow).
+근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`, `output/playtests/2026-11-13-session05/`, `output/playtests/2026-11-13-session06/`, `output/playtests/2026-11-13-session07/`, `output/playtests/2026-11-13-session08/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
 
 ## 미검증
 
 ### V-001 — Player 빌드와 새 환경의 패키지 복구
 - 관련: Packages/manifest.json, packages-lock.json, PuzzleBoardManager.cs, Game.unity의 `_tileEntries`.
 - 확인할 동작·기대 결과: 캐시 없는 환경에서 패키지 복구 후 데스크톱/모바일 Player 컴파일 및 타일 렌더링 성공.
-- 미검증 사유: 이번 세션은 현재 Mac의 Editor 컴파일·플레이 검증. Player 빌드와 캐시 삭제는 실행하지 않음.
+- 세션08 부분 확인: 현재 캐시에서 Mac Development Player 빌드·실제 실행·39칸/선택선 셰이더/입력·리필·격리 저장 성공. build-results/player/results.txt 및 V-014 참조.
+- 남은 미검증 사유: 캐시 없는 복구/모바일 빌드는 미수행. Unity iOS/Android 지원 모듈 미설치. 원본 캐시 삭제 없이 별도 안전 폴더에서 확인 필요.
 - 검증 방법: 별도 복원 폴더에서 정확한 Unity 버전으로 의존성을 복구한 뒤 Player 빌드·실행. SSH Git 패키지 접근 권한 필요. 원본 Library 삭제 금지.
 - 관련: D-001. Git 패키지 캐시 3개는 외부 백업의 보조 압축 파일에 보존.
 
@@ -20,22 +21,32 @@
 - 세션 02 확인: 가상 Mouse/Touchscreen에 New Input System 상태 이벤트를 주입하여 실제 UI/Update/Enhanced Touch 경로 검증 완료(V-005). 실제 사람의 마우스 조작·물리 터치 기기·전체 완주는 수행하지 않음.
 - 세션 03 확인: 가상 Mouse로 일시정지 메뉴·재시작·로비 왕복, 빨강/파랑/노랑 장애물 통과→BossPhase까지 자동 검증. 보스 승리까지의 전체 완주는 미검증(V-006).
 - 세션 04 확인: 자동 마우스 입력으로 장애물3종→타임어택→그로기→승리/패배 Result 검증(V-007). 보드/HP 수치 보정이 포함되므로 실제 사람의 무보정 완주·난이도 검증은 미수행.
-- 검증 방법: Main부터 직접 조작하여 보스 승리까지 무보정 완주. 후속 아이템/보상/성장 통합까지 완료한 것으로 해석하지 않음.
+- 세션08 자동 통합: 저장·아이템·보상/장비/성장/실패와 재도전까지 V-015 및 회귀에서 확인. Native smoke V-014와 구분.
+- 검증 방법: Main부터 실제 사람의 손으로 무보정 완주·장기 성장 체감 기록. 자동 fixture 결과를 사람/실기기 검증으로 해석하지 않음.
 - 관련: I-001, I-002, I-005, D-001.
+
+### V-012 — 효과음 실제 청취와 출력·믹스
+- 등록일·최근 확인일: 2026-11-13. 관련: AudioManager, Resources/Audio/Prototype, audio-probe.txt, player/results.txt.
+- 확인할 동작·기대: 스피커/헤드폰에서 매칭3티어·아이템·피격·승패가 구분되고 과도한 중첩·음량·잘림 없이 출력. 모바일 무음/앱 전환도 확인.
+- 확인한 범위: PCM 음원 데이터 비영점·Resources 로드·실제 매칭의 SFX 카운트 증가·SourcePlaying=true·활성 Listener1개 확인. Editor 및 Native Player의 AudioListener 출력 분석값은 peak0으로 남음. 실제 청취 성공이나 실제 무음 원인을 단정하지 않음.
+- 미검증 사유/방법: 실제 청취를 수행하지 못함. 출력 경로/분석 API의0값 원인 확인 후 실제 장치 청취, 필요 시 믹스/볼륨 조정. API 성공을 청취 통과로 바꾸지 않음.
+- 관련: D-001.
+
+### V-013 — 최종 한국어 현지화·글리프
+- 등록일·최근 확인일: 2026-11-13. 관련: TMP/기본 LiberationSans, UI 전반, I-003 완료 기록.
+- 확인할 동작·기대: 적절한 라이선스의 한글 폰트로 메뉴/동적 안내/장비 이름/긴 문구가 깨지지 않고 작은 화면에서 읽힘.
+- 미검증 사유: 현재 프로토타입은 영문 UI/영문 데이터로 검증. 원래 한글 폰트를 추가한 것은 아니며 최종 현지화는 미구현.
+- 방법: 아트·UI 제작 단계에서 한국어 문자열/폰트 교체 후 모든 상태/해상도·실기기 검사. 미등록 보존 데이터가 한국어인 경우도 포함.
 
 ## 미해결
 
-### I-003 — HUD 겹침과 한글 글리프 누락
-- 관련: Game.unity, GameStateDebugPanel.cs, GameReadyPanel.cs, TextMesh Pro 폰트.
-- 증상·영향: 디버그 패널이 상단 HUD와 겹치고 시작 버튼 한글 등이 사각형으로 표시됨. 실제 캡처 02/03에서 확인.
-- 재현: Game View 1284×2778에서 Main→Play. 세션 01 `02-game-ready.png`, `03-game-running.png` 참고. 세션 02의 1080×1920/1284×2778 캡처에서도 상단 디버그 HUD 겹침이 남음.
-- 원인: 테스트용 디버그 UI가 활성 상태이며 기본 LiberationSans SDF가 한글을 제공하지 않음.
-- 세션 03 부분 조치: 기존 디버그 패널은 활성 플레이에서 제외. Pause 메뉴와 READY 표시는 추가했으나 경고/HP 간격이 좁은 현상과 한글 폰트 문제는 남음. 세션 03 03/04/05 PNG에서 확인.
-- 세션 04 부분 조치: 비활성 BossHUD를 활성화하고 CanvasGroup 누락 오류 수정, 순서·HP·타이머/그로기·강화 표시 연결. 보스와 플레이어 HP 간격 조정, CHAIN/TIER 표시. 승리 CONTINUE는 실제로 RetryGame에 연결되어 있으므로 기능은 다시하기지만 문구는 세션 08에서 명확히 정비.
-- 세션07 부분 조치: 승리 보상/RETRY·장비 최소 UGUI 연결, 보상과 최고점 문구 겹침/로비 중첩 캔버스 크기 및 준비 HUD의 장비HP 미리보기 수정. 전체 UI·한글 폰트/안전영역은 후속 범위 유지.
-- 세션06 부분 조치: 준비 화면 CONTINUE/NEW GAME과 마지막 경계 정책을 영어로 표시하여 실제 선택 가능. 안내와 버튼 겹침 수정. 전체 한국어 폰트/결과 문구 정비는 남음.
-- 다음 조치: 세션 08에서 한글 폰트·HUD·안전 영역 정비. 기존 UI와 리소스 보존.
-- 관련: D-001.
+### I-009 — Mac Development Player 종료 시 렌더 자원 정리 경고
+- 등록일·최근 확인일: 2026-11-13. 관련: URP/Native Player 종료, output/playtests/2026-11-13-session08/player.log.
+- 증상: 종료0 및 Main/입력/리필/저장 smoke 성공 뒤 프로세스 정리에서 ComputeBuffer 자동해제 경고/Development 메모리 진단 출력. 실행 중 프레임 누수나 게임 데이터 손상을 확인한 것은 아님.
+- 재현: Session08Build.Build→Development Player -nyanSmoke 실행→Application.Quit. 종료 로그 말미.
+- 이번 최초 Player 검사에서 확인했으며 세션08 변경으로 새로 발생했다고 단정하지 않음.
+- 원인: 미확정. _NyanLink 게임 스크립트에 직접 ComputeBuffer/GraphicsBuffer 소유 코드는 없음. 패키지/렌더 파이프라인 수명과 관련됐을 가능성은 추정.
+- 다음 조치: 종료 호출 스택과 반복 Player 실행/렌더 자원 수명을 조사, Release와 비교. 경고를 숨기거나 관련 패키지를 임의 삭제하지 않음.
 
 ## 실기기 테스트 필요
 
@@ -49,7 +60,8 @@
 - 세션 04 추가 대상: 실제 보스 순서 입력, 그로기 공격/아이템 구분, 패턴·그로기 중 정지/재개, 타이머·강화·승패 표시. Mac 가상 마우스 검증 V-007과 별개.
 - 세션05 추가 대상: 6종×2티어 단독 터치/같은색 체인·빠른 반복 입력·연쇄·종류별 한도·변색 후 종류 표시, 6색 창/중첩Pause/색 선택 뒤 같은 상태 복귀, TimeFreeze 중 실제 터치와 장애물 이동·앱 전환. 자동 Mouse 성공을 실기기 결과로 대체하지 않음.
 - 세션07 추가 대상: 3슬롯 보유품 스크롤·장착/해제·Lv5/코인부족 버튼, 저장 진행 잠금·명시적 NEW RUN SETUP, 전체 해상도에서 보상/능력치 가독성.
-- 대기 사유: 연결된 실기기를 사용하지 않았으며 세션 08 UI 정비가 남음.
+- 세션08: Editor3해상도·노치/홈 여백 모의·실제 가상Mouse 드래그, NativeMac540×960 smoke 확인. iOS/Android Unity 모듈과 실제 모바일 기기가 없어 실기기 상태 유지.
+- 대기 사유: 연결 실기기/모바일 Player 미확보. 실제 터치·오디오·안전 영역·성능을 다음 제작 단계에서 확인.
 - 관련: V-001, V-002, I-001, I-003.
 
 ### D-002 — 모바일 저장·앱 수명·파일 교체 검증
@@ -63,6 +75,41 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### I-003 — 프로토타입 활성 화면 가독성 정비 완료
+- 등록일·최근 확인일·수행일: 2026-11-13. 관련: PrototypePresentation/SafeArea, DualCameraRig, 기존 UGUI HUD/메뉴, ItemTileLabels.
+- 기존 HUD/경고·HP 겹침과 중복 보드 노출, 준비/결과의 타일 배경 간섭을 수정. 활성 프로토타입은 기존 영문/기본 폰트로 확인, 한국어 폰트 자체를 구현한 것으로 간주하지 않음(V-013).
+- 확인: 720×1280/1080×1920/1284×2778·모의 노치/홈 여백, 안전 영역 버튼/보드 경계·실제 드래그, 보스/시간 정지/결과·장비 화면 PNG 직접 확인. 실제 모바일 D-001은 유지.
+- 근거: 세션08 layout-*.png, 06-groggy-saved.png, 10-reward-equipment-upgrade.png, 11-obstacle-loss.png, player/ PNG.
+
+이전 I-003 기록(세션01~07, 완료 전의 이력):
+- 관련: Game.unity, GameStateDebugPanel.cs, GameReadyPanel.cs, TextMesh Pro 폰트.
+- 증상·영향: 디버그 패널이 상단 HUD와 겹치고 시작 버튼 한글 등이 사각형으로 표시됨. 실제 캡처 02/03에서 확인.
+- 재현: Game View 1284×2778에서 Main→Play. 세션 01 `02-game-ready.png`, `03-game-running.png` 참고. 세션 02의 1080×1920/1284×2778 캡처에서도 상단 디버그 HUD 겹침이 남음.
+- 원인: 테스트용 디버그 UI가 활성 상태이며 기본 LiberationSans SDF가 한글을 제공하지 않음.
+- 세션 03 부분 조치: 기존 디버그 패널은 활성 플레이에서 제외. Pause 메뉴와 READY 표시는 추가했으나 경고/HP 간격이 좁은 현상과 한글 폰트 문제는 남음. 세션 03 03/04/05 PNG에서 확인.
+- 세션 04 부분 조치: 비활성 BossHUD를 활성화하고 CanvasGroup 누락 오류 수정, 순서·HP·타이머/그로기·강화 표시 연결. 보스와 플레이어 HP 간격 조정, CHAIN/TIER 표시. 승리 CONTINUE는 실제로 RetryGame에 연결되어 있으므로 기능은 다시하기지만 문구는 세션 08에서 명확히 정비.
+- 세션07 부분 조치: 승리 보상/RETRY·장비 최소 UGUI 연결, 보상과 최고점 문구 겹침/로비 중첩 캔버스 크기 및 준비 HUD의 장비HP 미리보기 수정. 전체 UI·한글 폰트/안전영역은 후속 범위 유지.
+- 세션06 부분 조치: 준비 화면 CONTINUE/NEW GAME과 마지막 경계 정책을 영어로 표시하여 실제 선택 가능. 안내와 버튼 겹침 수정. 전체 한국어 폰트/결과 문구 정비는 남음.
+- 다음 조치: 세션 08에서 한글 폰트·HUD·안전 영역 정비. 기존 UI와 리소스 보존.
+- 관련: D-001.
+
+### V-014 — Mac Player 빌드·실제 실행 확인
+- 등록일·최근 확인일·수행일: 2026-11-13. 관련: Session08Build/PrototypePlayerSmoke, Main/Game, Resources 타일/LineFlow2D Material/Audio.
+- 환경: Unity6000.3.14f1, macOS27.2 arm64, Development Mac Standalone, 실제540×960.
+- 결과: 빌드 Succeeded/오류0/경고1(UGS 프로젝트 미연결 안내), 프로세스 종료0. Native Player10 checks 통과: Main/39칸·스탯·선택 셰이더·실제 Mouse 입력2개/손떼기20점·리필/단일Listener·사운드 호출/격리 저장/게임 경로 오류 없음.
+- 실제 PNG3장으로 선택선과 렌더링 확인. Development Build 표식 포함. 임시 QA 옵션은 Development에서 명시한 경우만, 원래 사용자 저장·최고점 보존. Builds/Session08/NyanLink.app는 로컬 빌드이며 배포/커밋하지 않음.
+- 한계: Native 전체 완주·물리 손 입력·모바일/Release/새 캐시는 아님(V-001/V-002/D-001/D-002). 청취 V-012 및 종료 정리 경고 I-009 유지.
+
+### V-015 — 세션08 통합 플레이·새 프로세스 복원
+- 등록일·최근 확인일·수행일: 2026-11-13. 기준 cd4d74c, 세션08 로컬 커밋 메시지는 상단 참조.
+- 관련: PrototypePresentation/SafeArea/Feedback, DualCameraRig, AudioManager, PlayerCharacter/TileSelectionVisualizer/Stamina/SaveManager, Session08Validation, PROTOTYPE-VALIDATION.txt.
+- Editor 통합602 / 완전히 새 프로세스 Cold64 assertion 통과·각 종료0·게임 경로 런타임 오류0. 화면 배치·카메라 중복 수정·모의 여백/실제 입력·저장·보스·영구 보상·실제 장비 UI/강화/재도전 HP110/패배와 재시작 확인.
+- 외부 원래 앱 파일2개 SHA 백업, 검사는 GUID별 격리 저장. 원래 saves 디렉터리 부재 유지, 최고점/입력/화면/음소거 복원. 기존 씬·GUID·패키지 보존.
+- 원본06 보존 계약의 가상321코인/미등록 장비/보드·HP·여행8배 배치가 포함됨. 현재 사람 무보정 완주/드롭 통계/밸런스 적정성으로 해석하지 않음.
+- 초기 실패/수정은 attempt01~06 및 audio-import-attempt01/startup-attempt02 로그에 보존. Listener 부재/전체화면 카메라 중복·시각RNG소모/PCM 가져오기 수정. 출력 peak0은 미검증 V-012로 유지.
+- 회귀 Geometry9855/입력368, 아이템322, 장비190 통과·각 종료0·게임 경로 오류0. 이전 출력 보존. 별도 실제 Mac Player10 checks V-014 확인. 전투 회귀188 통과·종료0. 상세 명령·복구·스크린샷/알려진 한계 SESSION-08-HANDOFF.txt.
+
 
 ### I-004 — 성장 데이터 ID 공란 해결 완료
 - 등록일·최근 확인일·수행일: 2026-11-13. 기준 커밋 fbda252, 세션07 로컬 커밋(상단 메시지 참조).

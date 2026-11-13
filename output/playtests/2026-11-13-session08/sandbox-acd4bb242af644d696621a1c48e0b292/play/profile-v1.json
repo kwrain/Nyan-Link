@@ -1,0 +1,332 @@
+{
+    "schemaVersion": 1,
+    "revision": 13,
+    "checksum": "8fca7b411ee4c8138b13b33245ad00c128089b7ab2d9fc45402fb227af554bf2",
+    "hasCheckpoint": true,
+    "checkpoint": {
+        "runId": "cbad33392fa04aa3a0d798ef31836d24",
+        "stageId": "prototype-stage-01",
+        "rulesSignature": "34c0a5d213855bf95f74d3a02fd68bc2787406d5068f56de50fb3de811894632",
+        "randomState": "{\"s0\":294545404,\"s1\":522978307,\"s2\":727495000,\"s3\":414480234}",
+        "boundary": 4,
+        "phase": 2,
+        "distance": 250.0,
+        "hp": 55.832725524902347,
+        "maxHP": 100.0,
+        "elapsed": 61.165958404541019,
+        "freezeRemaining": 0.0,
+        "boostRemaining": 0.0,
+        "actionRemaining": 0.0,
+        "retryRemaining": 0.0,
+        "runnerState": 0,
+        "obstacleIndex": 3,
+        "score": 190,
+        "requiredColor": -1,
+        "board": [
+            {
+                "x": 0,
+                "y": 0,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 0,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 0,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 0,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 0,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 0,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 1,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 1,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 1,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 1,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 1,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 2,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 2,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 2,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 2,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 2,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 2,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 3,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 3,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 3,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 3,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 3,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 4,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 4,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 4,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 4,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 4,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 4,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 5,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 5,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 5,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 5,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 5,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 6,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 6,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 6,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 6,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 6,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 6,
+                "color": 1,
+                "state": 2,
+                "itemType": 5
+            }
+        ],
+        "boss": {
+            "active": true,
+            "failureShield": false,
+            "hp": 48.0,
+            "maxHP": 120.0,
+            "attackBonus": 0.0,
+            "groggyRemaining": 0.0,
+            "intervalRemaining": 1.0,
+            "phase": 1,
+            "nextStep": 2,
+            "nextSequence": [
+                4,
+                1,
+                4,
+                0
+            ]
+        }
+    },
+    "permanent": {
+        "coins": 321,
+        "equipment": [
+            {
+                "instanceId": "test-weapon",
+                "dataId": "test-weapon-data",
+                "level": 2,
+                "equippedSlot": 2
+            }
+        ],
+        "clears": [],
+        "rewardReceipts": []
+    },
+    "pendingClears": []
+}

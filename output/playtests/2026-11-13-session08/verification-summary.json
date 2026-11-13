@@ -1,0 +1,40 @@
+{
+  "compileExitCode": 0,
+  "editorAssertions": {
+    "play": 602,
+    "cold": 64,
+    "regression-session04/play": 188,
+    "regression-session05/play": 322,
+    "regression-session07/play": 190,
+    "regression-session02/play": 368,
+    "regression-session02/geometry": 9855
+  },
+  "nativeMacPlayer": {
+    "build": "Succeeded",
+    "errors": 0,
+    "warnings": 1,
+    "checks": 10,
+    "exitCode": 0,
+    "resolution": "540x960",
+    "shutdownResourceWarning": "I-009"
+  },
+  "editorProcessExitCodes": 0,
+  "gameRuntimeErrorsFinalRuns": 0,
+  "testedResolutions": [
+    "720x1280",
+    "1080x1920",
+    "1284x2778 with simulated insets40/40/160/110"
+  ],
+  "audio": "PCM and playback dispatch verified; Editor/Player DSP peak0; actual listening unverified V-012",
+  "notTested": [
+    "physical mobile devices",
+    "mobile Player builds (modules missing)",
+    "fresh cache restore",
+    "human unassisted completion/balance",
+    "Release build",
+    "physical sound listening/mix"
+  ],
+  "originalGameSavesExist": false,
+  "saveBackup": "/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session08-save-backup",
+  "staticAudit": "final-static-audit.json"
+}

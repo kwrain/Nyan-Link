@@ -1,0 +1,46 @@
+{
+    "schemaVersion": 1,
+    "revision": 1,
+    "checksum": "21bc8d317126d984319cf046bcb887bbe7557e63c4d64ad5b4fea3475e6ba1de",
+    "hasCheckpoint": false,
+    "checkpoint": {
+        "runId": "",
+        "stageId": "",
+        "rulesSignature": "",
+        "randomState": "",
+        "boundary": 0,
+        "phase": 0,
+        "distance": 0.0,
+        "hp": 0.0,
+        "maxHP": 0.0,
+        "elapsed": 0.0,
+        "freezeRemaining": 0.0,
+        "boostRemaining": 0.0,
+        "actionRemaining": 0.0,
+        "retryRemaining": 0.0,
+        "runnerState": 0,
+        "obstacleIndex": 0,
+        "score": 0,
+        "requiredColor": -1,
+        "board": [],
+        "boss": {
+            "active": false,
+            "failureShield": false,
+            "hp": 0.0,
+            "maxHP": 0.0,
+            "attackBonus": 0.0,
+            "groggyRemaining": 0.0,
+            "intervalRemaining": 0.0,
+            "phase": 0,
+            "nextStep": 0,
+            "nextSequence": []
+        }
+    },
+    "permanent": {
+        "coins": 0,
+        "equipment": [],
+        "clears": [],
+        "rewardReceipts": []
+    },
+    "pendingClears": []
+}

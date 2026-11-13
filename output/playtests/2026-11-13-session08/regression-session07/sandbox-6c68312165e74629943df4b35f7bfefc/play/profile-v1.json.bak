@@ -1,0 +1,354 @@
+{
+    "schemaVersion": 1,
+    "revision": 33,
+    "checksum": "76ed9371ec399d5f8730f2c65c6653a349a97c28766f2cccb07dced0c91f534b",
+    "hasCheckpoint": true,
+    "checkpoint": {
+        "runId": "83506d2e3a814bdab7947367b8a24c12",
+        "stageId": "prototype-stage-01",
+        "rulesSignature": "97abaf7416c1ddbb2cf1098e78ce78a970c22701f25df8a970df7ba7b746c23a",
+        "randomState": "{\"s0\":976784889,\"s1\":-1657575382,\"s2\":-1516964491,\"s3\":-522571511}",
+        "boundary": 2,
+        "phase": 2,
+        "distance": 250.0,
+        "hp": 135.0,
+        "maxHP": 135.0,
+        "elapsed": 0.0,
+        "freezeRemaining": 0.0,
+        "boostRemaining": 0.0,
+        "actionRemaining": 0.0,
+        "retryRemaining": 0.0,
+        "runnerState": 0,
+        "obstacleIndex": 3,
+        "score": 60,
+        "requiredColor": -1,
+        "board": [
+            {
+                "x": 0,
+                "y": 0,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 0,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 0,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 0,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 0,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 0,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 1,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 1,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 1,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 1,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 1,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 2,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 2,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 2,
+                "color": 0,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 2,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 2,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 2,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 3,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 3,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 3,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 3,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 3,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 4,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 4,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 4,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 4,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 4,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 4,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 5,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 5,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 5,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 5,
+                "color": 5,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 5,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 0,
+                "y": 6,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 1,
+                "y": 6,
+                "color": 1,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 2,
+                "y": 6,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 3,
+                "y": 6,
+                "color": 4,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 4,
+                "y": 6,
+                "color": 3,
+                "state": 0,
+                "itemType": 0
+            },
+            {
+                "x": 5,
+                "y": 6,
+                "color": 2,
+                "state": 0,
+                "itemType": 0
+            }
+        ],
+        "boss": {
+            "active": true,
+            "failureShield": false,
+            "hp": 120.0,
+            "maxHP": 120.0,
+            "attackBonus": 0.0,
+            "groggyRemaining": 5.0,
+            "intervalRemaining": 0.0,
+            "phase": 0,
+            "nextStep": 1,
+            "nextSequence": []
+        }
+    },
+    "permanent": {
+        "coins": 0,
+        "equipment": [
+            {
+                "instanceId": "reward-01d78de90cf64cfe9fb179df172657b4",
+                "dataId": "prototype-hat-01",
+                "level": 5,
+                "equippedSlot": 0
+            },
+            {
+                "instanceId": "reward-play-0-5",
+                "dataId": "prototype-outfit-01",
+                "level": 1,
+                "equippedSlot": 1
+            },
+            {
+                "instanceId": "reward-play-1-8",
+                "dataId": "prototype-weapon-01",
+                "level": 1,
+                "equippedSlot": 2
+            }
+        ],
+        "clears": [
+            {
+                "stageId": "prototype-stage-01",
+                "cleared": true,
+                "firstRewardGranted": true,
+                "bestScore": 80
+            }
+        ],
+        "rewardReceipts": [
+            "01d78de90cf64cfe9fb179df172657b4",
+            "play-0-5",
+            "play-1-8",
+            "play-2-0",
+            "play-3-0",
+            "play-4-0",
+            "play-5-1"
+        ]
+    },
+    "pendingClears": []
+}

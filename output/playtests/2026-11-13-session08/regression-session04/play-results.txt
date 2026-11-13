@@ -1,0 +1,5 @@
+PASS Chapter 07 numeric examples and tier boundaries
+PASS Natural obstacle→boss entry; item protection, exact score/recovery, no success damage, cyan/buff/direct attacks, pause/freeze and deferred phase strengthening
+PASS Immediate single victory via match and direct API, failure defeat, result freeze/retry, scene cleanup and unchanged user saves
+PASS 188 Play assertions
+PASS Session04 completed without runtime errors

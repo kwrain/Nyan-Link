@@ -68,6 +68,7 @@ namespace NineMood.Puzzle
                 boardManager = FindFirstObjectByType<PuzzleBoardManager>();
             }
 
+            if(lineEffectConfig==null) lineWidth=Mathf.Max(lineWidth,.035f);
             // 연결선 GameObject 생성
             CreateConnectionLine();
         }
@@ -246,7 +247,8 @@ namespace NineMood.Puzzle
             
             // 2D용 Material 설정 (기본 Material은 3D용이므로 2D용으로 변경)
             // Sprite-Default Shader를 사용하여 2D 렌더링 보장
-            _lineMaterial = new Material(Shader.Find("NyanLink/LineFlow2D"));
+            var template=Resources.Load<Material>("PrototypeLineMaterial");
+            _lineMaterial = template!=null ? new Material(template) : new Material(Shader.Find("NyanLink/LineFlow2D"));
             if (_lineMaterial != null)
             {
                 _connectionLine.material = _lineMaterial;

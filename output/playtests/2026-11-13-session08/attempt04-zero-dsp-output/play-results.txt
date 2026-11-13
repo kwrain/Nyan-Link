@@ -1,0 +1,5 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+System.Exception: FAIL SFX produces nonzero audio samples (not a speaker listening test)
+  at NyanLinkSession08Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:121 
+  at NyanLinkSession08Validation+<LayoutCases>d__86.MoveNext () [0x006d8] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:394 
+  at NyanLinkSession08Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:107 

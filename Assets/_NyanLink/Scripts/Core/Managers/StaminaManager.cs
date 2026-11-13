@@ -111,7 +111,9 @@ namespace NineMood.Core.Managers
         public void TakeDamage(float amount)
         {
             if (amount <= 0f || !CanChangeStamina()) return;
+            float before=CurrentStamina;
             ApplyDelta(-amount);
+            GameEvents.TriggerPlayerHit(before-CurrentStamina);
         }
 
         public void Recover(float amount)

@@ -1,0 +1,100 @@
+냥링크 프로토타입 세션08 인수인계
+작성일·최근 확인: 2026-11-13 (Asia/Seoul)
+결과: 전체 플레이 체크리스트·알려진 한계 기록 완료. 핵심 프로토타입 이후 아트/사운드·사용성/밸런스 제작 단계 진행 가능. 상세 PROTOTYPE-VALIDATION.txt.
+
+1. 기준·작업 상태
+- 확정 기준.txt 및 통합 기획서.docx1.1. 텍스트 규칙 우선, 이전01~07 인수인계/WORK_ITEMS/현재 씬·소스·데이터 확인. 원안의 아케이드/광고/상점/별/다음 스테이지/승급/소환/치명타/콤보 UI를 활성화하지 않음.
+- 실제 경로 /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link, main. 적용 AGENTS.md는 루트, 하위 추가 지침 없음.
+- 시작 시 작업 트리 깨끗함. 요청대로 cd4d74c3a294ff9cec3c01b517a8cd4ab2416c35 (세션07)를 main에 푸시, ls-remote 해시 일치 확인. origin https://github.com/kwrain/Nyan-Link.git 유지, 명령별 SSH 인증, 강제 푸시 없음.
+- 세션08은 현재 사용자가 제공한 AGENTS의 큰 작업 단위 자동 로컬 커밋 지침을 우선해 검증 후 로컬 커밋. 이전 세션 텍스트의 자동 커밋 금지보다 현재 직접 지침 우선. 이번 푸시 요청은 시작 시 기존 작업인07에 적용,08은 미푸시.
+- 세션08 커밋 메시지 feat: polish prototype presentation and validate full play flow. 최종 해시는 git log -1과 최종 답변 참조.
+- 씬 YAML·기존 .meta GUID·기획 문서·기존 아트·패키지 삭제/교체 없음. 리소스/컴포넌트를 재사용하고 런타임 표현 계층만 추가. 기존 사용자 변경 없음.
+
+2. 저장·복구 보호
+- 기존 게임 saves 폴더는 작업 전 없었고 앱 경로에는 Unity 내부 메타데이터2개만 있었음. 사용자 기존 게임 진행이 있었다고 해석하지 않음.
+- 원래 경로 /Users/kiwoolee/Library/Application Support/DefaultCompany/NyanLink
+- 외부 백업 /Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session08-save-backup
+- manifest.json 파일별SHA256, files/ 원본복사2개. 복사 직후 SHA 일치 확인. Unity 자체 메타데이터는 엔진이 갱신 가능하며 게임 저장 보존과 별도.
+- Editor 검사는 TestDirectoryOverride→output/playtests/2026-11-13-session08/sandbox-<GUID>. 원래 saves 파일명/SHA 전후 비교. 최고점 PlayerPrefs·입력 장치/설정·Game View·Editor 음소거는 검사 종료 시 복원.
+- Development Mac Player smoke도 -nyanSmoke <출력경로>를 명시했을 때만 별도 저장 경로 사용. 원래 최고점 키를 읽어두고 종료 전 복원. 일반 실행이나 Release에서는 QA 경로가 자동 활성화되지 않음.
+- 저장 스키마1/파일명/원자교체/백업/손상·미지원 원본 보존/기존 영수증·장비 계약 유지. 변경은 Editor 전용 override를 DEVELOPMENT_BUILD에도 허용한 QA 부분뿐.
+- 코드 복구는 현재 작업 먼저 보존 후 새 별도 폴더에 cd4d74c 체크아웃하여 비교. 현재 작업 폴더에서 reset/clean/Library 삭제 금지. 세션01 외부 전체 원본 백업은 기존 인수인계 참조.
+- 게임 복구는 현재 saves 전체를 먼저 다른 곳에 복사하고 검증된 주 또는 .bak 문서 하나로 처리. 코인/장비/영수증을 서로 다른 revision에서 합치지 말 것. 이번 원래 경로에는 게임 파일이 없어 내부 메타데이터 백업을 게임 저장으로 덮어쓰면 안 됨.
+
+3. 화면·최소 연출·조정
+- 루트 UGUI Overlay 캔버스의 기존 자식을 SafeArea로 감싸 Screen.safeArea 기반 여백. 기존 serialized 참조 유지, Main의 중첩 장비창은 이중 여백을 만들지 않음. Feedback Canvas는 자체 SafeArea.
+- 카메라도 동일 safe rect. 논리 러너40% / 퍼즐60%. 하단60% 안에서 보드53.5%, 점수·체인 줄6.5%를 분리.39칸/odd-r 좌표/판정·데이터 변경 없음.
+- 실제 세로/노치 PNG에서 기존 Main Camera가 전체 화면에 보드를 중복 출력하는 결함 확인. 동일 카메라를 배경 전용(mask0/depth-100/단색)으로 전환, Runner TopView/Puzzle 나머지 레이어로 분리. 원본 카메라 삭제 안 함.
+- 플레이어HP/진행률/Pause와 보스HP·페이즈·순서·타이머/경고를 분리. 점수·체인 티어는 퍼즐 위 줄. 준비/결과의 불투명 배경으로 정지된 타일 연출이 글을 가리지 않음.
+- 기존 영문/기본 폰트 유지. 현재 활성 경로의 한국어 누락 글리프를 노출하지 않음. 한국어 현지화·폰트 제작/라이선스는 후속 작업.
+- 선택선 두께 하한0.015→0.035, 작은 화면 가독성 개선. 기존 LineFlow2D 셰이더를 참조하는 Resources 머티리얼로 Player stripping 방지. 기존 셰이더/머티리얼 GUID는 보존.
+- 러너 기존 동작/색/위치·스케일 연출에 액션 이름과 피격 플래시 추가. Stumble 시각 흔들림은 Unity.Random 대신 수학적 진동 사용, 퍼즐·보스 난수 상태를 소모하지 않음.
+- 합성 WAV7개: 매칭3티어/아이템/피격/클리어/패배. AI 작성 합성 알고리즘, 외부 샘플 없음. Tools/generate_prototype_audio.py로 동일 파일 재생성 가능(.meta 유지). AudioImporter PCM/DecompressOnLoad/Preload 적용.
+- 기존 AudioManager 공개 클립 필드/기존BGM 필드는 유지, null일 때 Resources 기본SFX 로드. Inspector 교체 가능. BGM 파일은 추가하지 않음. 씬당 활성 AudioListener1개를 보장하고 씬 이동 뒤 AudioManager1개 유지.
+- HP100/보스120/주행250÷5=50초/피해20/패턴3·10초·그로기5, 보상·강화비·장비 옵션은 유지. 자동 검사 속도·배치를 사람 난이도 자료로 간주하지 않아 경제·전투 수치를 임의 변경하지 않음.
+
+4. 데이터·API·이벤트
+- PrototypePresentation.Register→sceneLoaded에서 씬 소유 표현 컴포넌트 연결. Start 한 프레임 뒤 동적 UI까지 포함해 SafeArea/배치 적용. 게임 규칙·저장 책임을 옮기지 않음.
+- PrototypeSafeArea.Pixels는 실기기 Screen.safeArea. TestPixels는 UNITY_EDITOR에서만 모의 여백, 검사 종료 시 null. 카메라와 UI가 같은 입력값을 사용.
+- GameEvents.OnPlayerHit(float actualDamage) 추가. StaminaManager.TakeDamage에서만 실제 HP 차이 발행. 자연 감소/회복/디스크 복원은 피격 이벤트를 발행하지 않아 복원 시 소리·플래시 재생 안 함. 기존 Match/Item/Result 의미 유지.
+- PrototypeFeedback는 씬 수명에서 Hit 구독/해제, 게임 Pause 동안 플래시 잔여 보존, 결과/로비에서는 표시 종료. 데이터나 HP 수정 없음.
+- AudioManager는 기존 전역 Singleton 유지, 중복 Awake 시 AudioSource 추가 안 함. Match/Item/Hit/Result 구독/해제, 기존 필드 보존. PlayedSfxCount/LastSfx는 관찰용, 게임 판정/보상 근거 아님.
+- PrototypePlayerSmoke는 DEVELOPMENT_BUILD && !UNITY_EDITOR에서만 명시적 QA 옵션 실행. 실제 입력·렌더·별도 파일 저장을 검사하고 종료. Release는 해당 로직 제외. 일반 개발 빌드도 옵션 없으면 자동 테스트/저장 override 없음.
+
+5. 변경 파일
+추가(.meta 포함):
+- UI/PrototypePresentation.cs, PrototypeSafeArea.cs, PrototypeFeedback.cs, PrototypePlayerSmoke.cs
+- Resources/Audio/Prototype/*.wav7개와 폴더.meta, Resources/PrototypeLineMaterial.mat
+- Editor/NyanLinkSession08Validation.cs, NyanLinkSession08Build.cs
+- Tools/generate_prototype_audio.py
+수정:
+- Core/DualCameraRig.cs, Events/GameEvents.cs, Managers/AudioManager.cs, StaminaManager.cs, SaveManager.cs
+- Puzzle/TileSelectionVisualizer.cs, Runner/PlayerCharacter.cs, UI/ItemTileLabels.cs
+- Editor/NyanLinkSession07Validation.cs: 별도 회귀 출력 환경변수만 추가.
+- Editor/NyanLinkSession04Validation.cs: 검사 중 에디터 자동 재컴파일에 의한 재시작을 막도록 reload 잠금/종료 시 해제. 게임 로직 변경 없음.
+- Docs/WORK_ITEMS.md, 본 문서, PROTOTYPE-VALIDATION.txt, output/playtests/2026-11-13-session08/
+로컬 빌드: Builds/Session08/NyanLink.app (기존 .gitignore의 Builds/ 제외, 배포/업로드 안 함).
+
+6. 실행 명령·환경
+Unity: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+Project: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+환경 Unity6000.3.14f1 / URP17.3.0 / InputSystem1.19.0 / macOS27.2 arm64.
+설치 지원 모듈은 MacStandaloneSupport만 있음. iOS/Android 모듈 없음. Xcode 시뮬레이터 설치와 Unity 모바일 Player 실행을 혼동하지 말 것.
+기기 조사 xcrun xctrace list devices: Mac만 온라인, Watch오프라인, iPhone/iPad 연결 없음. 초기 제한된 실행은 Instruments 캐시 쓰기 실패 후 필요한 권한으로 재실행하여 목록 확인. 모바일 검사 통과 아님.
+CLI 예시($unity/$project는 위 경로):
+- PCM 설정: "$unity" -batchmode -quit -projectPath "$project" -executeMethod NyanLinkSession08Build.PrepareAudio -logFile "$project/output/playtests/2026-11-13-session08/audio-import.log"
+- 그래픽: "$unity" -projectPath "$project" -executeMethod NyanLinkSession08Validation.Run -logFile "$project/output/playtests/2026-11-13-session08/play.log"
+- 완전 새 프로세스: "$unity" -projectPath "$project" -executeMethod NyanLinkSession08Validation.RunColdContinue -logFile "$project/output/playtests/2026-11-13-session08/cold.log"
+- Cold는 Run이 준비한 active-root.txt의 동일 디스크 파일 필요. 마지막 재시작/패배 검사가 진행을 지우므로 Cold 재실행 전 Run부터 새 fixture 생성.
+- Mac 빌드: "$unity" -batchmode -quit -buildTarget StandaloneOSX -projectPath "$project" -executeMethod NyanLinkSession08Build.Build -logFile "$project/output/playtests/2026-11-13-session08/build.log"
+- Mac 실행: "$project/Builds/Session08/NyanLink.app/Contents/MacOS/NyanLink" -nyanSmoke "$project/output/playtests/2026-11-13-session08/player" -logFile "$project/output/playtests/2026-11-13-session08/player.log"
+- 회귀는 각 SessionXXValidation의 NYANLINK_SESSIONXX_OUTPUT 환경변수로 이번 regression-sessionXX 경로를 지정. 세션02만 NYANLINK_VALIDATION_OUTPUT 사용. 이전 기록 덮어쓰지 않음.
+- Unity를 미리 켤 필요는 없으며 같은 프로젝트의 다른 Unity가 열려 있으면 먼저 정상 종료 후 실행. 그래픽 검사는 batchmode/nographics/quit 없이 도구가 스스로 종료. 스크린샷은 ScreenCapture 실제 렌더, 합성/생성 이미지 아님.
+
+7. 현재 확인한 결과와 실패 기록
+- PCM 설정 CLI 컴파일/에셋 가져오기 종료0.
+- 최종 Editor 통합602 assertion 통과·종료0·게임 경로 런타임 오류0. 실제 Mouse로3해상도 입력/노치 모의, 실패/저장/보드·효과/보스·성장 루프 확인.
+- 완전히 새 Unity 프로세스 Cold64 assertion 통과·종료0·게임 경로 런타임 오류0. 강화 모자 최대HP110·영구321코인/장비/영수증과 이전 보스 강화·ItemType 복원, UI Retry 진행만 초기화, HP5 테스트 배치 후 실제 장애물 충돌 패배/재시작으로 장비 유지 확인.
+- 테스트 자금321/미등록 장비는 이전06 보존 계약을 검사하는 fixture. 여행8배·보드/HP/경계 배치 포함. 일반 사용자 저장·사람의 무보정 플레이/장기 난이도 평가로 해석하지 않음.
+- Editor AudioListener.GetOutputData는 SourcePlaying=true/PCM 유효/단일Listener에서도 출력peak0. 재생 API 및 음원 데이터는 확인했지만 실제 소리 청취·최종 믹스는 미검증으로 남김(V-012). 재생 카운트만으로 실제 청취 통과라 보고하지 않음.
+- 초기 실행: Game AudioListener 부재→씬당1개 연결. 시작 지연은 해당 검증 프로세스만 중단 후 batch 컴파일로 정상 시작 확인(startup-attempt02.log). 다른 프로젝트 Unity는 종료하지 않음.
+- 초기 출력 분석0을 요구하는 검사가 실패하여 한계를 명시. 압축 음원 GetData 불가 오류는 PCM으로 가져와 해결. Unity6 AudioImporter API 변경의 컴파일 실패는 audio-import-attempt01.log에 보존 후 새 API로 수정.
+- 중복 보드 출력은 전체 화면 카메라가 원인. 첫 별도 배경 카메라 추가만으로 해결되지 않아 원래 Main Camera를 배경 전용으로 바꾸고 레이어 분리, 실제 화면 확인. 새 불필요 카메라는 최종 코드에 없음.
+- 전체 소리20회 초과라는 임의 검사 기준은 실제 매칭마다 재생 카운트 증가와 단일 소유자 검사로 교체. 이를 제품 오디오 중복/유실 문제라고 보고하지 않음.
+- attempt01~06 폴더/로그는 초기 실패·중간 화면 증거이며 최종 PNG와 구분.
+- Mac Player: Build Succeeded/오류0/경고1(UGS 프로젝트 미연결 안내), 약333MB. 실제 Native Player10 checks 통과·프로세스 종료0,540×960 PNG3장 직접 열람. Main→Game/39칸·최대HP/선택선 셰이더/가상Mouse선택→20점·제자리리필/단일Listener·SFX호출/격리JSON저장 확인. Native전체완주/모바일 결과가 아님.
+- Player도 SourcePlaying=true/listenerVolume1/출력peak0. 청취 미검증 유지. 종료 뒤 ComputeBuffer 자동해제/Development 메모리 진단 출력은 I-009에 원인 미확정으로 기록. 게임 경로 오류0과 종료 자원 경고를 구분.
+- 좌표·입력 회귀 Geometry9855 / Play368, 아이템322, 장비·보상190 통과·각 종료0·게임 경로 런타임 오류0. 추가 표현·오디오 구독으로 기존 검사 수가 증가. 기존 출력 보존.
+- 세션02 회귀의 환경변수 이름을 잘못 지정해 PNG3장이 이전 폴더에 출력됨. 새 결과를08/regression-session02로 복사 후 이전3장을 직전 커밋 바이트로 복원하고 git diff0 확인. 이전 결과 파일은 동일한 PASS 내용, 이전 로그도 덮어쓰지 않음.
+- 세션04 첫 회귀는 Play 중 에디터 자동 재컴파일/도메인 재시작 뒤 검사가 Main부터 재개되어 Game의 MainMenuController를 못 찾음. 게임 실패가 아닌 도구 재시작 문제. 실패 로그/결과 보존 후 검사의 어셈블리 재로드를 잠그고 종료 시 해제하도록 정비.
+- 전투 회귀04 최종188 assertion 통과·종료0·게임 경로 런타임 오류0. 실제 장애물→보스/성공·실패·패배·단일 승리/정지·강화·색상별 피해·구독 정리 유지.
+- 수정한 런타임 소스는 Native 빌드 후 추가 변경 없음. 이후 변경은07 회귀 출력경로/04 검증 reload 제어와 문서뿐. 최종 전체 CLI 컴파일 종료0. 원래 saves 부재/백업2개 SHA 일치/기존 씬·.meta·패키지 diff0/GUID중복0/이전02 출력 diff0 확인. 결과/정적 감사는 verification-summary.json 및 compile-final.log 참조.
+- 빌드가 자동 갱신한 ProjectSettings/UnityConnectSettings.asset는 검사 종료 후08 시작 시 원래 커밋 바이트로 복원. 연결/광고/분석을 의도적으로 활성화한 설정 변경을 남기지 않음. 원래부터 미커밋 사용자 변경은 없었음.
+- 로컬 활성 Editor 빌드 대상은 Mac으로 전환하여 검증함(원래 iOS). 로컬 Library 설정이며 모바일 모듈이 설치된 상태로 오해하지 말 것. 이 전환으로 iOS/Android Player 검증 완료라고 보고하지 않음.
+- 최종 원래 게임 saves 부재/백업2개 SHA/기존 .meta GUID·씬·패키지 변경 없음은 final-static-audit.json, 실제 테스트 스크린샷은 최상위/각 regression/player 폴더 참조.
+
+8. 이어갈 작업
+- 세션08 종료 기준은 전체 체크리스트와 알려진 한계를 기록한 프로토타입. 출시 품질·전체 플랫폼 인증 완료 아님.
+- 다음은 AI 아트/사운드 방향·교체 규격 정리→캐릭터/장애물/보스·타일 가독성/최소 연출 개선→실기기 터치/저장/성능 검증과 사람 플레이 관찰→전후 기록을 남기는 밸런스 반복이 적절.
+- 남은 분류/재현/기대 결과는 WORK_ITEMS와 PROTOTYPE-VALIDATION.txt. V-001 빈 캐시/모바일 Player, V-002 실제 사람 무보정 완주, V-012 청취·믹스, D-001/D-002 실제 모바일 테스트 유지.
+- 게임 규칙/저장 서명/장비ID·영수증을 지키며 아트·사운드 파일 교체 시 .meta를 유지. 임의로 새 스테이지/상점/광고/승급 범위를 열지 말 것.

@@ -55,7 +55,7 @@ namespace NineMood.UI
             }
             for(int i=count;i<_labels.Count;i++) _labels[i].transform.parent.gameObject.SetActive(false);
             float remaining=StaminaManager.Instance?.DecayFreezeRemaining ?? 0f;
-            _freeze.transform.parent.GetComponent<RectTransform>().position=new Vector2(Screen.width*.5f,Screen.height*.585f);_freeze.transform.parent.GetComponent<RectTransform>().sizeDelta=new Vector2(Screen.width,60*scale);_freeze.fontSize=28*scale;
+            _freeze.transform.parent.GetComponent<RectTransform>().position=new Vector2(PrototypeSafeArea.Pixels.center.x,PrototypeSafeArea.Pixels.y+PrototypeSafeArea.Pixels.height*.615f);_freeze.transform.parent.GetComponent<RectTransform>().sizeDelta=new Vector2(Screen.width,60*scale);_freeze.fontSize=28*scale;
             _freeze.transform.parent.gameObject.SetActive(remaining>0);
             _freeze.text=remaining>0 ? $"TIME FREEZE  {remaining:F1}s" : "";
         }

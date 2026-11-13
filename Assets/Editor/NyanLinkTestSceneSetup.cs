@@ -2,18 +2,213 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.Tilemaps;
-using NyanLink.Puzzle;
-using NyanLink.Data.Definitions;
-using NyanLink.Data.Enums;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using NineMood.Boss;
+using NineMood.Boss.Patterns;
+using NineMood.Core;
+using NineMood.Core.Managers;
+using NineMood.Puzzle;
+using NineMood.Runner;
+using NineMood.UI;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Editor
+namespace NineMood.Editor
 {
     /// <summary>
-    /// Phase 2 테스트 씬 자동 구성 에디터 스크립트
+    /// Phase 2/3 테스트 씬 자동 구성 에디터 스크립트
     /// </summary>
     public class NyanLinkTestSceneSetup : EditorWindow
     {
+        // ── Phase 3: 듀얼 카메라 씬 ──────────────────────────────────
+
+        [MenuItem("NyanLink/Setup/Phase 3 Scene (Dual Camera)")]
+        public static void SetupPhase3Scene()
+        {
+            if (EditorSceneManager.GetActiveScene().isDirty)
+            {
+                if (!EditorUtility.DisplayDialog("씬 저장",
+                    "현재 씬에 변경사항이 있습니다. 계속하시겠습니까?", "계속", "취소"))
+                    return;
+            }
+
+            ClearScene();
+
+            // 1. 듀얼 카메라 리그 생성
+            GameObject cameraRig = SetupDualCameraRig();
+
+            // 2. 퍼즐 월드 (Y=0) — Phase 2와 동일
+            SetupGridAndTilemap();
+
+            // 3. 러너 월드 (Y=50)
+            SetupRunnerWorld();
+
+            // 4. 매니저들
+            SetupManagers();
+
+            // 5. 레이어 안내
+            EnsureTopViewLayer();
+
+            // 6. UI
+            NyanLinkUISetup.CreateGameUI();
+
+            CheckGridShapeData();
+
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Debug.Log("[Phase 3 씬] 듀얼 카메라 씬 구성 완료!");
+
+            EditorUtility.DisplayDialog(
+                "Phase 3 씬 구성 완료",
+                "듀얼 카메라 씬이 구성되었습니다.\n\n" +
+                "필수 수동 작업:\n" +
+                "1. Project Settings > Tags and Layers에서\n" +
+                "   'TopView' 레이어 추가\n" +
+                "2. CameraRig > DualCameraRig 컴포넌트에서\n" +
+                "   우클릭 > 'Apply Culling Masks' 실행\n" +
+                "3. RunnerAnchor 하위 오브젝트를 'TopView' 레이어로 변경\n" +
+                "4. PuzzleBoardManager에 GridShapeData 에셋 할당\n" +
+                "5. Managers > SaveManager에 StageData 에셋 할당\n" +
+                "   (체크포인트 저장 활성화 필수)",
+                "확인");
+        }
+
+        private static GameObject SetupDualCameraRig()
+        {
+            // CameraRig 루트
+            GameObject rigObj = new GameObject("CameraRig");
+            DualCameraRig rig = rigObj.AddComponent<DualCameraRig>();
+
+            // Camera_Puzzle — 하단 60%, 퍼즐 월드(Y=0)
+            GameObject puzzleCamObj = new GameObject("Camera_Puzzle");
+            puzzleCamObj.transform.SetParent(rigObj.transform);
+            Camera puzzleCam = puzzleCamObj.AddComponent<Camera>();
+            puzzleCam.orthographic     = true;
+            puzzleCam.clearFlags       = CameraClearFlags.SolidColor;
+            puzzleCam.backgroundColor  = new Color(0.13f, 0.13f, 0.20f);
+            puzzleCam.depth            = 0;
+            puzzleCam.tag              = "MainCamera";
+            puzzleCamObj.transform.position = new Vector3(0f, 0f, -10f);
+
+            // Camera_Runner — 상단 40%, 러너 월드(Y=50)
+            GameObject runnerCamObj = new GameObject("Camera_Runner");
+            runnerCamObj.transform.SetParent(rigObj.transform);
+            Camera runnerCam = runnerCamObj.AddComponent<Camera>();
+            runnerCam.orthographic    = true;
+            runnerCam.clearFlags      = CameraClearFlags.SolidColor;
+            runnerCam.backgroundColor = new Color(0.10f, 0.10f, 0.18f);
+            runnerCam.depth           = 1;
+            runnerCamObj.transform.position = new Vector3(0f, 50f, -10f);
+
+            // DualCameraRig에 카메라 할당 후 분할 적용
+            rig.cameraPuzzle = puzzleCam;
+            rig.cameraRunner = runnerCam;
+            rig.ApplySplit();
+
+            Debug.Log("[Phase 3] 듀얼 카메라 리그 생성 완료 (Camera_Puzzle / Camera_Runner)");
+            return rigObj;
+        }
+
+        private static void SetupRunnerWorld()
+        {
+            // 러너 월드 앵커 (Y=50)
+            GameObject runnerAnchor = new GameObject("RunnerAnchor");
+            runnerAnchor.transform.position = new Vector3(0f, 50f, 0f);
+
+            // RunnerProgressSystem
+            GameObject progressObj = new GameObject("RunnerProgressSystem");
+            progressObj.transform.SetParent(runnerAnchor.transform);
+            RunnerProgressSystem progressSystem = progressObj.AddComponent<RunnerProgressSystem>();
+
+            // PlayerCharacter (플레이스홀더)
+            GameObject playerObj = new GameObject("PlayerCharacter");
+            playerObj.transform.SetParent(runnerAnchor.transform);
+            playerObj.transform.localPosition = new Vector3(-3f, 0f, 0f);
+            RunnerController runnerCtrl = playerObj.AddComponent<RunnerController>();
+
+            // 플레이스홀더 시각 표시 (Quad)
+            GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            visual.name = "RunnerVisual";
+            visual.transform.SetParent(playerObj.transform);
+            visual.transform.localPosition = Vector3.zero;
+            visual.transform.localScale    = new Vector3(0.8f, 1.2f, 1f);
+            visual.GetComponent<Renderer>().material.color = Color.cyan;
+            Object.DestroyImmediate(visual.GetComponent<Collider>());
+
+            // ObstacleSpawner
+            GameObject spawnerObj = new GameObject("ObstacleSpawner");
+            spawnerObj.transform.SetParent(runnerAnchor.transform);
+            ObstacleSpawner spawner = spawnerObj.AddComponent<ObstacleSpawner>();
+            spawner.runner         = runnerCtrl;
+            spawner.progressSystem = progressSystem;
+            spawner.spawnX         = 7f;
+
+            // RunnerWarningHUD — Screen Space Overlay 캔버스 자동 생성
+            var hudObj = new GameObject("RunnerWarningHUD");
+            hudObj.transform.SetParent(runnerAnchor.transform);
+            hudObj.AddComponent<RunnerWarningHUD>();
+
+            Debug.Log("[Phase 3] 러너 월드 구성 완료 (Y=50 기준)");
+        }
+
+        private static void SetupManagers()
+        {
+            // 통합 매니저 오브젝트
+            GameObject managers = new GameObject("Managers");
+
+            managers.AddComponent<PuzzleBoardInitializer>();
+
+            // GameManager, StaminaManager, ScoreManager
+            // — Singleton이므로 씬에 하나씩만 배치
+            managers.AddComponent<GameManager>();
+            managers.AddComponent<StaminaManager>();
+            managers.AddComponent<ScoreManager>();
+
+            // SaveManager — 씬 참조 연결 (RunnerWorld가 먼저 생성된 상태)
+            SaveManager saveManager = managers.AddComponent<SaveManager>();
+            saveManager.progressSystem  = Object.FindAnyObjectByType<RunnerProgressSystem>();
+            saveManager.obstacleSpawner = Object.FindAnyObjectByType<ObstacleSpawner>();
+            // stageData는 스테이지별 ScriptableObject이므로 Inspector에서 수동 할당 필요
+
+            // ── BossController + 패턴 컴포넌트 ───────────────────────────
+            GameObject bossGO = new GameObject("BossController");
+            BossController bossCtrl = bossGO.AddComponent<BossController>();
+            bossCtrl.timeAttackPattern     = bossGO.AddComponent<TimeAttackPattern>();
+            bossCtrl.rhythmNotePattern     = bossGO.AddComponent<RhythmNotePattern>();
+            bossCtrl.colorQuotaPattern     = bossGO.AddComponent<ColorQuotaPattern>();
+            bossCtrl.memorySequencePattern = bossGO.AddComponent<MemorySequencePattern>();
+            // config, balance는 Inspector에서 할당 필요
+
+            // EventSystem (New Input System)
+            if (Object.FindFirstObjectByType<EventSystem>() == null)
+            {
+                GameObject es = new GameObject("EventSystem");
+                es.AddComponent<UnityEngine.EventSystems.EventSystem>();
+                es.AddComponent<InputSystemUIInputModule>();
+            }
+
+            Debug.Log("[Phase 4] 매니저 구성 완료\n" +
+                      "· SaveManager.stageData — Inspector에서 할당\n" +
+                      "· BossController.config, .balance — Inspector에서 할당");
+        }
+
+        private static void EnsureTopViewLayer()
+        {
+            int layer = LayerMask.NameToLayer("TopView");
+            if (layer < 0)
+            {
+                Debug.LogWarning("[Phase 3] 'TopView' 레이어가 없습니다. " +
+                                 "Project Settings > Tags and Layers에서 수동으로 추가하세요. " +
+                                 "추가 후 DualCameraRig > 'Apply Culling Masks'를 실행하세요.");
+            }
+            else
+            {
+                Debug.Log($"[Phase 3] 'TopView' 레이어 확인 (index={layer})");
+            }
+        }
+
+        // ── Phase 2: 기존 씬 ──────────────────────────────────────────
+
         [MenuItem("NyanLink/Setup/Phase 2 Test Scene")]
         public static void SetupTestScene()
         {
@@ -41,8 +236,11 @@ namespace NyanLink.Editor
             // 기본 GridShapeData 확인
             CheckGridShapeData();
 
+            // UGUI 생성 (GameHUD, GameReadyPanel, GameOverPanel, StageClearPanel, DebugPanel)
+            NyanLinkUISetup.CreateGameUI();
+
             Debug.Log("Phase 2 테스트 씬 구성 완료!");
-            
+
             // 테스트 에셋 생성 안내
             if (EditorUtility.DisplayDialog(
                 "씬 구성 완료",
@@ -166,12 +364,12 @@ namespace NyanLink.Editor
             inputHandler.tileMatcher = tileMatcher;
             inputHandler.selectionVisualizer = selectionVisualizer;
 
-            // EventSystem 추가 (UI 입력 처리용)
-            if (UnityEngine.EventSystems.EventSystem.current == null)
+            // EventSystem 추가 (UI 입력 처리용 — New Input System 호환)
+            if (Object.FindFirstObjectByType<EventSystem>() == null)
             {
                 GameObject eventSystemObj = new GameObject("EventSystem");
                 eventSystemObj.AddComponent<UnityEngine.EventSystems.EventSystem>();
-                eventSystemObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                eventSystemObj.AddComponent<InputSystemUIInputModule>();
             }
 
             Debug.Log("Grid 및 Tilemap 설정 완료");

@@ -1,7 +1,7 @@
-using NyanLink.Data.Definitions;
-using NyanLink.Data.Enums;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
     /// 체인 길이에 따른 티어 판정.
@@ -19,7 +19,7 @@ namespace NyanLink.Puzzle
         {
             if (balanceData == null || chainLength <= 0)
                 return 0;
-            return balanceData.GetEffectLevelForChainLength(chainLength);
+            return balanceData.GetEffectLevel(chainLength);
         }
 
         /// <summary>

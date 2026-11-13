@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
     /// 보스 드롭 테이블 데이터

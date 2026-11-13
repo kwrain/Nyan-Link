@@ -1,0 +1,287 @@
+ D ANIMATED_TILE_SETUP_GUIDE.md
+ D Assets/Editor/NyanLinkBalanceDataInitializer.cs
+ D Assets/Editor/NyanLinkBalanceDataInitializer.cs.meta
+ M Assets/Editor/NyanLinkDataCreator.cs
+ M Assets/Editor/NyanLinkTestAssetsCreator.cs
+ M Assets/Editor/NyanLinkTestSceneSetup.cs
+ M Assets/LevelPlay/Editor/ISUnityAdsAdapterDependencies.xml
+ M Assets/LevelPlay/Editor/IronSourceSDKDependencies.xml
+ M Assets/LevelPlay/Editor/LevelPlayVersions.json
+ M Assets/Resources/Data/BossConfigs/BossBattleConfig.asset
+ M Assets/Resources/Data/DefaultBalanceData.asset
+ M Assets/Resources/Data/GridShapes/DefaultGridShape.asset
+ M Assets/Resources/Data/LootTables/LootTableData.asset
+ M Assets/UniversalRenderPipelineGlobalSettings.asset
+ M Assets/_NyanLink/Scene/Game.unity
+ M Assets/_NyanLink/Scripts/Core/HexCoordinates/HexCoordinates.cs
+ M Assets/_NyanLink/Scripts/Core/HexCoordinates/HexUtils.cs
+ M Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs
+ M Assets/_NyanLink/Scripts/Core/Singleton.meta
+ D Assets/_NyanLink/Scripts/Core/Singleton/Singleton.cs
+ D Assets/_NyanLink/Scripts/Core/Singleton/Singleton.cs.meta
+ M Assets/_NyanLink/Scripts/Data/Definitions/BalanceData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/BossBattleConfig.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/CharacterData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/ColorEffectMappingData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/EquipmentData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/GridShapeData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/LineVisualEffectConfig.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/LootTableData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/StageData.cs
+ M Assets/_NyanLink/Scripts/Data/Definitions/TileEffectData.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/BossBattleType.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/EquipmentGrade.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/EquipmentType.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/ItemEffectType.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/RunnerState.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/TileColor.cs
+ M Assets/_NyanLink/Scripts/Data/Enums/TileState.cs
+ M Assets/_NyanLink/Scripts/Puzzle/ChainEvaluator.cs
+ M Assets/_NyanLink/Scripts/Puzzle/HexGridCalculator.cs
+ M Assets/_NyanLink/Scripts/Puzzle/HexOffsetUtils.cs
+ M Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardInitializer.cs
+ M Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileAnimation.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileInstance.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs
+ M Assets/_NyanLink/Scripts/Puzzle/TileSelectionVisualizer.cs
+ M Docs/WORK_ITEMS.md
+ D HEX_COORDINATES_EXPLANATION.md
+ D NOTION_SSH_SETUP_GUIDE.md
+ D PHASE1_CORE_CONCEPTS.md
+ D PHASE1_UNDERSTANDING_GUIDE.md
+ D PHASE2_ANIMATED_TILE_UPDATE.md
+ D PHASE2_COMPLETION_SUMMARY.md
+ D PHASE2_FINAL_CHECK.md
+ D PHASE2_IMPLEMENTATION_HISTORY.md
+ D PHASE2_TEST_ASSETS_GUIDE.md
+ D PHASE2_TEST_SCENE_ANALYSIS.md
+ D PHASE2_TEST_SCENE_SETUP.md
+ D PHASE2_TEST_SCENE_SUMMARY.md
+ D PHASE3_START_GUIDE.md
+ D PROJECT_ROADMAP.md
+ M Packages/manifest.json
+ M Packages/packages-lock.json
+ M ProjectSettings/EditorBuildSettings.asset
+ D README_DEMO.md
+ D SINGLETON_PATTERN_GUIDE.md
+ D SSH_SETUP_GUIDE.md
+ D TILEMAP_POOLING_EXPLANATION.md
+ D UNITY_PROJECT_SETUP_PROMPT.md
+ D UNUSED_SCRIPTS_ANALYSIS.md
+ M UserSettings/EditorUserSettings.asset
+ M UserSettings/Search.settings
+?? Assets/Editor/NyanLinkCameraSetup.cs
+?? Assets/Editor/NyanLinkCameraSetup.cs.meta
+?? Assets/Editor/NyanLinkMainMenuSetup.cs
+?? Assets/Editor/NyanLinkMainMenuSetup.cs.meta
+?? Assets/Editor/NyanLinkSession01Validation.cs
+?? Assets/Editor/NyanLinkSession01Validation.cs.meta
+?? Assets/Editor/NyanLinkUISetup.cs
+?? Assets/Editor/NyanLinkUISetup.cs.meta
+?? Assets/Resources/Data/Stages/StageData.asset
+?? Assets/Resources/Data/Stages/StageData.asset.meta
+?? "Assets/TextMesh Pro.meta"
+?? "Assets/TextMesh Pro/Fonts.meta"
+?? "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt"
+?? "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta"
+?? "Assets/TextMesh Pro/Fonts/LiberationSans.ttf"
+?? "Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta"
+?? "Assets/TextMesh Pro/Resources.meta"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials.meta"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+?? "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta"
+?? "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt"
+?? "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta"
+?? "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt"
+?? "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta"
+?? "Assets/TextMesh Pro/Resources/Sprite Assets.meta"
+?? "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset"
+?? "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta"
+?? "Assets/TextMesh Pro/Resources/Style Sheets.meta"
+?? "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset"
+?? "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta"
+?? "Assets/TextMesh Pro/Resources/TMP Settings.asset"
+?? "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta"
+?? "Assets/TextMesh Pro/Shaders.meta"
+?? "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl"
+?? "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader"
+?? "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta"
+?? "Assets/TextMesh Pro/Shaders/TMPro.cginc"
+?? "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta"
+?? "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc"
+?? "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta"
+?? "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc"
+?? "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta"
+?? "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc"
+?? "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta"
+?? "Assets/TextMesh Pro/Sprites.meta"
+?? "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt"
+?? "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta"
+?? "Assets/TextMesh Pro/Sprites/EmojiOne.json"
+?? "Assets/TextMesh Pro/Sprites/EmojiOne.json.meta"
+?? "Assets/TextMesh Pro/Sprites/EmojiOne.png"
+?? "Assets/TextMesh Pro/Sprites/EmojiOne.png.meta"
+?? Assets/_NyanLink/Data/ColorActionMap.asset
+?? Assets/_NyanLink/Data/ColorActionMap.asset.meta
+?? Assets/_NyanLink/Scene/Main.unity
+?? Assets/_NyanLink/Scene/Main.unity.meta
+?? Assets/_NyanLink/Scripts/Boss.meta
+?? Assets/_NyanLink/Scripts/Boss/BossController.cs
+?? Assets/_NyanLink/Scripts/Boss/BossController.cs.meta
+?? Assets/_NyanLink/Scripts/Boss/BossPatternBase.cs
+?? Assets/_NyanLink/Scripts/Boss/BossPatternBase.cs.meta
+?? Assets/_NyanLink/Scripts/Boss/Patterns.meta
+?? Assets/_NyanLink/Scripts/Boss/Patterns/ColorQuotaPattern.cs
+?? Assets/_NyanLink/Scripts/Boss/Patterns/ColorQuotaPattern.cs.meta
+?? Assets/_NyanLink/Scripts/Boss/Patterns/MemorySequencePattern.cs
+?? Assets/_NyanLink/Scripts/Boss/Patterns/MemorySequencePattern.cs.meta
+?? Assets/_NyanLink/Scripts/Boss/Patterns/RhythmNotePattern.cs
+?? Assets/_NyanLink/Scripts/Boss/Patterns/RhythmNotePattern.cs.meta
+?? Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs
+?? Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs.meta
+?? Assets/_NyanLink/Scripts/Core/DualCameraRig.cs
+?? Assets/_NyanLink/Scripts/Core/DualCameraRig.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Events.meta
+?? Assets/_NyanLink/Scripts/Core/Events/GameEvents.cs
+?? Assets/_NyanLink/Scripts/Core/Events/GameEvents.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Fx.meta
+?? Assets/_NyanLink/Scripts/Core/Fx/Fx.cs
+?? Assets/_NyanLink/Scripts/Core/Fx/Fx.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Fx/Fx4UI.cs
+?? Assets/_NyanLink/Scripts/Core/Fx/Fx4UI.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Fx/FxAttribute.cs
+?? Assets/_NyanLink/Scripts/Core/Fx/FxAttribute.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Fx/FxCore.cs
+?? Assets/_NyanLink/Scripts/Core/Fx/FxCore.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Fx/FxGroup.cs
+?? Assets/_NyanLink/Scripts/Core/Fx/FxGroup.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Fx/FxManager.cs
+?? Assets/_NyanLink/Scripts/Core/Fx/FxManager.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Managers/AudioManager.cs
+?? Assets/_NyanLink/Scripts/Core/Managers/AudioManager.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs
+?? Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Managers/SaveManager.cs
+?? Assets/_NyanLink/Scripts/Core/Managers/SaveManager.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs
+?? Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs.meta
+?? Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs
+?? Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs.meta
+?? Assets/_NyanLink/Scripts/Core/SceneLoader.cs
+?? Assets/_NyanLink/Scripts/Core/SceneLoader.cs.meta
+?? Assets/_NyanLink/Scripts/Data/Definitions/ColorActionMapData.cs
+?? Assets/_NyanLink/Scripts/Data/Definitions/ColorActionMapData.cs.meta
+?? Assets/_NyanLink/Scripts/Runner.meta
+?? Assets/_NyanLink/Scripts/Runner/ObstacleController.cs
+?? Assets/_NyanLink/Scripts/Runner/ObstacleController.cs.meta
+?? Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs
+?? Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs.meta
+?? Assets/_NyanLink/Scripts/Runner/ParallaxController.cs
+?? Assets/_NyanLink/Scripts/Runner/ParallaxController.cs.meta
+?? Assets/_NyanLink/Scripts/Runner/PlayerCharacter.cs
+?? Assets/_NyanLink/Scripts/Runner/PlayerCharacter.cs.meta
+?? Assets/_NyanLink/Scripts/Runner/RunnerController.cs
+?? Assets/_NyanLink/Scripts/Runner/RunnerController.cs.meta
+?? Assets/_NyanLink/Scripts/Runner/RunnerProgressSystem.cs
+?? Assets/_NyanLink/Scripts/Runner/RunnerProgressSystem.cs.meta
+?? Assets/_NyanLink/Scripts/UI/BossHUD.cs
+?? Assets/_NyanLink/Scripts/UI/BossHUD.cs.meta
+?? Assets/_NyanLink/Scripts/UI/GameHUD.cs
+?? Assets/_NyanLink/Scripts/UI/GameHUD.cs.meta
+?? Assets/_NyanLink/Scripts/UI/GameOverPanel.cs
+?? Assets/_NyanLink/Scripts/UI/GameOverPanel.cs.meta
+?? Assets/_NyanLink/Scripts/UI/GameReadyPanel.cs
+?? Assets/_NyanLink/Scripts/UI/GameReadyPanel.cs.meta
+?? Assets/_NyanLink/Scripts/UI/GameStateDebugPanel.cs
+?? Assets/_NyanLink/Scripts/UI/GameStateDebugPanel.cs.meta
+?? Assets/_NyanLink/Scripts/UI/MainMenuController.cs
+?? Assets/_NyanLink/Scripts/UI/MainMenuController.cs.meta
+?? Assets/_NyanLink/Scripts/UI/RunnerWarningHUD.cs
+?? Assets/_NyanLink/Scripts/UI/RunnerWarningHUD.cs.meta
+?? Assets/_NyanLink/Scripts/UI/StageClearPanel.cs
+?? Assets/_NyanLink/Scripts/UI/StageClearPanel.cs.meta
+?? Assets/_Recovery.meta
+?? Assets/_Recovery/0.unity
+?? Assets/_Recovery/0.unity.meta
+?? Docs/Development/SESSION-01-HANDOFF.txt
+?? "Docs/Development/\354\204\270\354\205\230\353\263\204 \354\213\234\354\236\221 \355\224\204\353\241\254\355\224\204\355\212\270.txt"
+?? "Docs/Development/\355\224\204\353\241\234\355\206\240\355\203\200\354\236\205 \355\231\225\354\240\225 \352\270\260\354\244\200.txt"
+?? "Docs/Plan/[\352\270\260\355\232\215\354\204\234] \353\203\245\353\247\201\355\201\254 01 \352\260\234\354\232\224 \353\260\217 \352\265\254\354\204\261 2e39c27d2658805ba8b5eed31538f7a7.md"
+?? "Docs/Plan/[\352\270\260\355\232\215\354\204\234] \353\203\245\353\247\201\355\201\254 02 \355\225\265\354\213\254 \353\251\224\354\271\264\353\213\211 (Core Mechanics) 2e39c27d2658805c8572e49659d10191.md"
+?? "Docs/Plan/[\352\270\260\355\232\215\354\204\234] \353\203\245\353\247\201\355\201\254 03 \354\204\261\354\236\245 \353\260\217 BM (Growth & Monetization) 2e39c27d265880f59e11cf465ea3f3a9.md"
+?? "Docs/Plan/[\352\270\260\355\232\215\354\204\234] \353\203\245\353\247\201\355\201\254 04 UI UX \353\224\224\354\236\220\354\235\270 (UI UX Design) 2e39c27d265880feba7bea35318bd034.md"
+?? "Docs/Plan/[\352\270\260\355\232\215\354\204\234] \353\203\245\353\247\201\355\201\254 05 \352\270\260\354\210\240 \352\265\254\355\230\204 \353\252\205\354\204\270 (Technical Spec) 2e69c27d265880b68117f6094c34b632.md"
+?? "Docs/Plan/[\353\241\234\353\223\234\353\247\265] \353\203\245\353\247\201\355\201\254 \352\265\254\355\230\204 \354\210\234\354\204\234.md"
+?? Docs/Plan/sample.png
+?? "Docs/\353\203\245\353\247\201\355\201\254 \355\206\265\355\225\251 \352\270\260\355\232\215\354\204\234.docx"
+?? output/concepts/generation-prompt.txt
+?? output/concepts/nyan-link-finished-game-concept.png
+?? output/playtests/2026-11-13-session01/01-main.png
+?? output/playtests/2026-11-13-session01/02-game-ready.png
+?? output/playtests/2026-11-13-session01/03-game-running.png
+?? output/playtests/2026-11-13-session01/04-return-main.png
+?? output/playtests/2026-11-13-session01/05-game-reentry.png
+?? output/playtests/2026-11-13-session01/all-worktree-whitespace-check.txt
+?? output/playtests/2026-11-13-session01/attempt-02-background/01-main.png
+?? output/playtests/2026-11-13-session01/attempt-02-background/02-game-ready.png
+?? output/playtests/2026-11-13-session01/attempt-02-background/03-game-running.png
+?? output/playtests/2026-11-13-session01/attempt-02-background/04-return-main.png
+?? output/playtests/2026-11-13-session01/attempt-02-background/lifecycle-results.txt
+?? output/playtests/2026-11-13-session01/attempt-02-background/smoke-results.txt
+?? output/playtests/2026-11-13-session01/audit.txt
+?? output/playtests/2026-11-13-session01/baseline-whitespace-check.txt
+?? output/playtests/2026-11-13-session01/compile-baseline-full.log
+?? output/playtests/2026-11-13-session01/compile-baseline.log
+?? output/playtests/2026-11-13-session01/compile-final.log
+?? output/playtests/2026-11-13-session01/lifecycle-focused.log
+?? output/playtests/2026-11-13-session01/lifecycle-results.txt
+?? output/playtests/2026-11-13-session01/lifecycle.log
+?? output/playtests/2026-11-13-session01/packages.json
+?? output/playtests/2026-11-13-session01/reference-audit.json
+?? output/playtests/2026-11-13-session01/session-changes.json
+?? output/playtests/2026-11-13-session01/session-whitespace-check.json
+?? output/playtests/2026-11-13-session01/smoke-results.txt
+?? output/playtests/2026-11-13-session01/smoke.log

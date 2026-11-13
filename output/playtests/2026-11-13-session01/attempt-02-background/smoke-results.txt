@@ -1,0 +1,14 @@
+PASS Main opened in Play mode
+PASS Shared Resources loaded before first scene
+PASS Stage lookup by stable ID
+PASS Main has one active EventSystem
+PASS Play button enters Game
+PASS Game has one active EventSystem
+FAIL Puzzle board initialized (39-cell compliance belongs to session 02)
+INFO board tile count=0
+PASS Game enters Briefing
+FAIL Start button enters RunnerPhase
+PASS Screenshot saved: 01-main.png
+PASS Screenshot saved: 02-game-ready.png
+PASS Screenshot saved: 03-game-running.png
+PASS No runtime errors during Main→Game→Runner smoke

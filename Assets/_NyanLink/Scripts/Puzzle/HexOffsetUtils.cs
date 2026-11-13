@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
     /// Unity Tilemap Offset 좌표 기반 헥사곤 유틸리티

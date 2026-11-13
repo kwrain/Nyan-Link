@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using NyanLink.Data.Definitions;
-using NyanLink.Data.Enums;
+using NineMood.Core.Managers;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
     /// 벌집형 그리드 생성 및 관리 매니저
@@ -22,10 +23,20 @@ namespace NyanLink.Puzzle
         [Tooltip("헥사곤 타일 에셋 (TileBase) - 기본 타일 (호환성용, 상태별 타일이 없을 때 사용)")]
         public TileBase hexagonTile;
 
+        [System.Serializable]
+        private struct TileEntry
+        {
+            public TileColor color;
+            public TileState state;
+            public TileBase tile;
+        }
+
         [Header("색상별 × 상태별 AnimatedTile 에셋")]
-        [Tooltip("색상별 × 상태별 타일 딕셔너리 (자동 로드 또는 수동 할당)")]
+        [Tooltip("에디터에서 'Reload Animated Tiles'로 자동 채워짐. 이 값이 런타임에서도 사용됨.")]
         [SerializeField]
-        private Dictionary<TileColor, Dictionary<TileState, TileBase>> _tilesByColorAndState = 
+        private TileEntry[] _tileEntries = new TileEntry[0];
+
+        private Dictionary<TileColor, Dictionary<TileState, TileBase>> _tilesByColorAndState =
             new Dictionary<TileColor, Dictionary<TileState, TileBase>>();
 
         [Header("타일 자동 로드 설정")]
@@ -42,9 +53,17 @@ namespace NyanLink.Puzzle
         [Tooltip("그리드 중앙에 카메라 자동 배치")]
         public bool autoPositionCamera = true;
 
+        [Header("레이어")]
+        [Tooltip("퍼즐 오브젝트에 적용할 레이어 (Camera_Puzzle culling mask와 일치해야 함)")]
+        public string puzzleBoardLayer = "BottomView";
+
+        [Header("애니메이션")]
+        [Tooltip("같은 GameObject에 붙은 TileAnimation. 없으면 애니메이션 없이 즉시 처리")]
+        [SerializeField] private TileAnimation tileAnimation;
+
         [Header("디버그")]
         [Tooltip("그리드 생성 시 로그 출력")]
-        public bool debugLog = true;
+        public bool debugLog = false;
 
         /// <summary>
         /// 모든 타일 인스턴스 딕셔너리 (Offset 좌표 기준)
@@ -62,16 +81,14 @@ namespace NyanLink.Puzzle
             {
                 tilemap = GetComponent<Tilemap>();
                 if (tilemap == null)
-                {
                     Debug.LogError("PuzzleBoardManager: Tilemap 컴포넌트를 찾을 수 없습니다!");
-                }
             }
 
-            // 타일 자동 로드
+            if (tileAnimation == null)
+                tileAnimation = GetComponent<TileAnimation>();
+
             if (autoLoadTiles)
-            {
                 LoadAnimatedTiles();
-            }
         }
 
         /// <summary>
@@ -100,6 +117,8 @@ namespace NyanLink.Puzzle
             CreateGrid();
             _isInitialized = true;
 
+            ApplyPuzzleLayer();
+
             if (autoPositionCamera)
             {
                 PositionCameraAtCenter();
@@ -118,14 +137,11 @@ namespace NyanLink.Puzzle
 
             _tiles.Clear();
 
-            // 중앙 타일 (0, 0, 0) 기준으로 오프셋 계산
             int centerOffsetX = -(gridShapeData.width / 2) - 1;
             int centerOffsetY = -(gridShapeData.height / 2);
 
-            // 그리드 생성
             for (int y = 0; y < gridShapeData.height; y++)
             {
-                // 짝수 열(y + centerOffsetY가 짝수)에서는 타일을 하나 더 추가
                 int actualY = y + centerOffsetY;
                 bool isEvenRow = actualY % 2 == 0;
                 int tileCount = gridShapeData.width;
@@ -133,34 +149,21 @@ namespace NyanLink.Puzzle
                 {
                     tileCount = gridShapeData.width + 1;
                 }
-                
+
                 for (int x = 0; x < tileCount; x++)
                 {
-                    // 벌집형 그리드는 항상 완전한 모양이므로 마스크 확인 불필요
-                    // 범위 체크만 수행 (짝수 열 추가 타일은 범위를 벗어나므로 항상 활성화)
                     Vector3Int maskIndex = new Vector3Int(x, y, 0);
-                    
-                    // 마스크 범위 내에 있으면 범위 체크만 수행
-                    // 짝수 열의 추가 타일(x >= width)은 범위를 벗어나므로 항상 활성화
                     if (x < gridShapeData.width && !gridShapeData.IsTileActive(maskIndex))
                     {
-                        continue; // 범위 밖이면 건너뛰기
+                        continue;
                     }
 
-                    // Unity Tilemap Offset 좌표: 중앙 기준으로 조정
-                    // (0, 0, 0)이 그리드 중앙에 위치하도록 함
                     Vector3Int offset = new Vector3Int(x + centerOffsetX, y + centerOffsetY, 0);
 
-                    // 랜덤 색상 생성
                     TileColor randomColor = GetRandomTileColor();
-
-                    // 타일 인스턴스 생성 (일반 상태로 시작)
                     TileInstance tileInstance = new TileInstance(offset, randomColor, TileState.Normal);
-
-                    // 딕셔너리에 추가
                     _tiles[offset] = tileInstance;
 
-                    // Unity Tilemap에 타일 배치 (색상과 상태에 맞는 타일 사용)
                     TileBase tileToPlace = GetTileByColorAndState(randomColor, tileInstance.State);
                     if (tileToPlace != null)
                     {
@@ -168,73 +171,16 @@ namespace NyanLink.Puzzle
                     }
                     else if (hexagonTile != null)
                     {
-                        // 색상별 × 상태별 타일이 없으면 기본 타일 사용
                         tilemap.SetTile(offset, hexagonTile);
                     }
 
-                    // 타일 생성 로그 출력
-                    if (debugLog)
-                    {
-                        // 월드 포지션 계산 (두 가지 방법)
-                        Vector3 cellCornerWorldPos = tilemap.CellToWorld(offset); // 셀 좌측 하단 모서리
-                        Vector3 cellCenterWorldPos = tilemap.GetCellCenterWorld(offset); // 셀 중심
-                        
-                        // Grid 정보
-                        Grid grid = tilemap.layoutGrid;
-                        Vector3 gridPos = grid != null ? grid.transform.position : Vector3.zero;
-                        Vector3 cellSize = grid != null ? grid.cellSize : Vector3.one;
-                        
-                        // 타일맵 타일 앵커 정보
-                        Vector3 tileAnchor = tilemap.orientationMatrix.GetColumn(3); // 타일 앵커 (일반적으로 (0,0,0) 또는 (0.5,0.5,0))
-                        
-                        // 실제 사용된 타일의 스프라이트 정보
-                        Sprite tileSprite = null;
-                        Vector2 spritePivot = Vector2.zero;
-                        Rect spriteRect = Rect.zero;
-                        if (tileToPlace != null)
-                        {
-                            // TileBase에서 스프라이트 추출 시도
-                            if (tileToPlace is Tile unityTile)
-                            {
-                                tileSprite = unityTile.sprite;
-                                if (tileSprite != null)
-                                {
-                                    spritePivot = tileSprite.pivot;
-                                    spriteRect = tileSprite.rect;
-                                }
-                            }
-                        }
-                        
-                        string extraInfo = (x >= gridShapeData.width) ? " [짝수열 추가타일]" : "";
-                        
-                        // 중앙 타일 (0, 0, 0)의 경우 상세 정보 출력
-                        if (offset.x == 0 && offset.y == 0 && offset.z == 0)
-                        {
-                            Debug.Log($"[중앙 타일 상세] " +
-                                     $"Offset: {offset}, " +
-                                     $"CellCornerWorldPos: {cellCornerWorldPos}, " +
-                                     $"CellCenterWorldPos: {cellCenterWorldPos}, " +
-                                     $"Grid Position: {gridPos}, " +
-                                     $"Grid Cell Size: {cellSize}, " +
-                                     $"Tile Anchor: {tileAnchor}, " +
-                                     $"Sprite Pivot: {spritePivot}, " +
-                                     $"Sprite Rect: {spriteRect}, " +
-                                     $"Tile Sprite Pixels Per Unit: {GetTileSpritePixelsPerUnit()}");
-                        }
-                        else
-                        {
-                            Debug.Log($"[Tile 생성] " +
-                                     $"MaskIndex: ({x}, {y}), " +
-                                     $"Offset: {offset}, " +
-                                     $"Color: {randomColor}, " +
-                                     $"CellCornerWorldPos: {cellCornerWorldPos}, " +
-                                     $"CellCenterWorldPos: {cellCenterWorldPos}, " +
-                                     $"Tile Anchor: {tileAnchor}, " +
-                                     $"Sprite Pivot: {spritePivot}{extraInfo}");
-                        }
-                    }
+                    Vector3 centerWorld = tilemap.GetCellCenterWorld(offset);
+                    Debug.Log($"[타일 생성] Cell{offset}  색={randomColor}" +
+                              $"  World({centerWorld.x:F3},{centerWorld.y:F3})");
                 }
             }
+
+            Debug.Log($"[보드 초기화 완료] 총 {_tiles.Count}개 타일 생성");
         }
 
         /// <summary>
@@ -254,6 +200,9 @@ namespace NyanLink.Puzzle
             return _tiles.Keys;
         }
 
+        /// <summary>현재 보드에 등록된 타일 수 (초기화 여부 진단용)</summary>
+        public int GetTileCount() => _tiles.Count;
+
         public int GetItemTileCount()
         {
             int count = 0;
@@ -261,12 +210,40 @@ namespace NyanLink.Puzzle
             {
                 TileInstance tile = kv.Value;
                 if (tile != null && (tile.State == TileState.ItemLv1 || tile.State == TileState.ItemLv2))
-                {
                     count++;
-                }
             }
             return count;
         }
+
+        /// <summary>
+        /// 특정 ItemEffectType의 아이템 타일 수를 반환. TileMatcher.CanPlaceItemTile에서 사용.
+        /// </summary>
+        public int CountItemsOfType(ItemEffectType effectType)
+        {
+            ColorEffectMappingData mapping = DataManager.Instance?.ColorEffectMapping;
+            int count = 0;
+            foreach (var kv in _tiles)
+            {
+                TileInstance tile = kv.Value;
+                if (tile == null || !tile.IsActive || tile.State == TileState.Normal) continue;
+                ItemEffectType tileEffect = mapping != null
+                    ? mapping.GetEffectForColor(tile.Color)
+                    : DefaultEffectForColor(tile.Color);
+                if (tileEffect == effectType) count++;
+            }
+            return count;
+        }
+
+        private static ItemEffectType DefaultEffectForColor(TileColor color) => color switch
+        {
+            TileColor.Red    => ItemEffectType.Recovery,
+            TileColor.Blue   => ItemEffectType.TimeFreeze,
+            TileColor.Yellow => ItemEffectType.Blast,
+            TileColor.Purple => ItemEffectType.LineClear,
+            TileColor.Orange => ItemEffectType.PowerUp,
+            TileColor.Cyan   => ItemEffectType.ColorShift,
+            _                => ItemEffectType.None
+        };
 
         /// <summary>
         /// 셀 중심 월드 위치 계산
@@ -317,31 +294,25 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
-        /// 새 타일 스폰
+        /// 새 타일 스폰. 같은 위치에 진행 중인 제거 애니메이션이 있으면 자동으로 취소된다.
         /// </summary>
         public TileInstance SpawnTile(Vector3Int offset, TileColor? color = null, TileState? state = null)
         {
             TileColor tileColor = color ?? GetRandomTileColor();
             TileState tileState = state ?? TileState.Normal;
-            
+
             TileInstance tileInstance = new TileInstance(offset, tileColor, tileState);
             _tiles[offset] = tileInstance;
 
-            TileBase tileToPlace = GetTileByColorAndState(tileColor, tileState);
+            TileBase tileToPlace = GetTileByColorAndState(tileColor, tileState) ?? hexagonTile;
             if (tileToPlace != null)
-            {
                 tilemap.SetTile(offset, tileToPlace);
-            }
-            else if (hexagonTile != null)
-            {
-                tilemap.SetTile(offset, hexagonTile);
-            }
+
+            // CancelAt이 내부에 있으므로 진행 중인 제거 애니메이션도 자동 취소됨
+            tileAnimation?.PlaySpawnOnTilemap(tilemap, offset);
 
             if (debugLog)
-            {
-                Vector3 worldPos = tilemap.CellToWorld(offset);
-                Debug.Log($"[Tile 스폰] Offset: {offset}, Color: {tileColor}, State: {tileState}, WorldPos: {worldPos}");
-            }
+                Debug.Log($"[Tile 스폰] Offset: {offset}, Color: {tileColor}, State: {tileState}");
 
             return tileInstance;
         }
@@ -370,78 +341,84 @@ namespace NyanLink.Puzzle
         }
 
         /// <summary>
-        /// 타일 제거
+        /// 타일 제거. 데이터는 즉시 제거하여 입력에서 배제하고, tilemap 클리어는 애니메이션 완료 후 처리.
         /// </summary>
         public void RemoveTile(Vector3Int offset)
         {
-            if (_tiles.ContainsKey(offset))
-            {
-                _tiles.Remove(offset);
-                tilemap.SetTile(offset, null);
+            if (!_tiles.ContainsKey(offset)) return;
 
-                if (debugLog)
-                {
-                    Debug.Log($"[Tile 제거] Offset: {offset}");
-                }
+            _tiles.Remove(offset);
+
+            if (tileAnimation != null)
+            {
+                // 애니메이션 완료 후 tilemap 클리어 (onComplete)
+                tileAnimation.PlayRemoveOnTilemap(tilemap, offset,
+                    onComplete: () => tilemap.SetTile(offset, null));
             }
+            else
+            {
+                tilemap.SetTile(offset, null);
+            }
+
+            if (debugLog)
+                Debug.Log($"[Tile 제거] Offset: {offset}");
         }
 
         /// <summary>
-        /// AnimatedTile 자동 로드 (에디터 전용)
+        /// AnimatedTile 로드. 직렬화된 _tileEntries 배열로부터 딕셔너리 재구성.
+        /// 에디터에서는 배열이 비어있을 때만 AssetDatabase로 로드 후 배열에 저장한다.
         /// </summary>
         private void LoadAnimatedTiles()
         {
             _tilesByColorAndState.Clear();
 
+            // 직렬화된 배열에서 딕셔너리 재구성 (에디터/런타임 공통 경로)
+            if (_tileEntries != null && _tileEntries.Length > 0)
+            {
+                foreach (var entry in _tileEntries)
+                {
+                    if (entry.tile == null) continue;
+                    if (!_tilesByColorAndState.TryGetValue(entry.color, out var stateDict))
+                    {
+                        stateDict = new Dictionary<TileState, TileBase>();
+                        _tilesByColorAndState[entry.color] = stateDict;
+                    }
+                    stateDict[entry.state] = entry.tile;
+                }
+                if (debugLog) Debug.Log($"AnimatedTile 로드 완료: {_tileEntries.Length}개");
+                return;
+            }
+
 #if UNITY_EDITOR
+            // _tileEntries가 비어있을 때 AssetDatabase로 로드하고 배열에 저장
             TileColor[] colors = { TileColor.Red, TileColor.Blue, TileColor.Yellow, TileColor.Purple, TileColor.Orange, TileColor.Cyan };
-            TileState[] states = { 
-                TileState.Normal, 
-                TileState.ItemLv1, 
-                TileState.ItemLv2 
-            };
+            TileState[] states = { TileState.Normal, TileState.ItemLv1, TileState.ItemLv2 };
+            var entries = new System.Collections.Generic.List<TileEntry>();
 
             foreach (TileColor color in colors)
             {
-                Dictionary<TileState, TileBase> stateDict = 
-                    new Dictionary<TileState, TileBase>();
-
+                var stateDict = new Dictionary<TileState, TileBase>();
                 foreach (TileState state in states)
                 {
-                    string colorName = color.ToString();
-                    string stateName = state.ToString();
-                    string tileName = $"HexagonTile_{colorName}_{stateName}";
-                    string assetPath = $"{TILES_PATH}/{tileName}.asset";
-
+                    string assetPath = $"{TILES_PATH}/HexagonTile_{color}_{state}.asset";
                     TileBase tile = AssetDatabase.LoadAssetAtPath<TileBase>(assetPath);
                     if (tile != null)
                     {
                         stateDict[state] = tile;
+                        entries.Add(new TileEntry { color = color, state = state, tile = tile });
                     }
                     else if (debugLog)
                     {
                         Debug.LogWarning($"타일을 찾을 수 없습니다: {assetPath}");
                     }
                 }
-
-                if (stateDict.Count > 0)
-                {
-                    _tilesByColorAndState[color] = stateDict;
-                }
+                if (stateDict.Count > 0) _tilesByColorAndState[color] = stateDict;
             }
 
-            if (debugLog)
-            {
-                int loadedCount = 0;
-                foreach (var stateDict in _tilesByColorAndState.Values)
-                {
-                    loadedCount += stateDict.Count;
-                }
-                Debug.Log($"AnimatedTile 로드 완료: {loadedCount}개 타일 로드됨");
-            }
+            _tileEntries = entries.ToArray();
+            if (debugLog) Debug.Log($"AnimatedTile 로드 완료: {_tileEntries.Length}개");
 #else
-            // 런타임에서는 Resources 폴더에서 로드하거나 Inspector에서 할당된 타일 사용
-            Debug.LogWarning("런타임에서는 AnimatedTile을 자동으로 로드할 수 없습니다. Inspector에서 타일을 할당하거나 Resources 폴더를 사용하세요.");
+            Debug.LogError("[PuzzleBoardManager] _tileEntries가 비어있습니다. 에디터에서 'Reload Animated Tiles'를 실행하고 씬을 저장하세요.");
 #endif
         }
 
@@ -470,59 +447,75 @@ namespace NyanLink.Puzzle
 
 #if UNITY_EDITOR
         /// <summary>
-        /// 에디터에서 타일 다시 로드 (Context Menu)
+        /// 에디터에서 타일 강제 재로드. 실행 후 씬을 저장해야 런타임에서도 반영된다.
         /// </summary>
         [ContextMenu("Reload Animated Tiles")]
         private void ReloadAnimatedTiles()
         {
+            _tileEntries = new TileEntry[0]; // 강제 재로드
             LoadAnimatedTiles();
-            Debug.Log("AnimatedTile이 다시 로드되었습니다.");
+            Debug.Log($"AnimatedTile 재로드 완료: {_tileEntries.Length}개. 씬을 저장하세요.");
         }
 #endif
+
+        /// <summary>
+        /// 퍼즐 관련 오브젝트 전체를 puzzleBoardLayer 레이어로 설정.
+        /// Tilemap, TilemapRenderer, 부모 Grid 모두 포함해서 Camera_Puzzle culling mask에 잡히게 한다.
+        /// </summary>
+        private void ApplyPuzzleLayer()
+        {
+            int layerIndex = LayerMask.NameToLayer(puzzleBoardLayer);
+            if (layerIndex < 0)
+            {
+                Debug.LogWarning($"[PuzzleBoardManager] '{puzzleBoardLayer}' 레이어가 없습니다. " +
+                                 "Project Settings > Tags and Layers 에서 추가하세요.");
+                return;
+            }
+
+            // Tilemap 자신과 모든 자식
+            SetLayerRecursive(gameObject, layerIndex);
+
+            // 부모 Grid 컴포넌트가 있으면 부모도 같은 레이어로
+            if (transform.parent != null && transform.parent.GetComponent<Grid>() != null)
+                transform.parent.gameObject.layer = layerIndex;
+        }
+
+        private static void SetLayerRecursive(GameObject go, int layer)
+        {
+            go.layer = layer;
+            foreach (Transform child in go.transform)
+                SetLayerRecursive(child.gameObject, layer);
+        }
 
         /// <summary>
         /// 그리드 중앙에 카메라 배치
         /// </summary>
         private void PositionCameraAtCenter()
         {
-            if (tilemap == null || gridShapeData == null)
+            if (tilemap == null || gridShapeData == null) return;
+
+            Vector3 center = tilemap.GetCellCenterWorld(Vector3Int.zero);
+            float cellSizeX = tilemap.layoutGrid != null ? tilemap.layoutGrid.cellSize.x : 1f;
+
+            Camera targetCam = null;
+            foreach (Camera c in Camera.allCameras)
+                if (c.name == "Camera_Puzzle") { targetCam = c; break; }
+            if (targetCam == null) targetCam = Camera.main;
+            if (targetCam == null) targetCam = FindFirstObjectByType<Camera>();
+
+            if (targetCam != null)
             {
-                return;
-            }
-
-            // 중앙 타일의 Offset 좌표는 (0, 0, 0)
-            Vector3Int centerOffset = Vector3Int.zero;
-
-            // 중앙 타일의 월드 위치 계산 (셀 중심 사용)
-            Vector3 centerWorldPos = tilemap.GetCellCenterWorld(centerOffset);
-
-            // 카메라 찾기
-            Camera mainCamera = Camera.main;
-            if (mainCamera == null)
-            {
-                mainCamera = FindFirstObjectByType<Camera>();
-            }
-
-            if (mainCamera != null)
-            {
-                // 카메라를 그리드 중앙에 배치
-                // Orthographic 카메라는 Z 위치만 조정
-                Vector3 cameraPos = mainCamera.transform.position;
-                cameraPos.x = centerWorldPos.x;
-                cameraPos.y = centerWorldPos.y;
-                mainCamera.transform.position = cameraPos;
+                Vector3 pos = targetCam.transform.position;
+                pos.x = center.x - cellSizeX * 0.5f;
+                pos.y = center.y;
+                targetCam.transform.position = pos;
 
                 if (debugLog)
-                {
-                    Debug.Log($"[카메라 배치] 그리드 중앙: Offset {centerOffset}, WorldPos {centerWorldPos}, CameraPos {cameraPos}");
-                }
+                    Debug.Log($"[카메라 배치] center={center}, cellSizeX={cellSizeX}, camX={pos.x}");
             }
-            else
+            else if (debugLog)
             {
-                if (debugLog)
-                {
-                    Debug.LogWarning("[카메라 배치] 카메라를 찾을 수 없습니다.");
-                }
+                Debug.LogWarning("[카메라 배치] 카메라를 찾을 수 없습니다.");
             }
         }
     }

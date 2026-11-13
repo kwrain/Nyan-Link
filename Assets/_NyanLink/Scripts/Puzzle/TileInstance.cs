@@ -1,7 +1,7 @@
 using UnityEngine;
-using NyanLink.Data.Enums;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
     /// 타일 인스턴스 데이터 구조

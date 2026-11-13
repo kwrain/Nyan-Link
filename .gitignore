@@ -107,3 +107,8 @@ Assets/AddressableAssetsData/*link.xml*
 Assets/StreamingAssets/build_info
 Assets/StreamingAssets/build_info.meta
 ProjectSettings/Packages/com.unity.services.core/Settings.json
+
+# Required Unity project configuration for reproducible checkouts
+!/ProjectSettings/ProjectVersion.txt
+!/ProjectSettings/ProjectSettings.asset
+!/ProjectSettings/GraphicsSettings.asset

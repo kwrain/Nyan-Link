@@ -1,0 +1,195 @@
+냥링크 프로토타입 세션 01 인수인계
+작성일·최근 확인일: 2026-11-13 (Asia/Seoul)
+범위: 현재 작업 보존, 컴파일 기준선, 씬·데이터·참조 점검. 세션 02 이후 기능을 구현 완료로 간주하지 않는다.
+
+1. 기준 문서와 실제 작업 환경
+- 우선 기준: Docs/Development/프로토타입 확정 기준.txt 1.1 전체를 읽음.
+- Docs/냥링크 통합 기획서.docx 1.1 제목·본문과 내장 그림 1/2를 확인. 그림 1은 분위기 참고이고 규격 아님. 그림 2의 반복 흐름을 확인.
+- Docs/Plan 원안과 충돌 시 확정 1.1 우선. 규칙이나 범위를 재승인 요청하지 않음.
+- 실제 작업 경로: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+- 브랜치: main. 백업·종료 기준 HEAD: b6fc3200641cc94954b1034be03340c13abbb0f7.
+- origin/main 대비 로컬 3커밋 앞섬. 원격 조회/fetch/push는 하지 않음.
+- 최초 재조사 출력에서는 AGENTS.md가 staged이고 2커밋 앞섰으나, 실제 백업 직전에는 위 HEAD에 AGENTS.md가 포함되어 staged 변경이 없었음. 이 에이전트는 git add/commit/reset/checkout 등 Git 쓰기를 수행하지 않았음. 백업은 실제 백업 시점의 HEAD/index/작업 트리를 보존함.
+- 작업 전부터 수정·삭제·미추적 파일이 매우 많음. 기존 문서 삭제, Singleton.cs 삭제, Game 대규모 변경, 패키지 변경, Main/Runner/Boss/UI 및 기획서 미추적 상태를 그대로 유지함.
+- 적용 지침: 루트 AGENTS.md. 상위 경로에 추가 AGENTS.md 없음, 프로젝트 내부 하위 AGENTS.md 없음. 이번 명시 지시가 자동 커밋 지침보다 우선하므로 커밋·푸시·배포·추가 채팅 생성 없음.
+- OS: macOS 27.2, Apple arm64. Unity 6000.3.14f1 (d68c3f99a318).
+- Unity 실행 파일: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+
+2. 외부 백업과 실제 복원 검증
+정식 보관 경로:
+/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session01-backup
+
+초기 작업용 사본:
+/private/tmp/nyan-link-session01/backup-20261113-103307
+임시 경로는 시스템 정리 대상이므로 정식 보관 경로를 사용한다.
+
+포함 파일:
+- project.tar.gz: 수정 전 실제 작업 트리 503개 파일. tracked/untracked/ignored 파일, Assets/.meta, Packages, ProjectSettings, UserSettings, Docs, 기존 output, 생성된 프로젝트 파일 포함.
+- git.tar.gz: .git 전체. 로컬 커밋, index, 설정 포함. 삭제 상태는 작업 트리에 그대로 보존하며 원래 추적 파일 내용은 Git 이력에 남음.
+- git-status.txt: 백업 당시 전체 porcelain 상태(-uall).
+- working.patch / staged.patch / head.txt: 당시 바이너리 포함 차이와 HEAD. staged.patch는 백업 시점에 비어 있음.
+- manifest.json: 503개 파일 SHA256.
+- archive-sha256.json: 세 압축 파일의 SHA256.
+- restore-verification.txt: 별도 폴더 실제 복원 결과.
+- git-package-cache.tar.gz: 보조 자료. 검증 후 캡처한 현재 해석 버전의 Git 패키지 캐시 3개(NineMood.Services, unity-mcp, Cursor). 수정 전 작업 트리 스냅샷과는 별도 시점의 보조 캐시임.
+
+제외 범위:
+- .git은 별도 압축. Library, Temp, Obj/obj, Logs, .vs 캐시 제외.
+- 프로젝트 밖의 Unity 라이선스, SSH 키, macOS 설정, 사용자 PlayerPrefs/세이브 파일은 백업 범위 아님. 검증은 사용자 세이브를 변경하지 않도록 구성함.
+- Git 패키지 보조 캐시를 제외한 Library는 다시 생성. 새 환경의 패키지 복구에는 네트워크/SSH 저장소 접근 권한이 필요할 수 있음(V-001).
+
+복원 검증:
+- /private/tmp/nyan-link-session01/restore-check/Nyan-Link에 실제 압축 해제.
+- 모든 503개 파일 SHA256 일치.
+- 복원 폴더의 staged/unstaged/untracked Git 상태가 백업 당시와 바이트 단위 일치.
+- git fsck --full 종료 0. 기존 dangling tree 5개는 오류로 처리되지 않았으며 정리하지 않음.
+
+복구 방법(현재 작업 폴더에 덮어쓰지 말 것):
+1) Unity를 닫고 새로운 빈 폴더를 준비한다.
+2) 터미널에서 아래를 실행한다. 복원 위치가 이미 있으면 다른 새 이름을 사용한다.
+
+backup='/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-session01-backup'
+restore='/private/tmp/Nyan-Link-session01-manual-restore'
+mkdir "$restore"
+tar -xzf "$backup/project.tar.gz" -C "$restore"
+tar -xzf "$backup/git.tar.gz" -C "$restore"
+# 선택: 잠긴 버전의 Git 패키지 캐시 복원 보조
+tar -xzf "$backup/git-package-cache.tar.gz" -C "$restore"
+git -C "$restore/Nyan-Link" status --short --branch
+
+3) 새 Nyan-Link 폴더를 Unity 6000.3.14f1로 연다. 원본 작업 폴더는 비교·회수용으로 유지한다.
+4) 이 백업은 세션 01 수정 전 상태다. 수정 후 변경 내역은 output/playtests/2026-11-13-session01/session-changes.json과 현재 작업 트리를 참고한다.
+
+3. 이번에 완료한 실행 기반 정비
+- 기존 .meta GUID는 변경하지 않음. 삭제된 예전 Singleton을 복원하거나 대체 구현을 추가하지 않음. 기존 외부 NineMood.Services.Core.Singleton 사용 유지.
+- SceneLoader.SceneMainMenu를 실제 빌드 씬 이름 Main에 맞춤. 공개 메서드/상수 식별자는 유지.
+- DataManager가 BeforeSceneLoad에 생성될 때 Inspector 연결 없이도 Resources의 공통 BalanceData와 ColorEffectMappingData를 로드.
+- 데이터 ID가 중복되면 조용히 덮어쓰지 않고 오류를 기록. 최초 등록 항목 유지.
+- StageData ID와 그리드/보스/전리품 참조를 유효하게 설정. Game의 RunnerProgressSystem/ObstacleSpawner/StaminaManager를 같은 스테이지에 연결. SaveManager는 기존 Stage 참조 유지.
+- 테스트 초기값: 속도 5, 길이 250(일반 주행 50초 기준), 장애물 비율 0.25/0.5/0.75, 요구색 빨강/파랑/노랑. 이는 승인된 45~60초·장애물 3개 범위의 시작 데이터이며 실제 완주 밸런스는 아직 미검증.
+- 기존 BossBattleConfig에 ID를 주고 HP 120/타임어택 순서 길이 3을 연결. 기존 입력 제한 10초·실패 20은 유지. 전투 공식은 수정하지 않음.
+- Game의 EventSystem 둘 중 하나는 삭제하지 않고 비활성화. Main도 기존 컴포넌트 ID를 유지하면서 New Input System UI 모듈로 교체.
+- 테스트 씬 생성 도구의 EventSystem.current 기반 존재 검사를 씬 내 활성 EventSystem 검색으로 변경하여 편집 모드의 재생성 위험을 줄임. 씬 생성 도구 전체의 반복 실행 안전성을 검증한 것은 아님.
+- Game의 _tileEntries에 기존 6색×3상태 타일 18종의 직접 참조를 직렬화. Editor 전용 AssetDatabase 탐색에만 의존하던 Player 누락 위험을 정비. Player 실행 검증은 V-001로 남김.
+- 보류 보스 패턴 3종(리듬/컬러 쿼터/메모리)의 코드는 유지하고 씬 컴포넌트를 비활성화·BossController 연결 해제. 현재 config.battleType=TimeAttack.
+- 광고/분석/결제 및 기타 패키지 삭제 없음. Main/Game에 외부 서비스 초기화를 새로 추가하지 않음.
+
+4. 이번 세션 변경 파일(백업 당시 상태 대비)
+직접 수정:
+- Assets/_NyanLink/Scripts/Core/SceneLoader.cs
+- Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs
+- Assets/Editor/NyanLinkTestSceneSetup.cs (EventSystem 검사 두 곳만)
+- Assets/_NyanLink/Scene/Main.unity
+- Assets/_NyanLink/Scene/Game.unity
+- Assets/Resources/Data/Stages/StageData.asset
+- Assets/Resources/Data/BossConfigs/BossBattleConfig.asset
+- Assets/Resources/Data/LootTables/LootTableData.asset
+추가:
+- Assets/Editor/NyanLinkSession01Validation.cs 및 .meta (CLI 검사 전용, Editor 폴더)
+- Docs/Development/SESSION-01-HANDOFF.txt
+- output/playtests/2026-11-13-session01/ (실제 PNG/로그/검사 결과)
+갱신:
+- Docs/WORK_ITEMS.md
+Unity 실행에 따른 자동 생성/갱신:
+- Assembly-CSharp-Editor.csproj, UserSettings/EditorUserSettings.asset, UserSettings/Layouts/default-6000.dwlt 등. 정확한 목록은 session-changes.json 참고.
+이 목록을 Git HEAD 대비 전체 변경으로 오해하지 말 것. 이미 있던 사용자 변경과 섞인 파일들이므로 이후 커밋 시 백업 대비 차이를 검토해야 한다.
+
+5. 데이터·API·이벤트 계약
+- Resources 상대 경로(확장자 없음):
+  Data/DefaultBalanceData
+  Data/ColorEffectMappingData
+  Data/Stages/StageData
+  Data/GridShapes/DefaultGridShape
+  Data/BossConfigs/BossBattleConfig
+  Data/LootTables/LootTableData
+- StageData.stageId = prototype-stage-01 (공백·경로 구분자 없음).
+- BossBattleConfig.bossId = prototype-boss-01. LootTableData.bossId도 동일. 전리품 목록은 기존 빈 배열 유지; 성장·드롭은 세션 07.
+- DataManager.GetStageData("prototype-stage-01")가 동일 StageData 인스턴스를 반환하는 것을 실제 플레이에서 확인.
+- SceneLoader.LoadGame()→Game, LoadMainMenu()→Main. BuildSettings의 활성 순서는 Main, Game. 비활성 SampleScene 항목은 기존 그대로 보존.
+- Button.onClick→MainMenuController→SceneLoader.LoadGame, GameReadyPanel→GameManager.StartGame 경로를 실행.
+- GameManager/GameEvents의 공개 API와 이벤트 서명은 변경하지 않음. 최초 Briefing→RunnerPhase 확인.
+- 보스/점수/아이템/저장/성장 API의 1.1 적합성을 보장하지 않음. 후속 세션에서 기존 계약을 확인하고 정비할 것.
+- SaveManager는 기존 비버전 체크포인트 구현이다. StageData ID를 유효하게 만든 상태이므로 평상시 수동 플레이는 기존 saves/checkpoint_prototype-stage-01.json 경로를 사용할 수 있음. 이번 smoke는 Game 진입 후 메모리상 SaveManager.stageData만 null로 바꾸어 체크포인트를 읽거나 쓰지 않음. 씬/에셋에는 이 null을 저장하지 않음.
+
+6. Unity 버전·패키지·GUID 검사
+- Unity: 6000.3.14f1. 다른 설치 버전(6000.3.10f1, 2022.3.62f2)으로 열지 않음.
+- URP 17.3.0, Input System 1.19.0, UGUI 2.0.0, Test Framework 1.6.0 유지.
+- NineMood.Services는 SSH Git 패키지. 실제 Singleton은 Library/PackageCache/com.ninemood.services@f78dd7921baf/Runtime/Core/Singleton.cs에 있음. Library 코드는 수정하지 않음.
+- 전체 manifest의 외부 서비스/플러그인 버전과 잠긴 버전: output/.../packages.json. manifest/lock 파일은 이번 세션 직접 변경 없음.
+- Assets GUID 중복 0, Assets의 .cs 메타 누락 0, 전체 Assets의 .unity/.asset/.prefab에서 해석 불가 GUID 0(내장 GUID 제외).
+- Main/Game 씬 내부 로컬 fileID dangling 참조 0.
+- Unity에서 실제 로드한 Main/Game missing script 0, 활성 EventSystem 각 1, New Input 모듈 확인.
+- 저장된 Game 씬에는 GameManager/StaminaManager/ScoreManager/SaveManager/BossController가 타입별 1개. 런타임 재진입 중복·씬 참조 문제는 별도로 I-002 유지.
+
+7. 실행한 검증·명령·결과
+공통 변수 예시:
+unity='/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity'
+project='/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link'
+
+A. 최초 컴파일:
+"$unity" -batchmode -quit -projectPath "$project" -logFile /private/tmp/nyan-link-session01/compile-baseline-full.log
+결과: 종료 0, Exiting batchmode successfully now. 컴파일 오류 없음.
+초기 제한 환경의 compile-baseline.log 시도는 라이선스 IPC/읽기 전용 DB 오류에서 중단(130). 정상 시스템 접근으로 재실행한 위 결과를 기준으로 함. 승인 거절은 없었음.
+
+B. 실제 Editor 플레이와 화면:
+"$unity" -projectPath "$project" -executeMethod NyanLinkSession01Validation.Run -logFile /private/tmp/nyan-link-session01/smoke.log
+결과: 최초 실행 종료 0. Main→Play→Game/Briefing→시작→RunnerPhase 및 데이터 조회 통과, 해당 구간 런타임 오류 0. 이미지 파일 생성 확인과 실제 이미지 열람 수행.
+물리적 마우스/터치가 아니라 씬에 연결된 Button.onClick을 호출한 통합 검사다.
+
+C. 반복 진입 진단:
+"$unity" -projectPath "$project" -executeMethod NyanLinkSession01Validation.RunLifecycle -logFile /private/tmp/nyan-link-session01/lifecycle-focused.log
+결과: 종료 1. 최초 진입 부분은 전부 통과. Return path loads Main/Second Play loads Game/최종 활성 GameManager 1개는 통과. Reentered Game board initialized 및 Persistent SaveManager retains live scene references는 실패. 중복 싱글톤 감지 후 새 인스턴스를 파괴하는 경고 확인.
+중간 lifecycle.log 시도에서는 백그라운드에서 프레임이 충분히 진행되지 않아 최초 경로도 실패. 검사 도구에 runInBackground와 pause 해제/프레임 정보 기록을 추가하여 환경 영향을 분리함. 최신 focused 결과를 기준으로 사용하고 실패 시도도 attempt-02-background 및 로그에 보존.
+
+D. 최종 CLI batch 컴파일·씬 audit:
+"$unity" -batchmode -quit -projectPath "$project" -executeMethod NyanLinkSession01Validation.Audit -logFile "$project/output/playtests/2026-11-13-session01/compile-final.log"
+최종 결과는 아래 종료 확인란과 compile-final.log/audit.txt 참고.
+
+E. 복원과 정적 검사:
+- tar 실제 별도 복원 + 파일 SHA256 + Git 상태 일치 + git fsck 종료 0.
+- Python 표준 라이브러리로 .meta GUID/직렬화 GUID/씬 내부 fileID 검사, reference-audit.json에 결과 저장.
+- git diff --check는 기존 전체 사용자 변경과 이번 변경을 구분하여 확인(아래 종료 확인란 참고).
+
+실제 화면 파일(수정·합성한 이미지 아님):
+- 01-main.png: Main 로비와 Play 버튼.
+- 02-game-ready.png: Game 진입, 준비 패널, 기존 52칸 보드. 한글 사각형 문제 확인.
+- 03-game-running.png: 실제 RunnerPhase, 보드 렌더링. 39칸 규격 불일치/가로 잘림/HUD 겹침 확인.
+- 04-return-main.png: API로 Main 복귀.
+- 05-game-reentry.png: 두 번째 Game 진입 시 보드/HUD가 비는 문제 화면.
+환경: macOS Unity Editor, 기존 Game View 1284×2778. 승인 기준 1080×1920/실기기 9:16 검증을 대체하지 않음.
+파일 위치: output/playtests/2026-11-13-session01/.
+
+8. 실패·미검증·후속 항목
+상세 정보·등록일·최근 확인일·재현·다음 조치는 Docs/WORK_ITEMS.md를 우선한다.
+미해결:
+- I-001: 52칸, 39칸 규격 불일치와 보드 가로 잘림. 세션 02.
+- I-002: Main↔Game 재진입 시 영구 매니저의 씬 참조 유실 및 보드 초기화 실패. 세션 03.
+- I-003: 디버그 HUD 겹침·한글 글리프 누락. 세션 08.
+- I-004: CharacterData/EquipmentData의 ID 공란 경고. 성장 데이터 준비 세션 07.
+- I-005: 기존 일시정지/보스 공식/아이템·저장이 확정 1.1 규칙과 다름. 코드에서 확인했으며 해당 전투/저장 동작은 이번 세션 실행하지 않음. 세션 03~07에서 담당 범위별 확인.
+미검증:
+- V-001: 실제 Player 빌드, 캐시 없는 환경의 패키지 복구.
+- V-002: 물리적 클릭/드래그/터치, 장애물 3개→보스→승패 전체 완주.
+실기기 테스트 필요:
+- D-001: Android/iOS 빌드·기기별 세로 해상도/안전 영역/터치/스크린샷.
+실행 로그의 기존 도구/환경 경고:
+- NyanLinkTestSceneSetup의 FindObjectsOfType obsolete 경고.
+- Character/Equipment ID 공란 경고.
+- 라이선스 access token 갱신 경고, cloud-diagnostics deprecated, 디버거/USB/종료 스레드 관련 로그가 있었으나 정상 컴파일·최초 smoke는 통과. 검증 도구의 runtime error 수와 구분한다.
+
+9. 다음 세션의 시작 방법과 주의점
+- 세션 02 진행 가능. 이 인수인계와 WORK_ITEMS를 먼저 읽고 정확한 Unity 버전으로 컴파일을 재확인한다.
+- 첫 Play부터 검사할 때는 Editor 플레이 모드를 완전히 종료 후 Main에서 시작한다. 같은 플레이 중 재진입 문제 I-002를 첫 진입 문제와 혼동하지 않는다.
+- 세션 02는 I-001의 좌표·39칸·입력·카메라를 다루고, 매니저 생명주기/전투/저장/성장을 완료했다고 가정하지 않는다.
+- 동시 개발 채팅이나 같은 프로젝트의 Unity 두 인스턴스를 열지 않는다. CLI batch 검증 전에 프로젝트 Editor를 닫는다.
+- CLI smoke는 그래픽이 필요한 Editor 실행이다. -batchmode/-nographics/-quit을 Run/RunLifecycle에 붙이지 않는다(도구가 비동기로 플레이 후 자체 종료). Audit에는 -batchmode -quit 사용 가능.
+- 기존 저장 구현은 읽기 실패 시 파일 삭제 코드가 있으므로 세션 06 이전에 사용자 저장 파일로 손상 복구 테스트를 하지 않는다.
+- 현재 변경은 자동 커밋하지 않았고 원격에 올리지 않았다. 백업과 session-changes.json을 근거로 이번 세션 차이만 검토할 수 있다.
+
+10. 종료 확인
+- 최종 CLI batch 컴파일·Audit 종료 0. compile-final.log의 Exiting batchmode successfully now 및 audit.txt 확인.
+- 이번 직접 변경을 백업과 비교한 whitespace 검사에서 진단 출력 없음(no-index의 종료 1은 파일 차이가 있다는 뜻). 기존 전체 작업 트리 git diff --check는 종료 2/188줄 진단이 남아 있음. 사용자 기존 변경의 서식을 일괄 수정하지 않음.
+- 전체 whitespace 진단은 수정에 따른 줄 번호 이동 등으로 백업과 문자열 그대로 일치하지 않음. 줄 번호를 제외한 진단별 비교에서 새 진단 0개. 직접 변경분 검사에는 진단 없음. baseline-whitespace-check.txt와 all-worktree-whitespace-check.txt 비교 근거 보존.
+- 외부 백업 복원 검증 완료, 기존 .meta 수정/기존 파일 삭제 없음.
+- 최초 Main→Game→Runner 경로 통과, 반복 진입 진단은 I-002 때문에 실패로 유지. 실패를 전체 실행 통과로 보고하지 않음.
+- Player 빌드/실제 포인터/터치/실기기는 미검증으로 유지. 세션 02 진행 가능.

@@ -1,4 +1,4 @@
-namespace NyanLink.Data.Enums
+namespace NineMood.Data.Enums
 {
     /// <summary>
     /// 러너 상태

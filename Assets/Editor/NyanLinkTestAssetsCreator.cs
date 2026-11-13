@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Tilemaps;
-using NyanLink.Data.Definitions;
-using NyanLink.Data.Enums;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
 using System;
 using System.Reflection;
 
-namespace NyanLink.Editor
+namespace NineMood.Editor
 {
     /// <summary>
     /// NyanLink 테스트 에셋 및 타일 에셋 자동 생성
@@ -80,7 +80,6 @@ namespace NyanLink.Editor
                 return false;
             }
 
-            // 새로 생성
             GridShapeData gridShape = ScriptableObject.CreateInstance<GridShapeData>();
             gridShape.width = 7;
             gridShape.height = 7;

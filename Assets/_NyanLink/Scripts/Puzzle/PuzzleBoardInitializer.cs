@@ -1,7 +1,7 @@
 using UnityEngine;
-using NyanLink.Data.Definitions;
+using NineMood.Data.Definitions;
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
     /// 게임 시작 시 PuzzleBoardManager 자동 초기화

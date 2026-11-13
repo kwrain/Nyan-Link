@@ -11,8 +11,39 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f0e4b5f4afe3480f90307eb5c371fec, type: 3}
   m_Name: DefaultBalanceData
-  m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.BalanceData
-  middleChainMin: 3
-  middleChainMax: 4
-  longChainMin: 5
-  maxItemTilesOnBoard: 2
+  m_EditorClassIdentifier: Assembly-CSharp::NineMood.Data.Definitions.BalanceData
+  middleChainMin: 5
+  middleChainMax: 8
+  longChainMin: 9
+  maxItemsPerType: 2
+  baseScorePerTile: 10
+  maxStamina: 100
+  baseDecayRate: 0.15
+  staminaRecoveryPerTile: 0.3
+  arcadeDecayIncreasePerSec: 0.001
+  runnerBaseSpeed: 5
+  runSpeedMultiplier: 1.5
+  runSpeedDuration: 3
+  obstacleWarningDistance: 5
+  mistakeLockDuration: 0.5
+  jumpDuration: 0.8
+  slideDuration: 0.6
+  blockDuration: 0.5
+  attackDuration: 0.4
+  invincibleDuration: 2
+  stumbleDuration: 1
+  groggyDuration: 5
+  groggyDamageMultiplier: 2
+  groggyDamageFactor: 0.1
+  criticalMultiplier: 1.5
+  powerUpBonusLv1: 0.5
+  powerUpBonusLv2: 1
+  defaultMaxMissCount: 3
+  healPercentLv1: 0.1
+  healPercentLv2: 0.3
+  freezeDurationLv1: 3
+  freezeDurationLv2: 7
+  blastRangeLv1: 1
+  blastRangeLv2: 2
+  lineClearCountLv1: 1
+  lineClearCountLv2: 3

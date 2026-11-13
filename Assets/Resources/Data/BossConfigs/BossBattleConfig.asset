@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5217925186d4b496fa21c586520aaba7, type: 3}
   m_Name: BossBattleConfig
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.BossBattleConfig
-  bossId: 
-  bossName: 
-  maxHP: 1000
+  bossId: prototype-boss-01
+  bossName: Prototype Boss 01
+  maxHP: 120
   battleType: 0
   patternShowDuration: 5
   inputTimeLimit: 10
@@ -23,7 +23,7 @@ MonoBehaviour:
   phaseHPThresholds:
   - 0.5
   - 0.2
-  timeAttackSequenceLength: 5
+  timeAttackSequenceLength: 3
   rhythmNoteSpeed: 1
   colorQuotaTargets:
     keys: 

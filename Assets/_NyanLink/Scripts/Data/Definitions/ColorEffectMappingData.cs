@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using NyanLink.Data.Enums;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
     /// 타일 색상별 아이템 효과 매핑 데이터.
@@ -77,15 +77,13 @@ namespace NyanLink.Data.Definitions
         {
             return color switch
             {
-                // 기본 매핑은 언제든지 데이터 에셋으로 덮어쓸 수 있다.
-                // 여기서는 직관적인 6색 → 6효과 기본값만 제공한다.
-                TileColor.Red    => ItemEffectType.StaminaBoost,   // 스태미너 추가
-                TileColor.Yellow => ItemEffectType.AreaBlast,      // 주변 타일 파괴
-                TileColor.Blue   => ItemEffectType.HorizontalLine, // 가로 라인
-                TileColor.Purple => ItemEffectType.DiagonalLeft,   // 왼쪽 대각선
-                TileColor.Orange => ItemEffectType.DiagonalRight,  // 오른쪽 대각선
-                TileColor.Cyan   => ItemEffectType.Rainbow,        // 레인보우
-                _ => ItemEffectType.StaminaBoost
+                TileColor.Red    => ItemEffectType.Recovery,    // 스태미나 즉시 회복
+                TileColor.Blue   => ItemEffectType.TimeFreeze,  // 스태미나 감소/타이머 정지
+                TileColor.Yellow => ItemEffectType.Blast,       // 주변 범위 파괴
+                TileColor.Purple => ItemEffectType.LineClear,   // 라인 제거
+                TileColor.Orange => ItemEffectType.PowerUp,     // 다음 공격 데미지 버프
+                TileColor.Cyan   => ItemEffectType.ColorShift,  // 보드 색상 통일
+                _                => ItemEffectType.None
             };
         }
 

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using NyanLink.Data.Definitions;
-using NyanLink.Data.Enums;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
     /// 선택된 타일들의 시각적 피드백 관리
@@ -50,6 +50,9 @@ namespace NyanLink.Puzzle
 
         /// <summary> 흐르는 효과용 시간 </summary>
         private float _flowTime = 0f;
+
+        /// <summary> 런타임 생성 머티리얼 (OnDestroy에서 해제) </summary>
+        private Material _lineMaterial;
 
         /// <summary> 현재 적용 중인 체인 티어 (0=Short, 1=Middle, 2=Long) </summary>
         private int _currentChainTier;
@@ -243,11 +246,10 @@ namespace NyanLink.Puzzle
             
             // 2D용 Material 설정 (기본 Material은 3D용이므로 2D용으로 변경)
             // Sprite-Default Shader를 사용하여 2D 렌더링 보장
-            Material lineMaterial = new Material(Shader.Find("NyanLink/LineFlow2D"));
-            // Material lineMaterial = new Material(Shader.Find("Sprites/Default"));
-            if (lineMaterial != null)
+            _lineMaterial = new Material(Shader.Find("NyanLink/LineFlow2D"));
+            if (_lineMaterial != null)
             {
-                _connectionLine.material = lineMaterial;
+                _connectionLine.material = _lineMaterial;
             }
         }
 
@@ -355,6 +357,11 @@ namespace NyanLink.Puzzle
         private void OnDestroy()
         {
             ClearVisualization();
+            if (_lineMaterial != null)
+            {
+                Object.Destroy(_lineMaterial);
+                _lineMaterial = null;
+            }
         }
     }
 }

@@ -1,0 +1,29 @@
+INFO step=0, frames=5, paused=False, focused=False, timeScale=1
+PASS Main opened in Play mode
+PASS Shared Resources loaded before first scene
+PASS Stage lookup by stable ID
+PASS Main has one active EventSystem
+INFO step=1, frames=446, paused=False, focused=False, timeScale=1
+INFO step=2, frames=500, paused=False, focused=False, timeScale=1
+PASS Play button enters Game
+PASS Game has one active EventSystem
+PASS Puzzle board initialized (39-cell compliance belongs to session 02)
+INFO board tile count=52
+PASS Game enters Briefing
+INFO step=3, frames=608, paused=False, focused=False, timeScale=1
+INFO step=4, frames=725, paused=False, focused=False, timeScale=1
+PASS Start button enters RunnerPhase
+INFO step=5, frames=838, paused=False, focused=False, timeScale=1
+PASS Screenshot saved: 01-main.png
+PASS Screenshot saved: 02-game-ready.png
+PASS Screenshot saved: 03-game-running.png
+PASS No runtime errors during Main→Game→Runner smoke
+INFO step=10, frames=909, paused=False, focused=False, timeScale=1
+PASS Return path loads Main
+INFO step=11, frames=1019, paused=False, focused=False, timeScale=1
+INFO step=12, frames=1087, paused=False, focused=False, timeScale=1
+PASS Second Play loads Game
+FAIL Reentered Game board initialized
+FAIL Persistent SaveManager retains live scene references
+PASS One GameManager after reentry
+INFO step=13, frames=1188, paused=False, focused=False, timeScale=1

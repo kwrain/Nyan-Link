@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4be905405d6418ebde7c6db9b1c36d, type: 3}
+  m_Name: StageData
+  m_EditorClassIdentifier: Assembly-CSharp::NineMood.Data.Definitions.StageData
+  stageId: prototype-stage-01
+  stageName: Prototype Stage 01
+  episodeNumber: 1
+  stageNumber: 1
+  gridShape: {fileID: 11400000, guid: aaf4a4cb9defa446a82c99db601ecd74, type: 2}
+  runnerSpeed: 5
+  stageLength: 250
+  stageDecayMultiplier: 1
+  obstacles:
+  - triggerDistance: 0.25
+    requiredColor: 0
+  - triggerDistance: 0.5
+    requiredColor: 1
+  - triggerDistance: 0.75
+    requiredColor: 2
+  obstacleBaseDamage: 20
+  chapterCoefficient: 1
+  bossConfig: {fileID: 11400000, guid: 35e86864374d24ab8bde68d3b40eae70, type: 2}
+  clearRewardCoin: 100
+  lootTable: {fileID: 11400000, guid: 2a6a2f47972614c6e9077004424f8974, type: 2}

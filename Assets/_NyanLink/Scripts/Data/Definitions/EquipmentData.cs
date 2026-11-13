@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using NyanLink.Data.Enums;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
     /// 장비 정보 데이터

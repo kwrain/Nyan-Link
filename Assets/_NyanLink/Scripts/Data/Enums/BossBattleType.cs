@@ -1,4 +1,4 @@
-namespace NyanLink.Data.Enums
+namespace NineMood.Data.Enums
 {
     /// <summary>
     /// 보스 전투 타입

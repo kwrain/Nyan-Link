@@ -1,0 +1,135 @@
+{
+  "com.boxqkrtm.ide.cursor": {
+    "requested": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
+    "resolved": {
+      "version": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.9"
+      },
+      "hash": "53e1baac3cde90c46934f82ee1d61802d2bd6651"
+    }
+  },
+  "com.coplaydev.unity-mcp": {
+    "requested": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity",
+    "resolved": {
+      "version": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+      },
+      "hash": "2a1fe67e2159ee73cae8acf63312417c88fe9cd9"
+    }
+  },
+  "com.ninemood.services": {
+    "requested": "ssh://git@github.com/kwrain/NineMood.Services.git",
+    "resolved": {
+      "version": "ssh://git@github.com/kwrain/NineMood.Services.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.services.core": "1.15.1",
+        "com.unity.services.cloud-diagnostics": "1.0.12",
+        "com.unity.services.levelplay": "9.2.0",
+        "com.unity.services.analytics": "6.2.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.purchasing": "5.0.4"
+      },
+      "hash": "f78dd7921baffc470487d87387dfff7878a4798a"
+    }
+  },
+  "com.unity.ads": {
+    "requested": "4.16.4",
+    "resolved": {
+      "version": "4.16.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.androidjni": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    }
+  },
+  "com.unity.analytics": {
+    "requested": "3.8.2",
+    "resolved": {
+      "version": "3.8.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.services.analytics": "1.0.4"
+      },
+      "url": "https://packages.unity.com"
+    }
+  },
+  "com.unity.inputsystem": {
+    "requested": "1.19.0",
+    "resolved": {
+      "version": "1.19.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    }
+  },
+  "com.unity.purchasing": {
+    "requested": "4.15.0",
+    "resolved": {
+      "version": "5.0.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.services.core": "1.14.0",
+        "com.unity.modules.androidjni": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    }
+  },
+  "com.unity.render-pipelines.universal": {
+    "requested": "17.3.0",
+    "resolved": {
+      "version": "17.3.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "17.3.0",
+        "com.unity.shadergraph": "17.3.0",
+        "com.unity.render-pipelines.universal-config": "17.0.3"
+      }
+    }
+  },
+  "com.unity.test-framework": {
+    "requested": "1.6.0",
+    "resolved": {
+      "version": "1.6.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.ext.nunit": "2.0.3",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      }
+    }
+  },
+  "com.unity.ugui": {
+    "requested": "2.0.0",
+    "resolved": {
+      "version": "2.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.imgui": "1.0.0"
+      }
+    }
+  }
+}

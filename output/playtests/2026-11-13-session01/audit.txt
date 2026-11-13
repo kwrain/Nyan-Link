@@ -1,0 +1,8 @@
+Stage: prototype-stage-01; boss: prototype-boss-01; obstacles: 3
+Main: missing scripts=0, active EventSystems=1, input=InputSystemUIInputModule
+Game: missing scripts=0, active EventSystems=1, input=InputSystemUIInputModule
+Game: GameManager=1
+Game: StaminaManager=1
+Game: ScoreManager=1
+Game: SaveManager=1
+Game: BossController=1

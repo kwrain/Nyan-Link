@@ -1,4 +1,4 @@
-namespace NyanLink.Data.Enums
+namespace NineMood.Data.Enums
 {
     /// <summary>
     /// 타일 색상 타입

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa81545ada7fb4bd591c13fc68ef53ac, type: 3}
   m_Name: LootTableData
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.LootTableData
-  bossId: 
-  bossName: 
+  bossId: prototype-boss-01
+  bossName: Prototype Boss 01
   lootEntries: []

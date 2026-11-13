@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.GridShapeData
   width: 7
   height: 7
-  shapeMask: 01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101

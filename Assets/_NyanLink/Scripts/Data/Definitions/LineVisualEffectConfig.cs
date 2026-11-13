@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using NyanLink.Data.Enums;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
     /// 연결선(LineRenderer) 시각 효과 설정.

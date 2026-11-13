@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEditor;
-using NyanLink.Data.Definitions;
+using NineMood.Data.Definitions;
 
-namespace NyanLink.Editor
+namespace NineMood.Editor
 {
     /// <summary>
     /// NyanLink 데이터 생성 에디터 메뉴

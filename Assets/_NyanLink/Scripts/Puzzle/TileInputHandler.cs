@@ -1,16 +1,23 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-using NyanLink.Data.Enums;
-using NyanLink.Data.Definitions;
-using NyanLink.Core.Managers;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.Tilemaps;
+using NineMood.Core;
+using NineMood.Core.Managers;
+using NineMood.Data.Definitions;
+using NineMood.Data.Enums;
+using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
-namespace NyanLink.Puzzle
+namespace NineMood.Puzzle
 {
     /// <summary>
-    /// 타일 입력 처리 (터치/드래그)
-    /// Unity Tilemap Offset 좌표계 사용
+    /// 타일 드래그 입력 처리 — New Input System.
+    /// - 모바일: Enhanced Touch 콜백 (OnFingerDown/Move/Up)
+    /// - 에디터/PC: Update()에서 Mouse.current 직접 처리 (설정 변경 불필요)
+    /// 두 경로는 Mouse.current가 모바일에서 null이므로 자동으로 분리된다.
     /// </summary>
     public class TileInputHandler : MonoBehaviour
     {
@@ -24,302 +31,367 @@ namespace NyanLink.Puzzle
         [Tooltip("TileSelectionVisualizer 참조")]
         public TileSelectionVisualizer selectionVisualizer;
 
-        [Tooltip("밸런스 데이터 (비어있으면 DataManager에서 로드). 연결선 티어 연출용")]
+        [Tooltip("밸런스 데이터 (비어있으면 DataManager에서 로드)")]
         public BalanceData balanceData;
 
+        [Header("카메라")]
+        [Tooltip("퍼즐 영역 카메라. 미할당 시 'Camera_Puzzle' 이름으로 자동 검색")]
+        [SerializeField] private Camera puzzleCamera;
+
         [Header("입력 설정")]
-        [Tooltip("마우스 이동 민감도 (이 값 이상 이동해야 Moved로 판별)")]
+        [Tooltip("이 값 이상 이동해야 Moved로 판별 (픽셀)")]
         [Range(0.01f, 1f)]
         public float mouseMoveSensitivity = 0.1f;
 
         [Header("디버그")]
-        [Tooltip("입력 디버그 로그 출력")]
         public bool debugLog = false;
 
-        /// <summary>
-        /// 현재 선택된 타일 체인
-        /// </summary>
-        private List<Vector3Int> _selectedChain = new List<Vector3Int>();
+        private readonly List<Vector3Int>     _selectedChain  = new List<Vector3Int>();
+        private readonly List<RaycastResult>  _uiRaycastCache = new List<RaycastResult>();
+        private Vector2   _lastInputPosition;
+        private Vector2   _currentScreenPos;
+        private bool      _isInputActive;
+        private Vector3Int _lastLoggedCell = new Vector3Int(int.MinValue, int.MinValue, 0); // Move 로그 중복 방지
 
-        /// <summary>
-        /// 마지막 입력 위치 (중복 호출 방지용)
-        /// </summary>
-        private Vector2 _lastInputPosition;
+        // 오입력 후 입력 잠금
+        private bool  _inputLocked;
+        private float _lockTimer;
 
-        /// <summary>
-        /// 입력이 시작되었는지 여부
-        /// </summary>
-        private bool _isInputActive = false;
+        // ── 라이프사이클 ───────────────────────────────────────
 
         private void Awake()
         {
+            if (boardManager        == null) boardManager        = FindFirstObjectByType<PuzzleBoardManager>();
+            if (tileMatcher         == null) tileMatcher         = FindFirstObjectByType<TileMatcher>();
+            if (selectionVisualizer == null) selectionVisualizer = FindFirstObjectByType<TileSelectionVisualizer>();
+        }
+
+        private void Start()
+        {
+            // PuzzleBoardInitializer가 0.1초 후 초기화하므로 0.35초 후 확인
+            StartCoroutine(DiagnoseAfterInit());
+        }
+
+        private IEnumerator DiagnoseAfterInit()
+        {
+            yield return new WaitForSeconds(2f);
             if (boardManager == null)
             {
-                boardManager = FindFirstObjectByType<PuzzleBoardManager>();
+                Debug.LogError("[TileInput] PuzzleBoardManager를 찾을 수 없음.");
+                yield break;
             }
 
-            if (tileMatcher == null)
+            int tileCount = boardManager.GetTileCount();
+            if (tileCount == 0)
             {
-                tileMatcher = FindFirstObjectByType<TileMatcher>();
+                Debug.LogWarning("[TileInput] 보드 타일 수: 0 — DefaultGridShape.asset이 없거나 Initialize 실패. " +
+                                 "NyanLink > Setup > Create Phase 2 Test Assets 를 실행하세요.");
+                yield break;
             }
 
-            if (selectionVisualizer == null)
+            Camera cam = GetPuzzleCamera();
+            Debug.Log($"[타일 스크린 매핑] 카메라={cam?.name ?? "없음"}  " +
+                      $"orthoSize={cam?.orthographicSize}  pos={cam?.transform.position}  " +
+                      $"viewport={cam?.rect}");
+
+            // 각 타일의 월드 중심 → 스크린 좌표 역변환해서 출력
+            // 터치 비긴 로그의 Screen(x,y) 값과 비교해서 어느 타일이 실제로 어디 있는지 확인
+            foreach (var offset in boardManager.GetAllTileOffsets())
             {
-                selectionVisualizer = FindFirstObjectByType<TileSelectionVisualizer>();
+                TileInstance tile = boardManager.GetTileAtOffset(offset);
+                Vector3 worldCenter = boardManager.tilemap.GetCellCenterWorld(offset);
+
+                string screenStr = "cam없음";
+                if (cam != null)
+                {
+                    Vector3 sp = cam.WorldToScreenPoint(worldCenter);
+                    screenStr = $"Screen({sp.x:F0},{sp.y:F0})";
+                }
+
+                Debug.Log($"[타일 위치] Cell{offset}  색={tile?.Color}  " +
+                          $"World({worldCenter.x:F3},{worldCenter.y:F3})  →  {screenStr}");
             }
+        }
+
+        private void OnEnable()
+        {
+            ETouch.EnhancedTouchSupport.Enable();
+            ETouch.Touch.onFingerDown += OnFingerDown;
+            ETouch.Touch.onFingerMove += OnFingerMove;
+            ETouch.Touch.onFingerUp   += OnFingerUp;
+        }
+
+        private void OnDisable()
+        {
+            ETouch.Touch.onFingerDown -= OnFingerDown;
+            ETouch.Touch.onFingerMove -= OnFingerMove;
+            ETouch.Touch.onFingerUp   -= OnFingerUp;
+            ETouch.EnhancedTouchSupport.Disable();
         }
 
         private void Update()
         {
-            // 마우스 입력 처리
-            if (Input.GetMouseButtonDown(0))
+            // 오입력 잠금 카운트다운
+            if (_inputLocked)
             {
-                Vector2 screenPos = Input.mousePosition;
-                OnInputBegan(screenPos);
+                _lockTimer -= Time.deltaTime;
+                if (_lockTimer <= 0f) _inputLocked = false;
+                return;
             }
-            else if (Input.GetMouseButton(0))
+
+            // 마우스 처리 (에디터/PC 전용 — 모바일에서는 Mouse.current가 null)
+            var mouse = Mouse.current;
+            if (mouse == null) return;
+
+            Vector2 mousePos = mouse.position.ReadValue();
+            _currentScreenPos = mousePos;
+
+            if (mouse.leftButton.wasPressedThisFrame)
             {
-                Vector2 screenPos = Input.mousePosition;
-                if (_isInputActive && Vector2.Distance(screenPos, _lastInputPosition) >= mouseMoveSensitivity)
+                bool overUI = IsOverUI(mousePos);
+                if (debugLog)
+                    Debug.Log($"[TileInput] Click: Pos={mousePos}, IsOverUI={overUI}, " +
+                              $"State={( GameManager.IsCreated ? GameManager.Instance.CurrentState.ToString() : "NoGM" )}");
+                if (!overUI)
+                    OnInputBegan(mousePos);
+                else if (debugLog)
+                    Debug.Log("[TileInput] UI 위에서 클릭 — 타일 입력 무시 (GameReadyPanel이 열려있을 수 있음)");
+            }
+            else if (mouse.leftButton.isPressed)
+            {
+                if (_isInputActive && Vector2.Distance(mousePos, _lastInputPosition) >= mouseMoveSensitivity)
                 {
-                    OnInputMoved(screenPos);
-                    _lastInputPosition = screenPos;
+                    OnInputMoved(mousePos);
+                    _lastInputPosition = mousePos;
                 }
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (mouse.leftButton.wasReleasedThisFrame)
             {
                 OnInputReleased();
             }
+        }
 
-            // 터치 입력 처리
-            if (Input.touchCount > 0)
+        // ── Enhanced Touch 콜백 ──────────────────────────────────
+
+        private void OnFingerDown(ETouch.Finger finger)
+        {
+            if (finger.index != 0 || _inputLocked) return;
+            _currentScreenPos = finger.screenPosition;
+            if (IsOverUI(finger.screenPosition)) return;
+            OnInputBegan(finger.screenPosition);
+        }
+
+        private void OnFingerMove(ETouch.Finger finger)
+        {
+            if (finger.index != 0 || !_isInputActive || _inputLocked) return;
+
+            Vector2 screenPos = finger.screenPosition;
+            _currentScreenPos = screenPos;
+            if (Vector2.Distance(screenPos, _lastInputPosition) >= mouseMoveSensitivity)
             {
-                Touch touch = Input.GetTouch(0);
-                Vector2 screenPos = touch.position;
-
-                if (touch.phase == TouchPhase.Began)
-                {
-                    OnInputBegan(screenPos);
-                }
-                else if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
-                {
-                    if (_isInputActive && Vector2.Distance(screenPos, _lastInputPosition) >= mouseMoveSensitivity)
-                    {
-                        OnInputMoved(screenPos);
-                        _lastInputPosition = screenPos;
-                    }
-                }
-                else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-                {
-                    OnInputReleased();
-                }
+                OnInputMoved(screenPos);
+                _lastInputPosition = screenPos;
             }
         }
 
-        /// <summary>
-        /// 입력 시작 처리
-        /// </summary>
+        private void OnFingerUp(ETouch.Finger finger)
+        {
+            if (finger.index != 0) return;
+            OnInputReleased();
+        }
+
+        // ── 입력 처리 ─────────────────────────────────────────
+
         private void OnInputBegan(Vector2 screenPosition)
         {
-            // UI 위 터치는 무시
-            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            if (GameManager.IsCreated)
             {
-                return;
-            }
-
-            Vector3Int? tile = GetTileAtScreenPosition(screenPosition);
-            if (tile.HasValue)
-            {
-                TileInstance tileInstance = boardManager.GetTileAtOffset(tile.Value);
-                if (tileInstance != null && tileInstance.IsActive)
+                var s = GameManager.Instance.CurrentState;
+                if (s != GameState.RunnerPhase && s != GameState.BossPhase)
                 {
-                    _selectedChain.Clear();
-                    _selectedChain.Add(tile.Value);
-                    tileInstance.IsSelected = true;
-                    _isInputActive = true;
-                    _lastInputPosition = screenPosition;
-
-                    if (debugLog)
-                    {
-                        Debug.Log($"[입력] 터치 시작 - ScreenPos: {screenPosition}, 타일: Offset{tile.Value}, 색상: {tileInstance.Color}");
-                    }
-
-                    UpdateSelectionVisualization();
+                    Debug.LogWarning($"[TileInput] 입력 차단: State={s} (RunnerPhase 또는 BossPhase 필요). " +
+                                     "DebugPanel의 '▶ START (RunnerPhase)' 버튼을 클릭하세요.");
+                    return;
                 }
             }
+
+            // 항상 좌표 변환 전체를 출력
+            GetTileAtScreenPositionVerbose(screenPosition, "비긴", out Vector3Int cellPos, out TileInstance tileInst);
+
+            if (tileInst == null || !tileInst.IsActive) return;
+
+            _selectedChain.Clear();
+            _selectedChain.Add(cellPos);
+            tileInst.IsSelected    = true;
+            _isInputActive         = true;
+            _lastInputPosition     = screenPosition;
+            _lastLoggedCell        = cellPos;
+
+            UpdateSelectionVisualization();
         }
 
-        /// <summary>
-        /// 입력 이동 처리
-        /// </summary>
         private void OnInputMoved(Vector2 screenPosition)
         {
-            if (!_isInputActive || _selectedChain.Count == 0)
-            {
-                return;
-            }
+            if (!_isInputActive || _selectedChain.Count == 0) return;
 
-            Vector3Int? touchedTile = GetTileAtScreenPosition(screenPosition);
-            if (!touchedTile.HasValue)
-            {
-                return;
-            }
+            // 셀이 바뀔 때만 좌표 로그 출력 (Verbose 내부에서 _lastLoggedCell과 비교)
+            GetTileAtScreenPositionVerbose(screenPosition, "무브", out Vector3Int cellPos, out TileInstance touchedInstance);
+            _lastLoggedCell = cellPos;
 
-            // 마지막으로 체인에 추가된 타일 기준으로 인접 타일 검증
-            Vector3Int lastSelectedTile = _selectedChain[_selectedChain.Count - 1];
+            if (touchedInstance == null || !touchedInstance.IsActive) return;
 
-            // 이미 선택된 타일인지 확인 (Back-track 처리)
-            int existingIndex = _selectedChain.IndexOf(touchedTile.Value);
+            Vector3Int lastSelected = _selectedChain[_selectedChain.Count - 1];
+
+            // Back-track 처리
+            int existingIndex = _selectedChain.IndexOf(cellPos);
             if (existingIndex >= 0)
             {
-                // 이전에 선택한 타일로 되돌아가기
                 if (existingIndex < _selectedChain.Count - 1)
                 {
-                    // 선택 해제
                     for (int i = _selectedChain.Count - 1; i > existingIndex; i--)
                     {
-                        Vector3Int tileToDeselect = _selectedChain[i];
-                        TileInstance tileInstance = boardManager.GetTileAtOffset(tileToDeselect);
-                        if (tileInstance != null)
-                        {
-                            tileInstance.IsSelected = false;
-                        }
+                        TileInstance t = boardManager.GetTileAtOffset(_selectedChain[i]);
+                        if (t != null) t.IsSelected = false;
                         _selectedChain.RemoveAt(i);
                     }
-
-                    if (debugLog)
-                    {
-                        Debug.Log($"[입력] Back-track - Offset{touchedTile.Value}로 되돌아감");
-                    }
-
+                    if (debugLog) Debug.Log($"[입력] Back-track → Cell{cellPos}");
                     UpdateSelectionVisualization();
                 }
                 return;
             }
 
-            // 인접 타일인지 확인
-            if (!HexOffsetUtils.IsAdjacent(lastSelectedTile, touchedTile.Value))
-            {
-                return;
-            }
+            if (!HexOffsetUtils.IsAdjacent(lastSelected, cellPos)) return;
 
-            // 타일 인스턴스 확인
-            TileInstance touchedTileInstance = boardManager.GetTileAtOffset(touchedTile.Value);
-            if (touchedTileInstance == null || !touchedTileInstance.IsActive)
+            TileInstance lastInstance = boardManager.GetTileAtOffset(lastSelected);
+            if (lastInstance == null || touchedInstance.Color != lastInstance.Color)
             {
-                return;
-            }
-
-            // 같은 색상인지 확인
-            TileInstance lastTileInstance = boardManager.GetTileAtOffset(lastSelectedTile);
-            if (lastTileInstance == null || touchedTileInstance.Color != lastTileInstance.Color)
-            {
-                // 다른 색상 선택 시 체인 취소
                 ClearSelection();
+                StartMistakeLock();
                 return;
             }
 
-            // 추가 전 체인 길이/티어 (일반 → 미들 → 롱 전환 감지용)
-            int prevCount = _selectedChain.Count;
-            BalanceData balance = balanceData != null ? balanceData : (DataManager.Instance != null ? DataManager.Instance.BalanceData : null);
-            int prevTier = balance != null ? ChainEvaluator.GetEffectLevel(balance, prevCount) : 0;
+            BalanceData balance = balanceData != null ? balanceData : DataManager.Instance?.BalanceData;
+            int prevTier = balance != null ? ChainEvaluator.GetEffectLevel(balance, _selectedChain.Count) : 0;
 
-            // 체인에 추가
-            _selectedChain.Add(touchedTile.Value);
-            touchedTileInstance.IsSelected = true;
+            _selectedChain.Add(cellPos);
+            touchedInstance.IsSelected = true;
 
-            // 추가 후 길이 기준 티어로 연결선 즉시 갱신 (일반 ↔ 미들 ↔ 롱 상태가 바뀌는 순간 반영)
-            int newCount = _selectedChain.Count;
-            int newTier = balance != null ? ChainEvaluator.GetEffectLevel(balance, newCount) : 0;
-            if (selectionVisualizer != null && newCount >= 2)
+            int newTier = balance != null ? ChainEvaluator.GetEffectLevel(balance, _selectedChain.Count) : 0;
+            if (selectionVisualizer != null && _selectedChain.Count >= 2)
             {
-                TileInstance firstTile = boardManager.GetTileAtOffset(_selectedChain[0]);
-                TileColor chainColor = firstTile != null ? firstTile.Color : TileColor.Red;
-                Vector3Int? previewTile = GetTileAtScreenPosition(Input.mousePosition);
+                TileInstance first = boardManager.GetTileAtOffset(_selectedChain[0]);
+                TileColor chainColor = first != null ? first.Color : TileColor.Red;
+                Vector3Int? previewTile = GetTileAtScreenPosition(_currentScreenPos);
                 selectionVisualizer.UpdateConnectionLine(_selectedChain, previewTile, newTier, chainColor);
             }
 
-            if (debugLog)
-            {
-                Debug.Log($"[입력] 타일 추가 - Offset{touchedTile.Value}, 색상: {touchedTileInstance.Color}, 체인 길이: {newCount}, 티어: {newTier} (이전: {prevTier})");
-            }
+            Debug.Log($"[터치 무브] 타일 추가 Cell{cellPos} 색={touchedInstance.Color} 체인={_selectedChain.Count} Tier={newTier}");
         }
 
-        /// <summary>
-        /// 입력 종료 처리
-        /// </summary>
         private void OnInputReleased()
         {
-            if (!_isInputActive)
-            {
-                return;
-            }
-
+            if (!_isInputActive) return;
             _isInputActive = false;
 
-            // 체인 길이가 2 이상이면 매칭 처리
-            if (_selectedChain.Count >= 2 && tileMatcher != null)
-            {
-                tileMatcher.ProcessMatch(_selectedChain);
-            }
+            Debug.Log($"[터치 엔드] 체인 {_selectedChain.Count}개 — " +
+                      (_selectedChain.Count >= 2 ? "매칭 처리" : "선택 해제 (2개 미만)"));
 
-            // 선택 해제
+            if (_selectedChain.Count >= 2 && tileMatcher != null)
+                tileMatcher.ProcessMatch(_selectedChain);
+
             ClearSelection();
         }
 
+        // ── 보조 메서드 ──────────────────────────────────────
+
         /// <summary>
-        /// 스크린 좌표로 타일 조회 (정확한 위치의 타일만 반환)
+        /// 터치 비긴/무브 전용 — 좌표 변환 전 과정을 Console에 출력한다.
+        /// "무브"는 셀이 바뀌었을 때만 출력 (중복 방지), "비긴"은 항상 출력.
         /// </summary>
-        private Vector3Int? GetTileAtScreenPosition(Vector2 screenPosition)
+        private void GetTileAtScreenPositionVerbose(Vector2 screenPos, string label,
+            out Vector3Int cellPos, out TileInstance tile)
         {
-            if (boardManager == null || boardManager.tilemap == null)
+            cellPos = Vector3Int.zero;
+            tile    = null;
+
+            Camera cam = GetPuzzleCamera();
+            if (boardManager == null || boardManager.tilemap == null || cam == null)
             {
-                return null;
+                Debug.LogWarning($"[터치 {label}] 전제 조건 없음 — " +
+                                 $"boardManager={boardManager != null} tilemap={boardManager?.tilemap != null} cam={cam != null}");
+                return;
             }
 
-            Camera mainCamera = Camera.main;
-            if (mainCamera == null)
-            {
-                mainCamera = FindFirstObjectByType<Camera>();
-            }
-
-            if (mainCamera == null)
-            {
-                return null;
-            }
-
-            // 스크린 좌표를 월드 좌표로 변환
-            Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, mainCamera.nearClipPlane));
+            Vector3 worldPos = cam.ScreenToWorldPoint(
+                new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane));
             worldPos.z = 0f;
 
-            // 월드 좌표를 셀 좌표로 변환
-            Vector3Int cellPos = boardManager.tilemap.WorldToCell(worldPos);
+            // tileAnchor 보정: 타일은 CellToWorld(offset) + tileAnchor 위치에 렌더링된다.
+            // WorldToCell은 이를 모르므로, 클릭 좌표에서 앵커 오프셋을 빼고 WorldToCell 호출.
+            // orientationMatrix.GetColumn(3)이 아닌 tm.tileAnchor를 직접 사용해야 Inspector 값과 일치한다.
+            // TransformVector로 로컬 → 월드 방향 변환 (회전/스케일 반영, 평행이동 제외).
+            Tilemap tm              = boardManager.tilemap;
+            Vector3 anchorLocal     = tm.tileAnchor;
+            Vector3 anchorWorld     = tm.transform.TransformVector(anchorLocal);
+            cellPos = tm.WorldToCell(worldPos - anchorWorld);
+            tile    = boardManager.GetTileAtOffset(cellPos);
 
-            // 해당 셀에 타일이 있는지 확인
-            TileInstance tileInstance = boardManager.GetTileAtOffset(cellPos);
-            if (tileInstance != null && tileInstance.IsActive)
+            // 무브는 셀이 바뀔 때만, 비긴은 항상 로그
+            bool isMove      = label == "무브";
+            bool cellChanged = cellPos != _lastLoggedCell;
+            if (!isMove || cellChanged)
             {
-                return cellPos;
-            }
+                string tileInfo = tile != null
+                    ? $"색={tile.Color} Active={tile.IsActive}"
+                    : $"타일없음 (보드 등록 타일 수={boardManager.GetTileCount()})";
 
-            return null;
+                Debug.Log($"[터치 {label}] " +
+                          $"Screen({screenPos.x:F0},{screenPos.y:F0})" +
+                          $" → World({worldPos.x:F3},{worldPos.y:F3})" +
+                          $" → anchor보정({anchorLocal.x:F2},{anchorLocal.y:F2}) Cell{cellPos}" +
+                          $"  ▶ {tileInfo}");
+            }
         }
 
-        /// <summary>
-        /// 선택 시각화 업데이트 (체인 티어·색상 반영하여 연결선 연출 적용)
-        /// </summary>
+        /// <summary>내부 연산용 (시각화 미리보기 등) — 로그 없음. tileAnchor 보정 포함.</summary>
+        private Vector3Int? GetTileAtScreenPosition(Vector2 screenPosition)
+        {
+            if (boardManager == null || boardManager.tilemap == null) return null;
+
+            Camera cam = GetPuzzleCamera();
+            if (cam == null) return null;
+
+            Vector3 worldPos = cam.ScreenToWorldPoint(
+                new Vector3(screenPosition.x, screenPosition.y, cam.nearClipPlane));
+            worldPos.z = 0f;
+
+            Tilemap tm          = boardManager.tilemap;
+            Vector3 anchorWorld = tm.transform.TransformVector(tm.tileAnchor);
+            Vector3Int cellPos  = tm.WorldToCell(worldPos - anchorWorld);
+
+            TileInstance tile = boardManager.GetTileAtOffset(cellPos);
+            return (tile != null && tile.IsActive) ? cellPos : (Vector3Int?)null;
+        }
+
+        private Camera GetPuzzleCamera()
+        {
+            if (puzzleCamera != null) return puzzleCamera;
+            foreach (Camera cam in Camera.allCameras)
+                if (cam.name == "Camera_Puzzle") return cam;
+            return Camera.main;
+        }
+
         private void UpdateSelectionVisualization()
         {
             if (selectionVisualizer == null) return;
-
             if (_selectedChain.Count >= 2)
             {
-                BalanceData balance = balanceData != null ? balanceData : (DataManager.Instance != null ? DataManager.Instance.BalanceData : null);
-                int chainTier = ChainEvaluator.GetEffectLevel(balance, _selectedChain.Count);
-                TileInstance firstTile = boardManager.GetTileAtOffset(_selectedChain[0]);
-                TileColor chainColor = firstTile != null ? firstTile.Color : TileColor.Red;
-                Vector3Int? previewTile = GetTileAtScreenPosition(Input.mousePosition);
-                selectionVisualizer.UpdateConnectionLine(_selectedChain, previewTile, chainTier, chainColor);
+                BalanceData balance = balanceData != null ? balanceData : DataManager.Instance?.BalanceData;
+                int tier = ChainEvaluator.GetEffectLevel(balance, _selectedChain.Count);
+                TileInstance first = boardManager.GetTileAtOffset(_selectedChain[0]);
+                TileColor chainColor = first != null ? first.Color : TileColor.Red;
+                Vector3Int? previewTile = GetTileAtScreenPosition(_currentScreenPos);
+                selectionVisualizer.UpdateConnectionLine(_selectedChain, previewTile, tier, chainColor);
             }
             else
             {
@@ -327,26 +399,40 @@ namespace NyanLink.Puzzle
             }
         }
 
-        /// <summary>
-        /// 선택 해제
-        /// </summary>
+        private void StartMistakeLock()
+        {
+            BalanceData b = balanceData ?? DataManager.Instance?.BalanceData;
+            _lockTimer   = b?.mistakeLockDuration ?? 0.5f;
+            _inputLocked = true;
+        }
+
+        /// <summary>외부에서 입력 잠금 (러너 Stumble 등에서 호출)</summary>
+        public void LockInput(float duration)
+        {
+            _lockTimer   = Mathf.Max(_lockTimer, duration);
+            _inputLocked = true;
+        }
+
         private void ClearSelection()
         {
-            foreach (var tileOffset in _selectedChain)
+            foreach (var offset in _selectedChain)
             {
-                TileInstance tileInstance = boardManager.GetTileAtOffset(tileOffset);
-                if (tileInstance != null)
-                {
-                    tileInstance.IsSelected = false;
-                }
+                TileInstance t = boardManager.GetTileAtOffset(offset);
+                if (t != null) t.IsSelected = false;
             }
-
             _selectedChain.Clear();
+            selectionVisualizer?.ClearVisualization();
+        }
 
-            if (selectionVisualizer != null)
-            {
-                selectionVisualizer.ClearVisualization();
-            }
+        // New Input System + Legacy 양쪽 호환 — 수동 Raycast로 UI 위 여부 판별
+        // IsPointerOverGameObject(-1)은 InputSystemUIInputModule에서 동작하지 않음
+        private bool IsOverUI(Vector2 screenPos)
+        {
+            if (EventSystem.current == null) return false;
+            var pd = new PointerEventData(EventSystem.current) { position = screenPos };
+            _uiRaycastCache.Clear();
+            EventSystem.current.RaycastAll(pd, _uiRaycastCache);
+            return _uiRaycastCache.Count > 0;
         }
     }
 }

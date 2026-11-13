@@ -1,0 +1,24 @@
+attempt to write a readonly database
+attempt to write a readonly database
+Unity Editor version:    6000.3.14f1 (d68c3f99a318)
+Branch:                  6000.3/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 27.2 (Build 26B123)
+Darwin version:          27.2.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-11-13T01:33:27Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+No explicit failure code handling for error of type 1
+[Licensing::IpcConnector] Error: Failed to connect to LicenseClient-kiwoolee channel (error code: 0x80000000) .
+[Licensing::IpcConnector] Error: Connection to channel: "LicenseClient-kiwoolee" failed; code: "0x80000000"
+[Licensing::IpcConnector] Error: Failed to connect to LicenseClient-kiwoolee channel (error code: 0x80000000) .
+[Licensing::IpcConnector] Channel LicenseClient-kiwoolee-6000.3.14 doesn't exist
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Helpers/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client
+[Licensing::Module] Successfully launched the LicensingClient (PId: 83016)
+2026-11-13 10:33:27.537 Unity[83010:4695250] _LSModifyNotification(result->notificationID, keyCount, codesToSet, 0, NULL, NULL, NULL) returned error -50 on line 282 in NotificationTracker *createTrackerForMask(KeyMask, id, CFTypeRef)
+2026-11-13 10:33:28.090 Unity[83010:4695306] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-11-13 10:33:28.090 Unity[83010:4695250] Error received in message reply handler: Connection invalid
+CSSM_ModuleLoad(): One or more parameters passed to a function were not valid.

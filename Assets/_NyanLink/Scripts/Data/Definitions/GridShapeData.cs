@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
     /// 벌집형 그리드 크기 정의
@@ -20,12 +20,9 @@ namespace NyanLink.Data.Definitions
 
         /// <summary>
         /// 특정 좌표가 그리드 범위 내에 있는지 확인
-        /// 벌집형 그리드는 항상 완전한 모양이므로 범위 체크만 수행
-        /// Unity Tilemap Offset 좌표계 사용
         /// </summary>
         public bool IsTileActive(Vector3Int offset)
         {
-            // 범위 체크만 수행 (항상 완전한 벌집형 모양)
             return offset.x >= 0 && offset.x < width && offset.y >= 0 && offset.y < height;
         }
     }

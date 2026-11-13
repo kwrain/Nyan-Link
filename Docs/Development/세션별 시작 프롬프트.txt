@@ -1,0 +1,321 @@
+냥링크 프로토타입 개발 세션 시작 프롬프트
+기준 버전 1.1 / 2026-11-13
+사용법: 아래에서 원하는 세션의 [프롬프트 시작]부터 [프롬프트 끝] 사이 전체를 복사한다. 01→08 순서로 같은 프로젝트의 최신 작업을 이어간다. 자동 채팅 생성이나 병렬 실행을 요청하는 파일이 아니다.
+
+===== 세션 01 현재 작업 보존과 실행 기반 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 01 — 현재 작업 보존과 실행 기반 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+없음. 현재 작업 상태를 직접 확인해줘.
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+현재 미커밋·미추적 파일을 포함한 작업 상태를 먼저 조사하고 복구 가능한 백업을 프로젝트 밖의 쓰기 가능한 위치에 만들어 경로와 포함 범위를 기록해줘. 기존 변경을 되돌리거나 자동으로 커밋하지 마.
+Unity 버전과 패키지, Main/Game 씬, 스크립트 GUID, 중복 EventSystem·싱글톤, StageData·BalanceData·보스 참조를 확인해줘. 시작을 막는 컴파일·누락 참조를 우선 수정하고 StageData ID와 테스트 데이터 경로를 유효하게 만들어줘. 이후 세션의 전투·아이템·성장 기능까지 선행 구현하지 마.
+가능하면 Unity 컴파일과 Main→Game 진입을 검증하고, 실행 불가 시 정확한 이유와 대체 검증을 남겨줘. 백업 복구 방법과 현재 재현 가능한 문제 목록을 다음 세션에 넘겨줘.
+
+완료 기준:
+프로젝트 복구 경로와 실행·미검증 상태가 기록됨
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 02 퍼즐 좌표와 입력 정비 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 02 — 퍼즐 좌표와 입력 정비 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+Pointy-top odd-r, 7행 6/5개 교차 총 39칸을 기준으로 HexCoordinates·HexOffsetUtils·보드 생성·화면 배치를 통일해줘. 인접 판정의 양방향 우회 보정 대신 단일 좌표 규칙을 사용하고 거리·폭발·라인 범위가 같은 기준을 따르게 해줘.
+같은 색 2개 이상 연결, Release 처리, 다른 색 진입 시 선택 취소만 적용, 되돌아온 타일 이후 선택 취소를 구현해줘. 생성·리필 후 정답 색 인접 쌍 확보에 사용할 공용 보드 보정 API를 마련해줘. 모든 아이템 효과 자체는 05 세션 범위야.
+왕복 좌표 변환, 내부 6이웃·경계, 인접 대칭성, 알려진 7이웃 오류, 마스크 칸 수, 드래그·되돌리기·대각선 입력을 검증해줘.
+
+완료 기준:
+입력과 시각 배열·범위 계산이 일치함
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 03 게임 상태와 장애물 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 03 — 게임 상태와 장애물 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+Briefing→RunnerPhase→BossPhase→Result와 일시정지·재개를 정비해줘. 정지 전 상태·타이머·보드·장애물을 보존하고 결과에서 게임 진행을 멈춰줘. Main↔Game 이동 시 기존 Singleton 수명·이벤트 구독·씬 참조를 확인하고 중복·유실을 수정해줘.
+점프·슬라이딩·방어 장애물 3개, 기본 주행 45~60초, 사전 경고 2초, 입력 구간 내 정답 완료 시 성공 예약, 오답 매칭 0.5초 잠금, 실패 피해 20·2초 후 같은 장애물 재도전을 구현해줘. 재도전 동안 진행률 고정·자연 감소 유지, 노랑 정답 성공 피해 무효, 보라 가속을 연결해줘.
+02 세션의 보드 보정으로 요구 색 인접 쌍을 확보해줘. 보스 내부 전투는 04 세션에 맡기고 보스 진입 이벤트까지만 연결해줘. 성공 예약이 다음 장애물로 새지 않는지와 일시정지·재시작·로비 왕복을 검증해줘.
+
+완료 기준:
+장애물 3개를 거쳐 보스 진입 가능
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-03-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 04 보스와 전투 계산 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 04 — 보스와 전투 계산 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-03-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+타임어택 1종만 활성화하고 다른 패턴 코드는 보존해줘. 보스 HP120, 순서3단계, 제한10초, 실패 피해20, 성공 시 그로기5초로 시작해줘. 오순서·시간초과 실패, 다음 요구 색 인접 쌍 보정, 보스 중 자연 감소 정지를 구현해줘.
+공식은 확정 기준 07장을 정확히 따라줘. 연속 콤보·치명타·패턴 성공 고정 피해를 제거 또는 비활성화하고 체인 티어 점수와 제거 수 회복, 직접 연결 수 기반 그로기 공격, 주황×2, 청록 무피해·실패1회 방어, 공격 버프 소모 API를 마련해줘. 05 세션에서 연결할 아이템 허용·보존 상태와 시간 정지 제어 경계를 정의해줘.
+HP 즉시 반영·그로기 종료 후 강화·HP0 단일 승리 처리를 구현하고, 어떤 피해 경로든 클리어 누락·중복이 없는지, 보스와 그로기 일시정지·재개가 되는지 검증해줘. 강화 수치의 구현 선택은 인수인계에 기록해줘.
+
+완료 기준:
+승패·정지·강화 타이밍이 일관됨
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-04-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 05 아이템 효과와 전투 연결 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 05 — 아이템 효과와 전투 연결 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-03-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-04-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+6종 아이템의 Lv.1/Lv.2를 확정 기준 03·04·06·07장대로 구현해줘. 5~8개 Lv.1, 9개 이상 Lv.2, 종류별2개, 한도면 생성만 생략, 단독 터치·같은 색 체인 사용, 기존 아이템당1회 연쇄, 연쇄 완료 후 리필을 지켜줘.
+시간 정지는 자연 감소와 보스 제한 시간만 멈추고 입력·타일 연출·장애물 이동은 유지해줘. 재사용은 긴 잔여 시간으로 갱신해줘. 청록 Lv.2는 6색 선택창과 진행·입력 일시정지/직전 상태 복귀를 연결해줘. 공격 버프는 높은 값 유지·다음 유효 공격1회 소모로 연결해줘.
+보스 패턴 중에는 효과·생성을 금지하고 체인에 포함된 기존 아이템을 보존해줘. 실제 제거 수·직접 연결 수·아이템 보존을 구분해 중복 점수·회복·피해를 막아줘. 단독 아이템으로 패턴을 통과시키지 마. 6종×2티어·연쇄·개수 제한·시간정지·패턴보호·색상선택 중 정지를 검증해줘.
+
+완료 기준:
+아이템과 상태·전투 규칙을 함께 검증
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-05-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 06 저장과 이어하기 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 06 — 저장과 이어하기 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-03-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-04-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-05-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+버전 번호를 가진 JSON 저장을 구현하고 기존 체크포인트를 안전하게 보존 또는 변환해줘. 암호화는 하지 마. 장애물 성공·실패 경계와 보스 패턴 종료 경계에서 저장하고 마지막 경계부터 이어가게 해줘.
+보드 위치·색·아이템·레벨, HP·점수·러너 시간·거리·장애물 상태, 보스 HP·페이즈·다음 단계, 방어권·공격 버프·가속·시간정지 잔여 시간을 필요한 경계 상태와 함께 저장해줘. 일시정지 재개와 디스크 복원은 구분해줘.
+임시 파일 후 교체·백업·버전 검증·손상 대응을 구현해줘. 07 세션용 코인·장비·클리어·첫 보상 기록과 일괄 저장 계약을 마련하되 장비 UI까지 만들지는 마. 새 게임은 진행만 초기화하고 영구 성장 기록은 유지하게 해줘.
+재도전·보스 성공/실패·그로기 진입·효과가 남은 경계의 저장/복원, 손상·구버전 파일, 재시작 후 중복 이벤트를 검증하고 저장 스키마와 예제·마이그레이션 원칙을 인수인계해줘.
+
+완료 기준:
+중단과 재개 후 상태가 일치함
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-06-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 07 보상과 장비 성장 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 07 — 보상과 장비 성장 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-03-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-04-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-05-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-06-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+06 세션의 저장 계약을 사용해 클리어 코인100, 첫 클리어 장비1개 확정 지급, 이후 장비 추첨을 구현해줘. 전리품 표에서 코인을 중복 추첨하지 마. 첫 장비 종류와 이후 드롭 확률은 테스트 데이터로 선택하고 근거를 남겨줘.
+모자·옷·무기 3슬롯, 슬롯별 고정 옵션 장비1종, 장착·해제·능력치 적용·Lv.5 강화와 최소 UGUI 장비 화면을 만들어줘. 강화비는 100/150/200/250이며 부족한 코인과 최대 레벨을 검증해줘. 정확한 옵션과 성장량은 작은 테스트 데이터로 정하고 기록해줘. 승급·소환·랜덤옵션·광고·상점·치명타는 추가하지 마.
+보상 지급과 클리어 완료를 하나의 저장 처리로 묶고 결과 재진입·앱 재시작·이벤트 중복으로 재지급되지 않게 해줘. 첫 클리어→장착→강화→재도전 능력치 반영, 코인 소모와 저장 복원까지 검증해줘.
+
+완료 기준:
+클리어→성장→재도전이 저장까지 연결됨
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-07-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]
+
+===== 세션 08 플레이 화면과 통합 검증 =====
+[프롬프트 시작]
+냥링크 프로토타입 세션 08 — 플레이 화면과 통합 검증 작업을 진행해줘.
+
+프로젝트 경로:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+
+먼저 읽을 확정 기준:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/프로토타입 확정 기준.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/냥링크 통합 기획서.docx
+두 문서는 같은 1.1 기준이다. 텍스트 파일로 전체 규칙을 먼저 읽고 필요한 그림은 Word 파일에서 확인해줘. Docs/Plan의 기존 원안과 충돌하면 1.1 확정 기준을 우선해줘. 사용자 승인된 범위와 규칙을 다시 확인받지 말고 이번 세션을 구현·검증까지 진행해줘.
+
+선행 인수인계:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-01-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-02-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-03-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-04-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-05-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-06-HANDOFF.txt
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-07-HANDOFF.txt
+
+공통 작업 원칙:
+- 기존 코드·리소스와 .meta 연결을 유지하고 필요한 부분만 정비해줘. 사용자 미커밋·미추적 변경을 지우거나 덮어쓰지 마.
+- 실제 작업 경로와 Git 상태, 적용되는 AGENTS.md를 먼저 확인해줘. 이전 채팅의 기억 대신 파일과 현재 코드를 근거로 작업해줘.
+- 선행 완료가 누락됐으면 독립적인 조사·준비는 진행하되 의존 기능이 완료됐다고 가정하지 말고 무엇이 필요한지 알려줘.
+- 보류 기능은 기존 코드를 보존하고 활성 플레이 경로에서 제외해줘. 전체 재작성, 불필요한 패키지 삭제, 승인 없는 규칙 변경을 하지 마.
+- 이번 범위에서 필요한 테스트와 Unity 실행 검증을 수행해줘. 실제 실행하지 못한 검증은 명시하고 통과로 보고하지 마.
+- 자동 커밋·푸시·배포나 추가 채팅 생성은 하지 마. 다음 세션 구현까지 범위를 확장하지 마.
+
+이번 작업:
+앞선 01~07 인수인계와 미검증 항목을 먼저 읽고 프로토타입 전체 흐름을 검증해줘. UGUI 40:60, 세로 9:16, 안전 영역, HP·진행률·점수·경고·보스 순서/타이머, 색상 선택·장비·결과 화면을 정리해줘. 아케이드·광고·상점·별·다음 스테이지·연속 콤보 등 보류 UI는 노출하지 마.
+기존 리소스를 재사용해 선택·제거·리필·아이템·액션·피격을 읽기 쉽게 만들고 최소 사운드를 연결해줘. 대규모 최종 아트 제작은 시작하지 마. 실제 플레이 근거에 따라 초기 수치를 조정하고 전후 값과 이유를 기록해줘.
+새 게임→장애물3개→보스→보상→장착/강화→재도전, 모든 실패·일시정지·체크포인트 복원·로비 왕복 경로를 검증해줘. 가능한 모바일 해상도와 기기/빌드 범위를 확인하고 불가능한 검증은 통과로 쓰지 마. 발견한 범위 내 결함을 수정하고 Docs/Development/PROTOTYPE-VALIDATION.txt에 결과·재현 절차·알려진 한계·출시 전 남은 일을 남겨줘.
+
+완료 기준:
+전체 플레이 체크리스트와 알려진 한계가 남음
+
+종료 시 아래 파일을 작성 또는 갱신해줘:
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Docs/Development/SESSION-08-HANDOFF.txt
+기준 문서 버전 / 실제 작업 경로·브랜치와 변경 상태 / 완료한 규칙 / 변경 파일 / 데이터·API·이벤트 계약 / 실행한 검증과 결과 / 실패·미검증 항목 / 재현·복구 방법 / 다음 세션의 주의점과 남은 작업을 기록해줘.
+최종 답변에는 완료 범위, 검증 결과, 인수인계 파일, 다음 세션 진행 가능 여부를 간단히 알려줘.
+[프롬프트 끝]

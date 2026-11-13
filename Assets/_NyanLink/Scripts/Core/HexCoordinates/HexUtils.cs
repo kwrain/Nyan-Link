@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using NyanLink.Core.HexCoordinates;
+using NineMood.Core.HexCoordinates;
 
-namespace NyanLink.Core.HexCoordinates
+namespace NineMood.Core.HexCoordinates
 {
     /// <summary>
     /// 헥사곤 좌표계 유틸리티 함수들

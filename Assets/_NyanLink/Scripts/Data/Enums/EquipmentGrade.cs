@@ -1,4 +1,4 @@
-namespace NyanLink.Data.Enums
+namespace NineMood.Data.Enums
 {
     /// <summary>
     /// 장비 등급

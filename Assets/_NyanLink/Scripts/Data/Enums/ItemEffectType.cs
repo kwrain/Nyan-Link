@@ -1,26 +1,17 @@
-namespace NyanLink.Data.Enums
+namespace NineMood.Data.Enums
 {
     /// <summary>
-    /// 아이템 효과 타입 (Phase 3 기준 6종)
+    /// 아이템 효과 타입 — 타일 색상별 1:1 대응
+    /// 수치는 BalanceData, 비주얼 참조는 TileEffectData에서 관리
     /// </summary>
     public enum ItemEffectType
     {
-        /// <summary>주변 타일 파괴 (범위 폭발)</summary>
-        AreaBlast,
-
-        /// <summary>가로 타일 파괴 (Y축 동일 라인)</summary>
-        HorizontalLine,
-
-        /// <summary>왼쪽 대각선 타일 파괴 (좌상-우하 방향)</summary>
-        DiagonalLeft,
-
-        /// <summary>오른쪽 대각선 타일 파괴 (우상-좌하 방향)</summary>
-        DiagonalRight,
-
-        /// <summary>레인보우 타일 생성/전체 제거</summary>
-        Rainbow,
-
-        /// <summary>스태미너 추가 회복</summary>
-        StaminaBoost
+        None,        // 아이템 없음 (일반 타일)
+        Recovery,    // Red   — 스태미나 즉시 회복
+        TimeFreeze,  // Blue  — 스태미나 감소 / 타이머 정지
+        Blast,       // Yellow — 주변 N칸 범위 파괴
+        LineClear,   // Purple — 라인 제거 (Lv1: 1줄, Lv2: 3방향)
+        PowerUp,     // Orange — 다음 보스 공격 데미지 버프
+        ColorShift   // Cyan  — 보드 전체 색상 통일
     }
 }

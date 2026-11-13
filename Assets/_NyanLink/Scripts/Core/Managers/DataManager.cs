@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections.Generic;
-using NyanLink.Data.Definitions;
-using NyanLink.Core;
+using NineMood.Data.Definitions;
+using NineMood.Services.Core;
 
-namespace NyanLink.Core.Managers
+namespace NineMood.Core.Managers
 {
     /// <summary>
     /// ScriptableObject 로드 및 관리 매니저.
@@ -12,15 +12,6 @@ namespace NyanLink.Core.Managers
     /// </summary>
     public class DataManager : Singleton<DataManager>
     {
-        /// <summary>
-        /// 프리팹 경로. Addressables 주소 또는 Resources 하위 경로(확장자 없이).
-        /// 예: Resources/Managers/DataManager.prefab → "Managers/DataManager"
-        /// </summary>
-        static DataManager()
-        {
-            prefabPath = "Managers/DataManager";
-        }
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void EnsureCreatedBeforeGameStart()
         {
@@ -78,7 +69,7 @@ namespace NyanLink.Core.Managers
         /// <summary>
         /// 초기화
         /// </summary>
-        public override async Task Initialize()
+        public async Task Initialize()
         {
             if (_isInitialized)
             {
@@ -94,6 +85,15 @@ namespace NyanLink.Core.Managers
         /// </summary>
         private async Task LoadAllDataAsync()
         {
+            // BeforeSceneLoad에서 생성되어 Inspector 참조가 없을 때도 공통 데이터를 로드한다.
+            if (_balanceData == null)
+                _balanceData = Resources.Load<BalanceData>("Data/DefaultBalanceData");
+            if (_colorEffectMappingData == null)
+                _colorEffectMappingData = Resources.Load<ColorEffectMappingData>("Data/ColorEffectMappingData");
+
+            if (_balanceData == null || _colorEffectMappingData == null)
+                Debug.LogError("[DataManager] 공통 Resources 데이터가 누락되었습니다.");
+
             // 스테이지 데이터 로드
             LoadDataFromFolder<StageData>(stageDataFolderPath, _stageDataDict);
 
@@ -112,13 +112,6 @@ namespace NyanLink.Core.Managers
             // 전리품 테이블 데이터 로드
             LoadDataFromFolder<LootTableData>(lootTableFolderPath, _lootTableDict);
 
-            Debug.Log($"DataManager 초기화 완료. 로드된 데이터: " +
-                      $"Stages: {_stageDataDict.Count}, " +
-                      $"Characters: {_characterDataDict.Count}, " +
-                      $"Equipment: {_equipmentDataDict.Count}, " +
-                      $"GridShapes: {_gridShapeDataDict.Count}, " +
-                      $"BossConfigs: {_bossConfigDict.Count}, " +
-                      $"LootTables: {_lootTableDict.Count}");
 
             await Task.CompletedTask;
         }
@@ -139,7 +132,8 @@ namespace NyanLink.Core.Managers
                     string id = GetDataId(data);
                     if (!string.IsNullOrEmpty(id))
                     {
-                        dict[id] = data;
+                        if (!dict.TryAdd(id, data))
+                            Debug.LogError($"{typeof(T).Name}의 ID가 중복됩니다: {id} ({data.name})");
                     }
                     else
                     {

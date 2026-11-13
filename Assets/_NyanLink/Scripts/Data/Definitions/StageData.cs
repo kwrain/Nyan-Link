@@ -1,58 +1,99 @@
 using UnityEngine;
 using System.Collections.Generic;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
-    /// 스테이지 정보 데이터
+    /// 스테이지 설정 데이터 — 거리 기반 장애물 배치 (2026-06-24 확정)
+    /// 러너는 runnerSpeed로 자동 전진. 장애물은 triggerDistance로 위치 고정.
     /// </summary>
     [CreateAssetMenu(fileName = "StageData", menuName = "NyanLink/Data/Stage", order = 7)]
     public class StageData : ScriptableObject
     {
-        [Header("스테이지 기본 정보")]
-        [Tooltip("스테이지 ID")]
+        // ── 기본 정보 ───────────────────────────────────────────────────
+        [Header("기본 정보")]
         public string stageId;
-
-        [Tooltip("스테이지 이름")]
         public string stageName;
+        [Min(1)] public int episodeNumber = 1;
+        [Min(1)] public int stageNumber   = 1;
 
-        [Tooltip("에피소드 번호")]
-        public int episodeNumber = 1;
-
-        [Tooltip("스테이지 번호")]
-        public int stageNumber = 1;
-
-        [Header("그리드 설정")]
-        [Tooltip("사용할 그리드 쉐이프")]
+        // ── 그리드 ──────────────────────────────────────────────────────
+        [Header("그리드")]
+        [Tooltip("스테이지 쉐이프 마스크. null = 기본 6열×7행 전체 사용")]
         public GridShapeData gridShape;
 
-        [Header("러너 설정")]
-        [Tooltip("스태미나 자연 감소율 (초당)")]
-        public float staminaDecayRate = 1f;
+        // ── 러너 ────────────────────────────────────────────────────────
+        [Header("러너")]
+        [Tooltip("이동 속도 (거리 단위/초). 0이면 BalanceData.runnerBaseSpeed 사용")]
+        [Min(0f)] public float runnerSpeed = 0f;
 
-        [Tooltip("스테이지 길이 (진행도 100%까지의 거리)")]
-        public float stageLength = 1000f;
+        [Tooltip("스테이지 전체 길이 (거리 단위). Progress = currentDist / stageLength")]
+        [Min(1f)] public float stageLength = 1000f;
 
-        [Header("장애물 설정")]
-        [Tooltip("장애물 스폰 간격 (진행도 단위)")]
-        public float obstacleSpawnInterval = 50f;
+        [Tooltip("BaseDecayRate 배율. 1.0 = BalanceData 기본값 그대로")]
+        [Min(0f)] public float stageDecayMultiplier = 1.0f;
 
-        [Tooltip("장애물 예고 시간 (초)")]
-        public float obstacleWarningDuration = 3f;
+        [Tooltip("시간 경과에 따른 스태미나 감소율 증가량 (HP/sec²). 0이면 BalanceData.arcadeDecayIncreasePerSec 사용")]
+        [Min(0f)] public float decayIncreasePerSecond = 0f;
 
-        [Header("보스 설정")]
-        [Tooltip("보스 전투 설정")]
+        // ── 장애물 ──────────────────────────────────────────────────────
+        [Header("장애물")]
+        [Tooltip("장애물 목록. triggerDistance 오름차순 정렬 권장")]
+        public List<ObstacleEntry> obstacles = new List<ObstacleEntry>();
+
+        [Tooltip("장애물 충돌 기본 데미지")]
+        [Min(0f)] public float obstacleBaseDamage = 20f;
+
+        [Tooltip("챕터 난이도 계수. ActualDamage = obstacleBaseDamage × chapterCoefficient")]
+        [Min(0f)] public float chapterCoefficient = 1.0f;
+
+        // ── 보스 ────────────────────────────────────────────────────────
+        [Header("보스")]
         public BossBattleConfig bossConfig;
 
-        [Tooltip("보스 등장 진행도 (0~1)")]
-        [Range(0f, 1f)]
-        public float bossAppearProgress = 1f;
-
-        [Header("보상 설정")]
+        // ── 보상 ────────────────────────────────────────────────────────
+        [Header("보상")]
         [Tooltip("클리어 보상 코인")]
-        public int clearRewardCoin = 100;
+        [Min(0)] public int clearRewardCoin = 100;
 
-        [Tooltip("클리어 보상 경험치")]
-        public int clearRewardExp = 50;
+        [Tooltip("드롭 테이블 참조")]
+        public LootTableData lootTable;
+
+        // ── 편의 프로퍼티 ───────────────────────────────────────────────
+
+        /// <summary>장애물이 하나라도 있는지</summary>
+        public bool HasObstacles => obstacles != null && obstacles.Count > 0;
+
+        /// <summary>실제 적용 데미지</summary>
+        public float ActualObstacleDamage => obstacleBaseDamage * chapterCoefficient;
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (obstacles == null) return;
+            for (int i = 0; i < obstacles.Count; i++)
+            {
+                var o = obstacles[i];
+                o.triggerDistance = Mathf.Clamp01(o.triggerDistance);
+                obstacles[i] = o;
+            }
+        }
+#endif
+    }
+
+    /// <summary>
+    /// 개별 장애물 배치 정보
+    /// 요구 액션은 ColorActionMapData.GetAction(requiredColor) 으로 조회
+    /// </summary>
+    [System.Serializable]
+    public struct ObstacleEntry
+    {
+        [Range(0f, 1f)]
+        [Tooltip("등장 위치 (0 = 출발점, 1 = 보스 직전)")]
+        public float triggerDistance;
+
+        [Tooltip("요구 타일 색상. 대응 러너 액션은 ColorActionMapData 에서 조회")]
+        public TileColor requiredColor;
     }
 }

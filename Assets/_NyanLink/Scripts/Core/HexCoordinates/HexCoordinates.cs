@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NyanLink.Core.HexCoordinates
+namespace NineMood.Core.HexCoordinates
 {
     /// <summary>
     /// 헥사곤 좌표계 (Cube 좌표)
@@ -44,22 +44,23 @@ namespace NyanLink.Core.HexCoordinates
         }
 
         /// <summary>
-        /// Unity Tilemap의 Offset 좌표를 Cube 좌표로 변환 (Pointy-top 헥사곤)
+        /// Unity Tilemap Offset 좌표를 Cube 좌표로 변환.
+        /// odd-r 컨벤션: Pointy-top / Stagger Axis Y / 홀수 행이 오른쪽으로 0.5칸 시프트.
         /// </summary>
         public static HexCoordinates OffsetToCube(Vector3Int offset)
         {
-            int q = offset.x;
-            int r = offset.y - (offset.x - (offset.x & 1)) / 2;
+            int q = offset.x - (offset.y - (offset.y & 1)) / 2;
+            int r = offset.y;
             return new HexCoordinates(q, r);
         }
 
         /// <summary>
-        /// Cube 좌표를 Unity Tilemap의 Offset 좌표로 변환 (Pointy-top 헥사곤)
+        /// Cube 좌표를 Unity Tilemap Offset 좌표로 역변환 (odd-r).
         /// </summary>
         public Vector3Int ToOffset()
         {
-            int col = q;
-            int row = r + (q - (q & 1)) / 2;
+            int col = q + (r - (r & 1)) / 2;
+            int row = r;
             return new Vector3Int(col, row, 0);
         }
 

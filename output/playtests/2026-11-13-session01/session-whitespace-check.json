@@ -1,0 +1,57 @@
+[
+  {
+    "path": "Assets/_NyanLink/Scripts/Core/SceneLoader.cs",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/_NyanLink/Scripts/Core/Managers/DataManager.cs",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/Editor/NyanLinkTestSceneSetup.cs",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/_NyanLink/Scene/Main.unity",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/_NyanLink/Scene/Game.unity",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/Resources/Data/Stages/StageData.asset",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/Resources/Data/BossConfigs/BossBattleConfig.asset",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/Resources/Data/LootTables/LootTableData.asset",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Assets/Editor/NyanLinkSession01Validation.cs",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Docs/WORK_ITEMS.md",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "Docs/Development/SESSION-01-HANDOFF.txt",
+    "exit": 1,
+    "output": ""
+  }
+]

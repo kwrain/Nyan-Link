@@ -1,7 +1,7 @@
 using UnityEngine;
-using NyanLink.Data.Enums;
+using NineMood.Data.Enums;
 
-namespace NyanLink.Data.Definitions
+namespace NineMood.Data.Definitions
 {
     /// <summary>
     /// 캐릭터 기본 스탯 데이터

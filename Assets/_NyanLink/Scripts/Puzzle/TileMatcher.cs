@@ -3,6 +3,7 @@ using UnityEngine;
 using NineMood.Data.Enums;
 using NineMood.Data.Definitions;
 using NineMood.Core.Managers;
+using NineMood.Boss;
 
 namespace NineMood.Puzzle
 {
@@ -41,6 +42,8 @@ namespace NineMood.Puzzle
             TileInstance firstTile = boardManager.GetTileAtOffset(selectedChain[0]);
             TileColor chainColor   = firstTile?.Color ?? TileColor.Red;
             int chainLength        = selectedChain.Count;
+            bool preserveItems = GameManager.Instance?.CurrentState == NineMood.Core.GameState.BossPhase
+                && !(BossController.Instance?.CanUseItems ?? false);
 
             BalanceData balance = ResolveBalance();
             int effectLevel = ChainEvaluator.GetEffectLevel(balance, chainLength);
@@ -51,7 +54,7 @@ namespace NineMood.Puzzle
             Vector3Int itemPosition = selectedChain[chainLength - 1];
             ItemEffectType itemType = ResolveEffectType(chainColor);
 
-            if (balance != null && effectLevel > 0)
+            if (!preserveItems && balance != null && effectLevel > 0)
             {
                 canCreateItem = CanPlaceItemTile(balance, itemType);
                 if (canCreateItem)
@@ -63,7 +66,12 @@ namespace NineMood.Puzzle
 
             // 제거 타일 수집 (체인 + 아이템 효과 연쇄)
             HashSet<Vector3Int> tilesToRemove = new HashSet<Vector3Int>();
-            ApplyItemEffects(selectedChain, tilesToRemove, balance);
+            if (preserveItems)
+            {
+                foreach (var cell in selectedChain)
+                    if (boardManager.GetTileAtOffset(cell).State == TileState.Normal) tilesToRemove.Add(cell);
+            }
+            else ApplyItemEffects(selectedChain, tilesToRemove, balance);
 
             int tilesRemoved = tilesToRemove.Count;
             RemoveMatchedTiles(tilesToRemove);

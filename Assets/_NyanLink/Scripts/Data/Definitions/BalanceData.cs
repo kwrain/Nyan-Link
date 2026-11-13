@@ -1,4 +1,5 @@
 using UnityEngine;
+using NineMood.Data.Enums;
 
 namespace NineMood.Data.Definitions
 {
@@ -121,6 +122,14 @@ namespace NineMood.Data.Definitions
         public int lineClearCountLv1 = 1;
         [Tooltip("Lv2: 가로 + 양대각선 3방향")]
         public int lineClearCountLv2 = 3;
+
+        [Header("프로토타입 공격력 (장비 연결 지점)")]
+        [Min(0f)] public float attackCoefficient = 1f;
+
+        public int GetChainMultiplier(int connected) => connected >= 9 ? 4 : connected >= 5 ? 2 : 1;
+        public float GetPrototypeGroggyDamage(int connected, TileColor color, float groggyMultiplier, float bonus) =>
+            color == TileColor.Cyan ? 0f : Mathf.Max(0,connected) * attackCoefficient * groggyMultiplier
+                * (color == TileColor.Orange ? 2f : 1f) * (1f + Mathf.Max(0f,bonus));
 
         // ── 공개 메서드 ─────────────────────────────────────────────────
 

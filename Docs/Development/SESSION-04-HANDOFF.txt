@@ -1,0 +1,145 @@
+냥링크 프로토타입 세션 04 인수인계
+작성일·최근 확인일: 2026-11-13 (Asia/Seoul)
+결과: 보스 전투·점수/회복/피해 계산·단일 승패·정지·강화 타이밍 검증 완료. 세션 05 진행 가능.
+
+1. 기준·실제 경로·Git 상태
+- 기준: Docs/Development/프로토타입 확정 기준.txt와 Docs/냥링크 통합 기획서.docx 1.1. 텍스트 전체 및 이전 세션 기록·WORK_ITEMS·현재 코드를 기준으로 작업. Docs/Plan 원안보다 1.1 우선.
+- 작업 경로: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+- 브랜치 main, 적용 AGENTS.md는 프로젝트 루트(하위 추가 지침 없음).
+- 사용자 요청으로 세션 03 전체 결과를 a1b1f7f8ac2bbd38251ee492f1bd0c8315849027 (fix: stabilize scene lifecycle pause and obstacle flow)에 커밋·푸시. 원격 https://github.com/kwrain/Nyan-Link.git main의 해시가 위와 일치함을 ls-remote로 확인.
+- Git SSH 인증을 명령 1회 단위로 사용. origin URL 변경·강제 푸시 없음.
+- 세션 04 변경은 미커밋·미푸시. 세션 프롬프트의 추가 자동 커밋·푸시·배포·새 채팅 금지 유지. 사용자 변경 삭제/덮어쓰기 없음.
+- 기존 .meta GUID 유지, 기존 패키지·보류 패턴 코드 보존. 세션 05 아이템 전체/06 저장/07 성장/08 아트·UI를 선행 구현하지 않음.
+
+2. 완료한 규칙과 강화 선택
+- TimeAttack 1종만 활성. 기존 RhythmNote/ColorQuota/MemorySequence는 코드·컴포넌트를 보존하되 미연결/비활성 유지.
+- 보스 HP120, 전체 색 순서 공개, 초기 순서3/제한10초, 오순서·시간 초과 실패20, 성공 시 그로기5초. 패턴 성공 고정 피해 없음.
+- 6색 전체에서 순서 생성. 각 단계 다음 요구 색을 보드 보정 API에 등록하고 전환/리필 시 재검사. 보호 아이템은 덮어쓰지 않음.
+- 패턴/패턴 사이 대기에서 아이템 효과·새 아이템 생성 금지, 기존 아이템은 체인 입력에 포함할 수 있으나 제거/점수/회복에서 보존. 두 보존 아이템의 연결도 순서 입력은 가능하되 실제 제거0→점수0/회복0. 단독 터치는 패턴 입력이 아님.
+- 한 매칭의 실제 고유 제거 수로 점수·회복. 체인 티어는 직접 연결 2~4 x1, 5~8 x2, 9+ x4. 점수=제거수×10×티어, 일반 회복=제거수×0.3. 연속 콤보/치명타는 활성 계산에서 제외.
+- 그로기 공격=직접 연결 수×공격력 계수1×그로기 배율2, 주황만 추가x2. 폭발/라인 추가 제거는 공격 수에 포함하지 않음.
+- 공격 버프는 높은 값만 보관하고 다음 유효한 공격 한 번에 소모. 청록/패턴 성공/패턴 입력은 소모하지 않음. 청록은 직접 피해0, 다음 보스 실패1회 방어(중복 비축 없음).
+- 주행에서 얻은 다음 공격 버프·청록 방어권은 주행 Pause/Resume와 Boss 진입을 거쳐 유지. 새 게임/재시작/Result에서 초기화.
+- HP는 즉시 갱신. 공개 ApplyDamage로 모든 피해 공급자가 모이며 HP0 처치 플래그를 HP 이벤트보다 먼저 확정하여 재진입/중복에도 즉시 단일 승리. 별도 지연 처치 코루틴 없음.
+- 패턴 성공 입력 자체가 동일 이벤트에서 그로기 공격으로 이중 집계되지 않도록 그로기 개방은 다음 게임 프레임에 수행.
+- 보스 중 HP 자연 감소·러너 경과 시간 증가 정지. 패턴/그로기/전환 대기 모두 게임 Pause 때 보존, Resume는 이전 보스 단계·HP·순서·시간 유지. Result에서 전투/입력 정지.
+- 강화 선택: 기존 HP 임계값50%/20% 유지. 각 임계점마다 순서+1/시간-1초, 최소 제한6초. 현재 단계는 3색10초→4색9초→5색8초. 임계값을 그로기 중 넘겨도 종료 후 적용하며 여러 임계값을 넘기면 해당 단계까지 한 번에 반영. 같은 TimeAttack 유지.
+- 패턴 사이 기본 간격1초를 데이터화. 실패는 그로기 없이 다음 패턴. 시간 정지 API는 보스 제한 시간(그로기/간격 포함)만 멈추며 게임 Pause와 구분.
+- 보스 HUD를 기존 씬에서 활성화하고 HP/순서/타이머/강화 단계/그로기 표시 연결. 보스·플레이어 HP 간격 조정. 기존 그로기 오버레이는 보드와 겹쳐 숨기고 타이머/안내로 표시. 점수 아래 CHAIN/TIER 표시 추가. 한글 폰트·전체 UI 정비는 후속.
+- 기존 ColorEffectMappingData가 TileColor 0..5와 ItemEffectType None 포함0..6을 같은 숫자로 연결하던 오류 발견. GUID를 유지하고 effect를1..6으로 수정. 노랑이 TimeFreeze로 연결되던 원인을 해결했으며 그로기 확장 제거 검증에 필요했음.
+
+3. 변경 파일
+추가(각 .meta 포함):
+- Assets/Editor/NyanLinkSession04Validation.cs
+수정:
+- Assets/_NyanLink/Scripts/Boss/BossController.cs
+- Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs
+- Assets/_NyanLink/Scripts/Data/Definitions/{BossBattleConfig,BalanceData}.cs
+- Assets/_NyanLink/Scripts/Core/Managers/{ScoreManager,StaminaManager}.cs
+- Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs
+- Assets/_NyanLink/Scripts/Runner/RunnerController.cs
+- Assets/_NyanLink/Scripts/UI/{BossHUD,GameHUD}.cs
+- Assets/Resources/Data/BossConfigs/BossBattleConfig.asset
+- Assets/Resources/Data/{DefaultBalanceData,ColorEffectMappingData}.asset
+- Assets/_NyanLink/Scene/Game.unity (기존 BossHUD 활성, 기존 BossController enableCombat 명시)
+- Assets/Editor/NyanLinkSession03Validation.cs (공개 타이머/피해 계약에 맞춘 회귀 도구 및 별도 출력 경로)
+- Docs/WORK_ITEMS.md, 본 인수인계, output/playtests/2026-11-13-session04/
+Unity 자동 사용자 설정 차이는 최종 Git 목록 우선. 기존 파일 삭제와 기존 .meta 변경 없음.
+
+4. 데이터·API·이벤트 계약
+BossBattleConfig:
+- maxHP120, timeAttackSequenceLength3, inputTimeLimit10, failureStaminaDamage20, groggyDuration5, groggyDamageMultiplier2.
+- sequenceGrowthPerPhase=1, timeReductionPerPhase=1, minimumTimeLimit=6, patternInterval=1 추가.
+- successDamage는 구형 데이터 호환용으로 보존, 현재 에셋/기본값0이며 활성 코드에서 읽지 않음.
+BalanceData:
+- attackCoefficient=1 (세션 07 장비 연결 지점).
+- GetChainMultiplier(connected), GetPrototypeGroggyDamage(connected,color,groggyMultiplier,bonus).
+- 구형 GetGroggyDamage/GetAttackDamage/치명타 필드는 보존하되 활성 코드 호출 없음. 후속 작업에서 구형 공식을 다시 연결하지 말 것.
+BossController:
+- enableCombat=true, IsPatternActive/IsGroggy/IsDefeated/PhaseIndex/CurrentHP/MaxHP 읽기.
+- CanUseItems/CanUseColorActions: 현재 BossPhase의 그로기에서만 true. PreserveItems: 전투 실행 중 그로기 외에서 true. TileMatcher는 BossPhase에서 CanUseItems가 아니면 아이템 보호 경로 사용.
+- ApplyDamage(float): 모든 외부 피해의 단일 진입점. 활성 BossPhase에서 유한 양수만 허용. Pause/Result/처치 후 호출 무시. HP0일 때 즉시 GameManager.TriggerStageClear. 별도 처치 이벤트 발행을 추가하지 말 것.
+- TryApplyGroggyAttack(connected,removed,color): 유효한 매칭 결과 하나만 전달. 실제 제거>0/연결>=2/그로기 필요. 공격 산식에는 connected만 사용, 청록은 방어권만 획득. 내부에서 최대 버프를 한 번 소모. 현재 OnMatchCompleted 구독이 호출하므로 세션 05에서 같은 결과를 다시 호출하지 말 것.
+- GrantAttackBuff(bonus), GrantFailureShield(): 주행 또는 보스 그로기에서만 획득, 패턴/Pause/Result에서는 거부. PendingAttackBonus/HasFailureShield 읽기. 주행에서 Boss 진입까지 유지, Briefing/Result에서 초기화.
+- GroggyRemaining/TimerFreezeRemaining/TimersFrozen 읽기. FreezeTimersFor(seconds)는 현재 그로기에서 획득하는 보스 시계 정지 API. 남은 값과 새 값 중 max. 세션 05는 기존 OnTimeFreeze를 이 API 및 StaminaManager.PauseDecay에 연결하고 주행→보스 시 효과 잔여 시간 동기화 정책을 구현·검증할 것. 이 세션에서 이벤트 자동 연결/6종 아이템 완성을 수행한 것은 아님.
+TimeAttackPattern:
+- Sequence(IReadOnlyList), NextIndex, RequiredColor, RemainingTime 공개 읽기. 기존 Run/Cancel 콜백 서명 유지. _timerRoutine/WaitForSeconds 대신 상태·시간 정지 가능한 명시적 남은 시간 사용.
+- OnMatchCompleted의 connected>=2 순서 입력을 처리, removed=0인 보존 아이템 체인도 순서에는 포함. 단독 아이템은 TileMatcher 최소 체인2에 의해 거부.
+- 패턴 결과 GameEvents.OnBossPatternResult는 성공/실패당 한 번. 마지막 입력에서 바로 그로기 공격으로 중복 처리되지 않음. 상태/시간/HP 이벤트의 기존 서명 변경 없음.
+ScoreManager:
+- AddScore 기존 서명 유지, effectLevel 인수는 호환용이고 점수 티어는 chainLength에서 계산. tilesRemoved=0이면 점수0/회복0이지만 패턴 순서용 MatchCompleted는 한 번 발행. 음수 제거 수/비플레이 상태는 거부.
+StaminaManager:
+- PauseDecay(seconds), DecayFreezeRemaining 추가. 자연 감소만 정지하고 러너 경과는 누적. Pause/Result는 잔여 효과 시간도 정지. 새 게임 초기화. 보스 중에는 자연 감소/러너 경과가 원래 정지.
+05 세션 경계:
+- 단독 아이템 사용/색 선택 UI/전체 연쇄·종류별2개·TimeFreeze 이벤트 연결·지속 효과 저장은 미완성. 현재 보존 경로·사용 가능 상태·계산 분리·최대 버프/방어권·시계 API를 사용하여 구현할 것.
+- 청록 선택창은 GameManager Pause/Resume의 직전 상태 보존 계약을 따라야 함. TimeFreeze에서 timeScale=0을 사용하면 입력/장애물까지 멈추므로 금지.
+
+5. 실행 검증
+환경: macOS 27.2 arm64, Unity 6000.3.14f1, URP17.3.0/Input System1.19.0. 활성 빌드 대상은 iOS, 실제 실행은 Mac Editor. iOS/Android Player나 실기기 아님.
+변수:
+unity='/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity'
+project='/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link'
+출력: output/playtests/2026-11-13-session04/
+
+컴파일:
+"$unity" -batchmode -quit -projectPath "$project" -logFile "$project/output/playtests/2026-11-13-session04/compile.log"
+- 초기 구현 컴파일 종료0. 이후 최종 플레이/회귀 실행 때 변경 소스 전체 재컴파일.
+그래픽 플레이:
+"$unity" -projectPath "$project" -executeMethod NyanLinkSession04Validation.Run -logFile "$project/output/playtests/2026-11-13-session04/play.log"
+- batchmode/nographics/quit 없이 실제 Play 후 도구 종료. 최종178 assertion 통과, 프로세스 종료0, 게임 경로 런타임 오류0. play-results.txt 참조.
+- 07장 티어 경계/공식 예시, 실제 입력으로 Main→Game→장애물3종→보스, 순서/다음 색 보정, 패턴 아이템 보호·새 생성 금지·0제거 입력, 고유 제거 점수/회복, 성공 고정 피해0.
+- 주행 버프·청록 방어권 획득/정지/보스 이월, 그로기 최대 버프/1회 소모, 청록 무피해/실패 방어, 직접 연결과 폭발 추가 제거 분리.
+- 패턴/그로기 Pause/Resume, 보스 자연 감소 정지, 시간 정지 API의 max 갱신, 임계값 횡단 후 그로기 끝 강화, 오순서·시간 초과20·실패 이벤트1회.
+- 실제 체인 치명 피해 및 직접 ApplyDamage의 HP0 모두 즉시 단일 승리, 반복 호출 무시, 실패 HP0 패배, Result 정지·재시작·로비 이벤트 정리.
+- 기본 구간 이동은 시간 배율8로 가속하되 입력 구간은 배율1. 패턴/그로기는 기본 데이터로 실행. 수치 검사를 위해 보드 일부 색/아이템과 HP를 메모리에서만 배치. 수동 무보정 완주 난이도 검증과 구분.
+사용자 저장 보호:
+- SaveManager.stageData를 메모리에서만 null로 하여 원본 체크포인트 읽기/쓰기/삭제 방지. 저장 파일 SHA 목록 전후 일치 검사. 최고 점수/입력 설정/가상 기기/Game View 복원. 씬 저장 없음.
+초기 실패 근거:
+- attempt01: 기존 비활성 BossHUD를 켜면서 CanvasGroup의 Unity 가짜 null을 ??로 처리한 오류가 드러남. 명시적 Unity null 검사로 수정. 검증 도구도 인접 쌍에 아이템이 들어갈 수 있음을 반영.
+- attempt02: 확장 제거 검사가 실패하여 기존 ColorEffectMappingData 열거형 오프셋 오류를 확인하고 수정. 실패 당시 HP/보스 UI 겹침도 정리. 해당 로그/PNG 보존.
+- pass01: 확장 검사165개 통과 후 주행 효과 이월 검사를 추가. 최종 성공 파일과 중간 실패/성공 파일 구분.
+
+6. 실제 화면
+최종 PNG는 1080×1920 실제 Unity 렌더링. 생성/합성 이미지 아님. attempt 접두사는 수정 전 화면.
+- 01-timeattack-sequence.png: 실제 장애물3종 후 HP120/전체 순서/10초/다음 요구 색 표시.
+- 02-paused-pattern.png: 보스 패턴 정지 메뉴. HP·순서·시간·보드 보존은 assertion으로 확인.
+- 03-groggy-attack.png: 성공 후 HP120 유지/그로기5초/공격 안내. 성공 고정 피해 없음.
+- 04-paused-groggy.png: 그로기 정지/재개, 진행 중 공격 상태 보존.
+- 05-enhanced-pattern.png: 그로기 종료 후 Phase2(내부 인덱스1), 순서4/9초 강화.
+- 06-victory.png: 실제 그로기 매칭으로 HP0 즉시 승리 Result.
+- 07-defeat.png: 오순서 실패 피해로 HP0 패배 Result.
+시작 등 기존 한글 표시의 폰트 문제(I-003)는 남음. 승리 CONTINUE는 RetryGame에 연결된 다시하기 기능이며 다음 스테이지가 아님. 문구·보상 표시/결과 배치 전체 정비는 세션07/08 범위이며 이번 전투 계산 검증으로 완료 처리하지 않음.
+
+7. 실패·미검증·남은 작업
+- WORK_ITEMS의 V-001: Player 빌드·새 캐시 복구 미검증. V-002: 실제 사람 입력과 수치 보정 없는 전체 승리 플레이 미검증.
+- I-003: 한글 폰트·전체 HUD/안전 영역. 보스 표시만 실행에 필요한 범위 정비.
+- I-004: 후속 장비/캐릭터 ID 공란. I-005: 아이템 전체·저장 규칙 미완성(전투 계산 부분은 이번 정비).
+- D-001: Android/iOS 실제 화면/터치/보스·그로기 정지/재개·장애물 왕복. 연결 기기/모바일 Player 미사용.
+- 실제 무보정 게임 난이도·6색 분포·공격력/강화 체감은 세션08 통합 플레이에서 조정. 현재 자동 검사는 수치·상태·입력 경로 검증이며 전체 아이템/보상/성장 완성이 아님.
+
+8. 재현·복구·다음 세션
+- Unity를 미리 켜둘 필요 없음. 동일 프로젝트 Editor가 닫힌 상태에서 CLI로 시작. 그래픽 검증은 로그인된 macOS 화면 세션 필요.
+- 수동: Main→Play→시작→빨강/파랑/노랑 장애물 정답→끝에서 보스. 순서대로2개 이상 완료→그로기 중 자유 연결 공격. 패턴/그로기에서 Pause/Resume, HP0 결과 확인.
+- 구형 사용자 저장 자동 복원이 수동 결과에 개입할 수 있음. 원본 저장은 백업하고 격리 프로필/복사본으로 테스트. 저장 구조 전체 수정은 세션06.
+- 세션04 수정 전 복원 기준선은 a1b1f7f8ac2bbd38251ee492f1bd0c8315849027 (로컬/원격). 현재 폴더에 덮어쓰지 말고 새 빈 폴더에 복원:
+restore='/private/tmp/Nyan-Link-before-session04'
+mkdir "$restore"
+git archive a1b1f7f8ac2bbd38251ee492f1bd0c8315849027 | tar -x -C "$restore"
+- Library 재생성/SSH Git 패키지 인증이 필요할 수 있음. 원본 Library 삭제·reset/checkout으로 현재 작업 덮어쓰기 금지.
+- 원래 미커밋·미추적 사용자 작업의 외부 백업은 SESSION-01-HANDOFF.txt의 Nyan-Link-session01-backup 경로/복구 절차 유지. 현재04 작업 보존 시 untracked 검증 도구·새 .meta·문서/출력도 함께 복사해야 함.
+- 다음 세션05는 본 인수인계·WORK_ITEMS·1.1을 먼저 읽고 아이템6종·단독 사용·전체 연쇄·TimeFreeze/색 선택을 완성. 현재 사용/보호 경계와 단일 매칭/단일 처치 계약을 유지하고 전투/씬 회귀 검사.
+
+9. 세션 03 회귀 실행
+NYANLINK_SESSION03_OUTPUT='output/playtests/2026-11-13-session04/regression-session03' "$unity" -projectPath "$project" -executeMethod NyanLinkSession03Validation.Run -logFile "$project/output/playtests/2026-11-13-session04/regression-session03.log"
+- 종료0, 273 Play assertion 통과·런타임 오류0. 기존 씬 왕복3회·공유 루트 중복·Result·보드·가속·장애물 재도전/정지/예약·보스 공개 타이머 재개 확인.
+- 세션03 도구의 기존 enableCombat=false 기대와 구형 _timerRoutine/private ApplyDamage 참조를 현재 공개 계약으로 바꿈. 짧은 타이머 검사용 복제 config만 minimumTimeLimit=.1. 생산 데이터는6초 최소 유지.
+- 기존 세션03 결과 폴더는 덮어쓰지 않음. assertion 수 증가는 활성 BossHUD 구독이 추가되어 반복 이벤트 중복/파괴 참조 검사 수도 늘어난 결과.
+
+10. 세션 02 회귀와 종료 검사
+NYANLINK_VALIDATION_OUTPUT='output/playtests/2026-11-13-session04/regression-session02' "$unity" -projectPath "$project" -executeMethod NyanLinkSession02Validation.Run -logFile "$project/output/playtests/2026-11-13-session04/regression-session02.log"
+- 종료0, Geometry9,855 / Play368 assertion 통과·런타임 오류0. 39칸/6방향/마우스·가상 Enhanced Touch/보정 보호/두 세로 해상도 재확인. 기존 출력 폴더 보존.
+- 최종 테스트 실행: 세션04 178, 세션03 회귀273, 세션02 좌표9,855/Play368. 모든 프로세스 종료0. tests-summary.json에 기록.
+- 최종 실제 PNG7장 모두1080×1920, 직접 열람하여 순서·타이머·HP·강화·정지·승패 표시 확인. 실패 당시 PNG는 별도 attempt 접두사로 보존.
+- final-audit.json: 기존 .meta 변경0, 파일 삭제0, 중복 에셋GUID0, 스크립트 메타 누락0, 해석 불가 참조GUID0. 각 실제 PNG 크기·SHA256 기록.
+- git diff --check 종료0. 신규 검증 소스/문서 whitespace 진단 없음. whitespace-check.txt 참조.
+- HEAD와 확인한 원격 main은 a1b1f7f, 세션04는 로컬 미커밋·미푸시이며 staged 변경 없음. git-status-final.txt 참조. 세션05 진행 가능.

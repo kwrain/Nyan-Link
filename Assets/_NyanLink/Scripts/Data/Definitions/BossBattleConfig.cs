@@ -15,7 +15,7 @@ namespace NineMood.Data.Definitions
         [Header("보스 기본 정보")]
         public string bossId;
         public string bossName;
-        [Min(1f)] public float maxHP = 1000f;
+        [Min(1f)] public float maxHP = 120f;
 
         // ── 전투 타입 ───────────────────────────────────────────────────
         [Header("전투 타입")]
@@ -30,7 +30,7 @@ namespace NineMood.Data.Definitions
         [Min(0f)] public float inputTimeLimit = 10f;
 
         [Tooltip("패턴 파훼 시 보스에게 즉시 입히는 데미지 (Groggy 전 선공격)")]
-        [Min(0f)] public float successDamage = 100f;
+        [Min(0f)] public float successDamage = 0f; // 보존용 구형 필드. 프로토타입에서는 사용하지 않음.
 
         [Tooltip("패턴 실패 시 스태미나 차감량 (BossPatternDamageValue)")]
         [Min(0f)] public float failureStaminaDamage = 20f;
@@ -51,7 +51,11 @@ namespace NineMood.Data.Definitions
         // ── 패턴별 설정 ─────────────────────────────────────────────────
         [Header("TimeAttack — 색상 시퀀스")]
         [Tooltip("색상 시퀀스 길이 (각 색상당 2개 이상 제거 필요). 오순서 입력 시 즉시 실패")]
-        [Min(1)] public int timeAttackSequenceLength = 5;
+        [Min(1)] public int timeAttackSequenceLength = 3;
+        [Min(0)] public int sequenceGrowthPerPhase = 1;
+        [Min(0f)] public float timeReductionPerPhase = 1f;
+        [Min(0.1f)] public float minimumTimeLimit = 6f;
+        [Min(0.1f)] public float patternInterval = 1f;
 
         [Header("RhythmNote — 노트")]
         [Tooltip("노트 낙하 속도")]

@@ -19,7 +19,7 @@ MonoBehaviour:
   patternShowDuration: 5
   inputTimeLimit: 10
   failureStaminaDamage: 20
-  successDamage: 100
+  successDamage: 0
   phaseHPThresholds:
   - 0.5
   - 0.2
@@ -29,3 +29,9 @@ MonoBehaviour:
     keys: 
     values: 
   memorySequenceLength: 4
+  groggyDuration: 5
+  groggyDamageMultiplier: 2
+  sequenceGrowthPerPhase: 1
+  timeReductionPerPhase: 1
+  minimumTimeLimit: 6
+  patternInterval: 1

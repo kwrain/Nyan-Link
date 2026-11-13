@@ -1,0 +1,12 @@
+PASS Chapter 07 numeric examples and tier boundaries
+System.Exception: FAIL Normal adjacent pair exists
+  at NyanLinkSession04Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession04Validation.cs:116 
+  at NyanLinkSession04Validation+<Match>d__47.MoveNext () [0x0026e] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession04Validation.cs:175 
+  at NyanLinkSession04Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession04Validation.cs:102 
+RUNTIME_ERROR MissingComponentException: There is no 'CanvasGroup' attached to the "BossHUD" game object, but a script is trying to access it.
+You probably need to add a CanvasGroup to the game object "BossHUD". Or your script needs to check if the component is attached before using it.
+UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:1077)
+UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/BindingsHelpers.cs:61)
+UnityEngine.CanvasGroup.set_alpha (System.Single value) (at <4d027ae25933466c8d5e7a80e5f0b7e1>:0)
+NineMood.UI.BossHUD.Awake () (at Assets/_NyanLink/Scripts/UI/BossHUD.cs:58)
+

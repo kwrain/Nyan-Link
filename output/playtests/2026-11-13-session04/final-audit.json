@@ -1,0 +1,63 @@
+{
+  "baselineAndVerifiedRemoteCommit": "a1b1f7f8ac2bbd38251ee492f1bd0c8315849027",
+  "trackedChanges": [
+    "Assets/Editor/NyanLinkSession03Validation.cs",
+    "Assets/Resources/Data/BossConfigs/BossBattleConfig.asset",
+    "Assets/Resources/Data/ColorEffectMappingData.asset",
+    "Assets/Resources/Data/DefaultBalanceData.asset",
+    "Assets/_NyanLink/Scene/Game.unity",
+    "Assets/_NyanLink/Scripts/Boss/BossController.cs",
+    "Assets/_NyanLink/Scripts/Boss/Patterns/TimeAttackPattern.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs",
+    "Assets/_NyanLink/Scripts/Core/Managers/StaminaManager.cs",
+    "Assets/_NyanLink/Scripts/Data/Definitions/BalanceData.cs",
+    "Assets/_NyanLink/Scripts/Data/Definitions/BossBattleConfig.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs",
+    "Assets/_NyanLink/Scripts/Runner/RunnerController.cs",
+    "Assets/_NyanLink/Scripts/UI/BossHUD.cs",
+    "Assets/_NyanLink/Scripts/UI/GameHUD.cs",
+    "Docs/WORK_ITEMS.md"
+  ],
+  "existingMetaChanged": [],
+  "deleted": [],
+  "duplicateAssetGuids": {},
+  "missingScriptMeta": [],
+  "unresolvedGuids": {},
+  "screenshots": {
+    "01-timeattack-sequence.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "8d01a05c869947325f2986ad6ec709df4dbfa30b4bac29c3146cd0391e865956"
+    },
+    "02-paused-pattern.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "c92aa0b003defd7e42e0fa3694fea83543ee135833add25891a6d39c6d4610d0"
+    },
+    "03-groggy-attack.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "f3a36e838ff9ccb0971a193558ddf9a14451180149aa43b6f112f387688a357a"
+    },
+    "04-paused-groggy.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "2611d126483d1df5e2f97c360bee97783ff2253fb7a306ee82d1b20c0335a656"
+    },
+    "05-enhanced-pattern.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "8b34145a87129af452b541f27c38385e9dafbad0c1dd09a66f282db55306e525"
+    },
+    "06-victory.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "e01de8c53cf25ab217716db8f4a73ed31aca40e3355451b8df1dd39331b9089e"
+    },
+    "07-defeat.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "6cab61d543871b80f38fbfdeca549c5c50380db5bb7d61b3c04e6c4a5d01bef0"
+    }
+  }
+}

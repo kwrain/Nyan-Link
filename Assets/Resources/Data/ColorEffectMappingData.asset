@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.ColorEffectMappingData
   mapping:
   - color: 0
-    effect: 0
-  - color: 1
     effect: 1
-  - color: 2
+  - color: 1
     effect: 2
-  - color: 3
+  - color: 2
     effect: 3
-  - color: 4
+  - color: 3
     effect: 4
-  - color: 5
+  - color: 4
     effect: 5
+  - color: 5
+    effect: 6

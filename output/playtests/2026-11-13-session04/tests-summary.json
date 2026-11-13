@@ -1,0 +1,29 @@
+{
+  "unity": "6000.3.14f1",
+  "environment": "macOS27.2 arm64 Editor (active target iOS, no Player/device execution)",
+  "compileExit": 0,
+  "session04": {
+    "assertions": 178,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "session03Regression": {
+    "assertions": 273,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "session02Regression": {
+    "geometryAssertions": 9855,
+    "playAssertions": 368,
+    "exit": 0,
+    "runtimeErrors": 0
+  },
+  "userSaves": "SHA file lists unchanged; isolated SaveManager.stageData=null",
+  "unverified": [
+    "Player build/clean cache restore",
+    "physical input and device execution",
+    "unmodified manual full clear difficulty",
+    "full item/TimeFreeze integration and transition carryover",
+    "growth/save/reward integration"
+  ]
+}

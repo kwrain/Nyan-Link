@@ -1,4 +1,5 @@
 using NineMood.Core;
+using NineMood.Boss;
 using NineMood.Core.Managers;
 using NineMood.Data.Definitions;
 using NineMood.Data.Enums;
@@ -57,7 +58,8 @@ namespace NineMood.Runner
 
         private void Update()
         {
-            if (!GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
+            if (!GameManager.IsCreated || (GameManager.Instance.CurrentState != GameState.RunnerPhase &&
+                !(BossController.Instance?.CanUseColorActions ?? false))) return;
             _boostTimer = Mathf.Max(0f, _boostTimer - Time.deltaTime);
             if (CurrentState == RunnerState.Run) return;
 
@@ -78,9 +80,10 @@ namespace NineMood.Runner
 
         private void OnMatchCompleted(int chainLength, int scoreGained, int tilesRemoved, TileColor color)
         {
-            if (GameManager.Instance?.CurrentState != GameState.RunnerPhase) return;
+            if (GameManager.Instance?.CurrentState != GameState.RunnerPhase &&
+                !(BossController.Instance?.CanUseColorActions ?? false)) return;
 
-            if (color == TileColor.Purple) _boostTimer = Mathf.Max(_boostTimer, Balance?.runSpeedDuration ?? 3f);
+            if (GameManager.Instance.CurrentState == GameState.RunnerPhase && color == TileColor.Purple) _boostTimer = Mathf.Max(_boostTimer, Balance?.runSpeedDuration ?? 3f);
             RunnerState action = actionMap != null
                 ? actionMap.GetAction(color)
                 : ColorActionMapData.GetDefaultAction(color);

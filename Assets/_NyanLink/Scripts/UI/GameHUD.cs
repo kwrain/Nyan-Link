@@ -23,8 +23,26 @@ namespace NineMood.UI
         [Header("진행도")]
         [SerializeField] private Slider sliderProgress;
 
+        private TextMeshProUGUI _chainTier;
+        private void Awake()
+        {
+            _chainTier = new GameObject("Chain Tier",typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+            _chainTier.transform.SetParent(transform,false);
+            var rect = _chainTier.rectTransform;
+            rect.anchorMin = new Vector2(.2f,.89f); rect.anchorMax = new Vector2(.8f,.92f);
+            rect.offsetMin = rect.offsetMax = Vector2.zero;
+            if (textScore != null) _chainTier.font = textScore.font;
+            _chainTier.fontSize = 26; _chainTier.alignment = TextAlignmentOptions.Center;
+            _chainTier.raycastTarget = false;
+        }
+        private void OnMatch(int connected,int gained,int removed,NineMood.Data.Enums.TileColor color)
+        {
+            int tier = DataManager.Instance.BalanceData.GetChainMultiplier(connected);
+            _chainTier.text = $"CHAIN {connected}  /  TIER x{tier}";
+        }
         private void OnEnable()
         {
+            GameEvents.OnMatchCompleted += OnMatch;
             GameEvents.OnScoreChanged    += UpdateScore;
             GameEvents.OnStaminaChanged  += UpdateStamina;
             GameEvents.OnProgressChanged += UpdateProgress;
@@ -33,6 +51,7 @@ namespace NineMood.UI
 
         private void OnDisable()
         {
+            GameEvents.OnMatchCompleted -= OnMatch;
             GameEvents.OnScoreChanged    -= UpdateScore;
             GameEvents.OnStaminaChanged  -= UpdateStamina;
             GameEvents.OnProgressChanged -= UpdateProgress;
@@ -72,6 +91,6 @@ namespace NineMood.UI
                 sliderProgress.value = progress;
         }
 
-        private void OnGameStateChanged(GameState state) { }
+        private void OnGameStateChanged(GameState state) { if (state == GameState.Briefing && _chainTier != null) _chainTier.text = ""; }
     }
 }

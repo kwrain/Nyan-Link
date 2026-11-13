@@ -26,7 +26,7 @@ using Object = UnityEngine.Object;
 public static class NyanLinkSession03Validation
 {
     const string Key = "NyanLink.Session03";
-    const string Output = "output/playtests/2026-11-13-session03";
+    static readonly string Output = Environment.GetEnvironmentVariable("NYANLINK_SESSION03_OUTPUT") ?? "output/playtests/2026-11-13-session03";
     const BindingFlags PrivateInstance = BindingFlags.NonPublic | BindingFlags.Instance;
     static readonly List<string> results = new List<string>();
     static readonly List<string> errors = new List<string>();
@@ -395,7 +395,7 @@ public static class NyanLinkSession03Validation
         }
         Assert(clears == clearsBefore + 3 && spawner.AllObstaclesCleared,"Exactly three ordered successes");
         Time.timeScale = 8f; yield return Wait(() => game.CurrentState == GameState.BossPhase,"Natural boss entry"); Time.timeScale = 1f;
-        Assert(bossEvents == 1 && progress.CurrentProgress == 1f && !BossController.Instance.enableCombat,"Single natural boss event; unfinished combat gated");
+        Assert(bossEvents == 1 && progress.CurrentProgress == 1f && BossController.Instance.enableCombat,"Single natural boss event; Session04 combat enabled");
         Capture("06-boss-entry.png"); yield return 0.2f;
         float hpBoss = StaminaManager.Instance.CurrentStamina, elapsedBoss = StaminaManager.Instance.ElapsedRunnerTime;
         yield return PauseSnapshot(null);
@@ -404,20 +404,20 @@ public static class NyanLinkSession03Validation
         Pass("Jump→Slide→Block through default StageData to one boss entry; reserved success independent of animation; wrong-match lock; yellow no-damage pass");
         // Isolate the preserved legacy pattern solely to verify pause lifetime; do not claim session 04 combat correctness.
         var boss = BossController.Instance;
-        bossClone = Object.Instantiate(boss.config); bossClone.inputTimeLimit = 1.5f; boss.config = bossClone;
+        bossClone = Object.Instantiate(boss.config); bossClone.inputTimeLimit = 1.5f; bossClone.minimumTimeLimit = .1f; boss.config = bossClone;
         boss.enableCombat = true;
         typeof(BossController).GetMethod("StartBattle",PrivateInstance).Invoke(boss,null);
-        typeof(BossController).GetMethod("ApplyDamage",PrivateInstance).Invoke(boss,new object[] { 10f });
+        boss.ApplyDamage(10f);
         yield return 0.3f;
-        var timer = typeof(NineMood.Boss.Patterns.TimeAttackPattern).GetField("_timerRoutine",PrivateInstance).GetValue(boss.timeAttackPattern);
+        float timer = boss.timeAttackPattern.RemainingTime;
         yield return Click(game.GetComponent<GamePausePanel>().PauseButton);
         float health = boss.CurrentHP, playerHp = StaminaManager.Instance.CurrentStamina;
         yield return 1.7f;
         Assert(game.StateBeforePause == GameState.BossPhase && boss.timeAttackPattern.IsRunning && boss.CurrentHP == health && playerHp == StaminaManager.Instance.CurrentStamina,"Boss pattern wait/HP survive a pause longer than its limit");
         yield return Click(game.GetComponent<GamePausePanel>().ResumeButton);
-        Assert(game.CurrentState == GameState.BossPhase && boss.CurrentHP == health && ReferenceEquals(timer,typeof(NineMood.Boss.Patterns.TimeAttackPattern).GetField("_timerRoutine",PrivateInstance).GetValue(boss.timeAttackPattern)),"Boss resume does not restart battle, timer or HP");
+        Assert(game.CurrentState == GameState.BossPhase && boss.CurrentHP == health && boss.timeAttackPattern.RemainingTime > 0f && boss.timeAttackPattern.RemainingTime <= timer,"Boss resume does not restart battle, timer or HP");
         yield return Wait(() => StaminaManager.Instance.CurrentStamina <= playerHp - 19f,"Preserved pattern resumes and times out",3f);
-        Pass("Isolated legacy boss timer pauses and resumes without battle/HP reset (combat rules deferred)");
+        Pass("Public Session04 boss timer pauses and resumes without battle/HP reset");
         yield return Click(game.GetComponent<GamePausePanel>().PauseButton);
         yield return Click(game.GetComponent<GamePausePanel>().HomeButton);
         yield return Wait(() => SceneManager.GetActiveScene().name == "Main","Boss pause Home");

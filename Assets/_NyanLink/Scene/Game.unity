@@ -212,7 +212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &54296859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2778,6 +2778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NineMood.Boss.BossController
   config: {fileID: 11400000, guid: 35e86864374d24ab8bde68d3b40eae70, type: 2}
   balance: {fileID: 11400000, guid: feff9150f11044d61924535902347353, type: 2}
+  enableCombat: 1
   timeAttackPattern: {fileID: 656158777}
   rhythmNotePattern: {fileID: 0}
   colorQuotaPattern: {fileID: 0}

@@ -1,0 +1,3 @@
+git diff --check exit=0
+Assets/Editor/NyanLinkSession04Validation.cs: no whitespace diagnostics
+Docs/Development/SESSION-04-HANDOFF.txt: no whitespace diagnostics

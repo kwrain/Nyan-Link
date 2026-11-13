@@ -47,3 +47,4 @@ MonoBehaviour:
   blastRangeLv2: 2
   lineClearCountLv1: 1
   lineClearCountLv2: 3
+  attackCoefficient: 1

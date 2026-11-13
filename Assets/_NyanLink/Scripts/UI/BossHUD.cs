@@ -1,4 +1,5 @@
 using NineMood.Core;
+using NineMood.Boss;
 using NineMood.Data.Enums;
 using TMPro;
 using UnityEngine;
@@ -27,11 +28,46 @@ namespace NineMood.UI
         [SerializeField] private TextMeshProUGUI textPhase;
 
         private CanvasGroup _group;
+        private TextMeshProUGUI _timer;
+        public string TimerText => _timer != null ? _timer.text : "";
+        private void Place(RectTransform rect, float x0,float y0,float x1,float y1)
+        {
+            rect.anchorMin = new Vector2(x0,y0); rect.anchorMax = new Vector2(x1,y1);
+            rect.offsetMin = rect.offsetMax = Vector2.zero;
+        }
+        private void SetupText(TextMeshProUGUI text,float y0,float y1)
+        {
+            if (text == null) return;
+            Place(text.rectTransform,0.08f,y0,0.92f,y1);
+            text.fontSize = 30; text.alignment = TextAlignmentOptions.Center;
+            text.raycastTarget = false;
+        }
+        private void LateUpdate()
+        {
+            var boss = BossController.Instance;
+            if (boss == null || _timer == null) return;
+            bool visible = NineMood.Core.Managers.GameManager.Instance?.CurrentState == GameState.BossPhase;
+            if (!visible) return;
+            _timer.text = boss.IsGroggy ? $"GROGGY  {boss.GroggyRemaining:F1}s" :
+                boss.IsPatternActive ? $"TIME  {boss.timeAttackPattern.RemainingTime:F1}s" : "NEXT PATTERN";
+            if (boss.TimersFrozen) _timer.text += "  FROZEN";
+        }
         private void Awake()
         {
-            _group = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
+            _group = GetComponent<CanvasGroup>();
+            if (_group == null) _group = gameObject.AddComponent<CanvasGroup>();
             _group.alpha = 0f;
             _group.blocksRaycasts = false;
+            SetupText(textHP,0.745f,0.775f);
+            SetupText(textPhase,0.775f,0.8f);
+            SetupText(textPatternType,0.70f,0.735f);
+            SetupText(textInstruction,0.65f,0.70f);
+            if (sliderHP != null) Place(sliderHP.GetComponent<RectTransform>(),0.12f,0.735f,0.88f,0.745f);
+            if (groggyIndicator != null) groggyIndicator.SetActive(false);
+            _timer = new GameObject("Boss Timer",typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+            _timer.transform.SetParent(transform,false);
+            if (textHP != null) _timer.font = textHP.font;
+            SetupText(_timer,0.61f,0.65f);
         }
 
         private void OnEnable()
@@ -60,8 +96,7 @@ namespace NineMood.UI
         {
             if (state == GameState.Paused) return;
             _group.alpha = state == GameState.BossPhase ? 1f : 0f;
-            if (state == GameState.BossPhase &&
-                !(NineMood.Core.Managers.GameManager.Instance?.IsResuming ?? false)) ResetDisplay();
+
         }
 
         private void ResetDisplay()
@@ -85,8 +120,8 @@ namespace NineMood.UI
 
         private void OnBossGroggyStarted(float duration)
         {
-            if (groggyIndicator != null) groggyIndicator.SetActive(true);
-            if (textInstruction != null) textInstruction.text = "GROGGY! 타일을 매칭하세요!";
+            // 그로기 표시는 타이머와 안내 텍스트에서 표시. 기존 오버레이는 보존하되 숨긴다.
+            if (textInstruction != null) textInstruction.text = "FREE MATCH  /  ORANGE x2  /  CYAN SHIELD";
         }
 
         private void OnBossGroggyEnded()

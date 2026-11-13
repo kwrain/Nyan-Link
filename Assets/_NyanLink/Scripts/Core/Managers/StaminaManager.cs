@@ -24,6 +24,13 @@ namespace NineMood.Core.Managers
         public float CurrentStamina    { get; private set; }
         public float MaxStamina        { get; private set; }
         public float ElapsedRunnerTime => _elapsedRunnerTime;
+        public float DecayFreezeRemaining { get; private set; }
+        // 05 세션용: 보스 타이머 API와 함께 호출. 입력/장애물/경과 시간은 정지하지 않는다.
+        public void PauseDecay(float seconds)
+        {
+            if (CanChangeStamina() && !float.IsNaN(seconds) && !float.IsInfinity(seconds))
+                DecayFreezeRemaining = Mathf.Max(DecayFreezeRemaining,seconds);
+        }
 
         private float _baseDecayRate;
         private float _decayIncreasePerSec;
@@ -52,9 +59,12 @@ namespace NineMood.Core.Managers
         private void Update()
         {
             if (!GameManager.IsCreated) return;
+            if (!CanChangeStamina()) return;
+            bool frozen = DecayFreezeRemaining > 0f;
+            DecayFreezeRemaining = Mathf.Max(0f,DecayFreezeRemaining - Time.deltaTime);
             if (GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
-
             _elapsedRunnerTime += Time.deltaTime;
+            if (frozen) return;
 
             float currentDecay = _baseDecayRate + _decayIncreasePerSec * _elapsedRunnerTime;
             ApplyDelta(-currentDecay * Time.deltaTime);
@@ -69,6 +79,7 @@ namespace NineMood.Core.Managers
             MaxStamina         = b?.maxStamina            ?? 100f;
             _recoveryPerTile   = b?.staminaRecoveryPerTile ?? 0.3f;
             _elapsedRunnerTime = 0f;
+            DecayFreezeRemaining = 0f;
 
             float multiplier = stageData?.stageDecayMultiplier > 0f
                 ? stageData.stageDecayMultiplier : 1f;

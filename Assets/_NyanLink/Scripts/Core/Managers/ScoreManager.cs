@@ -23,15 +23,16 @@ namespace NineMood.Core.Managers
         }
 
         /// <summary>
-        /// 매칭 결과로 점수 추가. 기획서 공식: (tilesRemoved × ScoreBase) × Pow(2, effectLevel)
-        /// effectLevel: 0=Lv0(1x), 1=Middle(2x), 2=Long(4x)
+        /// 실제 제거 수 × 기본 점수 × 직접 연결 수의 티어 배율. effectLevel은 구형 호출 호환용.
+        /// 연속 콤보/치명타를 사용하지 않는다.
         /// </summary>
         public void AddScore(int chainLength, int effectLevel, int tilesRemoved, TileColor chainColor)
         {
             BalanceData balance  = DataManager.Instance?.BalanceData;
             int   baseScore      = balance != null ? balance.baseScorePerTile : 10;
-            float multiplier     = Mathf.Pow(2f, effectLevel); // 기획서: Pow(2, Combo)
+            float multiplier     = (balance != null ? balance.GetChainMultiplier(chainLength) : chainLength >= 9 ? 4 : chainLength >= 5 ? 2 : 1); // 직접 연결 수의 체인 티어
 
+            if (tilesRemoved < 0 || !GameManager.IsCreated || (GameManager.Instance.CurrentState != GameState.RunnerPhase && GameManager.Instance.CurrentState != GameState.BossPhase)) return;
             int gained = Mathf.RoundToInt(tilesRemoved * baseScore * multiplier);
             CurrentScore += gained;
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using NineMood.Boss.Patterns;
 using NineMood.Core;
 using NineMood.Core.Managers;
@@ -10,311 +8,210 @@ using UnityEngine;
 
 namespace NineMood.Boss
 {
-    /// <summary>
-    /// 보스 전투 상태 머신. GameState.BossPhase 동안 HP·Groggy·패턴을 관리한다.
-    /// GameManager.TriggerStageClear() 호출로 씬을 종료한다.
-    /// </summary>
+    /// <summary>프로토타입 1.1: 타임어택→그로기. 피해는 ApplyDamage 한 경로에서 처치를 확정한다.</summary>
     public class BossController : SceneSingleton<BossController>
     {
-        // ── Inspector ─────────────────────────────────────────────
-        [Header("데이터")]
         public BossBattleConfig config;
-        [Tooltip("전투 규칙 정비 후 활성화. 현재는 보스 진입까지만 실행")]
-        public bool enableCombat;
-        private bool _battleStarted;
-        public BalanceData      balance;
-
-        [Header("패턴 컴포넌트 (Inspector에서 할당)")]
-        public TimeAttackPattern     timeAttackPattern;
-        public RhythmNotePattern     rhythmNotePattern;
-        public ColorQuotaPattern     colorQuotaPattern;
+        public bool enableCombat = true;
+        public BalanceData balance;
+        public TimeAttackPattern timeAttackPattern;
+        // 보류 패턴은 리소스와 함께 보존하되 선택하지 않는다.
+        public RhythmNotePattern rhythmNotePattern;
+        public ColorQuotaPattern colorQuotaPattern;
         public MemorySequencePattern memorySequencePattern;
-
-        // ── Runtime 상태 ──────────────────────────────────────────
-        public float CurrentHP  { get; private set; }
-        public float MaxHP      { get; private set; }
-        public bool  IsGroggy   { get; private set; }
-        public int   PhaseIndex { get; private set; }
-
-        private BossState   _state = BossState.Idle;
-        private float       _powerUpBonus;
-        private bool        _hasInvincibleShield;
-        private List<float> _sortedThresholds = new List<float>();
-        private Coroutine   _groggyRoutine;
-        private Coroutine   _patternRoutine;
-        private bool        _patternSuccess;
-
-        private enum BossState { Idle, Pattern, Groggy, PhaseChange, Dead }
-
-        // ── 생명주기 ──────────────────────────────────────────────
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
+        public float CurrentHP { get; private set; }
+        public float MaxHP { get; private set; }
+        public bool IsGroggy { get; private set; }
+        public int PhaseIndex { get; private set; }
+        public float GroggyRemaining { get; private set; }
+        public float TimerFreezeRemaining { get; private set; }
+        public bool TimersFrozen => TimerFreezeRemaining > 0f;
+        public float PendingAttackBonus { get; private set; }
+        public bool HasFailureShield { get; private set; }
+        public bool IsPatternActive => _state == BossState.Pattern;
+        public bool CanUseItems => IsActive && IsGroggy;
+        public bool CanUseColorActions => CanUseItems;
+        public bool PreserveItems => _battleStarted && !IsGroggy;
+        public bool IsDefeated { get; private set; }
+        private bool _battleStarted;
+        private bool _groggyPending;
+        private float _transitionRemaining;
+        private BossState _state;
+        private enum BossState { Idle, Pattern, Groggy, Interval, Dead }
+        private bool IsActive => GameManager.IsCreated && GameManager.Instance.CurrentState == GameState.BossPhase && _battleStarted && !IsDefeated;
 
         private void OnEnable()
         {
-            GameEvents.OnGameStateChanged += OnGameStateChanged;
-            GameEvents.OnMatchCompleted   += OnMatchCompleted;
-            ItemEffectEvents.OnPowerUp    += OnPowerUp;
+            GameEvents.OnGameStateChanged += OnState;
+            GameEvents.OnMatchCompleted += OnMatch;
+            ItemEffectEvents.OnPowerUp += GrantAttackBuff;
         }
-
         private void OnDisable()
         {
-            GameEvents.OnGameStateChanged -= OnGameStateChanged;
+            GameEvents.OnGameStateChanged -= OnState;
+            GameEvents.OnMatchCompleted -= OnMatch;
+            ItemEffectEvents.OnPowerUp -= GrantAttackBuff;
             AbortBattle();
-            GameEvents.OnMatchCompleted   -= OnMatchCompleted;
-            ItemEffectEvents.OnPowerUp    -= OnPowerUp;
         }
-
-        // ── 상태 머신 진입 ────────────────────────────────────────
-
-        private void OnGameStateChanged(GameState state)
+        private void OnState(GameState state)
         {
             if (state == GameState.Paused) return;
             if (state == GameState.BossPhase)
             {
-                if (GameManager.Instance != null && GameManager.Instance.IsResuming) return;
-                if (enableCombat && !_battleStarted) StartBattle();
-                else if (!_battleStarted && config != null)
-                {
-                    MaxHP = CurrentHP = config.maxHP;
-                    GameEvents.TriggerBossHPChanged(CurrentHP, MaxHP);
-                }
+                if (!(GameManager.Instance?.IsResuming ?? false) && enableCombat && !_battleStarted) StartBattle();
             }
-            else AbortBattle();
+            else
+            {
+                if (GameManager.Instance?.IsResuming ?? false) return;
+                AbortBattle();
+                if (state == GameState.Briefing || state == GameState.Result)
+                { PendingAttackBonus = 0f; HasFailureShield = false; }
+                if (state == GameState.Briefing) { IsDefeated = false; CurrentHP = MaxHP = 0f; }
+            }
         }
-
         private void StartBattle()
         {
-            if (config == null || balance == null)
-            {
-                Debug.LogError("[BossController] config 또는 balance가 할당되지 않았습니다.");
-                return;
-            }
-
+            AbortBattle();
+            if (config == null || balance == null || timeAttackPattern == null)
+            { Debug.LogError("[BossController] 보스 데이터/타임어택 참조 누락"); return; }
             _battleStarted = true;
-            MaxHP      = config.maxHP;
-            CurrentHP  = MaxHP;
+            IsDefeated = false;
+            MaxHP = CurrentHP = config.maxHP;
             PhaseIndex = 0;
-            _powerUpBonus       = 0f;
-            _hasInvincibleShield = false;
-            _state = BossState.Idle;
-
-            // 내림차순 정렬 (높은 HP에서 낮은 HP 순으로 확인)
-            _sortedThresholds = new List<float>(config.phaseHPThresholds);
-            _sortedThresholds.Sort((a, b) => b.CompareTo(a));
-
-            GameEvents.TriggerBossHPChanged(CurrentHP, MaxHP);
-            _patternRoutine = StartCoroutine(PatternLoop());
+            // 주행에서 얻은 다음 보스 공격 버프/실패 방어권은 유지한다.
+            TimerFreezeRemaining = 0f;
+            GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);
+            GameEvents.TriggerBossPhaseChanged(0);
+            StartPattern();
         }
-
         private void AbortBattle()
         {
             _battleStarted = false;
-            StopAllCoroutines();
-            GetActivePattern()?.Cancel();
+            _groggyPending = false;
+            timeAttackPattern?.Cancel();
+            rhythmNotePattern?.Cancel(); colorQuotaPattern?.Cancel(); memorySequencePattern?.Cancel();
             IsGroggy = false;
-            _state = BossState.Idle;
+            GroggyRemaining = TimerFreezeRemaining = _transitionRemaining = 0f;
+            _state = IsDefeated ? BossState.Dead : BossState.Idle;
+            FindFirstObjectByType<PuzzleBoardManager>()?.SetRequiredMatchColor(null);
         }
-
-        // ── 패턴 루프 ─────────────────────────────────────────────
-
-        private IEnumerator PatternLoop()
+        private void StartPattern()
         {
-            while (_state != BossState.Dead)
+            if (!IsActive) return;
+            _state = BossState.Pattern;
+            GameEvents.TriggerBossPatternStarted(BossBattleType.TimeAttack);
+            timeAttackPattern.Run(config,balance,PhaseIndex,() => ResolvePattern(true),() => ResolvePattern(false));
+        }
+        private void ResolvePattern(bool success)
+        {
+            if (!IsActive || _state != BossState.Pattern) return;
+            FindFirstObjectByType<PuzzleBoardManager>()?.SetRequiredMatchColor(null);
+            if (success)
             {
-                _state = BossState.Pattern;
-                yield return RunPattern();
-
-                if (_state == BossState.Dead) yield break;
-
-                // 패턴 결과 처리
-                if (_patternSuccess)
-                {
-                    ApplyPatternSuccessDamage();
-                }
-                else
-                {
-                    // Cyan 방패가 있으면 데미지 1회 무효
-                    if (_hasInvincibleShield)
-                        _hasInvincibleShield = false;
-                    else
-                        StaminaManager.Instance?.TakeDamage(config.failureStaminaDamage);
-                    GameEvents.TriggerBossPatternResult(false);
-                }
-
-                if (_state == BossState.Dead) yield break;
-
-                // 패턴 성공 후 Groggy 진입
-                if (_patternSuccess)
-                {
-                    yield return EnterGroggy();
-                }
-
-                if (_state == BossState.Dead) yield break;
-
-                // Groggy 종료 후 Phase Change 체크
-                yield return CheckPhaseChange();
-
-                if (_state == BossState.Dead) yield break;
-
-                // 다음 패턴 전 짧은 간격
-                yield return new WaitForSeconds(1f);
+                // 마지막 패턴 입력 자체가 그로기 공격으로 다시 처리되지 않도록 다음 프레임에 연다.
+                _groggyPending = true;
+                _state = BossState.Interval;
+                GameEvents.TriggerBossPatternResult(true);
+            }
+            else
+            {
+                _state = BossState.Interval;
+                _transitionRemaining = config.patternInterval;
+                bool shield = HasFailureShield;
+                HasFailureShield = false;
+                GameEvents.TriggerBossPatternResult(false); // 실패당 정확히 한 번
+                if (!shield) StaminaManager.Instance?.TakeDamage(config.failureStaminaDamage);
             }
         }
-
-        // ── 개별 패턴 실행 ────────────────────────────────────────
-
-        private IEnumerator RunPattern()
+        private void Update()
         {
-            BossPatternBase pattern = GetPatternForConfig();
-            if (pattern == null)
+            if (!IsActive) return;
+            if (_groggyPending)
             {
-                Debug.LogError($"[BossController] 패턴 컴포넌트 미할당: {config.battleType}");
-                _patternSuccess = false;
-                yield break;
-            }
-
-            bool done = false;
-            _patternSuccess = false;
-
-            GameEvents.TriggerBossPatternStarted(config.battleType);
-            pattern.Run(config, balance, PhaseIndex,
-                onSuccess: () => { _patternSuccess = true;  done = true; },
-                onFailed:  () => { _patternSuccess = false; done = true; });
-
-            while (!done)
-                yield return null;
-
-            GameEvents.TriggerBossPatternResult(_patternSuccess);
-        }
-
-        private BossPatternBase GetPatternForConfig()
-        {
-            if (config == null) return null;
-            return config.battleType switch
-            {
-                BossBattleType.TimeAttack      => timeAttackPattern,
-                BossBattleType.RhythmNote      => rhythmNotePattern,
-                BossBattleType.ColorQuota      => colorQuotaPattern,
-                BossBattleType.MemorySequence  => memorySequencePattern,
-                _                              => null
-            };
-        }
-
-        private BossPatternBase GetActivePattern()
-        {
-            if (timeAttackPattern     != null && timeAttackPattern.IsRunning)     return timeAttackPattern;
-            if (rhythmNotePattern     != null && rhythmNotePattern.IsRunning)     return rhythmNotePattern;
-            if (colorQuotaPattern     != null && colorQuotaPattern.IsRunning)     return colorQuotaPattern;
-            if (memorySequencePattern != null && memorySequencePattern.IsRunning) return memorySequencePattern;
-            return null;
-        }
-
-        // ── 데미지 ───────────────────────────────────────────────
-
-        private void ApplyPatternSuccessDamage()
-        {
-            float dmg = balance.GetAttackDamage(
-                config.successDamage, _powerUpBonus, IsGroggy, isCritical: false);
-            ApplyDamage(dmg);
-            _powerUpBonus = 0f; // 한 번 소모
-        }
-
-        private void ApplyGroggyDamage(int matchedCount, float comboMultiplier)
-        {
-            float dmg = balance.GetGroggyDamage(matchedCount, comboMultiplier)
-                        * config.GetGroggyDamageMultiplier(balance);
-            ApplyDamage(dmg);
-        }
-
-        private void ApplyDamage(float amount)
-        {
-            CurrentHP = Mathf.Max(0f, CurrentHP - amount);
-            GameEvents.TriggerBossHPChanged(CurrentHP, MaxHP);
-
-            if (CurrentHP <= 0f)
-                _state = BossState.Dead;
-        }
-
-        // ── Groggy ───────────────────────────────────────────────
-
-        private IEnumerator EnterGroggy()
-        {
-            _state = BossState.Groggy;
-            IsGroggy = true;
-            float duration = config.GetGroggyDuration(balance);
-            GameEvents.TriggerBossGroggyStarted(duration);
-
-            yield return new WaitForSeconds(duration);
-
-            IsGroggy = false;
-            GameEvents.TriggerBossGroggyEnded();
-            _state = BossState.Idle;
-        }
-
-        // ── Phase Change ─────────────────────────────────────────
-
-        private IEnumerator CheckPhaseChange()
-        {
-            if (_sortedThresholds.Count == 0) yield break;
-
-            float hpRatio = CurrentHP / MaxHP;
-
-            // 내림차순 임계값 목록에서 현재 phaseIndex 이후에 해당하는 다음 임계값 확인
-            // phaseIndex 0 → thresholds[0], phaseIndex 1 → thresholds[1], ...
-            if (PhaseIndex < _sortedThresholds.Count &&
-                hpRatio <= _sortedThresholds[PhaseIndex])
-            {
-                PhaseIndex++;
-                _state = BossState.PhaseChange;
-                GameEvents.TriggerBossPhaseChanged(PhaseIndex);
-                yield return new WaitForSeconds(1.5f); // Phase 연출 대기
-                _state = BossState.Idle;
-            }
-        }
-
-        // ── 이벤트 핸들러 ─────────────────────────────────────────
-
-        private void OnMatchCompleted(int chainLength, int scoreGained, int tilesRemoved, TileColor color)
-        {
-            if (!IsGroggy) return;
-            if (GameManager.Instance?.CurrentState != GameState.BossPhase) return;
-
-            if (color == TileColor.Cyan)
-            {
-                // Cyan: 무적 방패 획득 (다음 패턴 피격 1회 무효)
-                _hasInvincibleShield = true;
+                _groggyPending = false;
+                IsGroggy = true;
+                _state = BossState.Groggy;
+                GroggyRemaining = config.GetGroggyDuration(balance);
+                GameEvents.TriggerBossGroggyStarted(GroggyRemaining);
                 return;
             }
-
-            // Groggy 중 매칭 → 보스 데미지
-            float combo = chainLength > 1 ? Mathf.Log(chainLength, 2f) : 0f;
-            ApplyGroggyDamage(tilesRemoved, combo);
-
-            if (_state == BossState.Dead)
+            if (TimersFrozen)
             {
-                StopAllCoroutines();
-                StartCoroutine(DefeatRoutine());
+                TimerFreezeRemaining = Mathf.Max(0f,TimerFreezeRemaining - Time.deltaTime);
+                return;
+            }
+            if (_state == BossState.Groggy)
+            {
+                GroggyRemaining = Mathf.Max(0f,GroggyRemaining - Time.deltaTime);
+                if (GroggyRemaining > 0f) return;
+                IsGroggy = false;
+                GameEvents.TriggerBossGroggyEnded();
+                int phase = 0;
+                foreach (float threshold in config.phaseHPThresholds)
+                    if (CurrentHP / MaxHP <= threshold) phase++;
+                if (phase > PhaseIndex)
+                {
+                    PhaseIndex = phase;
+                    GameEvents.TriggerBossPhaseChanged(PhaseIndex);
+                }
+                _state = BossState.Interval;
+                _transitionRemaining = config.patternInterval;
+            }
+            else if (_state == BossState.Interval)
+            {
+                _transitionRemaining -= Time.deltaTime;
+                if (_transitionRemaining <= 0f) StartPattern();
             }
         }
-
-        private void OnPowerUp(float bonus)
+        /// <summary>05 세션용: 입력/연출/장애물과 독립된 보스 제한 시간(그로기 포함) 정지.</summary>
+        public void FreezeTimersFor(float seconds)
         {
-            _powerUpBonus += bonus;
+            if (CanUseItems && !float.IsNaN(seconds) && !float.IsInfinity(seconds))
+                TimerFreezeRemaining = Mathf.Max(TimerFreezeRemaining,seconds);
         }
-
-        // ── 보스 처치 ─────────────────────────────────────────────
-
-        private IEnumerator DefeatRoutine()
+        /// <summary>유효한 다음 공격까지 높은 버프만 보관. 청록/패턴 성공으로 소모하지 않는다.</summary>
+        public void GrantAttackBuff(float bonus)
         {
-            _state = BossState.Dead;
-            IsGroggy = false;
-            GameEvents.TriggerBossHPChanged(0f, MaxHP);
-            yield return new WaitForSeconds(1f);
-            GameManager.Instance?.TriggerStageClear();
+            if (CanReceiveEffects && !float.IsNaN(bonus) && !float.IsInfinity(bonus))
+                PendingAttackBonus = Mathf.Max(PendingAttackBonus,bonus);
+        }
+        private bool CanReceiveEffects => GameManager.Instance?.CurrentState == GameState.RunnerPhase || CanUseItems;
+        public void GrantFailureShield()
+        {
+            if (CanReceiveEffects) HasFailureShield = true;
+        }
+        private void OnMatch(int connected,int score,int removed,TileColor color)
+        {
+            if (GameManager.Instance?.CurrentState == GameState.RunnerPhase && color == TileColor.Cyan && connected >= 2 && removed > 0)
+                GrantFailureShield();
+            TryApplyGroggyAttack(connected,removed,color);
+        }
+        // 05 세션은 매칭 결과를 한 번만 전달해야 한다. 확장 제거 수는 공격 계산에 사용하지 않는다.
+        public bool TryApplyGroggyAttack(int connected,int removed,TileColor color)
+        {
+            if (!CanUseColorActions || connected < 2 || removed <= 0) return false;
+            if (color == TileColor.Cyan) { GrantFailureShield(); return true; }
+            float damage = balance.GetPrototypeGroggyDamage(connected,color,config.GetGroggyDamageMultiplier(balance),PendingAttackBonus);
+            if (damage <= 0f) return false;
+            PendingAttackBonus = 0f;
+            ApplyDamage(damage);
+            return true;
+        }
+        /// <summary>모든 피해 공급자가 공유. HP0 즉시 단일 승리, Pause/Result/중복 호출 거부.</summary>
+        public void ApplyDamage(float amount)
+        {
+            if (!IsActive || amount <= 0f || float.IsNaN(amount) || float.IsInfinity(amount)) return;
+            CurrentHP = Mathf.Max(0f,CurrentHP - amount);
+            bool lethal = CurrentHP <= 0f;
+            if (lethal)
+            {
+                IsDefeated = true;
+                _state = BossState.Dead;
+                IsGroggy = false;
+                timeAttackPattern.Cancel();
+            }
+            GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);
+            if (lethal) GameManager.Instance?.TriggerStageClear();
         }
     }
 }

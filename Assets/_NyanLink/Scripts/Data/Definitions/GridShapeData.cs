@@ -1,29 +1,30 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NineMood.Data.Definitions
 {
-    /// <summary>
-    /// 벌집형 그리드 크기 정의
-    /// 스테이지별로 다른 크기의 벌집형 그리드를 설정할 수 있음
-    /// 항상 완전한 벌집형 모양으로 생성됨 (마스크 없음)
-    /// Unity Tilemap Offset 좌표계 사용
-    /// </summary>
+    /// <summary>Pointy-top odd-r 보드 마스크. 짝수 행 width, 홀수 행 width-1칸.</summary>
     [CreateAssetMenu(fileName = "GridShapeData", menuName = "NyanLink/Data/Grid Shape", order = 1)]
     public class GridShapeData : ScriptableObject
     {
         [Header("그리드 크기")]
-        [Tooltip("그리드의 가로 크기 (열 개수)")]
-        public int width = 7;
-
-        [Tooltip("그리드의 세로 크기 (행 개수)")]
+        [Min(2), Tooltip("짝수 행의 열 수. 프로토타입은 6")]
+        public int width = 6;
+        [Min(1), Tooltip("행 수. 프로토타입은 7")]
         public int height = 7;
 
-        /// <summary>
-        /// 특정 좌표가 그리드 범위 내에 있는지 확인
-        /// </summary>
-        public bool IsTileActive(Vector3Int offset)
+        public int GetRowWidth(int row) => row >= 0 && row < height
+            ? Mathf.Max(0, width - (row & 1)) : 0;
+
+        // 보드/마스크/렌더링이 같은 0부터 시작하는 odd-r 셀을 사용한다.
+        public bool IsTileActive(Vector3Int offset) => offset.z == 0 &&
+            offset.x >= 0 && offset.x < GetRowWidth(offset.y);
+
+        public IEnumerable<Vector3Int> GetActiveOffsets()
         {
-            return offset.x >= 0 && offset.x < width && offset.y >= 0 && offset.y < height;
+            for (int row = 0; row < height; row++)
+                for (int col = 0; col < GetRowWidth(row); col++)
+                    yield return new Vector3Int(col, row, 0);
         }
     }
 }

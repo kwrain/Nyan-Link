@@ -20,52 +20,13 @@ namespace NineMood.Core.HexCoordinates
             for (int i = 0; i <= distance; i++)
             {
                 float t = distance > 0 ? (float)i / distance : 0f;
-                HexCoordinates lerped = Lerp(from, to, t);
-                line.Add(Round(lerped));
+                line.Add(Round(
+                    Mathf.Lerp(from.q, to.q, t),
+                    Mathf.Lerp(from.r, to.r, t),
+                    Mathf.Lerp(from.s, to.s, t)));
             }
             
             return line;
-        }
-
-        /// <summary>
-        /// 두 좌표 사이를 보간 (선형 보간)
-        /// </summary>
-        private static HexCoordinates Lerp(HexCoordinates a, HexCoordinates b, float t)
-        {
-            return new HexCoordinates(
-                Mathf.RoundToInt(Mathf.Lerp(a.q, b.q, t)),
-                Mathf.RoundToInt(Mathf.Lerp(a.r, b.r, t)),
-                Mathf.RoundToInt(Mathf.Lerp(a.s, b.s, t))
-            );
-        }
-
-        /// <summary>
-        /// Cube 좌표를 반올림하여 정수 좌표로 변환
-        /// </summary>
-        private static HexCoordinates Round(HexCoordinates hex)
-        {
-            int q = Mathf.RoundToInt(hex.q);
-            int r = Mathf.RoundToInt(hex.r);
-            int s = Mathf.RoundToInt(hex.s);
-
-            float qDiff = Mathf.Abs(q - hex.q);
-            float rDiff = Mathf.Abs(r - hex.r);
-            float sDiff = Mathf.Abs(s - hex.s);
-
-            if (qDiff > rDiff && qDiff > sDiff)
-            {
-                q = -r - s;
-            }
-            else if (rDiff > sDiff)
-            {
-                r = -q - s;
-            }
-            else
-            {
-                s = -q - r;
-            }
-
-            return new HexCoordinates(q, r, s);
         }
 
         /// <summary>
@@ -111,10 +72,7 @@ namespace NineMood.Core.HexCoordinates
                 for (int r = r1; r <= r2; r++)
                 {
                     HexCoordinates hex = new HexCoordinates(q, r);
-                    if (HexCoordinates.Distance(center, hex) <= radius)
-                    {
-                        results.Add(center + hex);
-                    }
+                    results.Add(center + hex);
                 }
             }
 

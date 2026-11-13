@@ -52,6 +52,12 @@ namespace NineMood.Puzzle
         [Header("카메라 설정")]
         [Tooltip("그리드 중앙에 카메라 자동 배치")]
         public bool autoPositionCamera = true;
+        [Min(0f)] public float cameraPadding = 0.25f;
+        private Camera _fittedCamera;
+        private Rect _fittedPixelRect;
+
+        /// <summary>요구 색 전환은 장애물/보스 시스템이 이 API로 통지한다.</summary>
+        public TileColor? RequiredMatchColor { get; private set; }
 
         [Header("레이어")]
         [Tooltip("퍼즐 오브젝트에 적용할 레이어 (Camera_Puzzle culling mask와 일치해야 함)")]
@@ -136,51 +142,15 @@ namespace NineMood.Puzzle
             }
 
             _tiles.Clear();
-
-            int centerOffsetX = -(gridShapeData.width / 2) - 1;
-            int centerOffsetY = -(gridShapeData.height / 2);
-
-            for (int y = 0; y < gridShapeData.height; y++)
+            tilemap.ClearAllTiles();
+            foreach (var offset in gridShapeData.GetActiveOffsets())
             {
-                int actualY = y + centerOffsetY;
-                bool isEvenRow = actualY % 2 == 0;
-                int tileCount = gridShapeData.width;
-                if (isEvenRow)
-                {
-                    tileCount = gridShapeData.width + 1;
-                }
-
-                for (int x = 0; x < tileCount; x++)
-                {
-                    Vector3Int maskIndex = new Vector3Int(x, y, 0);
-                    if (x < gridShapeData.width && !gridShapeData.IsTileActive(maskIndex))
-                    {
-                        continue;
-                    }
-
-                    Vector3Int offset = new Vector3Int(x + centerOffsetX, y + centerOffsetY, 0);
-
-                    TileColor randomColor = GetRandomTileColor();
-                    TileInstance tileInstance = new TileInstance(offset, randomColor, TileState.Normal);
-                    _tiles[offset] = tileInstance;
-
-                    TileBase tileToPlace = GetTileByColorAndState(randomColor, tileInstance.State);
-                    if (tileToPlace != null)
-                    {
-                        tilemap.SetTile(offset, tileToPlace);
-                    }
-                    else if (hexagonTile != null)
-                    {
-                        tilemap.SetTile(offset, hexagonTile);
-                    }
-
-                    Vector3 centerWorld = tilemap.GetCellCenterWorld(offset);
-                    Debug.Log($"[타일 생성] Cell{offset}  색={randomColor}" +
-                              $"  World({centerWorld.x:F3},{centerWorld.y:F3})");
-                }
+                var color = GetRandomTileColor();
+                _tiles[offset] = new TileInstance(offset, color, TileState.Normal);
+                tilemap.SetTile(offset, GetTileByColorAndState(color, TileState.Normal) ?? hexagonTile);
             }
-
-            Debug.Log($"[보드 초기화 완료] 총 {_tiles.Count}개 타일 생성");
+            EnsureRequiredColorPair();
+            if (debugLog) Debug.Log($"[보드 초기화 완료] 총 {_tiles.Count}개 타일 생성");
         }
 
         /// <summary>
@@ -298,6 +268,7 @@ namespace NineMood.Puzzle
         /// </summary>
         public TileInstance SpawnTile(Vector3Int offset, TileColor? color = null, TileState? state = null)
         {
+            if (gridShapeData == null || !gridShapeData.IsTileActive(offset)) return null;
             TileColor tileColor = color ?? GetRandomTileColor();
             TileState tileState = state ?? TileState.Normal;
 
@@ -490,32 +461,130 @@ namespace NineMood.Puzzle
         /// <summary>
         /// 그리드 중앙에 카메라 배치
         /// </summary>
-        private void PositionCameraAtCenter()
+        private void PositionCameraAtCenter() => FitCameraToBoard();
+
+        private void LateUpdate()
         {
-            if (tilemap == null || gridShapeData == null) return;
+            if (_isInitialized && autoPositionCamera &&
+                (_fittedCamera == null || _fittedPixelRect != _fittedCamera.pixelRect))
+                FitCameraToBoard();
+        }
 
-            Vector3 center = tilemap.GetCellCenterWorld(Vector3Int.zero);
-            float cellSizeX = tilemap.layoutGrid != null ? tilemap.layoutGrid.cellSize.x : 1f;
+        public void FitCameraToBoard()
+        {
+            var camera = FindPuzzleCamera();
+            if (camera == null || !camera.orthographic || _tiles.Count == 0 || camera.pixelHeight <= 0) return;
+            Bounds bounds = GetBoardWorldBounds();
+            float aspect = camera.pixelWidth / (float)camera.pixelHeight;
+            camera.orthographicSize = Mathf.Max(bounds.extents.y + cameraPadding,
+                (bounds.extents.x + cameraPadding) / aspect);
+            var position = camera.transform.position;
+            position.x = bounds.center.x;
+            position.y = bounds.center.y;
+            camera.transform.position = position;
+            _fittedCamera = camera;
+            _fittedPixelRect = camera.pixelRect;
+        }
 
-            Camera targetCam = null;
-            foreach (Camera c in Camera.allCameras)
-                if (c.name == "Camera_Puzzle") { targetCam = c; break; }
-            if (targetCam == null) targetCam = Camera.main;
-            if (targetCam == null) targetCam = FindFirstObjectByType<Camera>();
+        private Camera FindPuzzleCamera()
+        {
+            foreach (var camera in Camera.allCameras)
+                if (camera.name == "Camera_Puzzle") return camera;
+            return Camera.main;
+        }
 
-            if (targetCam != null)
+        private Vector2 GetCellExtents(Vector3Int offset)
+        {
+            var sprite = tilemap.GetSprite(offset);
+            if (sprite != null) return sprite.bounds.extents;
+            var size = tilemap.layoutGrid != null ? tilemap.layoutGrid.cellSize : Vector3.one;
+            return new Vector2(size.x * 0.5f, size.y * 0.5f);
+        }
+
+        public Bounds GetBoardWorldBounds()
+        {
+            var bounds = new Bounds();
+            bool first = true;
+            foreach (var cell in _tiles.Keys)
             {
-                Vector3 pos = targetCam.transform.position;
-                pos.x = center.x - cellSizeX * 0.5f;
-                pos.y = center.y;
-                targetCam.transform.position = pos;
-
-                if (debugLog)
-                    Debug.Log($"[카메라 배치] center={center}, cellSizeX={cellSizeX}, camX={pos.x}");
+                var center = GetCellCenterWorld(cell);
+                var half = GetCellExtents(cell);
+                for (int x = -1; x <= 1; x += 2)
+                    for (int y = -1; y <= 1; y += 2)
+                    {
+                        var corner = center + tilemap.transform.TransformVector(new Vector3(x * half.x, y * half.y));
+                        if (first) { bounds = new Bounds(corner, Vector3.zero); first = false; }
+                        else bounds.Encapsulate(corner);
+                    }
             }
-            else if (debugLog)
+            return bounds;
+        }
+
+        /// <summary>렌더링 중심과 동일한 좌표의 육각 판정. 겹친 보정 영역은 가장 가까운 중심을 선택한다.</summary>
+        public bool TryGetTileAtWorldPosition(Vector3 world, float hitAreaScale, out Vector3Int cell)
+        {
+            cell = default;
+            float best = float.PositiveInfinity;
+            Vector3 local = tilemap.transform.InverseTransformPoint(world);
+            foreach (var pair in _tiles)
             {
-                Debug.LogWarning("[카메라 배치] 카메라를 찾을 수 없습니다.");
+                if (!pair.Value.IsActive) continue;
+                var center = tilemap.transform.InverseTransformPoint(GetCellCenterWorld(pair.Key));
+                var half = GetCellExtents(pair.Key) * Mathf.Max(0.01f, hitAreaScale);
+                if (half.x <= 0f || half.y <= 0f) continue;
+                float x = Mathf.Abs(local.x - center.x) / half.x;
+                float y = Mathf.Abs(local.y - center.y) / half.y;
+                if (x > 1f || y > 1f || y + 0.5f * x > 1f) continue;
+                float distance = (local - center).sqrMagnitude;
+                if (distance >= best) continue;
+                best = distance;
+                cell = pair.Key;
+            }
+            return !float.IsPositiveInfinity(best);
+        }
+
+        public bool SetRequiredMatchColor(TileColor? color)
+        {
+            RequiredMatchColor = color;
+            return EnsureRequiredColorPair();
+        }
+
+        /// <summary>생성/리필 완료 후 등록된 요구 색을 재검사. 요구 색이 없으면 변경하지 않는다.</summary>
+        public bool EnsureRequiredColorPair(ISet<Vector3Int> protectedCells = null) =>
+            !RequiredMatchColor.HasValue || TryEnsureAdjacentPair(RequiredMatchColor.Value, protectedCells);
+
+        /// <summary>최소한의 일반 타일만 재색칠. 아이템/선택/보호/비활성 타일을 변경하지 않는다.</summary>
+        public bool TryEnsureAdjacentPair(TileColor color, ISet<Vector3Int> protectedCells = null)
+        {
+            TileInstance bestA = null, bestB = null;
+            int bestCost = 3;
+            foreach (var a in _tiles.Values)
+            {
+                if (!Available(a)) continue;
+                foreach (var neighbor in HexOffsetUtils.GetNeighbors(a.OffsetPosition))
+                {
+                    var b = GetTileAtOffset(neighbor);
+                    if (!Available(b)) continue;
+                    int costA = a.Color == color ? 0 : 1;
+                    int costB = b.Color == color ? 0 : 1;
+                    if ((costA != 0 && a.State != TileState.Normal) ||
+                        (costB != 0 && b.State != TileState.Normal)) continue;
+                    if (costA + costB >= bestCost) continue;
+                    bestCost = costA + costB;
+                    bestA = a; bestB = b;
+                }
+            }
+            if (bestA == null) return false; // 보정 불가일 때 부분 변경하지 않는다.
+            Recolor(bestA); Recolor(bestB);
+            return true;
+
+            bool Available(TileInstance tile) => tile != null && tile.IsActive && !tile.IsSelected &&
+                (protectedCells == null || !protectedCells.Contains(tile.OffsetPosition));
+            void Recolor(TileInstance tile)
+            {
+                if (tile.Color == color) return;
+                tile.Color = color;
+                tilemap.SetTile(tile.OffsetPosition, GetTileByColorAndState(color, tile.State) ?? hexagonTile);
             }
         }
     }

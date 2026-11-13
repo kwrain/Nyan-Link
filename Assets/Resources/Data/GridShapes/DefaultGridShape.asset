@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebff909843f394139bfd2d825a2323aa, type: 3}
   m_Name: DefaultGridShape
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.GridShapeData
-  width: 7
+  width: 6
   height: 7

@@ -81,11 +81,12 @@ namespace NineMood.Puzzle
             TileInstance first = boardManager.GetTileAtOffset(chain[0]);
             if (first == null) return false;
             TileColor color = first.Color;
+            var unique = new HashSet<Vector3Int>();
 
             for (int i = 0; i < chain.Count; i++)
             {
                 TileInstance t = boardManager.GetTileAtOffset(chain[i]);
-                if (t == null || t.Color != color) return false;
+                if (t == null || !t.IsActive || t.Color != color || !unique.Add(chain[i])) return false;
                 if (i > 0 && !HexOffsetUtils.IsAdjacent(chain[i - 1], chain[i])) return false;
             }
             return true;
@@ -114,6 +115,7 @@ namespace NineMood.Puzzle
                 else
                     boardManager.SpawnTile(pos, boardManager.GetRandomTileColor(), TileState.Normal);
             }
+            boardManager.EnsureRequiredColorPair();
         }
 
         // ── 색상 → 아이템 효과 매핑 ───────────────────────────────────
@@ -199,21 +201,6 @@ namespace NineMood.Puzzle
                 itemQueue.Enqueue(offset);
         }
 
-        // ── Cube 좌표 ─────────────────────────────────────────────────
-
-        private struct CubeCoord { public int x, y, z; }
-
-        private static CubeCoord OffsetToCube(Vector3Int o)
-        {
-            // odd-r 컨벤션 — HexOffsetUtils.GetNeighbors와 동일 기준
-            // z = row, so c.z == cc.z → 같은 가로 행 선택이 LineClear 수평선과 정확히 일치
-            int col = o.x;
-            int row = o.y;
-            int x   = col - (row - (row & 1)) / 2;
-            int z   = row;
-            return new CubeCoord { x = x, y = -x - z, z = z };
-        }
-
         // ── 아이템 효과 구현 ──────────────────────────────────────────
 
         /// <summary>Red — 스태미나 즉시 회복 (% 기반, StaminaManager가 MaxStamina 적용)</summary>
@@ -245,19 +232,7 @@ namespace NineMood.Puzzle
                 ? balance?.blastRangeLv2 ?? 2
                 : balance?.blastRangeLv1 ?? 1;
 
-            var inRange   = new HashSet<Vector3Int> { center };
-            var frontier  = new List<Vector3Int> { center };
-
-            for (int step = 0; step < radius; step++)
-            {
-                var next = new List<Vector3Int>();
-                foreach (var pos in frontier)
-                    foreach (var n in HexOffsetUtils.GetNeighbors(pos))
-                        if (inRange.Add(n)) next.Add(n);
-                frontier = next;
-            }
-
-            foreach (var o in inRange)
+            foreach (var o in HexOffsetUtils.GetRange(center, radius))
                 AddAffectedTile(o, tilesToRemove, itemQueue, processed);
         }
 
@@ -270,16 +245,9 @@ namespace NineMood.Puzzle
             HashSet<Vector3Int> tilesToRemove,
             Queue<Vector3Int> itemQueue, HashSet<Vector3Int> processed)
         {
-            CubeCoord cc = OffsetToCube(center);
-
             foreach (var offset in boardManager.GetAllTileOffsets())
-            {
-                CubeCoord c = OffsetToCube(offset);
-                bool hit = (c.z == cc.z);                      // 가로줄 (항상)
-                if (level >= 2)
-                    hit |= (c.x == cc.x) || (c.y == cc.y);    // 좌대각 + 우대각
-                if (hit) AddAffectedTile(offset, tilesToRemove, itemQueue, processed);
-            }
+                if (HexOffsetUtils.IsOnLine(center, offset, level >= 2))
+                    AddAffectedTile(offset, tilesToRemove, itemQueue, processed);
         }
 
         /// <summary>Orange — 다음 보스 공격 데미지 버프 적용</summary>

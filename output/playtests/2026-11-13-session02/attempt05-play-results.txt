@@ -1,0 +1,8 @@
+System.ArgumentException: Requested value 'iPhone' was not found.
+  at System.Enum+EnumResult.SetFailure (System.Enum+ParseFailureKind failure, System.String failureMessageID, System.Object failureMessageFormatArgument) [0x00023] in <c5eeda5e65d44b388e164c6c5cfe0702>:0 
+  at System.Enum.TryParseEnum (System.Type enumType, System.String value, System.Boolean ignoreCase, System.Enum+EnumResult& parseResult) [0x0017a] in <c5eeda5e65d44b388e164c6c5cfe0702>:0 
+  at System.Enum.Parse (System.Type enumType, System.String value, System.Boolean ignoreCase) [0x00010] in <c5eeda5e65d44b388e164c6c5cfe0702>:0 
+  at System.Enum.Parse (System.Type enumType, System.String value) [0x00000] in <c5eeda5e65d44b388e164c6c5cfe0702>:0 
+  at NyanLinkSession02Validation.SetGameViewSize (System.Int32 width, System.Int32 height) [0x0006e] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:394 
+  at NyanLinkSession02Validation+<PlaySequence>d__42.MoveNext () [0x0018f] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:258 
+  at NyanLinkSession02Validation.Tick () [0x0005b] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:170 

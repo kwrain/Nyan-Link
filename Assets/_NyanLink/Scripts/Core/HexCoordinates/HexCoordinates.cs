@@ -96,11 +96,11 @@ namespace NineMood.Core.HexCoordinates
             return new HexCoordinates[]
             {
                 new HexCoordinates(q + 1, r, s - 1),     // 오른쪽
-                new HexCoordinates(q + 1, r - 1, s),     // 오른쪽 위
-                new HexCoordinates(q, r - 1, s + 1),     // 왼쪽 위
+                new HexCoordinates(q + 1, r - 1, s),     // 오른쪽 아래
+                new HexCoordinates(q, r - 1, s + 1),     // 왼쪽 아래
                 new HexCoordinates(q - 1, r, s + 1),     // 왼쪽
                 new HexCoordinates(q - 1, r + 1, s),     // 왼쪽 아래
-                new HexCoordinates(q, r + 1, s - 1)      // 오른쪽 아래
+                new HexCoordinates(q, r + 1, s - 1)      // 오른쪽 위
             };
         }
 

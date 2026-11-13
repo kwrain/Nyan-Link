@@ -1,0 +1,38 @@
+{
+  "baselineAndRemoteCommit": "c7354bad6c0b6121a0b7331ca69d32de54b005f7",
+  "currentTrackedChanges": [
+    "Assets/Editor/NyanLinkTestAssetsCreator.cs",
+    "Assets/Resources/Data/GridShapes/DefaultGridShape.asset",
+    "Assets/_NyanLink/Scripts/Core/HexCoordinates/HexCoordinates.cs",
+    "Assets/_NyanLink/Scripts/Core/HexCoordinates/HexUtils.cs",
+    "Assets/_NyanLink/Scripts/Data/Definitions/GridShapeData.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/HexOffsetUtils.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/PuzzleBoardManager.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs",
+    "Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs",
+    "Docs/WORK_ITEMS.md",
+    "UserSettings/EditorUserSettings.asset"
+  ],
+  "existingMetaChanged": [],
+  "deleted": [],
+  "duplicateAssetGuids": {},
+  "missingScriptMeta": [],
+  "unresolvedGuids": {},
+  "screenshots": {
+    "01-board39-1080x1920.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "d2a14d1ee581e23f6d7096f1187a80c3baa80ff9f1f501d7dc4df73d3b72899b"
+    },
+    "02-diagonal-chain-three.png": {
+      "width": 1080,
+      "height": 1920,
+      "sha256": "3507195658a01f5ea74ed3006a537cc6432927d7b29d2676eabb2d3d07a97b70"
+    },
+    "03-board39-1284x2778.png": {
+      "width": 1284,
+      "height": 2778,
+      "sha256": "d6b72fe4f1a8c70fa2bfd14b0f22e2c58457bb321c2dd31db3966e47a8c34e7c"
+    }
+  }
+}

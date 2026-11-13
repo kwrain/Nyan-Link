@@ -81,7 +81,7 @@ namespace NineMood.Editor
             }
 
             GridShapeData gridShape = ScriptableObject.CreateInstance<GridShapeData>();
-            gridShape.width = 7;
+            gridShape.width = 6;
             gridShape.height = 7;
 
             // 기본 벌집형 모양으로 초기화 (모든 타일 활성화)

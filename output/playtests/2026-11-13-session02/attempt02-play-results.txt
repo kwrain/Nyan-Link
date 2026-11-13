@@ -1,0 +1,9 @@
+UnityEngine.MissingReferenceException: The object of type 'UnityEngine.UI.Button' has been destroyed but you are still trying to access it.
+Your script should either check if it is null or you should not destroy the object.
+  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x00064] in /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:1064 
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/BindingsHelpers.cs:61 
+  at UnityEngine.Component.GetComponentFastPath (System.Type type, System.IntPtr oneFurtherThanResultValue) [0x00006] in <f7e6b41d60594934bad30fa8d4151a76>:0 
+  at UnityEngine.Component.GetComponent[T] () [0x00009] in /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Component.bindings.cs:48 
+  at NyanLinkSession02Validation.ButtonPosition (UnityEngine.UI.Button button) [0x00000] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:178 
+  at NyanLinkSession02Validation+<PlaySequence>d__41.MoveNext () [0x00200] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:262 
+  at NyanLinkSession02Validation.Tick () [0x0005b] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:168 

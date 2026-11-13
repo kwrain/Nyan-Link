@@ -1,0 +1,4 @@
+System.Exception: FAIL Actual 1080x1920 rendering: 1480x1618
+  at NyanLinkSession02Validation.Assert (System.Boolean condition, System.String description) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:51 
+  at NyanLinkSession02Validation+<PlaySequence>d__42.MoveNext () [0x003f0] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:283 
+  at NyanLinkSession02Validation.Tick () [0x0005b] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession02Validation.cs:170 

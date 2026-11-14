@@ -258,6 +258,8 @@ namespace NineMood.Puzzle
         /// </summary>
         public TileBase GetTileByColorAndState(TileColor color, TileState state)
         {
+            var art=NineMood.Presentation.ConceptArtLibrary.Tile(color,state);
+            if(art!=null)return art;
             // 딕셔너리에서 타일 찾기
             if (_tilesByColorAndState.TryGetValue(color, out var stateDict))
             {

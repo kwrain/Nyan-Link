@@ -1,0 +1,7 @@
+PASS Actual Main→Game→Start via queued mouse, 39 visible cells, screen mapping and viewport boundaries
+PASS Required-color API: minimum repair, transitions, items/selection/protection preserved, atomic failure
+PASS Queued mouse: diagonal selection, backtracking, single release, other-color cancel without lock
+PASS Six visual neighbor directions, no seventh neighbor, one event per release, in-place refill and post-refill repair
+PASS Queued Enhanced Touch with mouse connected; external lock cancellation and expiry
+PASS Anchor/transform picking; full board bounds at 1080x1920 and 1284x2778; 368 Play assertions
+PASS Play suite completed without runtime errors

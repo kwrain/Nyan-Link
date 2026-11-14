@@ -72,6 +72,7 @@ public static class NyanLinkSession07Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key,false)) return;
+        EditorApplication.LockReloadAssemblies();
         SaveManager.TestDirectoryOverride=Path.Combine(File.ReadAllText(Path.Combine(Output,"active-root.txt")),"play");
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
@@ -415,6 +416,7 @@ public static class NyanLinkSession07Validation
         File.WriteAllText(Path.Combine(Output,"environment.txt"),"Unity="+Application.unityVersion+"\npersistentDataPath="+Application.persistentDataPath+"\nisolatedStorage="+SaveManager.StorageDirectory+"\n");
         SaveManager.TestDirectoryOverride=null;SessionState.SetBool(Key+".Cold",false);
         SessionState.SetBool(Key,false);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error == null && errors.Count == 0 ? 0 : 1);
     }
 }

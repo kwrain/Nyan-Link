@@ -1,0 +1,2 @@
+PWR 2 active=True parent=Item badge
+TIME FREEZE  2.4s active=True parent=Item badge

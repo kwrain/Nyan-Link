@@ -25,10 +25,14 @@ namespace NineMood.Core.Managers
 
         [Header("BGM")]
         public AudioClip bgmGame;
+        public AudioClip bgmBoss;
+        public AudioClip CurrentBGM => _bgmSource!=null ? _bgmSource.clip : null;
+        public float MusicTime => _bgmSource!=null ? _bgmSource.time : 0;
+        public bool MusicPlaying => _bgmSource!=null && _bgmSource.isPlaying;
 
         [Header("Volume")]
-        [Range(0f, 1f)] public float sfxVolume = 0.8f;
-        [Range(0f, 1f)] public float bgmVolume = 0.4f;
+        [Range(0f, 1f)] public float sfxVolume = 0.55f;
+        [Range(0f, 1f)] public float bgmVolume = 0.22f;
 
         private AudioSource _sfxSource;
         private AudioSource _bgmSource;
@@ -37,6 +41,16 @@ namespace NineMood.Core.Managers
         {
             base.Awake();
             if(!IsCreated || Instance!=this)return;
+            // New art-phase audio is optional; original prototype clips stay as fallback resources.
+            sfxMatchShort ??= Resources.Load<AudioClip>("Audio/ConceptPixel/match-short");
+            sfxMatchMiddle ??= Resources.Load<AudioClip>("Audio/ConceptPixel/match-middle");
+            sfxMatchLong ??= Resources.Load<AudioClip>("Audio/ConceptPixel/match-long");
+            sfxItemEffect ??= Resources.Load<AudioClip>("Audio/ConceptPixel/item");
+            sfxGameOver ??= Resources.Load<AudioClip>("Audio/ConceptPixel/lose");
+            sfxStageClear ??= Resources.Load<AudioClip>("Audio/ConceptPixel/clear");
+            sfxHit ??= Resources.Load<AudioClip>("Audio/ConceptPixel/hit");
+            bgmGame ??= Resources.Load<AudioClip>("Audio/ConceptPixel/adventure");
+            bgmBoss ??= Resources.Load<AudioClip>("Audio/ConceptPixel/boss");
             sfxMatchShort ??= Resources.Load<AudioClip>("Audio/Prototype/match-short");
             sfxMatchMiddle ??= Resources.Load<AudioClip>("Audio/Prototype/match-middle");
             sfxMatchLong ??= Resources.Load<AudioClip>("Audio/Prototype/match-long");
@@ -92,9 +106,10 @@ namespace NineMood.Core.Managers
 
         private void OnGameStateChanged(GameState state)
         {
+            if(state==GameState.Briefing)StopBGM();
             if(state==GameState.Paused || state==GameState.ColorSelection) _bgmSource?.Pause();
-            if (state == GameState.RunnerPhase || state==GameState.BossPhase)
-                PlayBGM(bgmGame);
+            if(state==GameState.RunnerPhase)PlayBGM(bgmGame);
+            if(state==GameState.BossPhase)PlayBGM(bgmBoss!=null ? bgmBoss:bgmGame);
         }
 
         private void OnResultSet(ResultType result)

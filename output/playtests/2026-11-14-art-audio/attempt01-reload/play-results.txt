@@ -1,0 +1,5 @@
+System.Exception: FAIL Missing file is empty profile
+  at NyanLinkSession08Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:121 
+  at NyanLinkSession08Validation.StorageCases () [0x00016] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:347 
+  at NyanLinkSession08Validation+<Sequence>d__88.MoveNext () [0x0088a] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:469 
+  at NyanLinkSession08Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:107 

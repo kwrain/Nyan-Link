@@ -1,7 +1,7 @@
 # 검증 및 후속 작업 목록
 
 항목 작성·처리 기준은 루트 AGENTS.md를 따른다. 세션 01은 실행 기반, 세션 02는 퍼즐 좌표·입력, 세션 03은 씬 수명·일시정지·장애물 흐름, 세션 04는 보스·전투 계산, 세션 05는 아이템·색 선택·시간 정지, 세션 06은 안전 저장·경계 이어하기, 세션 07은 보상·장비·Lv.5 성장, 세션08은 화면·안전 영역·최소 사운드·통합/Player 검증이다. 게임 전체의 규칙 검증 결과가 아니다.
-공통 등록일·최근 확인일: 아래 모든 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 사용자 요청으로 `de2a22c520b7c76e9967531c487ad57730cadeec`에 커밋·푸시함. 세션 06은 사용자 요청으로 `fbda2526f941c4e9552866b72e0b4eed0d8b2482`에 커밋·푸시함. 세션07은 사용자 요청으로 cd4d74c3a294ff9cec3c01b517a8cd4ab2416c35에 커밋·푸시. 세션08은 AGENTS에 따라 검증 뒤 로컬 커밋, 미푸시(메시지 feat: polish prototype presentation and validate full play flow).
+공통 등록일·최근 확인일: 별도 날짜를 표시하지 않은 기존 항목은 2026-11-13. 환경: macOS 27.2 arm64, Unity 6000.3.14f1 Editor. 관련 커밋: 세션 01 당시 미커밋. 세션 02 시작 시 사용자 명시 승인으로 기존 전체 작업을 `c7354ba`에 보존하고 origin/main에 푸시함. 세션 02 결과는 사용자 요청으로 `47a43f8358e43d35392b0f420057d4b27f1e85fc`에 커밋하고 origin/main으로 푸시함. 세션 03은 사용자 요청으로 `a1b1f7f8ac2bbd38251ee492f1bd0c8315849027`에 커밋하고 origin/main으로 푸시함. 세션 04는 사용자 요청으로 `118b8f8c0036262dba76b658c03595c0347e2e65`에 커밋·푸시함. 세션 05는 사용자 요청으로 `de2a22c520b7c76e9967531c487ad57730cadeec`에 커밋·푸시함. 세션 06은 사용자 요청으로 `fbda2526f941c4e9552866b72e0b4eed0d8b2482`에 커밋·푸시함. 세션07은 사용자 요청으로 cd4d74c3a294ff9cec3c01b517a8cd4ab2416c35에 커밋·푸시. 세션08 35bdffc96dc3cd3f9306ba7e4fc8a6c8e7b0ab63은 2026-11-14 사용자 요청으로 origin/main 푸시·원격 해시 일치 확인. 새 아트·사운드 교체는 검증 후 로컬 커밋(메시지 feat: apply concept pixel art and original chiptune audio), 미푸시.
 근거 폴더: `output/playtests/2026-11-13-session01/`, `output/playtests/2026-11-13-session02/`, `output/playtests/2026-11-13-session03/`, `output/playtests/2026-11-13-session04/`, `output/playtests/2026-11-13-session05/`, `output/playtests/2026-11-13-session06/`, `output/playtests/2026-11-13-session07/`, `output/playtests/2026-11-13-session08/`. 상세 명령·복구 경로: 각 `Docs/Development/SESSION-번호-HANDOFF.txt`.
 
 ## 미검증
@@ -26,7 +26,8 @@
 - 관련: I-001, I-002, I-005, D-001.
 
 ### V-012 — 효과음 실제 청취와 출력·믹스
-- 등록일·최근 확인일: 2026-11-13. 관련: AudioManager, Resources/Audio/Prototype, audio-probe.txt, player/results.txt.
+- 2026-11-14 최근 확인: ConceptPixel 새 BGM2곡/SFX8개 로드·비영점PCM, Native에서 BGM위치0.213→0.427초 진행·정지/재개·로비정지 확인(V-016). Editor/Native 출력 분석peak0 유지. 실제 청취·중첩 믹스/모바일 앱 전환은 여전히 미검증. 관련 Audio/ConceptPixel, AudioManager/PixelButtonAudio, art-audio/player/results.txt.
+- 등록일: 2026-11-13 / 최근 확인일: 2026-11-14. 관련: AudioManager, Resources/Audio/Prototype, audio-probe.txt, player/results.txt.
 - 확인할 동작·기대: 스피커/헤드폰에서 매칭3티어·아이템·피격·승패가 구분되고 과도한 중첩·음량·잘림 없이 출력. 모바일 무음/앱 전환도 확인.
 - 확인한 범위: PCM 음원 데이터 비영점·Resources 로드·실제 매칭의 SFX 카운트 증가·SourcePlaying=true·활성 Listener1개 확인. Editor 및 Native Player의 AudioListener 출력 분석값은 peak0으로 남음. 실제 청취 성공이나 실제 무음 원인을 단정하지 않음.
 - 미검증 사유/방법: 실제 청취를 수행하지 못함. 출력 경로/분석 API의0값 원인 확인 후 실제 장치 청취, 필요 시 믹스/볼륨 조정. API 성공을 청취 통과로 바꾸지 않음.
@@ -41,7 +42,8 @@
 ## 미해결
 
 ### I-009 — Mac Development Player 종료 시 렌더 자원 정리 경고
-- 등록일·최근 확인일: 2026-11-13. 관련: URP/Native Player 종료, output/playtests/2026-11-13-session08/player.log.
+- 2026-11-14 최근 확인: 새 아트 Native17 checks·실행 중 오류0/종료0 뒤 ComputeBuffer 자동정리 및 Development MemoryLeaks 경고 재현. 원인 미확정/기존 증상 유지. 이번 표현 변경에 원인을 단정하지 않고 URP·패키지 수명 추적 필요, 불필요한 패키지 제거/경고 억제 안 함. 근거 output/playtests/2026-11-14-art-audio/player.log, V-016.
+- 등록일: 2026-11-13 / 최근 확인일: 2026-11-14. 관련: URP/Native Player 종료, output/playtests/2026-11-13-session08/player.log.
 - 증상: 종료0 및 Main/입력/리필/저장 smoke 성공 뒤 프로세스 정리에서 ComputeBuffer 자동해제 경고/Development 메모리 진단 출력. 실행 중 프레임 누수나 게임 데이터 손상을 확인한 것은 아님.
 - 재현: Session08Build.Build→Development Player -nyanSmoke 실행→Application.Quit. 종료 로그 말미.
 - 이번 최초 Player 검사에서 확인했으며 세션08 변경으로 새로 발생했다고 단정하지 않음.
@@ -51,6 +53,7 @@
 ## 실기기 테스트 필요
 
 ### D-001 — Android/iOS 세로 화면과 입력
+- 2026-11-14 최근 확인: 새 고양이/보스/장애물·6색 심볼/아이템 링·배경/로고 및 BGM2/SFX8도 대상에 추가. Mac Editor3해상도/모의 노치·Native540×960은 V-016에서 확인, 실제 모바일 검증 아님. 기기에서 글·심볼·색 선택·손가락 가림/장애물 가독성·고해상도 텍스처 메모리·음량/무음/앱 전환 확인 필요. 관련 Presentation/, Art/ConceptPixel, Audio/ConceptPixel, V-012.
 - 관련: Main/Game 씬, New Input System, TileInputHandler, DualCameraRig, TMP, PlayerSettings.
 - 대상: Android 및 iOS 실제 터치 기기, 노치·홈 바 기기, 9:16 및 더 긴 화면.
 - 절차: Main→Game 진입, Play/시작 터치, HUD/안전 영역/39칸 전체 표시, 인접 드래그·되돌리기·오인식·보정 확인. 각 플랫폼의 관련 대기 항목을 함께 검증하고 실제 화면 촬영.
@@ -75,6 +78,19 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-016 — 콘셉트 픽셀 아트·새 음악 실제 연결 검증
+- 등록일·최근 확인일·수행일: 2026-11-14. 기준35bdffc, 로컬 커밋 메시지 feat: apply concept pixel art and original chiptune audio.
+- 관련: Presentation/{ConceptArtLibrary,ConceptPixelPresentation,PixelRunnerAnimator,PixelButtonAudio}, PuzzleBoardManager/AudioManager/PrototypePresentation, Art/ConceptPixel PNG6·catalog17, Audio/ConceptPixel WAV10, ConceptArtPipeline/Session02·05·07·08 검사/PlayerSmoke.
+- 이미지: 기존 콘셉트의 주황 고양이·민트 도시/잔디·쥐 왕/그로기·장애물3종·6색 심볼·로고를 실제 Resources에 연결. 기존 코드/리소스/.meta/씬 참조 유지. 타일 bounds1×1·39칸/입력·ItemType 불변, 재색칠 배지·Lv링 보존. 새 난수/게임 수치·저장schema 변경 없음.
+- 오디오: AI 작성 새 선율/합성 알고리즘의 주행/Boss BGM2곡, SFX8종. 외부 샘플·오디오 생성 모델 사용 없음. 생성 프롬프트/에셋SHA·크기/PCM길이·최대값·재생성 절차 output/art/2026-11-14/ 기록.
+- Unity6000.3.14f1 Mac Editor CLI 통합797/새 프로세스Cold64·회귀 아이템322/장비190/좌표9855/입력368 통과, 모두 종료0·게임 경로 런타임 오류0. 아트17/타일39 연결·1×1히트계약/CPU텍스처복사없음/음원10비영점PCM·주행/보스곡/Pause/색선택 음악정지·재개 확인.
+- Native Mac Development 빌드 Succeeded/오류0/기존UGS경고1·실행17 checks/종료0. 실제540×960의 새 그림·선택셰이더·마우스쌍/20점·리필/단일Listener/격리저장·음악 위치 진행/정지/재개·Main정지 확인. V-012 출력peak0/I-009 종료 경고는 완료로 처리하지 않음.
+- 실제 PNG 직접 열람: Main/준비 로고·이어하기/보스 안내/그로기/아이템 재색칠·색선택/장비/실패·재시작/Native 선택·주행. 저장 경계 비교 fixture의 timeScale0으로 리필 중 크기 정지된 캡처도 있음. 무보정 사람 플레이 결과가 아님.
+- 초기 도구 실패: TextureImporter 기본Cube→명시Texture2D, Play도중 도구재시작→검사중reload잠금, 복원직후 표식검사→모델즉시검사 유지/표식LateUpdate 대기. 최종 검증 성공. 실패와 이전 HUD 화면도 접두사/하위폴더로 보존.
+- 보호: 시작 시 원래 saves 없음, 외부 백업13개SHA 재확인/게임저장 부재 유지, 검사 격리/최고점·입력·GameView 복원. 빌드 자동 ProjectSettings/InputSystem/Cloud 변경 patch보존 후 원복. 기존 테스트 결과 덮어쓰기 없음.
+- 근거: output/playtests/2026-11-14-art-audio/play-results.txt·cold-results.txt·regression-exits.json·build-results.txt·static-audit.json·final-protection-audit.json, player/results.txt 및 PNG/로그, Docs/Development/ART-AUDIO-01-HANDOFF.txt.
+- 남은 범위: V-001 새캐시/모바일, V-002 사람 무보정 완주/밸런스, V-012 실제 청취, V-013 한국어폰트, D-001/D-002 실기기. 추가 장비 아이콘·장착 외형·음량 설정/확장 애니메이션은 후속 범위이며 최종 출시 아트 전체 완료를 의미하지 않음.
 
 ### I-003 — 프로토타입 활성 화면 가독성 정비 완료
 - 등록일·최근 확인일·수행일: 2026-11-13. 관련: PrototypePresentation/SafeArea, DualCameraRig, 기존 UGUI HUD/메뉴, ItemTileLabels.

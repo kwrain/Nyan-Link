@@ -1,0 +1,1 @@
+PASS Geometry: 9855 assertions (negative rows, 6 neighbors, distances, radius/line, 39-cell mask)

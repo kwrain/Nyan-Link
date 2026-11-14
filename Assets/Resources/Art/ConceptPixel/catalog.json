@@ -1,0 +1,191 @@
+{
+    "entries": [
+        {
+            "id": "cat-0",
+            "texture": "cat-sheet",
+            "x": 84.0,
+            "y": 735.0,
+            "width": 443.0,
+            "height": 366.0,
+            "ppu": 252.41378784179688,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "cat-1",
+            "texture": "cat-sheet",
+            "x": 708.0,
+            "y": 735.0,
+            "width": 454.0,
+            "height": 366.0,
+            "ppu": 252.41378784179688,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "cat-2",
+            "texture": "cat-sheet",
+            "x": 91.0,
+            "y": 177.0,
+            "width": 442.0,
+            "height": 346.0,
+            "ppu": 252.41378784179688,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "cat-3",
+            "texture": "cat-sheet",
+            "x": 678.0,
+            "y": 133.0,
+            "width": 497.0,
+            "height": 267.0,
+            "ppu": 252.41378784179688,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "boss-0",
+            "texture": "rat-sheet",
+            "x": 169.0,
+            "y": 129.0,
+            "width": 612.0,
+            "height": 582.0,
+            "ppu": 277.14288330078127,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "boss-1",
+            "texture": "rat-sheet",
+            "x": 1049.0,
+            "y": 129.0,
+            "width": 619.0,
+            "height": 629.0,
+            "ppu": 277.14288330078127,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "obstacle-0",
+            "texture": "obstacle-sheet",
+            "x": 146.0,
+            "y": 99.0,
+            "width": 433.0,
+            "height": 190.0,
+            "ppu": 292.3077087402344,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "obstacle-1",
+            "texture": "obstacle-sheet",
+            "x": 787.0,
+            "y": 99.0,
+            "width": 595.0,
+            "height": 282.0,
+            "ppu": 216.92308044433595,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "obstacle-2",
+            "texture": "obstacle-sheet",
+            "x": 1598.0,
+            "y": 99.0,
+            "width": 433.0,
+            "height": 406.0,
+            "ppu": 280.0,
+            "pivotX": 0.5,
+            "pivotY": 0.0
+        },
+        {
+            "id": "tile-0",
+            "texture": "tile-sheet",
+            "x": 71.0,
+            "y": 530.0,
+            "width": 433.0,
+            "height": 433.0,
+            "ppu": 433.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "tile-1",
+            "texture": "tile-sheet",
+            "x": 551.0,
+            "y": 530.0,
+            "width": 433.0,
+            "height": 433.0,
+            "ppu": 433.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "tile-2",
+            "texture": "tile-sheet",
+            "x": 1031.0,
+            "y": 529.0,
+            "width": 434.0,
+            "height": 434.0,
+            "ppu": 434.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "tile-3",
+            "texture": "tile-sheet",
+            "x": 70.0,
+            "y": 48.0,
+            "width": 434.0,
+            "height": 434.0,
+            "ppu": 434.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "tile-4",
+            "texture": "tile-sheet",
+            "x": 550.0,
+            "y": 48.0,
+            "width": 434.0,
+            "height": 434.0,
+            "ppu": 434.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "tile-5",
+            "texture": "tile-sheet",
+            "x": 1031.0,
+            "y": 48.0,
+            "width": 434.0,
+            "height": 434.0,
+            "ppu": 434.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "logo-0",
+            "texture": "title-logo",
+            "x": 57.0,
+            "y": 155.0,
+            "width": 2061.0,
+            "height": 398.0,
+            "ppu": 398.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "id": "city-0",
+            "texture": "city-loop",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 1774.0,
+            "height": 887.0,
+            "ppu": 80.63636016845703,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

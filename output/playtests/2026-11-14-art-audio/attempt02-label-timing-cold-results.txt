@@ -1,0 +1,4 @@
+System.Exception: FAIL Restored item identity badge active
+  at NyanLinkSession08Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:122 
+  at NyanLinkSession08Validation+<Sequence>d__88.MoveNext () [0x004f8] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:451 
+  at NyanLinkSession08Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:108 

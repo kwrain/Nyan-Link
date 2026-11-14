@@ -63,6 +63,22 @@ namespace NineMood.UI
             SceneLoader.LoadGame();yield return new WaitForSecondsRealtime(2);
             var board=FindFirstObjectByType<PuzzleBoardManager>();Check(board!=null && board.GetTileCount()==39,"Player serialized tile references render39 cells");
             GameManager.Instance.StartGame();yield return new WaitForSecondsRealtime(.2f);
+            if(NineMood.Presentation.ConceptArtLibrary.Get("cat-0")!=null)
+            {
+                Check(FindFirstObjectByType<NineMood.Presentation.PixelRunnerAnimator>()!=null,"Player displays generated cat");
+                Check(board.tilemap.GetSprite(new Vector3Int(0,0,0)).name.StartsWith("Concept_tile-"),"Player displays generated tiles");
+                Check(AudioManager.Instance.CurrentBGM!=null && AudioManager.Instance.CurrentBGM.name=="adventure" && AudioManager.Instance.MusicPlaying,"Player starts adventure BGM");
+            }
+            float musicBefore=AudioManager.Instance.MusicTime;yield return new WaitForSecondsRealtime(.2f);
+            float musicAfter=AudioManager.Instance.MusicTime;
+            passed.Add("MUSIC time before="+musicBefore+" after="+musicAfter);
+            if(musicAfter>musicBefore+.02f)Check(true,"Native BGM playback position advances");
+            else passed.Add("UNVERIFIED BGM position did not advance; actual audio output requires listening check");
+            GameManager.Instance.PauseGame();float pausedMusic=AudioManager.Instance.MusicTime;
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(!AudioManager.Instance.MusicPlaying && Mathf.Abs(AudioManager.Instance.MusicTime-pausedMusic)<.04f,"Native pause preserves BGM position");
+            GameManager.Instance.ResumeGame();yield return new WaitForSecondsRealtime(.1f);
+            Check(AudioManager.Instance.MusicPlaying,"Native resume BGM");
             Check(StaminaManager.Instance.MaxStamina==100,"Player runtime stats initialize");
             Check(Shader.Find("NyanLink/LineFlow2D")!=null,"Player includes selection shader");
             var cells=new[]{new Vector3Int(0,0,0),new Vector3Int(1,0,0)};
@@ -84,7 +100,9 @@ namespace NineMood.UI
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxStageClear);yield return new WaitForSecondsRealtime(.06f);
             var samples=new float[256];AudioListener.GetOutputData(samples,0);
             passed.Add("AUDIO sourcePlaying="+AudioManager.Instance.GetComponents<AudioSource>()[0].isPlaying+" listenerVolume="+AudioListener.volume+" peak="+samples.Max(v=>Mathf.Abs(v)));
-            InputSystem.RemoveDevice(mouse);Check(errors.Count==0,"Native Player has no runtime errors");
+            InputSystem.RemoveDevice(mouse);SceneLoader.LoadMainMenu();yield return new WaitForSecondsRealtime(.5f);
+            Check(SceneManager.GetActiveScene().name=="Main" && !AudioManager.Instance.MusicPlaying,"Native home stops BGM");
+            Check(errors.Count==0,"Native Player has no runtime errors");
         }
 #endif
     }

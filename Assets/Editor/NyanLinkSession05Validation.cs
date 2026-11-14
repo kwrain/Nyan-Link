@@ -69,6 +69,7 @@ public static class NyanLinkSession05Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key,false)) return;
+        EditorApplication.LockReloadAssemblies();
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
         oldBackground = InputSystem.settings.backgroundBehavior;
@@ -544,6 +545,7 @@ public static class NyanLinkSession05Validation
         if (error == null && errors.Count == 0) Pass("Session05 completed without runtime errors");
         File.WriteAllLines(Path.Combine(Output,"play-results.txt"),results);
         SessionState.SetBool(Key,false);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error == null && errors.Count == 0 ? 0 : 1);
     }
 }

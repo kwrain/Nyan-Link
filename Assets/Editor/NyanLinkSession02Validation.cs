@@ -141,6 +141,7 @@ public static class NyanLinkSession02Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key, false)) return;
+        EditorApplication.LockReloadAssemblies();
         results.Clear(); assertions = 0;
         hadBest = SessionState.GetBool(Key + ".HadBest", false);
         oldBest = SessionState.GetInt(Key + ".Best", 0);
@@ -499,6 +500,7 @@ public static class NyanLinkSession02Validation
         try { RestoreView(); } catch (Exception e) { results.Add("View restore warning: " + e.Message); }
         SessionState.SetBool(Key,false);
         File.WriteAllLines(Path.Combine(Output,"play-results.txt"),results);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error == null && !runtimeError ? 0 : 1);
     }
 }

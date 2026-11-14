@@ -1,0 +1,46 @@
+실제 테스트 스크린샷 목록 — 2026-11-14
+공통 환경: macOS27.2 arm64 / Unity6000.3.14f1. PNG는 ScreenCapture의 실제 렌더이며 합성/재터칭하지 않음.
+Editor 자동 입력/격리 저장/보드·HP 배치 포함. 실제 사람의 무보정 완주·실기기 결과가 아님.
+root: 통합797·Cold64 통과,05:322,07:190,02:좌표9855/입력368 통과. player:Mac Development17 checks 통과.
+아래 동작은 기대=실제 확인 결과이며 수치·상태 판정은 각 결과/로그를 함께 참조.
+
+00-main.png | Editor Play 1080×1920 | 기대/실제: 로고·도시 배경·버튼 테마와 기존 최고점 표시 확인
+01-runner-saved.png | Editor Play 1080×1920 | 기대/실제: 장애물 성공 경계 저장, 지속 효과·아이템 보존 확인
+02-continue-choice.png | Editor Play 1080×1920 | 기대/실제: 이어하기/새 게임 정책과 새 준비 화면 로고·도시 배경 확인
+03-runner-restored.png | Editor Play 1080×1920 | 기대/실제: 저장된 주행 보드·아이템 종류/레벨 복원 확인
+04-retry-saved.png | Editor Play 1080×1920 | 기대/실제: 실패 후 같은 장애물 재도전 경계 확인
+05-boss-failure-saved.png | Editor Play 1080×1920 | 기대/실제: 보스 실패 경계와 다음 패턴/방어권 처리 확인
+06-groggy-saved.png | Editor Play 1080×1920 | 기대/실제: 그로기/시간 정지 안내, 고양이·그로기 쥐 왕 분리 표시 확인
+07-boss-restored.png | Editor Play 1080×1920 | 기대/실제: 피해 적용 뒤 강화 Phase2 보스 복원 확인
+08-cold-continue-ready.png | Editor Play 1080×1920 | 기대/실제: 독립 Unity 프로세스에서 체크포인트 이어하기 선택 확인
+09-cold-restored-board.png | Editor Play 1080×1920 | 기대/실제: 39칸 전체와 파란 PowerUp2 종류 배지·효과·HP/보스 단계 복원 확인
+10-reward-equipment-upgrade.png | Editor Play 1080×1920 | 기대/실제: 가상 보존 장비와 획득 모자 장착/Lv2·321코인·HP110 확인
+11-obstacle-loss.png | Editor Play 1080×1920 | 기대/실제: 장애물 치명 실패·결과 정지·재도전 UI 확인
+12-concept-runner.png | Editor Play 1080×1920 | 기대/실제: 새 캐릭터/타일 및 BGM 정지·재개 검사 뒤 주행 화면 확인
+layout-720x1280.png | Editor Play 720×1280 | 기대/실제: 작은 세로 화면 안전 영역·39칸과 HUD 확인
+layout-1080x1920.png | Editor Play 1080×1920 | 기대/실제: 기본 세로 화면 안전 영역·39칸과 HUD 확인
+layout-1284x2778-simulated-notch.png | Editor Play 1284×2778 | 기대/실제: 긴 세로 화면의 모의 노치/홈 여백과 보드·버튼 경계 확인
+player/01-main.png | Native Mac Development 540×960 | 기대/실제: 빌드에 로고·도시 배경·일반 UI 리소스 포함 확인
+player/02-selected-chain.png | Native Mac Development 540×960 | 기대/실제: 실제 Native 입력으로 인접2개 선택·선택 셰이더 표시 확인
+player/03-running-board.png | Native Mac Development 540×960 | 기대/실제: 손떼기 후20점·39칸 리필·새 고양이 점프/배경 확인
+regression-session02/01-board39-1080x1920.png | Editor Play 1080×1920 | 기대/실제: 39칸/odd-r/히트 영역과 실제 입력 회귀 확인
+regression-session02/02-diagonal-chain-three.png | Editor Play 1080×1920 | 기대/실제: 대각선 인접3칸 연결과 되돌리기/취소 회귀 확인
+regression-session02/03-board39-1284x2778.png | Editor Play 1284×2778 | 기대/실제: 긴 세로 화면 전체 보드/히트 위치 회귀 확인
+regression-session05/01-item-types-and-levels.png | Editor Play 1080×1920 | 기대/실제: 6종×2레벨의 종류/레벨 배지와 링 확인
+regression-session05/02-color-selection-runner.png | Editor Play 1080×1920 | 기대/실제: 주행 중6색 선택·색상 버튼 원래 색 보존·게임 정지 확인
+regression-session05/03-recolored-items.png | Editor Play 1080×1920 | 기대/실제: 전체 색 변경 뒤 ItemType/레벨/종류별 제한 보존 확인
+regression-session05/04-chain-effects.png | Editor Play 1080×1920 | 기대/실제: 재귀 아이템 연쇄와 고유 셀 제거/리필 확인
+regression-session05/05-frozen-obstacle.png | Editor Play 1080×1920 | 기대/실제: 시간 정지 동안 장애물 이동/사전 경고 보존 확인
+regression-session05/06-color-selection-groggy.png | Editor Play 1080×1920 | 기대/실제: 그로기에서6색 선택·시간 정지/기반 상태 복귀 확인
+regression-session05/07-items-groggy.png | Editor Play 1080×1920 | 기대/실제: 그로기 중 아이템·공격/시간 효과 적용 확인
+regression-session05/08-item-chain-victory.png | Editor Play 1080×1920 | 기대/실제: 치명 아이템 연쇄 후 단일 승리·결과 UI 확인
+regression-session07/01-first-clear-reward.png | Editor Play 1080×1920 | 기대/실제: 첫 보상100코인/모자와 결과 버튼 확인
+regression-session07/02-equipped-upgrade.png | Editor Play 1080×1920 | 기대/실제: 실제 모자 장착/Lv2·비용 차감·HP110 확인
+regression-session07/03-three-slots-lv5.png | Editor Play 1080×1920 | 기대/실제: 3슬롯Lv5 능력치/비용·UI 버튼 회귀 확인
+regression-session07/04-geared-boss.png | Editor Play 1080×1920 | 기대/실제: 장비 실제 공격력의 보스 전투 반영 확인
+regression-session07/05-saved-loadout-locked.png | Editor Play 1080×1920 | 기대/실제: 저장 진행 중 장비 구성 잠금·명시 새 게임 설정 확인
+
+이전 시도 보존: attempt01-reload/의 PNG는 검사 재시작 실패 시도, 최종 통과 화면이 아님.
+pass01-before-hud-polish/는 기능797 통과했으나 보스 안내/왕관 겹침과 테마 초기화 전 준비 프레임 포함. 최종 루트 PNG에서 배치/완료된 준비 화면 확인.
+경계 비교 fixture의 timeScale0으로 일부 리필 중 타일 크기가 작은 채 촬영됨. 일반 실행 리필 렌더는 player/03 및 cold09와 구분.
+음악/효과음의 실제 청취는 이 PNG나 SourcePlaying 값으로 증명하지 않음. V-012 유지.

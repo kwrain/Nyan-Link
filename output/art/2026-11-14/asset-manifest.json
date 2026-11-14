@@ -1,0 +1,134 @@
+[
+  {
+    "path": "Assets/Resources/Art/ConceptPixel/cat-sheet.png",
+    "sha256": "378abbcfe111d9a5cc33f69fedc877fb1749e5e940f06576c551c77fb9ba2847",
+    "width": 1254,
+    "height": 1254,
+    "origin": "OpenAI image generation; see prompts.json; reference output/concepts/nyan-link-finished-game-concept.png"
+  },
+  {
+    "path": "Assets/Resources/Art/ConceptPixel/city-loop.png",
+    "sha256": "0e0eb24d5ccaf09ff4c6886452efa0871fd1bf82b4f8cb31244ffdb17d778acd",
+    "width": 1774,
+    "height": 887,
+    "origin": "OpenAI image generation; see prompts.json; reference output/concepts/nyan-link-finished-game-concept.png"
+  },
+  {
+    "path": "Assets/Resources/Art/ConceptPixel/obstacle-sheet.png",
+    "sha256": "b9829e0a1cbc7423add13318e58f46d68a13bf503f119399db639da72c083bb5",
+    "width": 2172,
+    "height": 724,
+    "origin": "OpenAI image generation; see prompts.json; reference output/concepts/nyan-link-finished-game-concept.png"
+  },
+  {
+    "path": "Assets/Resources/Art/ConceptPixel/rat-sheet.png",
+    "sha256": "cbb20391aadee36d7dbe6c66c56c5897f19d52dff9443fde23f629c5c31eb93b",
+    "width": 1774,
+    "height": 887,
+    "origin": "OpenAI image generation; see prompts.json; reference output/concepts/nyan-link-finished-game-concept.png"
+  },
+  {
+    "path": "Assets/Resources/Art/ConceptPixel/tile-sheet.png",
+    "sha256": "8f9c0349501e35c8ed2e5642142f82eef0d3b25be4e059ed8665be62be6d204f",
+    "width": 1536,
+    "height": 1024,
+    "origin": "OpenAI image generation; see prompts.json; reference output/concepts/nyan-link-finished-game-concept.png"
+  },
+  {
+    "path": "Assets/Resources/Art/ConceptPixel/title-logo.png",
+    "sha256": "eab5f25af69a83b87d88fc66e121d00fab6240296f8b8d27dd413fb1d76fca24",
+    "width": 2172,
+    "height": 724,
+    "origin": "OpenAI image generation; see prompts.json; reference output/concepts/nyan-link-finished-game-concept.png"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/adventure.wav",
+    "sha256": "84183c14e9fc9bdb812ed57eb3ad0c1015fe12496ef080a0ee16d2ca8e91d861",
+    "seconds": 17.77777777777778,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.185821533203125,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/boss.wav",
+    "sha256": "286c0f6cc2b80a75a2073020971e60e95cbb35223cda60248cf583fc389c7bee",
+    "seconds": 13.714285714285714,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.19451904296875,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/clear.wav",
+    "sha256": "d413633d0b9eb291f50dfcd6e939f78f51ccc3cbb4e28cb514b7e7e87b853715",
+    "seconds": 1.27,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.19512939453125,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/hit.wav",
+    "sha256": "7945ef1ec3cf82d1c4eb31fe23c89f197dbacaba8f7c4b558acdcab19f9817dc",
+    "seconds": 0.22,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.384185791015625,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/item.wav",
+    "sha256": "27270e49a614ed90ed1e134311a2bd611d0cfde78eb45b97ce3c248c4111b19a",
+    "seconds": 0.43,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.161346435546875,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/lose.wav",
+    "sha256": "5f219cc5a99b0d97ef924114c78f5ce93838a6ad8142fbab877cbdc8a9505baf",
+    "seconds": 0.87,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.225311279296875,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/match-long.wav",
+    "sha256": "1a53cd748b68fa26781e2dcffa050c4aebdb448224e1a0c7317a158bc834f183",
+    "seconds": 0.41,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.156341552734375,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/match-middle.wav",
+    "sha256": "3cd4021f5d06bf9a52cc13e92b29289599753ecf3f88cab6670bb5b26bec2959",
+    "seconds": 0.31498866213151927,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.14556884765625,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/match-short.wav",
+    "sha256": "4f3cc08839b9439e962282178165c19334a9c1e91c466694a05dfc817e11435a",
+    "seconds": 0.24,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.129425048828125,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  },
+  {
+    "path": "Assets/Resources/Audio/ConceptPixel/ui.wav",
+    "sha256": "26696d5e90eab792784bc12e5a6180b109a32ec6f6be46c750f1c6abdf7e306a",
+    "seconds": 0.18498866213151927,
+    "rate": 44100,
+    "channels": 2,
+    "peak": 0.111328125,
+    "origin": "Original AI-authored score and deterministic synthesis, Tools/generate_concept_audio.py; no external samples"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "baselineCommit": "35bdffc96dc3cd3f9306ba7e4fc8a6c8e7b0ab63",
+  "backupFilesVerified": 13,
+  "originalSavesExists": false,
+  "restoredAutomaticSettings": [
+    "ProjectSettings/ProjectSettings.asset",
+    "ProjectSettings/UnityConnectSettings.asset"
+  ],
+  "preservedPatch": "unity-generated-settings.patch",
+  "nativeExitCode": 0,
+  "nativePassChecks": 17
+}

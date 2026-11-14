@@ -27,7 +27,7 @@ using Object = UnityEngine.Object;
 public static class NyanLinkSession08Validation
 {
     const string Key = "NyanLink.Session08";
-    static readonly string Output = Environment.GetEnvironmentVariable("NYANLINK_SESSION06_OUTPUT") ?? "output/playtests/2026-11-13-session08";
+    static readonly string Output = Environment.GetEnvironmentVariable("NYANLINK_SESSION08_OUTPUT") ?? Environment.GetEnvironmentVariable("NYANLINK_SESSION06_OUTPUT") ?? "output/playtests/2026-11-13-session08";
     const BindingFlags PrivateInstance = BindingFlags.NonPublic | BindingFlags.Instance;
     static readonly List<string> results = new List<string>();
     static readonly List<string> errors = new List<string>();
@@ -73,6 +73,7 @@ public static class NyanLinkSession08Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key,false)) return;
+        EditorApplication.LockReloadAssemblies();
         SaveManager.TestDirectoryOverride=Path.Combine(File.ReadAllText(Path.Combine(Output,"active-root.txt")),"play");
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
@@ -317,7 +318,7 @@ public static class NyanLinkSession08Validation
     static IEnumerator EnterGame()
     {
         yield return Click(Button(Object.FindFirstObjectByType<MainMenuController>(),"buttonPlay"));
-        yield return Wait(()=>SceneManager.GetActiveScene().name=="Game" && Object.FindFirstObjectByType<PuzzleBoardManager>()?.GetTileCount()==39,"Game initialized");Bind();
+        yield return Wait(()=>SceneManager.GetActiveScene().name=="Game" && Object.FindFirstObjectByType<PuzzleBoardManager>()?.GetTileCount()==39,"Game initialized");Bind();yield return .15f;
     }
     static string Tiles(IEnumerable<TileRecord> records) => string.Join(";",records.OrderBy(t=>t.y).ThenBy(t=>t.x).Select(t=>$"{t.x},{t.y}:{t.color}:{t.state}:{t.itemType}"));
     static void Compare(RunCheckpoint cp)
@@ -401,6 +402,35 @@ public static class NyanLinkSession08Validation
         Assert(AudioManager.Instance.GetComponents<AudioSource>()[0].isPlaying,"SFX playback source active");
         Pass("Three portrait sizes, simulated notch/home insets,40:60 logical split, safe controls and board");
     }
+    static IEnumerator ArtCases()
+    {
+        foreach(var cell in board.GetAllTileOffsets())
+        {
+            var tile=board.tilemap.GetTile<UnityEngine.Tilemaps.Tile>(cell);
+            Assert(tile!=null && tile.sprite.name.StartsWith("Concept_tile-"),"Generated tile connected "+cell);
+            Near(tile.sprite.bounds.size.x,1,"Visual tile width preserves input geometry");
+            Near(tile.sprite.bounds.size.y,1,"Visual tile height preserves input geometry");
+            Assert(!tile.sprite.texture.isReadable,"No retained CPU texture copy");
+        }
+        Assert(Object.FindObjectsByType<NineMood.Presentation.PixelRunnerAnimator>(FindObjectsSortMode.None).Length==1,"One pixel cat animator");
+        foreach(var id in new[]{"cat-0","cat-1","cat-2","cat-3","boss-0","boss-1","obstacle-0","obstacle-1","obstacle-2","city-0","logo-0"})
+            Assert(NineMood.Presentation.ConceptArtLibrary.Get(id)!=null,"Generated sprite loaded: "+id);
+        foreach(var id in new[]{"adventure","boss","match-short","match-middle","match-long","item","ui","clear","lose","hit"})
+        {
+            var clip=Resources.Load<AudioClip>("Audio/ConceptPixel/"+id);Assert(clip!=null && clip.length>.04f,"New audio loaded: "+id);
+            var data=new float[clip.samples*clip.channels];Assert(clip.GetData(data,0) && data.Any(v=>Mathf.Abs(v)>.00001f),"New audio nonzero: "+id);
+        }
+        var audio=AudioManager.Instance;
+        Assert(audio.CurrentBGM.name=="adventure" && audio.MusicPlaying,"Runner adventure music");
+        game.PauseGame();float at=audio.MusicTime;yield return .3f;
+        Assert(!audio.MusicPlaying && Mathf.Abs(audio.MusicTime-at)<.04f,"Pause keeps music position");
+        game.ResumeGame();yield return .1f;Assert(audio.MusicPlaying,"Resume music");
+        Assert(game.BeginColorChoice(),"Color choice pause fixture");at=audio.MusicTime;yield return .2f;
+        Assert(!audio.MusicPlaying && Mathf.Abs(audio.MusicTime-at)<.04f,"Color choice pauses music");
+        game.CompleteColorChoice();yield return .1f;Assert(audio.MusicPlaying,"Color choice music resumes");
+        Capture("12-concept-runner.png");yield return .15f;
+        Pass("Concept sprites, preserved tile geometry, original audio PCM and pause/resume transitions");
+    }
     static IEnumerator Sequence()
     {
         View("SetGameViewSize",1080,1920);yield return .4f;
@@ -418,6 +448,8 @@ public static class NyanLinkSession08Validation
             yield return Click(Button(Object.FindFirstObjectByType<GameReadyPanel>(),"buttonStart"));
             Assert(Tiles(save.Capture(expected.boundary).board)==Tiles(expected.board),"Cold board exact");Assert(restores==1 && saves==0 && patternResults==0,"Cold continue has no duplicate outcome or checkpoint events");
             Assert(board.GetTileAtOffset(Kept).Color==TileColor.Blue && board.GetTileAtOffset(Kept).ItemType==ItemEffectType.PowerUp,"Cold resume keeps recolored item identity");
+            yield return .15f; // Let LateUpdate labels reflect the already-verified restored model.
+            File.WriteAllLines(Path.Combine(Output,"cold-label-probe.txt"),Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t.name=="Item type/level").Select(t=>t.text+" active="+t.isActiveAndEnabled+" parent="+t.transform.parent.name));
             Assert(Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="PWR 2" && t.isActiveAndEnabled),"Restored item identity badge active");
             Capture("09-cold-restored-board.png");yield return .15f;
             var permanent=save.Store.Load().data.permanent;
@@ -436,6 +468,7 @@ public static class NyanLinkSession08Validation
             Near(StaminaManager.Instance.MaxStamina,110,"Actual defeat retry retains upgraded loadout");
             Pass("Cold Unity restart: all checkpoint fields and item identity exact, permanent record intact, actual UI restart progress-only");Pass(assertions+" cold Play assertions");yield break;
         }
+        Capture("00-main.png");yield return .15f;
         StorageCases();
         // Legacy format lacks board/effects, so it is deliberately retained rather than guessed.
         Directory.CreateDirectory(SaveManager.StorageDirectory);string legacyPath=Path.Combine(SaveManager.StorageDirectory,"checkpoint_prototype-stage-01.json");
@@ -444,6 +477,7 @@ public static class NyanLinkSession08Validation
         yield return Click(Button(Object.FindFirstObjectByType<GameReadyPanel>(),"buttonStart"));
         Assert(save.TryUpdatePermanent(p=>{p.coins=321;p.equipment.Add(new EquipmentRecord{instanceId="test-weapon",dataId="test-weapon-data",level=2,equippedSlot=2});}),"Permanent transaction seed");
         yield return LayoutCases();
+        if(Environment.GetEnvironmentVariable("NYANLINK_CONCEPT_QA")=="1")yield return ArtCases();
         holdSave=true;
         int count=saves;
         yield return Approach();Time.timeScale=1f;
@@ -481,6 +515,7 @@ public static class NyanLinkSession08Validation
         yield return Wait(()=>spawner.CurrentObstacle.IsInputWindowOpen,"Blue input");count=saves;yield return Drag(TileColor.Blue);yield return Wait(()=>saves>count,"Blue success checkpoint");
         Time.timeScale=1f;yield return Approach();yield return Wait(()=>spawner.CurrentObstacle.IsInputWindowOpen,"Yellow input");count=saves;yield return Drag(TileColor.Yellow);yield return Wait(()=>saves>count,"Yellow success checkpoint");
         Time.timeScale=8f;yield return Wait(()=>game.CurrentState==GameState.BossPhase,"Boss entry");Time.timeScale=1f;
+        if(Environment.GetEnvironmentVariable("NYANLINK_CONCEPT_QA")=="1")Assert(AudioManager.Instance.CurrentBGM.name=="boss" && AudioManager.Instance.MusicPlaying,"Boss music switches from adventure");
         count=saves;yield return Drag((TileColor)(((int)boss.timeAttackPattern.RequiredColor.Value+1)%6));yield return Wait(()=>saves>count,"Boss failure checkpoint");
         var failureCp=SaveStore.Clone(last);Assert(failureCp.boundary==CheckpointBoundary.BossFailure && failureCp.boss.nextStep==BossNextStep.Interval && !failureCp.boss.failureShield,"Failure consumes shield and records next boundary");
         Capture("05-boss-failure-saved.png");yield return .1f;
@@ -561,6 +596,7 @@ public static class NyanLinkSession08Validation
         PrototypeSafeArea.TestPixels=null;
         SaveManager.TestDirectoryOverride=null;SessionState.SetBool(Key+".Cold",false);
         SessionState.SetBool(Key,false);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error == null && errors.Count == 0 ? 0 : 1);
     }
 }

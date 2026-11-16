@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using NineMood.Core.Managers;
@@ -58,6 +59,59 @@ namespace NineMood.Puzzle
 
         /// <summary>요구 색 전환은 장애물/보스 시스템이 이 API로 통지한다.</summary>
         public TileColor? RequiredMatchColor { get; private set; }
+        public int RequiredMatchCount { get; private set; } = 2;
+        private bool _fullPathRequired;
+        public void CancelTileAnimations() => tileAnimation?.CancelAll(tilemap);
+        public bool SetRequiredMatchPath(TileColor color,int count)
+        {
+            RequiredMatchColor=color; RequiredMatchCount=Mathf.Clamp(count,2,9); _fullPathRequired=true;
+            return EnsureRequiredColorPair();
+        }
+        public bool TryGetMatchPath(TileColor color,int count,out List<Vector3Int> result)
+        {
+            List<Vector3Int> found=null;
+            var path=new List<Vector3Int>(); var seen=new HashSet<Vector3Int>();
+            bool Walk(Vector3Int cell)
+            {
+                var tile=GetTileAtOffset(cell);
+                if (tile==null || !tile.IsActive || tile.Color!=color || !seen.Add(cell)) return false;
+                path.Add(cell);
+                if (path.Count>=count) { found=new List<Vector3Int>(path); return true; }
+                foreach(var next in HexOffsetUtils.GetNeighbors(cell)) if (Walk(next)) return true;
+                path.RemoveAt(path.Count-1);seen.Remove(cell); return false;
+            }
+            foreach(var cell in _tiles.Keys) if (Walk(cell)) break;
+            result=found; return result!=null;
+        }
+        private bool EnsureFullPath(TileColor color,int count,ISet<Vector3Int> protectedCells)
+        {
+            if (TryGetMatchPath(color,count,out _)) return true;
+            List<Vector3Int> found=null; var path=new List<Vector3Int>(); var seen=new HashSet<Vector3Int>();
+            bool Walk(Vector3Int cell,bool allowItemRecolor)
+            {
+                var tile=GetTileAtOffset(cell);
+                if (tile==null || !tile.IsActive || tile.IsSelected || (protectedCells?.Contains(cell) ?? false) ||
+                    (!allowItemRecolor && tile.State!=TileState.Normal && tile.Color!=color) || !seen.Add(cell)) return false;
+                path.Add(cell);
+                if (path.Count>=count) { found=new List<Vector3Int>(path); return true; }
+                // Prefer existing matching tiles before changing any color.
+                foreach(var next in HexOffsetUtils.GetNeighbors(cell).OrderBy(c=>GetTileAtOffset(c)?.Color==color ? 0:1))
+                    if (Walk(next,allowItemRecolor)) return true;
+                path.RemoveAt(path.Count-1);seen.Remove(cell);return false;
+            }
+            foreach(bool allowItems in new[]{false,true})
+            {
+                foreach(var cell in _tiles.Keys.OrderBy(c=>_tiles[c].Color==color ? 0:1)) if (Walk(cell,allowItems)) break;
+                if (found!=null) break;
+            }
+            if (found==null) return false;
+            foreach(var cell in found)
+            {
+                var tile=_tiles[cell]; tile.Color=color;
+                tilemap.SetTile(cell,GetTileByColorAndState(color,tile.State));
+            }
+            return true; // Item type/level are retained even in the all-item-board fallback.
+        }
 
         [Header("레이어")]
         [Tooltip("퍼즐 오브젝트에 적용할 레이어 (Camera_Puzzle culling mask와 일치해야 함)")]
@@ -200,7 +254,7 @@ namespace NineMood.Puzzle
         {
             tileAnimation?.CancelAll(tilemap);
             _tiles.Clear();tilemap.ClearAllTiles();
-            RequiredMatchColor=null;
+            RequiredMatchColor=null; RequiredMatchCount=2; _fullPathRequired=false;
             foreach(var record in tiles)
             {
                 var tile=SpawnTile(new Vector3Int(record.x,record.y,0),record.color,record.state);
@@ -575,13 +629,13 @@ namespace NineMood.Puzzle
 
         public bool SetRequiredMatchColor(TileColor? color)
         {
-            RequiredMatchColor = color;
+            RequiredMatchColor = color; RequiredMatchCount=2; _fullPathRequired=false;
             return EnsureRequiredColorPair();
         }
 
         /// <summary>생성/리필 완료 후 등록된 요구 색을 재검사. 요구 색이 없으면 변경하지 않는다.</summary>
         public bool EnsureRequiredColorPair(ISet<Vector3Int> protectedCells = null) =>
-            !RequiredMatchColor.HasValue || TryEnsureAdjacentPair(RequiredMatchColor.Value, protectedCells);
+            !RequiredMatchColor.HasValue || (_fullPathRequired ? EnsureFullPath(RequiredMatchColor.Value,RequiredMatchCount,protectedCells) : TryEnsureAdjacentPair(RequiredMatchColor.Value, protectedCells));
 
         /// <summary>최소한의 일반 타일만 재색칠. 아이템/선택/보호/비활성 타일을 변경하지 않는다.</summary>
         public bool TryEnsureAdjacentPair(TileColor color, ISet<Vector3Int> protectedCells = null)

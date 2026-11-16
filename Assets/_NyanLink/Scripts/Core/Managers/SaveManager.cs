@@ -161,6 +161,7 @@ namespace NineMood.Core.Managers
         // Additive 0→12 success damage preserves existing checkpoints; restored groggy never reapplies it.
         private string CompatibleBossRules()
         {
+            if (Boss.UsesEncounter) return Boss.config.definition.RulesKey();
             string json = JsonUtility.ToJson(Boss.config);
             return Boss.config.successDamage == 12f
                 ? System.Text.RegularExpressions.Regex.Replace(json, @"""successDamage"":12(?:\.0+)?(?=[,}])", "\"successDamage\":0.0")
@@ -188,7 +189,7 @@ namespace NineMood.Core.Managers
                 hp=stamina.CurrentStamina,maxHP=stamina.MaxStamina,elapsed=stamina.ElapsedRunnerTime,score=ScoreManager.Instance.CurrentScore,
                 freezeRemaining=stamina.DecayFreezeRemaining,boostRemaining=Runner.BoostTimeRemaining,runnerState=Runner.CurrentState,actionRemaining=Runner.ActionTimeRemaining,
                 requiredColor=Board.RequiredMatchColor.HasValue ? (int)Board.RequiredMatchColor.Value : -1,boss=Boss.CaptureBoundary(),randomState=JsonUtility.ToJson(UnityEngine.Random.state),
-                board=Board.GetAllTileOffsets().OrderBy(c=>c.y).ThenBy(c=>c.x).Select(c=> {var t=Board.GetTileAtOffset(c);return new TileRecord {x=c.x,y=c.y,color=t.Color,state=t.State,itemType=t.ItemType};}).ToList()};
+                board=Boss.UsesEncounter && Boss.Encounter.IsFever ? Boss.Encounter.CheckpointTiles() : Board.GetAllTileOffsets().OrderBy(c=>c.y).ThenBy(c=>c.x).Select(c=> {var t=Board.GetTileAtOffset(c);return new TileRecord {x=c.x,y=c.y,color=t.Color,state=t.State,itemType=t.ItemType};}).ToList()};
         }
         [Serializable] private sealed class RandomCheck { public int s0,s1,s2,s3; }
         public bool ValidateRuntime(RunCheckpoint cp,out string error)
@@ -198,7 +199,7 @@ namespace NineMood.Core.Managers
             var temporary=new SaveDocument {checkpoint=cp};
             if(!SaveStore.Validate(temporary,out error)) return false;
             error="Checkpoint boundary is incompatible; original preserved";
-            if(cp.distance>stageData.stageLength || cp.maxHP!=ProgressionService.Stats().maxHP || cp.boss.phase>Boss.config.phaseHPThresholds.Count) return false;
+            if(cp.distance>stageData.stageLength || cp.maxHP!=ProgressionService.Stats().maxHP || cp.boss.phase>(Boss.UsesEncounter ? Boss.config.definition.phases.Length-1 : Boss.config.phaseHPThresholds.Count)) return false;
             var obstacles=stageData.obstacles.OrderBy(o=>o.triggerDistance).ToArray();
             if(cp.phase==GameState.RunnerPhase)
             {
@@ -208,8 +209,8 @@ namespace NineMood.Core.Managers
             }
             else
             {
-                if(cp.obstacleIndex!=obstacles.Length || cp.distance!=stageData.stageLength || cp.retryRemaining!=0 || cp.requiredColor!=-1 || cp.boss.maxHP!=Boss.config.maxHP) return false;
-                if(cp.boss.nextStep==BossNextStep.Interval && cp.boss.nextSequence.Count!=Boss.config.timeAttackSequenceLength+cp.boss.phase*Boss.config.sequenceGrowthPerPhase) return false;
+                if(cp.obstacleIndex!=obstacles.Length || cp.distance!=stageData.stageLength || cp.retryRemaining!=0 || cp.requiredColor!=-1 || cp.boss.maxHP!=(Boss.UsesEncounter ? Boss.config.definition.maxHP : Boss.config.maxHP)) return false;
+                if(cp.boss.nextStep==BossNextStep.Interval && cp.boss.nextSequence.Count!=(Boss.UsesEncounter ? 0 : Boss.config.timeAttackSequenceLength+cp.boss.phase*Boss.config.sequenceGrowthPerPhase)) return false;
                 if(cp.boss.nextStep==BossNextStep.Groggy && cp.boss.groggyRemaining<=0) return false;
             }
             if(cp.requiredColor>=0 && !cp.board.Any(a=>(int)a.color==cp.requiredColor && cp.board.Any(b=>(int)b.color==cp.requiredColor && HexOffsetUtils.IsAdjacent(new Vector3Int(a.x,a.y,0),new Vector3Int(b.x,b.y,0))))) return false;

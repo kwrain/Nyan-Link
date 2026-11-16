@@ -11,6 +11,8 @@ namespace NineMood.Data.Definitions
     [CreateAssetMenu(fileName = "BossBattleConfig", menuName = "NyanLink/Data/Boss Battle Config", order = 6)]
     public class BossBattleConfig : ScriptableObject
     {
+        public BossDefinition definition;
+
         // ── 기본 정보 ───────────────────────────────────────────────────
         [Header("보스 기본 정보")]
         public string bossId;

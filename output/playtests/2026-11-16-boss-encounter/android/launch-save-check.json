@@ -1,0 +1,11 @@
+{
+  "sameBytesAfterLaunch": true,
+  "before": {
+    "profile-v1.json": "89131236e8ba6e396b117db76eccd0a1905b42c85fa1c78e1897065c5f7c1654",
+    "profile-v1.json.bak": "74d908a24d732002a9b59f29521b3583fdc483ab2449afa84297870f6ecb1137"
+  },
+  "after": {
+    "profile-v1.json": "89131236e8ba6e396b117db76eccd0a1905b42c85fa1c78e1897065c5f7c1654",
+    "profile-v1.json.bak": "74d908a24d732002a9b59f29521b3583fdc483ab2449afa84297870f6ecb1137"
+  }
+}

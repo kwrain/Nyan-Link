@@ -29,9 +29,11 @@ namespace NineMood.Boss
         public bool TimersFrozen => TimerFreezeRemaining > 0f;
         public float PendingAttackBonus { get; private set; }
         public bool HasFailureShield { get; private set; }
-        public bool IsPatternActive => _state == BossState.Pattern;
-        public bool CanUseItems => IsActive;
-        public bool CanUseColorActions => IsActive && IsGroggy;
+        public BossEncounter Encounter { get; private set; }
+        public bool UsesEncounter => config!=null && config.definition!=null;
+        public bool IsPatternActive => UsesEncounter ? Encounter!=null && Encounter.IsResponding : _state == BossState.Pattern;
+        public bool CanUseItems => IsActive && (!UsesEncounter || !IsGroggy);
+        public bool CanUseColorActions => !UsesEncounter && IsActive && IsGroggy;
         public bool PreserveItems => false; // Legacy API: matches consume items in every playable phase.
         public bool IsDefeated { get; private set; }
         private bool _battleStarted;
@@ -42,6 +44,28 @@ namespace NineMood.Boss
         private enum BossState { Idle, Pattern, Groggy, Interval, Dead }
         private bool IsActive => GameManager.IsCreated && GameManager.Instance.CurrentState == GameState.BossPhase && _battleStarted && !IsDefeated;
 
+        protected override void Awake()
+        {
+            base.Awake(); if (!IsOwner) return;
+            Encounter=GetComponent<BossEncounter>();
+            if (Encounter==null) Encounter=gameObject.AddComponent<BossEncounter>();
+            Encounter.Bind(this);
+        }
+        public void SetEncounterPhase(int phase)
+        { PhaseIndex=phase; GameEvents.TriggerBossPhaseChanged(phase); }
+        public void SetEncounterFever(bool active,float remaining)
+        { IsGroggy=active; GroggyRemaining=remaining; }
+        public void ApplyEncounterAttack(float baseDamage)
+        {
+            if (!IsActive || !UsesEncounter) return;
+            float damage=baseDamage*GameManager.Instance.RunStats.attack*(1+PendingAttackBonus);
+            PendingAttackBonus=0; ApplyDamage(damage);
+        }
+        public void ApplyEncounterFailure(float amount)
+        {
+            bool shield=HasFailureShield; HasFailureShield=false;
+            if (!shield) StaminaManager.Instance?.TakeDamage(amount);
+        }
         private void OnEnable()
         {
             GameEvents.OnGameStateChanged += OnState;
@@ -74,19 +98,22 @@ namespace NineMood.Boss
         private void StartBattle()
         {
             AbortBattle();
-            if (config == null || balance == null || timeAttackPattern == null)
+            if (config == null || balance == null || (!UsesEncounter && timeAttackPattern == null))
             { Debug.LogError("[BossController] 보스 데이터/타임어택 참조 누락"); return; }
+            if (UsesEncounter && !config.definition.Validate(out var reason))
+            { Debug.LogError("[BossController] "+reason); return; }
             _battleStarted = true;
             IsDefeated = false;
-            MaxHP = CurrentHP = config.maxHP;
+            MaxHP = CurrentHP = UsesEncounter ? config.definition.maxHP : config.maxHP;
             PhaseIndex = 0;
             // 주행에서 얻은 다음 보스 공격 버프/실패 방어권은 유지한다.
             GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);
             GameEvents.TriggerBossPhaseChanged(0);
-            StartPattern();
+            if (UsesEncounter) Encounter.Begin(); else StartPattern();
         }
         private void AbortBattle()
         {
+            Encounter?.Abort();
             _battleStarted = false;
             _groggyPending = false;
             _nextSequence=null;
@@ -136,6 +163,7 @@ namespace NineMood.Boss
         private void Update()
         {
             if (!IsActive) return;
+            if (UsesEncounter) { Encounter.Tick(Time.deltaTime); return; }
             if (_groggyPending)
             {
                 _groggyPending = false;
@@ -173,6 +201,7 @@ namespace NineMood.Boss
         }
         public BossRecord CaptureBoundary()
         {
+            if (UsesEncounter && _battleStarted) return Encounter.Capture();
             return new BossRecord { active=_battleStarted, hp=CurrentHP,maxHP=MaxHP,phase=PhaseIndex,
                 attackBonus=PendingAttackBonus,failureShield=HasFailureShield,
                 nextStep=!_battleStarted ? BossNextStep.None : (IsGroggy || _groggyPending ? BossNextStep.Groggy : BossNextStep.Interval),
@@ -186,6 +215,11 @@ namespace NineMood.Boss
             PendingAttackBonus=record.attackBonus;HasFailureShield=record.failureShield;
             if(!record.active) return;
             _battleStarted=true;CurrentHP=record.hp;MaxHP=record.maxHP;PhaseIndex=record.phase;
+            if (UsesEncounter)
+            {
+                Encounter.Restore(record); IsGroggy=false;
+                GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);GameEvents.TriggerBossPhaseChanged(PhaseIndex); return;
+            }
             _nextSequence=new System.Collections.Generic.List<TileColor>(record.nextSequence);
             IsGroggy=record.nextStep==BossNextStep.Groggy;
             _state=IsGroggy ? BossState.Groggy : BossState.Interval;
@@ -240,7 +274,7 @@ namespace NineMood.Boss
                 IsDefeated = true;
                 _state = BossState.Dead;
                 IsGroggy = false;
-                timeAttackPattern.Cancel();
+                timeAttackPattern?.Cancel();
             }
             GameEvents.TriggerBossHPChanged(CurrentHP,MaxHP);
             if (lethal) GameManager.Instance?.TriggerStageClear();

@@ -1,0 +1,250 @@
+Activity Resolver Table:
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        f1c2fd2 kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity filter 3fe88a3
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+Receiver Resolver Table:
+  Non-Data Actions:
+      android.intent.action.BATTERY_OKAY:
+        de9771e kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy filter de70bff
+          Action: "android.intent.action.BATTERY_OKAY"
+          Action: "android.intent.action.BATTERY_LOW"
+      android.intent.action.ACTION_POWER_DISCONNECTED:
+        21407a0 kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy filter 29a2f59
+          Action: "android.intent.action.ACTION_POWER_DISCONNECTED"
+          Action: "android.intent.action.ACTION_POWER_CONNECTED"
+      androidx.profileinstaller.action.SAVE_PROFILE:
+        4ac3182 kr.fairstudios.nyanlink.prototype/androidx.profileinstaller.ProfileInstallReceiver filter 598a0c9
+          Action: "androidx.profileinstaller.action.SAVE_PROFILE"
+      android.intent.action.DEVICE_STORAGE_LOW:
+        741fdcc kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy filter a356815
+          Action: "android.intent.action.DEVICE_STORAGE_LOW"
+          Action: "android.intent.action.DEVICE_STORAGE_OK"
+      android.net.conn.CONNECTIVITY_CHANGE:
+        3b1e72a kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy filter baa691b
+          Action: "android.net.conn.CONNECTIVITY_CHANGE"
+      android.intent.action.DEVICE_STORAGE_OK:
+        741fdcc kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy filter a356815
+          Action: "android.intent.action.DEVICE_STORAGE_LOW"
+          Action: "android.intent.action.DEVICE_STORAGE_OK"
+      androidx.profileinstaller.action.INSTALL_PROFILE:
+        4ac3182 kr.fairstudios.nyanlink.prototype/androidx.profileinstaller.ProfileInstallReceiver filter f2e093
+          Action: "androidx.profileinstaller.action.INSTALL_PROFILE"
+      android.intent.action.BATTERY_LOW:
+        de9771e kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy filter de70bff
+          Action: "android.intent.action.BATTERY_OKAY"
+          Action: "android.intent.action.BATTERY_LOW"
+      android.intent.action.TIMEZONE_CHANGED:
+        9772ab8 kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.RescheduleReceiver filter 9117091
+          Action: "android.intent.action.TIMEZONE_CHANGED"
+          Action: "android.intent.action.TIME_SET"
+          Action: "android.intent.action.BOOT_COMPLETED"
+      android.intent.action.TIME_SET:
+        9772ab8 kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.RescheduleReceiver filter 9117091
+          Action: "android.intent.action.TIMEZONE_CHANGED"
+          Action: "android.intent.action.TIME_SET"
+          Action: "android.intent.action.BOOT_COMPLETED"
+      androidx.profileinstaller.action.SKIP_FILE:
+        4ac3182 kr.fairstudios.nyanlink.prototype/androidx.profileinstaller.ProfileInstallReceiver filter c8898d0
+          Action: "androidx.profileinstaller.action.SKIP_FILE"
+      androidx.profileinstaller.action.BENCHMARK_OPERATION:
+        4ac3182 kr.fairstudios.nyanlink.prototype/androidx.profileinstaller.ProfileInstallReceiver filter 76fe3ce
+          Action: "androidx.profileinstaller.action.BENCHMARK_OPERATION"
+      android.intent.action.BOOT_COMPLETED:
+        9772ab8 kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.RescheduleReceiver filter 9117091
+          Action: "android.intent.action.TIMEZONE_CHANGED"
+          Action: "android.intent.action.TIME_SET"
+          Action: "android.intent.action.BOOT_COMPLETED"
+      android.intent.action.ACTION_POWER_CONNECTED:
+        21407a0 kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy filter 29a2f59
+          Action: "android.intent.action.ACTION_POWER_DISCONNECTED"
+          Action: "android.intent.action.ACTION_POWER_CONNECTED"
+      androidx.work.diagnostics.REQUEST_DIAGNOSTICS:
+        5d03a64 kr.fairstudios.nyanlink.prototype/androidx.work.impl.diagnostics.DiagnosticsReceiver filter 8cb84cd
+          Action: "androidx.work.diagnostics.REQUEST_DIAGNOSTICS"
+      androidx.work.impl.background.systemalarm.UpdateProxies:
+        ddf4bf6 kr.fairstudios.nyanlink.prototype/androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver filter 77c7bf7
+          Action: "androidx.work.impl.background.systemalarm.UpdateProxies"
+
+Domain verification status:
+
+Permissions:
+  Permission [kr.fairstudios.nyanlink.prototype.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION] (beabc8e):
+    sourcePackage=kr.fairstudios.nyanlink.prototype
+    uid=10030 gids=[] type=0 prot=signature
+    perm=PermissionInfo{c39bcaf kr.fairstudios.nyanlink.prototype.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION}
+    flags=0x0
+
+Registered ContentProviders:
+  kr.fairstudios.nyanlink.prototype/com.ironsource.lifecycle.IronsourceLifecycleProvider:
+    Provider{a6cd8bc kr.fairstudios.nyanlink.prototype/com.ironsource.lifecycle.IronsourceLifecycleProvider}
+  kr.fairstudios.nyanlink.prototype/com.ironsource.lifecycle.LevelPlayActivityLifecycleProvider:
+    Provider{7c9c045 kr.fairstudios.nyanlink.prototype/com.ironsource.lifecycle.LevelPlayActivityLifecycleProvider}
+  kr.fairstudios.nyanlink.prototype/androidx.startup.InitializationProvider:
+    Provider{3da139a kr.fairstudios.nyanlink.prototype/androidx.startup.InitializationProvider}
+
+ContentProvider Authorities:
+  [kr.fairstudios.nyanlink.prototype.LevelPlayActivityLifecycleProvider]:
+    Provider{7c9c045 kr.fairstudios.nyanlink.prototype/com.ironsource.lifecycle.LevelPlayActivityLifecycleProvider}
+      applicationInfo=ApplicationInfo{8ef74cb kr.fairstudios.nyanlink.prototype}
+  [kr.fairstudios.nyanlink.prototype.IronsourceLifecycleProvider]:
+    Provider{a6cd8bc kr.fairstudios.nyanlink.prototype/com.ironsource.lifecycle.IronsourceLifecycleProvider}
+      applicationInfo=ApplicationInfo{38cc4a8 kr.fairstudios.nyanlink.prototype}
+  [kr.fairstudios.nyanlink.prototype.androidx-startup]:
+    Provider{3da139a kr.fairstudios.nyanlink.prototype/androidx.startup.InitializationProvider}
+      applicationInfo=ApplicationInfo{8cb1bc1 kr.fairstudios.nyanlink.prototype}
+
+Key Set Manager:
+  [kr.fairstudios.nyanlink.prototype]
+      Signing KeySets: 237
+
+Packages:
+  Package [kr.fairstudios.nyanlink.prototype] (935cf66):
+    appId=10030
+    pkg=Package{ffe92a7 kr.fairstudios.nyanlink.prototype}
+    codePath=/data/app/~~6UoJfz7b_UNgcNUcAJK2-w==/kr.fairstudios.nyanlink.prototype-db24utWDK7Yf5DGkMnx81w==
+    resourcePath=/data/app/~~6UoJfz7b_UNgcNUcAJK2-w==/kr.fairstudios.nyanlink.prototype-db24utWDK7Yf5DGkMnx81w==
+    legacyNativeLibraryDir=/data/app/~~6UoJfz7b_UNgcNUcAJK2-w==/kr.fairstudios.nyanlink.prototype-db24utWDK7Yf5DGkMnx81w==/lib
+    extractNativeLibs=true
+    primaryCpuAbi=arm64-v8a
+    secondaryCpuAbi=null
+    cpuAbiOverride=null
+    versionCode=1 minSdk=25 targetSdk=36
+    minExtensionVersions=[]
+    versionName=1.0
+    hiddenApiEnforcementPolicy=2
+    usesNonSdkApi=false
+    splits=[base]
+    apkSigningVersion=2
+    flags=[ DEBUGGABLE HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE PARTIALLY_DIRECT_BOOT_AWARE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    forceQueryable=false
+    queriesIntents=[Intent { act=com.attribution.REFERRAL_PROVIDER }, Intent { act=com.android.vending.billing.InAppBillingService.BIND }, Intent { act=com.google.android.apps.play.billingtestcompanion.BillingOverrideService.BIND }]
+    scannedAsStoppedSystemApp=false
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    timeStamp=2026-11-16 18:34:15
+    lastUpdateTime=2026-11-16 18:34:17
+    installerPackageName=null
+    installerPackageUid=-1
+    initiatingPackageName=com.android.shell
+    originatingPackageName=null
+    packageSource=1
+    appMetadataFilePath=null
+    appMetadataSource=0
+    signatures=PackageSignatures{fcd67a6 version:2, signatures:[b711ec0f], past signatures:[]}
+    installPermissionsFixed=false
+    pkgFlags=[ DEBUGGABLE HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privatePkgFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE PARTIALLY_DIRECT_BOOT_AWARE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    apexModuleName=null
+    declared permissions:
+      kr.fairstudios.nyanlink.prototype.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: prot=signature
+    requested permissions:
+      android.permission.ACCESS_ADSERVICES_TOPICS
+      android.permission.FOREGROUND_SERVICE
+      android.permission.RECEIVE_BOOT_COMPLETED
+      android.permission.INTERNET
+      com.android.vending.BILLING
+      android.permission.ACCESS_NETWORK_STATE
+      kr.fairstudios.nyanlink.prototype.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.ACCESS_ADSERVICES_ATTRIBUTION
+      com.google.android.gms.permission.AD_ID
+      android.permission.WAKE_LOCK
+    install permissions:
+      android.permission.ACCESS_ADSERVICES_TOPICS: granted=true
+      android.permission.FOREGROUND_SERVICE: granted=true
+      android.permission.RECEIVE_BOOT_COMPLETED: granted=true
+      android.permission.INTERNET: granted=true
+      com.android.vending.BILLING: granted=true
+      android.permission.ACCESS_NETWORK_STATE: granted=true
+      kr.fairstudios.nyanlink.prototype.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+      android.permission.ACCESS_ADSERVICES_ATTRIBUTION: granted=true
+      com.google.android.gms.permission.AD_ID: granted=true
+      android.permission.WAKE_LOCK: granted=true
+    User 0: ceDataInode=354793 deDataInode=329731 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false quarantined=false
+      installReason=0
+      dataDir=/data/user/0/kr.fairstudios.nyanlink.prototype
+      firstInstallTime=2026-11-16 12:11:46
+      uninstallReason=0
+      overlay paths:
+        /product/overlay/ZuiDynamicColorOverlay.apk
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      legacy overlay paths:
+        /product/overlay/ZuiDynamicColorOverlay.apk
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+      runtime permissions:
+      enabledComponents:
+        androidx.work.impl.background.systemjob.SystemJobService
+
+Queries:
+  system apps queryable: false
+  queries via forceQueryable:
+  queries via package name:
+  queries via component:
+    [com.android.settings,com.android.keychain,com.lenovo.penservice,com.android.DeviceAsWebcam,com.android.location.fused,vendor.qti.qesdk.sysservice,com.zui.pp,com.zui.wifip2p,com.tbsmart.levision,android,com.dolby.dolbyvisionservice,com.zui.tassistent,com.zui.freeform.sidebar,com.android.soundpicker,com.android.dynsystem,com.longcheertel.midtest,com.android.server.telecom,com.example.android.factoryreset,com.lenovo.ue.device,com.lenovo.EngineeringCode,com.lenovo.screensplit,com.motorola.demo,com.android.inputdevices,com.android.localtransport,com.motorola.android.providers.settings,com.longcheer.stress_test,com.qualcomm.qti.services.systemhelper,com.zui.SecretCode,com.android.providers.settings,com.qualcomm.qti.xrvd.service,com.zuisdk]:
+      kr.fairstudios.nyanlink.prototype
+    kr.fairstudios.nyanlink.prototype:
+      com.aura.oobe.lenovo
+    com.array.deviceservices:
+      kr.fairstudios.nyanlink.prototype
+    com.motorola.mobiledesktop:
+      kr.fairstudios.nyanlink.prototype
+    com.nflystudio.InfiniteStaircase:
+      kr.fairstudios.nyanlink.prototype
+    com.google.android.as.oss:
+      kr.fairstudios.nyanlink.prototype
+    com.google.android.as:
+      kr.fairstudios.nyanlink.prototype
+    com.android.settings.intelligence:
+      kr.fairstudios.nyanlink.prototype
+    com.google.android.play.games:
+      kr.fairstudios.nyanlink.prototype
+    com.surfshark.vpnclient.android:
+      kr.fairstudios.nyanlink.prototype
+    com.gameloft.android.ANMP.GloftA9HM:
+      kr.fairstudios.nyanlink.prototype
+    com.nexon.mod:
+      kr.fairstudios.nyanlink.prototype
+    com.gf.ball.run.mergnumber:
+      kr.fairstudios.nyanlink.prototype
+    com.skt.tmap.ku:
+      kr.fairstudios.nyanlink.prototype
+    com.kayac.level_up_number:
+      kr.fairstudios.nyanlink.prototype
+    com.ncsoft.aion2:
+      kr.fairstudios.nyanlink.prototype
+    com.nebula.offlinegames:
+      kr.fairstudios.nyanlink.prototype
+    com.rovio.baba:
+      kr.fairstudios.nyanlink.prototype
+    com.oceanwing.soundcore:
+      kr.fairstudios.nyanlink.prototype
+    com.snapchat.android:
+      kr.fairstudios.nyanlink.prototype
+    com.campmobile.snow:
+      kr.fairstudios.nyanlink.prototype
+    com.joycity.RuleTheSky:
+      kr.fairstudios.nyanlink.prototype
+    com.x.aniimos:
+      kr.fairstudios.nyanlink.prototype
+  queryable via interaction:
+    User 0:
+      [com.android.settings,com.android.keychain,com.lenovo.penservice,com.android.DeviceAsWebcam,com.android.location.fused,vendor.qti.qesdk.sysservice,com.zui.pp,com.zui.wifip2p,com.tbsmart.levision,android,com.dolby.dolbyvisionservice,com.zui.tassistent,com.zui.freeform.sidebar,com.android.soundpicker,com.android.dynsystem,com.longcheertel.midtest,com.android.server.telecom,com.example.android.factoryreset,com.lenovo.ue.device,com.lenovo.EngineeringCode,com.lenovo.screensplit,com.motorola.demo,com.android.inputdevices,com.android.localtransport,com.motorola.android.providers.settings,com.longcheer.stress_test,com.qualcomm.qti.services.systemhelper,com.zui.SecretCode,com.android.providers.settings,com.qualcomm.qti.xrvd.service,com.zuisdk]:
+        kr.fairstudios.nyanlink.prototype
+      [com.google.android.gms,com.google.android.gsf]:
+        kr.fairstudios.nyanlink.prototype
+      com.google.android.inputmethod.latin:
+        kr.fairstudios.nyanlink.prototype
+  queryable via uses-library:
+
+Dexopt state:
+  [kr.fairstudios.nyanlink.prototype]
+    path: /data/app/~~6UoJfz7b_UNgcNUcAJK2-w==/kr.fairstudios.nyanlink.prototype-db24utWDK7Yf5DGkMnx81w==/base.apk
+      arm64: [status=run-from-apk] [reason=unknown] [primary-abi]
+        [location is error]
+
+Compiler stats:
+  [kr.fairstudios.nyanlink.prototype]
+    (No recorded stats)

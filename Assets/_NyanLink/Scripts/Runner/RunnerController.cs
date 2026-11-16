@@ -59,7 +59,7 @@ namespace NineMood.Runner
         private void Update()
         {
             if (!GameManager.IsCreated || (GameManager.Instance.CurrentState != GameState.RunnerPhase &&
-                !(BossController.Instance?.CanUseColorActions ?? false))) return;
+                GameManager.Instance.CurrentState != GameState.BossPhase)) return;
             _boostTimer = Mathf.Max(0f, _boostTimer - Time.deltaTime);
             if (CurrentState == RunnerState.Run) return;
 
@@ -83,6 +83,10 @@ namespace NineMood.Runner
                 TransitionTo(action);
         }
 
+        public void PlayBossResponse(RunnerState action)
+        {
+            if (GameManager.Instance?.CurrentState==GameState.BossPhase) TransitionTo(action);
+        }
         public void TriggerStumble()
         {
             TransitionTo(RunnerState.Stumble);

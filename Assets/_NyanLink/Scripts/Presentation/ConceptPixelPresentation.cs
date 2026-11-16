@@ -59,7 +59,16 @@ namespace NineMood.Presentation
             var phase=game.CurrentState==GameState.Paused ? game.StateBeforePause : game.CurrentState;
             bool bossScene=phase==GameState.BossPhase || (phase==GameState.ColorSelection && boss!=null && boss.MaxHP>0);
             rat.enabled=bossScene;
-            if(bossScene)rat.sprite=ConceptArtLibrary.Get(boss.IsGroggy ? "boss-1":"boss-0");
+            if(bossScene)
+            {
+                bool response=boss.UsesEncounter && boss.Encounter.IsResponseAnimation;
+                rat.sprite=ConceptArtLibrary.Get(boss.IsGroggy || (response && boss.Encounter.LastResponseSucceeded && boss.Encounter.Step.action==NineMood.Data.Definitions.BossResponseAction.Attack) ? "boss-1":"boss-0");
+                float windup=boss.UsesEncounter && boss.Encounter.AcceptingInput ? Mathf.Sin(Time.time*22)*.045f : 0;
+                float lunge=response && boss.Encounter.Step.action!=NineMood.Data.Definitions.BossResponseAction.Attack ? -.8f : 0;
+                rat.transform.position=new Vector3(2.3f+windup+lunge,floor,-.15f);
+                rat.color=boss.UsesEncounter && boss.Encounter.PoseRemaining>0 ?
+                    (boss.Encounter.IsFever || (response && boss.Encounter.Step.action==NineMood.Data.Definitions.BossResponseAction.Attack) ? new Color(1,.65f,.5f):new Color(1,.8f,.8f)) : Color.white;
+            }
             if(spawner!=null && spawner.CurrentObstacle!=null)ApplyObstacle(spawner.CurrentObstacle);
             UpdateRings();
         }

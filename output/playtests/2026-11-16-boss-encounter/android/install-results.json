@@ -1,0 +1,20 @@
+{
+  "device": "HA1XRFTC",
+  "model": "Lenovo TB320FC",
+  "android": "15",
+  "install": "Performing Streamed Install\nSuccess",
+  "savedBytesUnchanged": true,
+  "saveHashes": {
+    "profile-v1.json": "89131236e8ba6e396b117db76eccd0a1905b42c85fa1c78e1897065c5f7c1654",
+    "profile-v1.json.bak": "74d908a24d732002a9b59f29521b3583fdc483ab2449afa84297870f6ecb1137"
+  },
+  "before": {
+    "coins": 100,
+    "equipmentCount": 2,
+    "hasCheckpoint": true,
+    "checkpointPhase": 2
+  },
+  "activity": "kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity",
+  "apkSHA256": "70ed716b5acd2e906b14842d2b0df543df4d954711391e7e9ddd9ba6e77eda1e",
+  "backup": "/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Builds/AndroidDeviceBackups/2026-11-16-boss-encounter"
+}

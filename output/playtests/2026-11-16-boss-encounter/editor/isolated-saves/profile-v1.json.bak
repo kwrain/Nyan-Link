@@ -1,0 +1,62 @@
+{
+    "schemaVersion": 1,
+    "revision": 14,
+    "checksum": "9daea7751fd4381c87e06c5db47572f5a1c9984614afcbe1ef8cdfcb6bdd80c5",
+    "hasCheckpoint": false,
+    "checkpoint": {
+        "runId": "",
+        "stageId": "",
+        "rulesSignature": "",
+        "randomState": "",
+        "boundary": 0,
+        "phase": 0,
+        "distance": 0.0,
+        "hp": 0.0,
+        "maxHP": 0.0,
+        "elapsed": 0.0,
+        "freezeRemaining": 0.0,
+        "boostRemaining": 0.0,
+        "actionRemaining": 0.0,
+        "retryRemaining": 0.0,
+        "runnerState": 0,
+        "obstacleIndex": 0,
+        "score": 0,
+        "requiredColor": -1,
+        "board": [],
+        "boss": {
+            "active": false,
+            "failureShield": false,
+            "hp": 0.0,
+            "maxHP": 0.0,
+            "attackBonus": 0.0,
+            "groggyRemaining": 0.0,
+            "intervalRemaining": 0.0,
+            "phase": 0,
+            "nextStep": 0,
+            "nextSequence": []
+        }
+    },
+    "permanent": {
+        "coins": 100,
+        "equipment": [
+            {
+                "instanceId": "reward-d2f1a09bc95141b0986bce48c96be087",
+                "dataId": "prototype-hat-01",
+                "level": 1,
+                "equippedSlot": -1
+            }
+        ],
+        "clears": [
+            {
+                "stageId": "prototype-stage-01",
+                "cleared": true,
+                "firstRewardGranted": true,
+                "bestScore": 770
+            }
+        ],
+        "rewardReceipts": [
+            "d2f1a09bc95141b0986bce48c96be087"
+        ]
+    },
+    "pendingClears": []
+}

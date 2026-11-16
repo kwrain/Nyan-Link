@@ -1,0 +1,27 @@
+--------- beginning of system
+11-16 18:46:38.389 25084 25084 D SystemServiceRegistry:  zuiHandwriting new zuihandwritingmanager
+11-16 18:46:38.394 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.397 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.397 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.400 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.400 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.434 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.434 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.434 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.435 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.439 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.439 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.446 25084 25084 D ActivityThread: startAppLockIfNeeded is called
+11-16 18:46:38.449 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.457 25084 25084 D WindowManagerImpl: addView displayId=0 0
+11-16 18:46:38.457 25084 25084 D WindowManagerImpl: addView displayId33= 0
+11-16 18:46:38.469 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.481 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.531 25084 25084 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.542 25084 25084 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.548 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:38.643 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:40.968 25084 25084 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 18:46:41.082 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 18:46:44.171 25084 25084 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 18:46:44.187 25084 25084 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype

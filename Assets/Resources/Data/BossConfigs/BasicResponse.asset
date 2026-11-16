@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503df3f4c3d0c4f6bbd0ce8c764b6c18, type: 3}
+  m_Name: BasicResponse
+  m_EditorClassIdentifier: Assembly-CSharp::NineMood.Data.Definitions.BossPatternDefinition
+  patternId: basic-response
+  displayName: "\uC5F0\uC18D \uB300\uC751"
+  execution: 0
+  steps:
+  - color: 4
+    action: 0
+    cue: "\uBE48\uD2C8! \uACF5\uACA9\uD558\uC138\uC694"
+    minimumLinks: 0
+    inputSeconds: 0
+    damagePerLink: 1
+  - color: 1
+    action: 1
+    cue: "\uB192\uC740 \uACF5\uACA9! \uC2AC\uB77C\uC774\uB529"
+    minimumLinks: 0
+    inputSeconds: 0
+    damagePerLink: 1
+  - color: 2
+    action: 2
+    cue: "\uC815\uBA74 \uACF5\uACA9! \uBC29\uC5B4\uD558\uC138\uC694"
+    minimumLinks: 0
+    inputSeconds: 0
+    damagePerLink: 1
+  grantsFeverOnSuccess: 1

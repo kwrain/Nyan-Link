@@ -51,7 +51,8 @@ namespace NineMood.UI
                 var text=_labels[count++];text.transform.parent.gameObject.SetActive(true);
                 text.transform.parent.GetComponent<RectTransform>().position=_camera.WorldToScreenPoint(_board.GetCellCenterWorld(cell));text.transform.parent.GetComponent<RectTransform>().sizeDelta=new Vector2(150,60)*scale;text.fontSize=26*scale;
                 string kind=KoreanText.ItemName(tile.ItemType);
-                text.text=kind+" "+(tile.State==TileState.ItemLv2 ? "2" : "1");
+                bool fever=NineMood.Boss.BossController.Instance?.UsesEncounter==true && NineMood.Boss.BossController.Instance.IsGroggy;
+                text.text=fever ? "특수 ×"+(tile.State==TileState.ItemLv2 ? "5":"3") : kind+" "+(tile.State==TileState.ItemLv2 ? "2":"1");
             }
             for(int i=count;i<_labels.Count;i++) _labels[i].transform.parent.gameObject.SetActive(false);
             float remaining=StaminaManager.Instance?.DecayFreezeRemaining ?? 0f;

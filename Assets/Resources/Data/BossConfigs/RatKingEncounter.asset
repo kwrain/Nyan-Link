@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7ced429982d42e5974fbbaf685ae6e, type: 3}
+  m_Name: RatKingEncounter
+  m_EditorClassIdentifier: Assembly-CSharp::NineMood.Data.Definitions.BossDefinition
+  bossId: rat-king-response-v1
+  displayName: "\uB3C4\uC2DC\uC758 \uC950\uC655"
+  maxHP: 120
+  failureDamage: 20
+  feverSeconds: 5
+  feverRefillSeconds: 0.4
+  feverDamageMultiplier: 2
+  phases:
+  - enterAtHP: 1
+    minimumLinks: 2
+    inputSeconds: 1.8
+    stepGap: 0.2
+    patternGap: 0.35
+    patterns:
+    - {fileID: 11400000, guid: 864b77944d8af474896e09252c463d7e, type: 2}
+  - enterAtHP: 0.5
+    minimumLinks: 3
+    inputSeconds: 1.6
+    stepGap: 0.15
+    patternGap: 0.25
+    patterns:
+    - {fileID: 11400000, guid: 864b77944d8af474896e09252c463d7e, type: 2}
+  - enterAtHP: 0.2
+    minimumLinks: 5
+    inputSeconds: 1.6
+    stepGap: 0.1
+    patternGap: 0.2
+    patterns:
+    - {fileID: 11400000, guid: 864b77944d8af474896e09252c463d7e, type: 2}

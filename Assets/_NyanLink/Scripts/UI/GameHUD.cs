@@ -46,7 +46,13 @@ namespace NineMood.UI
             int tier = DataManager.Instance.BalanceData.GetChainMultiplier(connected);
             _chainTier.text = $"연결 {connected}  /  배율 ×{tier}";
         }
-        private void OnItemUse(int score,int removed) => _chainTier.text=$"아이템 사용  /  제거 {removed}개";
+        private void OnItemUse(int score,int removed)
+        {
+            var boss=NineMood.Boss.BossController.Instance;
+            _chainTier.text=boss!=null && boss.UsesEncounter && boss.IsGroggy
+                ? $"피버 {boss.Encounter.FeverTapCount}타 / {boss.Encounter.Feedback}"
+                : $"아이템 사용  /  제거 {removed}개";
+        }
         private void OnEnable()
         {
             GameEvents.OnItemUseCompleted += OnItemUse;

@@ -12,26 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5217925186d4b496fa21c586520aaba7, type: 3}
   m_Name: BossBattleConfig
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.BossBattleConfig
+  definition: {fileID: 11400000, guid: e3eca500506c5419e999ca900bc2b968, type: 2}
   bossId: prototype-boss-01
   bossName: Prototype Boss 01
   maxHP: 120
   battleType: 0
   patternShowDuration: 5
   inputTimeLimit: 10
-  failureStaminaDamage: 20
   successDamage: 12
+  failureStaminaDamage: 20
+  groggyDuration: 5
+  groggyDamageMultiplier: 2
   phaseHPThresholds:
   - 0.5
   - 0.2
   timeAttackSequenceLength: 3
-  rhythmNoteSpeed: 1
-  colorQuotaTargets:
-    keys: 
-    values: 
-  memorySequenceLength: 4
-  groggyDuration: 5
-  groggyDamageMultiplier: 2
   sequenceGrowthPerPhase: 1
   timeReductionPerPhase: 1
   minimumTimeLimit: 6
   patternInterval: 1
+  rhythmNoteSpeed: 1
+  maxMissCount: 0
+  colorQuotaTargets:
+    keys: 
+    values: 
+  memorySequenceLength: 4

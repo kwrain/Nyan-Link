@@ -41,6 +41,9 @@ namespace NineMood.UI
         private float _lastHP = -1f;
         private int _sequenceSignature = int.MinValue;
         private float _sequenceWidth;
+        private RectTransform _responseRow;
+        private Image _responseIcon, _responseTimeFill;
+        private TextMeshProUGUI _responseCue, _responseCount;
         private CanvasGroup _group;
         private TextMeshProUGUI _timer;
         public string TimerText => _timer != null ? _timer.text : "";
@@ -62,6 +65,7 @@ namespace NineMood.UI
             if (boss == null || _timer == null) return;
             bool visible = NineMood.Core.Managers.GameManager.Instance?.CurrentState == GameState.BossPhase;
             if (!visible) return;
+            if (boss.UsesEncounter) { RefreshEncounter(boss); return; }
             RefreshSequence();
             _groggyRow.gameObject.SetActive(boss.IsGroggy);
             if (boss.IsGroggy)
@@ -97,6 +101,7 @@ namespace NineMood.UI
             _completedMaterial = new Material(Resources.Load<Shader>("BossCompletedIcon"));
             _sequenceRow.gameObject.SetActive(false);
             CreateGroggyGuide();
+            CreateResponseGuide();
         }
 
         private TextMeshProUGUI GuideText(string name, Transform parent, string value)
@@ -136,6 +141,63 @@ namespace NineMood.UI
             Place(_damagePopup.rectTransform,.35f,.68f,.65f,.72f);
             _damagePopup.fontSize = 44; _damagePopup.color = new Color(1f,.83f,.35f);
             _damagePopup.gameObject.SetActive(false);
+        }
+
+        private void CreateResponseGuide()
+        {
+            _responseRow=new GameObject("Boss response guide",typeof(RectTransform)).GetComponent<RectTransform>();
+            _responseRow.SetParent(transform,false); Place(_responseRow,.10f,.747f,.90f,.805f);
+            _responseIcon=new GameObject("Required command icon",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+            _responseIcon.transform.SetParent(_responseRow,false);_responseIcon.raycastTarget=false;_responseIcon.preserveAspect=true;
+            Place(_responseIcon.rectTransform,.02f,.2f,.14f,.95f);
+            _responseCue=GuideText("Boss action cue",_responseRow,""); Place(_responseCue.rectTransform,.17f,.52f,.99f,1);
+            _responseCount=GuideText("Required link count",_responseRow,""); Place(_responseCount.rectTransform,.17f,.15f,.99f,.57f);
+            _responseCount.fontSize=25;
+            var track=new GameObject("Response time track",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+            track.transform.SetParent(_responseRow,false);track.raycastTarget=false;track.color=new Color(.1f,.15f,.22f);
+            Place(track.rectTransform,0,0,1,.1f);
+            _responseTimeFill=new GameObject("Response time fill",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+            _responseTimeFill.transform.SetParent(track.transform,false);Place(_responseTimeFill.rectTransform,0,0,1,1);
+            _responseTimeFill.raycastTarget=false;_responseTimeFill.sprite=PixelUIResources.Get("meter-boss");
+            _responseTimeFill.type=Image.Type.Filled;_responseTimeFill.fillMethod=Image.FillMethod.Horizontal;
+            _responseRow.gameObject.SetActive(false);
+        }
+        private void RefreshEncounter(BossController boss)
+        {
+            var fight=boss.Encounter;
+            Place(_damagePopup.rectTransform,.60f,.68f,.90f,.72f);
+            _sequenceRow.gameObject.SetActive(false);_groggyRow.gameObject.SetActive(false);
+            if(textInstruction!=null) textInstruction.enabled=false;
+            _responseRow.gameObject.SetActive(fight.Step!=null || fight.IsFever);
+            _damagePopupRemaining=Mathf.Max(0,_damagePopupRemaining-Time.deltaTime);
+            _damagePopup.gameObject.SetActive(_damagePopupRemaining>0);
+            if(fight.IsFever)
+            {
+                textPatternType.text="피버 · 공격 가능";
+                _timer.text=$"피버  {fight.Remaining:F1}초";
+                _responseIcon.sprite=ConceptArtLibrary.Get("tile-"+(int)TileColor.Orange);
+                _responseCue.text="공격 타일을 하나씩 터치!";
+                _responseCount.text="0.4초 후 보충 · 특수 타일 ×3 / ×5";
+                _responseCount.color=new Color(1,.85f,.35f);
+                _responseTimeFill.fillAmount=fight.Remaining/Mathf.Max(.1f,fight.FeverDuration);
+                _responseTimeFill.color=new Color(1,.65f,.2f);
+            }
+            else if(fight.Step!=null)
+            {
+                textPatternType.text=$"{fight.Pattern.displayName}  {Mathf.Min(fight.StepIndex+1,fight.Pattern.steps.Length)} / {fight.Pattern.steps.Length}";
+                _responseIcon.sprite=ConceptArtLibrary.Get("tile-"+(int)fight.Step.color);
+                _responseCue.text=fight.AcceptingInput ? fight.Step.cue : fight.Feedback;
+                var input=FindFirstObjectByType<NineMood.Puzzle.TileInputHandler>();
+                int count=input?.SelectedChain.Count ?? 0;
+                if(count>0 && FindFirstObjectByType<NineMood.Puzzle.PuzzleBoardManager>().GetTileAtOffset(input.SelectedChain[0])?.Color!=fight.Step.color) count=0;
+                _responseCount.text=fight.AcceptingInput ? $"최소 {fight.MinimumLinks}개 · 연결 {count} / {fight.MinimumLinks}" : "블록은 계속 연결할 수 있어요";
+                _responseCount.color=count>=fight.MinimumLinks ? new Color(.4f,1,.65f) : Color.white;
+                _timer.text=fight.AcceptingInput ? $"대응  {fight.Remaining:F1}초" : fight.Feedback;
+                if(boss.TimersFrozen && fight.AcceptingInput) _timer.text+=" · 시간 정지";
+                _responseTimeFill.fillAmount=fight.AcceptingInput ? fight.Remaining/fight.InputDuration : 0;
+                _responseTimeFill.color=new Color(.35f,.9f,1);
+            }
+            else {textPatternType.text="연속 대응";_timer.text="다음 공격 준비";}
         }
 
         private void RefreshSequence()

@@ -1,0 +1,18 @@
+{
+  "duplicateGUIDs": [],
+  "newScriptMetadataComplete": true,
+  "playerBytes": 104540725,
+  "editorPNG": [
+    "editor/04a-normal-items-and-five-path.png",
+    "editor/01-live-minimum-and-attack.png",
+    "editor/02-fever-tap-and-special.png",
+    "editor/04-live-five-link-command.png",
+    "editor/05-fever-victory.png",
+    "editor/03-paused-fever.png",
+    "editor/06-asset-mapping-and-timeout.png"
+  ],
+  "planningDocumentsEdited": false,
+  "editorAssertions": 257,
+  "newBossDevicePlayVerified": false,
+  "deviceInstallVerified": true
+}

@@ -70,6 +70,7 @@ public static class NyanLinkSession05Validation
     {
         if (!SessionState.GetBool(Key,false)) return;
         EditorApplication.LockReloadAssemblies();
+        SaveManager.TestDirectoryOverride = Path.GetFullPath(Path.Combine(Output, "isolated-saves"));
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
         oldBackground = InputSystem.settings.backgroundBehavior;
@@ -423,6 +424,26 @@ public static class NyanLinkSession05Validation
             Assert(board.GetTileCount()==39,"Solo refill complete");
         }
         Pass("All 6x2 effects via single click: exact area, recovery/freeze/buff, color shift and retained identity, nested modal pause");
+        // Mixed normal/item links consume both ends, regardless of the drag's starting tile.
+        for (int color=0; color<6; color++) for (int level=1; level<=2; level++) for (int end=0; end<2; end++)
+        {
+            Fresh(); var mixed=Chain(2,(TileColor)color);
+            var originalItem=board.SpawnTile(mixed[end],(TileColor)color,Level(level));
+            var originalNormal=board.GetTileAtOffset(mixed[1-end]);
+            if (color==1 && level==2 && end==0) { Capture("08a-mixed-item-before.png"); yield return .1f; }
+            yield return Drag(mixed);
+            if (color==5 && level==2) { gameStateBeforeChoice=GameState.RunnerPhase; yield return Choose(TileColor.Red,false); }
+            Assert(matcher.LastRemovedCount>=2 && matcher.LastActivatedCount==1 && activated[mixed[end]]==1,
+                "Mixed link consumes item and normal, effect once " + color + "/" + level + "/" + end);
+            Assert(!ReferenceEquals(originalItem,board.GetTileAtOffset(mixed[end])) &&
+                !ReferenceEquals(originalNormal,board.GetTileAtOffset(mixed[1-end])) &&
+                board.GetTileAtOffset(mixed[0]).State==TileState.Normal && board.GetTileAtOffset(mixed[1]).State==TileState.Normal,
+                "Both mixed-link cells are refilled without retaining the old item");
+            Assert(board.GetTileCount()==39 && ScoreManager.Instance.CurrentScore==matcher.LastRemovedCount*10,
+                "Mixed-link unique removals score and refill exactly once");
+            if (color==1 && level==2 && end==0) { Capture("08b-mixed-item-used.png"); yield return .1f; }
+        }
+        Pass("6 colors x2 levels x2 drag directions mixed item/normal consumption and effects");
         // Overlapping blast/line recursively reaches all six kinds, each original source once.
         Fresh();board.SpawnTile(Center,TileColor.Yellow,TileState.ItemLv2);
         var placements=new[]{(new Vector3Int(2,2,0),TileColor.Purple,2),(new Vector3Int(1,3,0),TileColor.Red,1),(new Vector3Int(3,3,0),TileColor.Blue,2),(new Vector3Int(2,4,0),TileColor.Orange,1),(new Vector3Int(1,4,0),TileColor.Cyan,1)};
@@ -473,17 +494,23 @@ public static class NyanLinkSession05Validation
         Assert(boss.TimerFreezeRemaining==StaminaManager.Instance.DecayFreezeRemaining && boss.TimerFreezeRemaining<remain && boss.timeAttackPattern.RemainingTime==timer,"Single remaining clock carries into boss; pattern timer frozen");
         board.SpawnTile(Center,TileColor.Cyan,TileState.ItemLv2);int usesBefore=itemEvents,matchBefore=matchEvents;int nextIndex=boss.timeAttackPattern.NextIndex;
         yield return Tap(Center);
-        Assert(!game.GetComponent<ColorSelectionPanel>().IsOpen && itemEvents==usesBefore && matchEvents==matchBefore && boss.timeAttackPattern.NextIndex==nextIndex && board.GetTileAtOffset(Center).State==TileState.ItemLv2,"Solo item cannot trigger effects or pass boss pattern");
+        Assert(game.GetComponent<ColorSelectionPanel>().IsOpen && itemEvents==usesBefore+1 && matchEvents==matchBefore && boss.timeAttackPattern.NextIndex==nextIndex,
+            "Solo item activates during pattern without counting as sequence input");
+        gameStateBeforeChoice=GameState.BossPhase; yield return Choose(TileColor.Red,true,"09-pattern-solo-color-choice.png");
         Fill();var patternChain=Chain(9,boss.timeAttackPattern.RequiredColor.Value);
         board.SpawnTile(patternChain[0],boss.timeAttackPattern.RequiredColor.Value,TileState.ItemLv2);board.GetTileAtOffset(patternChain[0]).SetItemType(ItemEffectType.ColorShift);
         board.SpawnTile(patternChain[1],boss.timeAttackPattern.RequiredColor.Value,TileState.ItemLv1);board.GetTileAtOffset(patternChain[1]).SetItemType(ItemEffectType.Recovery);
+        Capture("10a-pattern-mixed-before.png"); yield return .1f;
         int score=ScoreManager.Instance.CurrentScore;hp=StaminaManager.Instance.CurrentStamina;yield return Drag(patternChain);
-        Assert(matcher.LastRemovedCount==7 && matcher.LastActivatedCount==0 && board.GetTileAtOffset(patternChain[0]).State==TileState.ItemLv2 && board.GetTileAtOffset(patternChain[1]).State==TileState.ItemLv1,"Pattern protects original item identity and suppresses all effects");
-        Assert(board.GetTileAtOffset(patternChain.Last()).State==TileState.Normal && ScoreManager.Instance.CurrentScore-score==280,"No new pattern item; only7 removed *10*4");
-        Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+2.1f),"Pattern actual removal recovery only");
-        var onlyItems=Chain(2,boss.timeAttackPattern.RequiredColor.Value);foreach(var cell in onlyItems) board.SpawnTile(cell,boss.timeAttackPattern.RequiredColor.Value,TileState.ItemLv1);
+        gameStateBeforeChoice=GameState.BossPhase; yield return Choose(TileColor.Yellow,true,"10b-pattern-mixed-choice.png");
+        Assert(matcher.LastRemovedCount==9 && matcher.LastActivatedCount==2 && board.GetTileAtOffset(patternChain[0]).State==TileState.Normal && board.GetTileAtOffset(patternChain[1]).State==TileState.Normal,"Pattern consumes both existing items and all normal linked blocks with effects");
+        Assert(board.GetTileAtOffset(patternChain.Last()).State==TileState.Normal && ScoreManager.Instance.CurrentScore-score==360,"No new pattern item; all9 removed *10*4");
+        Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+12.7f),"Pattern removal recovery plus consumed Recovery item");
+        Capture("10c-pattern-mixed-used.png"); yield return .1f;
+        var onlyItems=Chain(2,boss.timeAttackPattern.RequiredColor.Value);foreach(var cell in onlyItems) { board.SpawnTile(cell,boss.timeAttackPattern.RequiredColor.Value,TileState.ItemLv1); board.GetTileAtOffset(cell).SetItemType(ItemEffectType.PowerUp); }
         score=ScoreManager.Instance.CurrentScore;hp=StaminaManager.Instance.CurrentStamina;yield return Drag(onlyItems);
-        Assert(score==ScoreManager.Instance.CurrentScore && hp==StaminaManager.Instance.CurrentStamina && matcher.LastRemovedCount==0 && matcher.LastActivatedCount==0,"Preserved item chain cannot farm score/recovery/effects");
+        Assert(ScoreManager.Instance.CurrentScore==score+20 && matcher.LastRemovedCount==2 && matcher.LastActivatedCount==2,"Two existing items are consumed/activated once and refill as normal blocks");
+        Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+.6f),"Item-only chain has normal removal recovery");
         yield return CompletePattern();
         timer=boss.GroggyRemaining;yield return .2f;Assert(boss.GroggyRemaining==timer,"Freeze includes groggy clock");
         board.SetRequiredMatchColor(null);board.SpawnTile(Center,TileColor.Cyan,TileState.ItemLv2);yield return Tap(Center);gameStateBeforeChoice=GameState.BossPhase;
@@ -498,7 +525,7 @@ public static class NyanLinkSession05Validation
         bossHP=boss.CurrentHP;yield return Drag(Chain(2,TileColor.Red));Near(boss.CurrentHP,bossHP-8,"100percent buff once");
         bossHP=boss.CurrentHP;yield return Drag(Chain(2,TileColor.Red));Near(boss.CurrentHP,bossHP-4,"Following attack unbuffed");
         Capture("07-items-groggy.png");yield return .1f;
-        Pass("Shared freeze: decay only, elapsed/input/animation/obstacle movement, max duration, boss carry, pattern/groggy clocks; pattern item protection; actual buff consumption");
+        Pass("Shared freeze: decay only, elapsed/input/animation/obstacle movement, max duration, boss carry, pattern/groggy clocks; pattern item consumption and color-choice pause; actual buff consumption");
         boss.ApplyDamage(boss.CurrentHP-4f);
         var lethal=Chain(2,TileColor.Yellow);board.SpawnTile(lethal[0],TileColor.Yellow,TileState.ItemLv2);board.SpawnTile(new Vector3Int(0,1,0),TileColor.Cyan,TileState.ItemLv2);
         int resultsBefore=resultEvents;yield return Drag(lethal);

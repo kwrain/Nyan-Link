@@ -69,6 +69,7 @@ public static class NyanLinkSession03Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key,false)) return;
+        EditorApplication.LockReloadAssemblies();
         SaveManager.TestDirectoryOverride = Path.GetFullPath(Path.Combine(Output, "isolated-saves"));
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
@@ -444,6 +445,15 @@ public static class NyanLinkSession03Validation
             Assert(Object.FindFirstObjectByType<RunnerWarningHUD>().ZoneLabel.text == "입력 완료", "Zone confirms accepted match");
             Assert(obstacle.HasSuccessReservation,"Correct match reserves success: " + color);
             Capture("05-input-reserved-" + color + ".png"); yield return .05f;
+            int freeScore = ScoreManager.Instance.CurrentScore;
+            yield return Match((TileColor)(((int)color + 1) % 6));
+            Assert(obstacle.IsInputWindowOpen && !input.IsInputLocked && obstacle.HasSuccessReservation,
+                "After accepted command, different-color input inside the window never locks or changes reservation");
+            yield return Match((TileColor)(((int)color + 2) % 6));
+            Assert(!input.IsInputLocked && ScoreManager.Instance.CurrentScore == freeScore + 40 &&
+                Object.FindFirstObjectByType<TileMatcher>().LastRemovedCount == 2 && runner.CurrentState == RunnerState.Run,
+                "Consecutive post-command chains remove/refill/score normally before action " + color);
+            Capture("05a-free-clears-after-command-" + color + ".png"); yield return .05f;
             yield return Wait(() => obstacle.HasInputWindowPassed, "Reserved obstacle leaves input zone");
             yield return .05f;
             Assert(!obstacle.IsResolved && runner.CurrentState == RunnerState.Run && obstacle.HasSuccessReservation, "Reservation survives closed window before action");
@@ -525,6 +535,7 @@ public static class NyanLinkSession03Validation
         if (error == null && errors.Count == 0) Pass("Session03 completed without runtime errors");
         File.WriteAllLines(Path.Combine(Output,"play-results.txt"),results);
         SessionState.SetBool(Key,false);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error == null && errors.Count == 0 ? 0 : 1);
     }
 }

@@ -1,0 +1,7 @@
+System.ArgumentException: Object at index 0 is null
+  at (wrapper managed-to-native) UnityEditor.SerializedObject.InternalCreate_Injected(UnityEngine.Object[],intptr)
+  at UnityEditor.SerializedObject.InternalCreate (UnityEngine.Object[] monoObjs, UnityEngine.Object context) [0x00007] in <8777e0d9284b4c89a69ddab4fdd9d971>:0 
+  at UnityEditor.SerializedObject..ctor (UnityEngine.Object obj) [0x00008] in /Users/bokken/build/output/unity/unity/Editor/Mono/SerializedObject.bindings.cs:22 
+  at NyanLinkSession03Validation.Button (UnityEngine.Component component, System.String field) [0x00000] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:139 
+  at NyanLinkSession03Validation+<Sequence>d__62.MoveNext () [0x0040e] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:313 
+  at NyanLinkSession03Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:103 

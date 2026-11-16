@@ -30,9 +30,9 @@ namespace NineMood.Boss
         public float PendingAttackBonus { get; private set; }
         public bool HasFailureShield { get; private set; }
         public bool IsPatternActive => _state == BossState.Pattern;
-        public bool CanUseItems => IsActive && IsGroggy;
-        public bool CanUseColorActions => CanUseItems;
-        public bool PreserveItems => _battleStarted && !IsGroggy;
+        public bool CanUseItems => IsActive;
+        public bool CanUseColorActions => IsActive && IsGroggy;
+        public bool PreserveItems => false; // Legacy API: matches consume items in every playable phase.
         public bool IsDefeated { get; private set; }
         private bool _battleStarted;
         private System.Collections.Generic.List<TileColor> _nextSequence;

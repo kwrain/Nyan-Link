@@ -416,24 +416,26 @@ public static class NyanLinkSession04Validation
         Near(StaminaManager.Instance.CurrentStamina,player,"No boss natural decay");
         Assert(StaminaManager.Instance.ElapsedRunnerTime==elapsed,"Runner elapsed stops in boss");
         yield return BossPause("02-paused-pattern.png");
-        // Pattern items are protected and cannot produce effects/new items.
+        // Pattern chains consume/activate existing items, while new pattern items stay disabled.
         var expected=boss.timeAttackPattern.RequiredColor.Value;
         var protectedChain=Chain(5,expected); board.SpawnTile(protectedChain[0],expected,TileState.ItemLv1);
+        board.GetTileAtOffset(protectedChain[0]).SetItemType(ItemEffectType.PowerUp);
         int score=ScoreManager.Instance.CurrentScore; float hp=StaminaManager.Instance.CurrentStamina;
         yield return Drag(protectedChain);
         yield return .05f; CheckSequenceIcons(); Capture("01b-first-color-completed.png"); yield return .1f;
-        Assert(board.GetTileAtOffset(protectedChain[0]).State==TileState.ItemLv1,"Existing item survives pattern chain");
+        Assert(board.GetTileAtOffset(protectedChain[0]).State==TileState.Normal,"Existing item is consumed in pattern chain");
         Assert(protectedChain.Skip(1).All(c=>board.GetTileAtOffset(c).State==TileState.Normal),"No new pattern item");
-        Assert(ScoreManager.Instance.CurrentScore-score==80,"5 direct chain, 4 actual removal *10*2");
-        Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+1.2f),"Only actual removal heals");
+        Assert(ScoreManager.Instance.CurrentScore-score==100,"5 direct chain, all 5 removals *10*2");
+        Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+1.5f),"All actual removals heal");
         Near(boss.CurrentHP,120,"Pattern inputs do not attack or grant fixed success damage");
         var itemOnly=Chain(2,boss.timeAttackPattern.RequiredColor.Value);
-        foreach(var cell in itemOnly) board.SpawnTile(cell,boss.timeAttackPattern.RequiredColor.Value,TileState.ItemLv1);
+        foreach(var cell in itemOnly) { board.SpawnTile(cell,boss.timeAttackPattern.RequiredColor.Value,TileState.ItemLv1); board.GetTileAtOffset(cell).SetItemType(ItemEffectType.PowerUp); }
         score=ScoreManager.Instance.CurrentScore; hp=StaminaManager.Instance.CurrentStamina;
         int nextIndex=boss.timeAttackPattern.NextIndex;
         yield return Drag(itemOnly);
-        Assert(ScoreManager.Instance.CurrentScore==score && StaminaManager.Instance.CurrentStamina==hp,"Preserved items yield zero score/recovery");
-        Assert(boss.timeAttackPattern.NextIndex==nextIndex+1 && itemOnly.All(c=>board.GetTileAtOffset(c).State==TileState.ItemLv1),"Two-item chain is pattern input, items preserved");
+        Assert(ScoreManager.Instance.CurrentScore==score+20,"Consumed items yield ordinary removal score");
+        Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+.6f),"Consumed items yield ordinary recovery");
+        Assert(boss.timeAttackPattern.NextIndex==nextIndex+1 && itemOnly.All(c=>board.GetTileAtOffset(c).State==TileState.Normal),"Two-item chain is one pattern input, both items consumed");
         yield return .05f; CheckSequenceIcons(); Capture("01c-two-colors-completed.png"); yield return .1f;
         yield return CompletePattern();
         yield return .05f; // HUD refreshes in LateUpdate after the combat transition.
@@ -492,7 +494,7 @@ public static class NyanLinkSession04Validation
         Time.timeScale=8f; yield return Wait(()=>failedPatterns==failed+1,"Timeout failure"); Time.timeScale=1f;
         Near(StaminaManager.Instance.CurrentStamina,hp-20,"Timeout exactly20 damage");
         Assert(failedPatterns==failed+1,"No duplicate failure event");
-        Pass("Natural obstacle→boss entry; item protection, exact score/recovery, 12 success damage, cyan/buff/direct attacks, pause/freeze and deferred phase strengthening");
+        Pass("Natural obstacle→boss entry; item consumption, exact score/recovery, 12 success damage, cyan/buff/direct attacks, pause/freeze and deferred phase strengthening");
         // Melee lethal and all public damage sources converge on one immediate result.
         yield return Wait(()=>boss.timeAttackPattern.IsRunning,"Next pattern for groggy lethal");
         yield return CompletePattern();

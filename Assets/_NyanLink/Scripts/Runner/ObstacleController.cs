@@ -85,7 +85,7 @@ namespace NineMood.Runner
         private void OnMatch(int chainLength, int scoreGained, int tilesRemoved, TileColor color)
         {
             if (!GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase ||
-                !IsInputWindowOpen || chainLength < 2 || tilesRemoved <= 0) return;
+                HasSuccessReservation || !IsInputWindowOpen || chainLength < 2 || tilesRemoved <= 0) return;
             if (color == RequiredColor) HasSuccessReservation = true;
             else FindFirstObjectByType<TileInputHandler>()?.LockInput(DataManager.Instance?.BalanceData?.mistakeLockDuration ?? 0.5f);
         }

@@ -112,6 +112,7 @@ namespace NineMood.Puzzle
             ItemEffectType newType=DataManager.Instance?.ColorEffectMapping?.GetEffectForColor(chainColor) ?? TileInstance.DefaultItemType(chainColor);
             // 기존 연쇄로 소비한 아이템을 제외한 최종 개수로 제한을 검사한다.
             bool createItem=useItems && !solo && effectLevel>0 &&
+                (GameManager.Instance?.CurrentState == GameState.RunnerPhase || (BossController.Instance?.IsGroggy ?? false)) &&
                 ((Balance?.maxItemsPerType ?? 2)<=0 || boardManager.CountItemsOfType(newType)<(Balance?.maxItemsPerType ?? 2));
             ScoreManager.Instance?.AddScore(chain.Count,effectLevel,removed.Count,chainColor,solo);
             Vector3Int last=chain[chain.Count-1];

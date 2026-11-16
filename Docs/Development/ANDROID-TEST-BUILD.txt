@@ -20,6 +20,18 @@ ProjectSettings/AndroidResolverDependencies.xml은 이번 최초 Android 빌드�
 - 앱스토어 업로드용 AAB·정식 서명이 아님. 디버그 키·비밀번호는 저장소에 추가하지 않음.
 - 테스트 앱도 플레이 기록이 생기므로 테스트 중 무단 삭제/데이터 지우기 금지.
 
+2026-11-16 다음 빌드부터의 화면 방향 정책:
+- 프로젝트 기본 Portrait, 가로 좌/우·거꾸로 세로 자동 회전 비허용, Android 창 크기 변경 비허용.
+- NyanLinkAndroidPortrait가 모든 Android Gradle 생성 후 Unity Activity의 portrait 및
+  resizeableActivity=false와 Android의 제조사 방향/디스플레이 방향 override opt-out2개를 적용.
+- 기존 APK도 portrait 요청은 있었으나 Lenovo 태블릿의 가로 화면 안 호환 표시가 관찰됨.
+  새 설정이 이 기기의 화면까지 세로로 유지하는지는 다음 APK 설치 뒤 직접 회전해 검증 필요.
+  기기 전체의 자동회전/런처 설정을 변경하거나 매 프레임 방향 요청을 반복하지 않음.
+- 현재 기기에 설치된 APK는 이번 설정 작업으로 교체하지 않음. 다음 빌드에 반영.
+- 근거: https://developer.android.com/guide/practices/device-compatibility-mode
+  PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE / PROPERTY_COMPAT_ALLOW_DISPLAY_ORIENTATION_OVERRIDE.
+  제조사·데스크톱 모드의 모든 방향 강제 동작을 앱만으로 막는다고 보장하지 않음.
+
 입력/설정 보존:
 New Input System만 사용하는 APK. 원래 프로젝트는 Both로 설정되어 있어 Android 빌드 전
 스크립트가 activeInputHandler=1로 임시 적용하고 종료 시 원래 파일로 복원.

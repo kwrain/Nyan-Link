@@ -1,0 +1,6 @@
+PASS actual previous Gradle manifest copied as fixture
+PASS portrait and non-resizable Unity activity
+PASS two manufacturer orientation opt-outs
+PASS unrelated activity and existing permissions/launcher intent preserved
+PASS repeated callback produces identical manifest
+NOT TESTED new APK manifest merge and physical tablet rotation; next build required

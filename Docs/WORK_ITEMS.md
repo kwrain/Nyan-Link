@@ -6,6 +6,14 @@
 
 ## 미검증
 
+### V-021 — 다음 Android APK의 세로 고정과 기기 회전
+- 등록일·최근 확인일: 2026-11-16. 관련: ProjectSettings.asset, NyanLinkAndroidPortrait.cs, NyanLinkAndroidBuild.cs, ANDROID-TEST-BUILD.txt. 관련 ID: I-011, D-001, V-020.
+- 확인할 동작·기대 결과: 다음 APK를 기존 진행을 보존해 업데이트한 후 Lenovo TB320FC에서 세로·가로로 기기를 돌려도 게임이 세로 방향을 유지. 로비/준비/플레이/정지/홈 복귀·콜드 실행 각각 확인하고 실제 PNG 촬영.
+- 구현: 기본 Portrait, 가로/거꾸로 세로 자동회전 금지, Android resizeableActivity=false. Gradle 후처리에서 Unity Activity의 portrait·비리사이즈와 제조사 방향/디스플레이 방향 override 거부 속성2개 적용. 다른 Activity/권한/런처 보존.
+- 수행한 확인: Unity6000.3.14f1/Android 대상 CLI 컴파일·후처리 검사 종료0. 이전 실제 Gradle 매니페스트 복사본에 적용하여 세로·비리사이즈/속성2개/무관 Activity·권한·런처 보존/반복 적용 동일성을 확인. 근거 output/playtests/2026-11-16-android-portrait/{validation.log,results.txt,fixture/}. 관련 커밋은 이번 세로 고정 로컬 커밋(git log 참조). 플레이 테스트를 하지 않아 이번 변경의 새 실제 게임 캡처는 없음.
+- 미검증 사유: 사용자가 다음 빌드부터 반영 요청. 현재 설치된 APK는 교체하지 않고 새 APK 생성·설치/물리 회전 검사는 다음 빌드 시 수행. 코드 컴파일과 이전 실제 Gradle 매니페스트 복사본의 후처리 검사는 별도 근거이며 기기 성공으로 해석하지 않음.
+- 다음 조치: 다음 Android 빌드의 최종 merged manifest/APK 속성 확인, adb install -r -t로 업데이트 후 실제 회전·기존 저장 복원 검사. 제조사 호환 표시가 남으면 기기의 앱별 방향 호환 정책을 조사하고 원인을 확정. 기기 전체 자동회전 설정을 임의 변경하지 않음.
+
 ### V-019 — 회사 HTTPS 서버 게시·캐시·PC 브라우저 교차 검증
 - 등록일·최근 확인일: 2026-11-16. 관련: NyanLinkWebBuild.cs, Assets/WebGLTemplates/NyanLink, Tools/WebHosting, Docs/Development/WEB-DEPLOYMENT.txt. 관련 ID: V-018, D-003.
 - 확인할 동작·기대 결과: https://fairstudios.kr/nyan-link/에서 새 방문자의 게임 로드·입력·저장 복원이 성공하고, 빌드 교체 후 일반 새로고침으로 새 버전 실행. Mac Safari/Windows Edge에서도 같은 흐름 확인.
@@ -48,6 +56,12 @@
 
 
 ## 미해결
+
+### I-011 — 기존 Android APK의 태블릿 가로 화면 내 세로 앱 호환 표시
+- 등록일·최근 확인일: 2026-11-16. 관련: Android 방향/창 호환 설정, V-020 실제 기기 캡처. 관련 ID: V-021, D-001.
+- 증상·재현: Lenovo TB320FC Android15에서 현재 설치 APK의 manifest는 screenOrientation=portrait이지만, 가로2560×1600 화면 안 중앙 세로 앱/좌우 여백으로 표시. 사용자가 다음 빌드부터 항상 세로 표시를 요청.
+- 영향·원인: 게임은 플레이 가능하나 사용자가 원하는 기기 화면 전체 세로 방향과 다름. 제조사 방향·창 호환 처리의 영향은 추정이며 확정하지 않음.
+- 조치·다음 단계: 프로젝트 세로 고정/비리사이즈 및 Android 공식 override 거부 속성2개 적용. 기존 설치본은 그대로이며 V-021의 새 APK·실기기 회전 검사 전까지 해결 완료로 표시하지 않음.
 
 ### I-010 — Chrome WebGL 형식 조회 경고
 - 등록일·최근 확인일: 2026-11-16. 관련: Unity WebGL 렌더러/Chrome157, output/playtests/2026-11-16-web/browser-console.json. 관련 ID: V-018, V-019, D-003.

@@ -1,5 +1,7 @@
 using NineMood.Core;
 using NineMood.Boss;
+using NineMood.Presentation;
+using System.Collections.Generic;
 using NineMood.Data.Enums;
 using TMPro;
 using UnityEngine;
@@ -27,6 +29,13 @@ namespace NineMood.UI
         [Header("Phase")]
         [SerializeField] private TextMeshProUGUI textPhase;
 
+        private readonly List<Image> _sequenceIcons = new List<Image>();
+        private readonly List<Image> _sequenceFrames = new List<Image>();
+        private readonly List<TextMeshProUGUI> _sequenceLabels = new List<TextMeshProUGUI>();
+        private RectTransform _sequenceRow;
+        private Material _completedMaterial;
+        private int _sequenceSignature = int.MinValue;
+        private float _sequenceWidth;
         private CanvasGroup _group;
         private TextMeshProUGUI _timer;
         public string TimerText => _timer != null ? _timer.text : "";
@@ -48,6 +57,7 @@ namespace NineMood.UI
             if (boss == null || _timer == null) return;
             bool visible = NineMood.Core.Managers.GameManager.Instance?.CurrentState == GameState.BossPhase;
             if (!visible) return;
+            RefreshSequence();
             _timer.text = boss.IsGroggy ? $"그로기  {boss.GroggyRemaining:F1}초" :
                 boss.IsPatternActive ? $"남은 시간  {boss.timeAttackPattern.RemainingTime:F1}초" : "다음 순서 준비";
             if (boss.TimersFrozen) _timer.text += "  · 시간 정지";
@@ -68,6 +78,66 @@ namespace NineMood.UI
             _timer.transform.SetParent(transform,false);
             if (textHP != null) _timer.font = textHP.font;
             SetupText(_timer,0.61f,0.65f);
+            _sequenceRow = new GameObject("Boss color sequence", typeof(RectTransform)).GetComponent<RectTransform>();
+            _sequenceRow.SetParent(transform, false);
+            Place(_sequenceRow, .10f, .748f, .90f, .805f);
+            _completedMaterial = new Material(Resources.Load<Shader>("BossCompletedIcon"));
+            _sequenceRow.gameObject.SetActive(false);
+        }
+
+        private void RefreshSequence()
+        {
+            var pattern = BossController.Instance?.timeAttackPattern;
+            bool visible = pattern != null && pattern.IsRunning;
+            _sequenceRow.gameObject.SetActive(visible);
+            if (textInstruction != null) textInstruction.enabled = !visible;
+            if (!visible) { _sequenceSignature = int.MinValue; return; }
+            int count = pattern.Sequence.Count;
+            int signature = pattern.NextIndex;
+            unchecked { foreach (var color in pattern.Sequence) signature = signature * 31 + (int)color + 1; }
+            if (_sequenceSignature == signature && Mathf.Approximately(_sequenceWidth, _sequenceRow.rect.width)) return;
+            _sequenceSignature = signature; _sequenceWidth = _sequenceRow.rect.width;
+            while (_sequenceIcons.Count < count)
+            {
+                var frame = new GameObject("Step " + (_sequenceIcons.Count + 1), typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+                frame.transform.SetParent(_sequenceRow, false);
+                frame.raycastTarget = false;
+                var icon = new GameObject("Color icon", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+                icon.transform.SetParent(frame.transform, false);
+                Place(icon.rectTransform, .08f, .08f, .92f, .92f);
+                icon.preserveAspect = true; icon.raycastTarget = false;
+                var label = new GameObject("Step number", typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+                label.transform.SetParent(frame.transform, false);
+                Place(label.rectTransform, -.3f, -.42f, 1.3f, -.02f);
+                label.fontSize = 22; label.alignment = TextAlignmentOptions.Center;
+                label.raycastTarget = false; KoreanUIPresentation.Apply(label);
+                _sequenceFrames.Add(frame); _sequenceIcons.Add(icon); _sequenceLabels.Add(label);
+            }
+            float spacing = Mathf.Min(140f, _sequenceRow.rect.width / Mathf.Max(1, count));
+            for (int i = 0; i < _sequenceIcons.Count; i++)
+            {
+                var frame = _sequenceFrames[i];
+                frame.gameObject.SetActive(i < count);
+                if (i >= count) continue;
+                var rect = frame.rectTransform;
+                rect.anchorMin = rect.anchorMax = new Vector2(.5f, .64f);
+                rect.sizeDelta = Vector2.one * Mathf.Min(70f, spacing * .65f);
+                rect.anchoredPosition = new Vector2((i - (count - 1) * .5f) * spacing, 0);
+                bool done = i < pattern.NextIndex, current = i == pattern.NextIndex;
+                frame.color = current ? new Color(1f, .88f, .45f) : new Color(.17f, .22f, .30f);
+                var icon = _sequenceIcons[i];
+                icon.sprite = ConceptArtLibrary.Get("tile-" + (int)pattern.Sequence[i]);
+                icon.material = done ? _completedMaterial : null;
+                icon.color = done ? new Color(.55f, .55f, .55f) : Color.white;
+                var label = _sequenceLabels[i];
+                label.text = $"{i + 1}" + (done ? " 완료" : current ? " 지금" : "");
+                label.color = done ? new Color(.55f, .55f, .55f) : current ? new Color(1f, .88f, .45f) : Color.white;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (_completedMaterial != null) Destroy(_completedMaterial);
         }
 
         private void OnEnable()

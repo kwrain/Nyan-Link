@@ -1,0 +1,20 @@
+보스 순서 아이콘 검증 — 2026-11-16
+환경: macOS / Unity 6000.3.14f1 Editor / 1080x1920, 가상 Mouse, 격리 저장.
+실행: NYANLINK_SESSION04_OUTPUT=output/playtests/2026-11-16-boss-icons Unity -projectPath <project> -executeMethod NyanLinkSession04Validation.Run -logFile <output>/play.log
+최종: 종료0, 266 Play assertions, 게임 경로 런타임 오류0.
+
+실제 플레이 캡처와 기대/실제 결과:
+01-timeattack-sequence.png: 모든 색상 아이콘에 좌→우 번호, 첫 칸 금색/지금. 일치.
+01b-first-color-completed.png: 첫 칸 회색/완료, 두 번째 칸 원색/금색/지금. 일치.
+01c-two-colors-completed.png: 첫 두 칸 회색/완료, 세 번째 칸 원색/금색/지금. 일치. 직접 열람.
+02-paused-pattern.png: 정지 메뉴에서 보스 상태 보존. 재개 후 순서/HP/시계 보존 검증 통과.
+03-groggy-attack.png: 순서 아이콘을 숨기고 자유 연결 안내로 복귀. 일치.
+04-paused-groggy.png: 그로기 정지/재개, 상태 보존. 일치.
+05-enhanced-pattern.png: 강화4칸에서 원색 아이콘·첫 칸 강조로 초기화. 겹침 없음. 일치. 직접 열람.
+06-victory.png / 07-defeat.png: 기존 결과·재시작 경로 정상. 일치.
+
+사용자 세이브 보호: SaveManager.TestDirectoryOverride로 이번 출력 폴더의 격리 경로 사용,
+기존 사용자 saves 파일명/SHA 전후 동일 assertion 통과. 씬 저장 없음.
+초기 attempt01/02는 화면 갱신 전 검사 실패. 다음 프레임 대기를 추가하고 최종 전체 재실행 성공.
+미검증/실기기: Android/iOS 실제 크기·대비·회색 shader 결과는 D-004 및 D-001 추적.
+이번에는 APK 빌드/설치나 실제 기기 테스트를 진행하지 않음.

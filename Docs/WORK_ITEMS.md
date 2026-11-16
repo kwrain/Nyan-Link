@@ -82,6 +82,13 @@
 
 ## 실기기 테스트 필요
 
+### D-004 — 보스 순서 아이콘·입력 완료 회색 표시 가독성
+- 등록일·최근 확인일: 2026-11-16. 관련: BossHUD.cs, ConceptPixelPresentation.cs, Resources/BossCompletedIcon.shader. 관련 ID: D-001.
+- 사용자 실기기 피드백: 기존 색상 이름으로 나열한 순서 안내는 가독성이 낮음. 보드와 동일한 색상 아이콘, 왼쪽부터 번호, 현재 입력의 금색 테두리·지금 표시, 완료한 아이콘의 회색 비활성 표시로 변경.
+- 대상: Lenovo TB320FC Android15 및 후속 Android/iOS 세로 기기. 다음 APK 업데이트 후 보스 첫 패턴3칸→1/2칸 입력→그로기→강화4/5칸→오답·시간초과 재시도→일시정지/재개 확인.
+- 기대 결과: 입력 순서·현재 위치가 명확하고 완료 색상은 회색으로 유지. 다음 패턴에서 원색·번호 초기화, UI와 보드·타이머 겹침 없음. 실제 기기에서 같은 색이 연속되는 순서도 구분 가능. D-001의 안전 영역·터치 항목도 함께 확인하고 실제 PNG 저장.
+- 미수행 사유·다음 조치: 이번 작업은 코드·Editor 검증이며 기기 APK 생성·설치 미수행. 다음 실기기 테스트에서 크기·대비·회색 셰이더 렌더링을 확인. Editor 결과와 실제 기기 결과를 구분해 유지.
+
 ### D-003 — Android Chrome·iPhone Safari 웹 플레이
 - 등록일·최근 확인일: 2026-11-16. 관련: WebGL 빌드·NyanLink 웹 템플릿·SaveStore·AudioManager·TileInputHandler. 관련 ID: D-001, D-002, V-012, V-019.
 - 대상: 실제 Android 휴대폰 Chrome 및 iPhone Safari, 노치/홈 바 기기, 저사양·메모리 제한 기기.
@@ -119,6 +126,13 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-022 — 보스 색상 순서 아이콘·완료 회색 표시 Editor 검증
+- 등록일·최근 확인일·수행일: 2026-11-16. 관련: BossHUD.cs, ConceptPixelPresentation.cs, BossCompletedIcon.shader, NyanLinkSession04Validation.cs. 관련 커밋: `feat: show boss color sequence as numbered icons` 로컬 커밋. 실기기 잔여: D-004/D-001.
+- 변경: 보드의 기존 AI 생성 타일 스프라이트를 재사용. 왼쪽부터 번호·현재 금색 테두리/지금 표시·완료 회색 셰이더와 완료 표시. 다음 패턴은 원색으로 초기화하고 그로기·패턴 대기에서는 아이콘을 숨김. 보스 배경을 아이콘 행 높이만큼 확장, 표시 요소의 raycast 차단 없음. 전투/저장/패턴 순서 데이터 변경 없음.
+- 환경·결과: macOS Unity6000.3.14f1 Editor 실제1080×1920, 가상 Mouse 입력·격리 저장으로 266 Play assertion/프로세스 종료0/게임 경로 런타임 오류0. 순서와 스프라이트 일치·좌→우 번호·완료한 칸만 회색 material·현재 칸 강조·그로기 숨김·강화4칸 초기화 검증. 기존 장애물→보스, 아이템 보존/점수/회복·정지/재개·시간정지·오답·실패·승패·재시작·씬 정리 회귀 통과. 원래 저장 파일명/SHA 불변 검사 통과.
+- 실제 PNG9장: `output/playtests/2026-11-16-boss-icons/`. 01 입력 전, 01b 첫 입력, 01c 두 입력 완료, 02 패턴 정지, 03 그로기, 04 그로기 정지, 05 강화4칸, 06 승리, 07 패배. 01c/05 직접 열람: 완료 아이콘 회색·현재 원색/금색, 번호·타이머·보드 겹침 없음. 기대 동작과 실제 결과 일치.
+- 근거: 같은 폴더 play-results.txt/play.log/TEST-NOTES.txt. 최초 샌드박스 라이선스 접근 실패 후 정상 권한으로 재실행. attempt01/02는 자동 검사가 LateUpdate 화면 갱신 전 상태를 읽어 실패했으며, 화면 프레임 대기를 추가한 최종 결과와 구분해 보존. 실제 기기·새 APK 생성/설치 검증은 미수행이며 D-004 유지.
 
 ### V-020 — Android APK 빌드·실제 태블릿 설치와 기본 플레이
 - 등록일·최근 확인일·수행일: 2026-11-16. 관련: NyanLinkAndroidBuild.cs, build_android.sh, Android Gradle 템플릿/AndroidResolverDependencies.xml, ANDROID-TEST-BUILD.txt. 관련 커밋: 이번 Android 기기 빌드 로컬 커밋(최종 git log 참조), 원격 push 없음.

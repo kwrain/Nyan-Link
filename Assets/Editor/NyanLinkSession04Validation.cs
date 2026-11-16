@@ -69,6 +69,7 @@ public static class NyanLinkSession04Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key,false)) return;
+        SaveManager.TestDirectoryOverride = Path.GetFullPath(Path.Combine(Output, "isolated-saves"));
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
         oldBackground = InputSystem.settings.backgroundBehavior;
@@ -182,6 +183,27 @@ public static class NyanLinkSession04Validation
         yield return Wait(() => matchEvents > scoreBefore,
             "Release score " + color + " (selection=" + input.SelectedChain.Count + ")",2f);
         yield return 0.02f;
+    }
+    static void CheckSequenceIcons()
+    {
+        var hud = Object.FindFirstObjectByType<BossHUD>();
+        var row = hud.transform.Find("Boss color sequence");
+        var pattern = boss.timeAttackPattern;
+        Assert(row != null && row.gameObject.activeInHierarchy, "Sequence icons visible during input");
+        var frames = row.Cast<Transform>().Where(t => t.gameObject.activeSelf).ToArray();
+        Assert(frames.Length == pattern.Sequence.Count, "All sequence steps remain visible");
+        for (int i = 0; i < frames.Length; i++)
+        {
+            var icon = frames[i].Find("Color icon").GetComponent<Image>();
+            var label = frames[i].Find("Step number").GetComponent<TMPro.TextMeshProUGUI>();
+            Assert(icon.sprite.name == "Concept_tile-" + (int)pattern.Sequence[i], "Icon matches sequence color " + i);
+            Assert(label.text.StartsWith((i + 1).ToString()), "Numbered input order " + i);
+            Assert(!icon.raycastTarget && !label.raycastTarget, "Sequence does not block board input " + i);
+            Assert((icon.material.shader.name == "NyanLink/UI/CompletedIcon") == (i < pattern.NextIndex), "Only completed icons are grayscale " + i);
+            if (i == pattern.NextIndex) Assert(label.text.Contains("지금"), "Current input is highlighted");
+            if (i > 0) Assert(frames[i].localPosition.x > frames[i - 1].localPosition.x, "Order runs left to right");
+        }
+        Assert(!hud.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single(t => t.name == "Text_Instruction").enabled, "Text sequence replaced by icons");
     }
     static void Capture(string file) => ScreenCapture.CaptureScreenshot(Path.GetFullPath(Path.Combine(Output,file)));
     static string Fingerprint() => string.Join(";",board.GetAllTileOffsets().OrderBy(c=>c.y).ThenBy(c=>c.x)
@@ -381,6 +403,7 @@ public static class NyanLinkSession04Validation
         Assert(boss.PendingAttackBonus==.5f && boss.HasFailureShield,"Pending runner effects survive boss entry");
         Assert(bossEvents==1 && boss.IsPatternActive && boss.timeAttackPattern.Sequence.Count==3,"One boss entry and time-attack only");
         float player=StaminaManager.Instance.CurrentStamina, elapsed=StaminaManager.Instance.ElapsedRunnerTime;
+        yield return .05f; CheckSequenceIcons();
         Capture("01-timeattack-sequence.png"); yield return 0.2f;
         Near(StaminaManager.Instance.CurrentStamina,player,"No boss natural decay");
         Assert(StaminaManager.Instance.ElapsedRunnerTime==elapsed,"Runner elapsed stops in boss");
@@ -390,6 +413,7 @@ public static class NyanLinkSession04Validation
         var protectedChain=Chain(5,expected); board.SpawnTile(protectedChain[0],expected,TileState.ItemLv1);
         int score=ScoreManager.Instance.CurrentScore; float hp=StaminaManager.Instance.CurrentStamina;
         yield return Drag(protectedChain);
+        yield return .05f; CheckSequenceIcons(); Capture("01b-first-color-completed.png"); yield return .1f;
         Assert(board.GetTileAtOffset(protectedChain[0]).State==TileState.ItemLv1,"Existing item survives pattern chain");
         Assert(protectedChain.Skip(1).All(c=>board.GetTileAtOffset(c).State==TileState.Normal),"No new pattern item");
         Assert(ScoreManager.Instance.CurrentScore-score==80,"5 direct chain, 4 actual removal *10*2");
@@ -402,7 +426,9 @@ public static class NyanLinkSession04Validation
         yield return Drag(itemOnly);
         Assert(ScoreManager.Instance.CurrentScore==score && StaminaManager.Instance.CurrentStamina==hp,"Preserved items yield zero score/recovery");
         Assert(boss.timeAttackPattern.NextIndex==nextIndex+1 && itemOnly.All(c=>board.GetTileAtOffset(c).State==TileState.ItemLv1),"Two-item chain is pattern input, items preserved");
+        yield return .05f; CheckSequenceIcons(); Capture("01c-two-colors-completed.png"); yield return .1f;
         yield return CompletePattern();
+        Assert(!Object.FindFirstObjectByType<BossHUD>().transform.Find("Boss color sequence").gameObject.activeSelf, "Sequence hidden during groggy");
         Near(boss.CurrentHP,120,"Pattern success has zero fixed damage");
         Assert(boss.PendingAttackBonus==.5f,"Pattern success does not consume pending attack buff");
         Assert(successfulPatterns==1 && failedPatterns==0 && boss.CanUseItems && !boss.PreserveItems,"Groggy opens item/action boundary");
@@ -436,6 +462,7 @@ public static class NyanLinkSession04Validation
         Assert(!boss.IsGroggy,"Phase change after groggy only");
         yield return Wait(()=>boss.timeAttackPattern.IsRunning,"Enhanced pattern");
         Assert(boss.timeAttackPattern.Sequence.Count==4 && boss.timeAttackPattern.RemainingTime<=9f && boss.timeAttackPattern.RemainingTime>8f,"Phase1 length4 and 9sec");
+        yield return .05f; CheckSequenceIcons();
         Capture("05-enhanced-pattern.png"); yield return 0.1f;
         int failed=failedPatterns;
         var wrong=(TileColor)(((int)boss.timeAttackPattern.RequiredColor.Value+1)%6);

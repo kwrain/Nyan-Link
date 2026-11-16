@@ -139,7 +139,7 @@ namespace NineMood.Presentation
             PrototypePresentation.Place(tint.GetComponent<RectTransform>(),0,.895f,1,1);tint.GetComponent<Image>().color=new Color(.025f,.055f,.13f,.92f);tint.GetComponent<Image>().raycastTarget=false;
             var bossHud=FindFirstObjectByType<BossHUD>();
             var info=new GameObject("Boss info backing",typeof(RectTransform),typeof(Image));info.transform.SetParent(bossHud.transform,false);info.transform.SetAsFirstSibling();
-            PrototypePresentation.Place(info.GetComponent<RectTransform>(),0,.778f,1,.895f);info.GetComponent<Image>().color=new Color(.025f,.055f,.13f,.78f);info.GetComponent<Image>().raycastTarget=false;
+            PrototypePresentation.Place(info.GetComponent<RectTransform>(),0,.744f,1,.895f);info.GetComponent<Image>().color=new Color(.025f,.055f,.13f,.78f);info.GetComponent<Image>().raycastTarget=false;
             foreach(var text in bossHud.GetComponentsInChildren<TextMeshProUGUI>(true))
             {
                 if(text.fontSharedMaterial.HasProperty(ShaderUtilities.ID_OutlineWidth)) {text.outlineColor=new Color(.02f,.04f,.10f);text.outlineWidth=.22f;}

@@ -586,6 +586,13 @@ namespace NineMood.Puzzle
             var camera = FindPuzzleCamera();
             if (camera == null || !camera.orthographic || _tiles.Count == 0 || camera.pixelHeight <= 0) return;
             Bounds bounds = GetBoardWorldBounds();
+            var rig = camera.GetComponentInParent<NineMood.Core.DualCameraRig>();
+            if (rig != null && rig.cameraPuzzle == camera)
+            {
+                rig.FitPuzzleBoard(bounds, GetReferenceBoardWorldBounds(), cameraPadding);
+                _fittedCamera = camera; _fittedPixelRect = camera.pixelRect;
+                return;
+            }
             float aspect = camera.pixelWidth / (float)camera.pixelHeight;
             camera.orthographicSize = Mathf.Max(bounds.extents.y + cameraPadding,
                 (bounds.extents.x + cameraPadding) / aspect);
@@ -628,6 +635,28 @@ namespace NineMood.Puzzle
                         else bounds.Encapsulate(corner);
                     }
             }
+            return bounds;
+        }
+
+        // The reference footprint is independent of GridShapeData, including on a cold start
+        // with fewer tiles. Use the same sprite extents and transforms as the actual board.
+        public Bounds GetReferenceBoardWorldBounds()
+        {
+            var half = GetCellExtents(Vector3Int.zero);
+            var bounds = new Bounds();
+            bool first = true;
+            for (int row = 0; row < 7; row++)
+                for (int col = 0; col < 6 - (row & 1); col++)
+                {
+                    var center = GetCellCenterWorld(new Vector3Int(col, row, 0));
+                    for (int x = -1; x <= 1; x += 2)
+                        for (int y = -1; y <= 1; y += 2)
+                        {
+                            var corner = center + tilemap.transform.TransformVector(new Vector3(x * half.x, y * half.y));
+                            if (first) { bounds = new Bounds(corner, Vector3.zero); first = false; }
+                            else bounds.Encapsulate(corner);
+                        }
+                }
             return bounds;
         }
 

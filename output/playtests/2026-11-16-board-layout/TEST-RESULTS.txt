@@ -1,0 +1,18 @@
+2026-11-16 가변 보드 화면 분할
+환경: macOS 27.2 arm64 / Unity 6000.3.14f1 Editor. 최종 실행 종료0.
+검사: NyanLinkBoardLayoutValidation.Run. 241 assertion, 게임 런타임 오류0.
+실제 렌더와 가상 Input System Mouse 사용. 물리 손/실기기 테스트가 아님.
+
+스크린샷별 기대/실제 결과(기대와 모두 일치):
+01-default-6x7.png:1080×1920, 기준39칸과 기존 하단60% 유지.
+02-reduced-4x5.png:같은 환경,18칸·같은166.154px/월드 단위, 하단47.02%/상단52.98%, 점수 경계 동반 이동.
+03-reduced-after-drag.png:축소4×5에서 실제 Mouse down/move/up 매칭 후20점과18칸 리필.
+04-rows-only-6x3.png:행만 줄인17칸·같은타일배율·하단34.04%, 상단65.96%.
+05-minimum-2x1.png:레이아웃 경계 검사·2칸,하단21.06%. 게임 전체 규칙 성립/난이도 검사가 아님.
+06-tall-safe-reduced-4x5.png:1284×2778,모의안전영역(0,100,1284,2550). 기준6×7과 같은197.538px/월드 단위·하단48.38%·안전영역 안 표시.
+
+추가 확인:열만4×7은높이60%유지,새씬초기4×5도같은배율,10×12는잘림없이맞춤/상단보존.
+테스트 보호:복제ScriptableObject와isolated-saves사용,최고점/입력장치설정/GameView복원.기본에셋/씬diff없음.
+최종근거:play-results.txt,editor-play-pass02.log.초기실패근거:attempt01/play-results.txt,editor-play-final.log.
+초기실패는정수pixelHeight반올림을검사식이배율변화로오판.실수pixelRect와실제화면투영검사로보완.
+남은실기기/Player확인:D-010(Docs/WORK_ITEMS.md).기존보류항목은그대로유지.

@@ -86,6 +86,13 @@
 
 ## 실기기 테스트 필요
 
+### D-010 — 가변 보드 높이의 카메라·UI·실제 터치
+- 등록일·최근 확인일: 2026-11-16. 관련: DualCameraRig.cs, PuzzleBoardManager.cs, BoardBoundaryHUD.cs, PrototypePresentation.cs. 관련 ID: V-027, D-001, D-005.
+- 대상: Android Lenovo TB320FC/Android15 및 노치·홈 표시줄이 있는 실제 iPhone/iPad. 현재 설치 APK는 이번 변경을 포함하지 않음.
+- 절차: 다음 기기 빌드에서 기준6×7과 축소4×5/6×3을 각각 실행. 같은 기기·안전 영역에서 타일 표시 크기가 같고 행 감소만큼 하단이 줄며 상단이 늘어나는지 확인. 열만4×7로 줄이면 높이 유지·좌우 여백 증가. 점수/연결 안내·저장 오류 안내·장애물 입력 영역/예고·보스 UI·일시정지/재개·앱 복귀에서 겹침/잘림 없이 가장자리 타일도 실제 손가락으로 연결되어야 함. 실제 PNG 촬영.
+- 현재 근거: V-027은 Mac Unity Editor 실제 렌더·가상 Mouse와 모의 안전 영역 결과이며 실기기 결과와 구분. 이번에는 APK/iOS/WebGL 재빌드·설치/기기 터치를 수행하지 않아 대기 유지.
+- 다음 조치: 다음 실기기 테스트 때 D-001/D-005의 같은 화면·입력 항목을 함께 확인. 보드 축소에 따른 게임 난도·최대 요구 경로 성립 여부는 별도 게임 규칙 검토(2×1 표시는 레이아웃 경계 검사에 한함).
+
 ### D-008 — 에셋 기반 연속 대응·요구 수량·피버 연타의 실기기 피드백
 - 등록일·최근 확인일: 2026-11-16. 관련: BossDefinition/BossPatternDefinition/BasicResponse/RatKingEncounter, BossEncounter/BossController, PuzzleBoardManager/TileInputHandler/TileMatcher, BossHUD/GameHUD/ItemTileLabels/ConceptPixelPresentation, SaveManager. 관련 ID: V-025, D-001/D-002/D-004/D-005/D-006/D-007.
 - 사용자 승인 범위: 기본 패턴은 강화된 러닝 형태의 빠른 개별 대응. 주황 공격만 실제 연결 수×공격력으로 피해, 파랑 슬라이딩·노랑 방어는 최소 연결 수 충족 시 대응 성공. 오답/수량 부족은 일반 제거·점수/회복은 허용하고 제한 시간 내 재입력. 묶음 모두 성공 시 피버, 완료 고정 피해12 없음. 보라·청록의 명령 의미는 패턴 에셋이 결정. 기획문서 변경은 사용자 기기 테스트 후 확정 의견을 받은 다음 진행하며 이번에는 변경하지 않음.
@@ -174,6 +181,15 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-027 — 타일 표시 크기를 유지하는 보드 높이 자동 분할
+- 등록일·최근 확인일·수행일: 2026-11-16. 관련: DualCameraRig.cs, PuzzleBoardManager.cs, BoardBoundaryHUD.cs, PrototypePresentation.cs, NyanLinkBoardLayoutValidation.cs. 관련 ID: D-010, D-001, D-005. 관련 커밋: `feat: resize gameplay regions while preserving tile size` 로컬 커밋(미푸시).
+- 구현: 현재 GridShapeData와 독립적인 기준6×7의 실제 셀/스프라이트/변환 경계로 기기별 표시 배율을 산출. 행을 줄여도 타일 배율을 유지하고 줄어든 픽셀 높이를 상단에 전부 배분. 열만 줄이면 가운데 정렬/좌우 여백 증가. 기본6×7 분할60% 유지. 상단 가로 시야·바닥 기준 유지, 경계 점수/연결·저장 안내/배경 함께 이동. 큰 보드는 상단 공간을 남기며 화면에 맞춤.
+- 환경/결과: macOS27.2 arm64, Unity6000.3.14f1 Editor, 실제1080×1920 및1284×2778(모의 안전 영역0,100,1284,2550). 최종241 assertion 통과·프로세스 종료0·게임 런타임 오류0. 6×7/4×5/4×7/6×3/2×1 및 축소 데이터로 새 씬 시작, 화면 변경·안전 영역·10×12 큰 보드 표시 확인. 각 셀 화면 투영/입력 역변환과 줄어든 보드의 실제 Input System Mouse 드래그→득점/18칸 리필 확인.
+- 수치:1080×1920에서6×7과4×5/6×3 모두166.154px/월드 단위. 하단 비율60%→47.02%/34.04%, 줄어든 높이만큼 상단 증가. 모의 안전 영역에서는 기준/4×5 모두197.538px/월드 단위, 하단60%→48.38%. 화면 경계 반올림의 정수 pixelHeight 대신 실수 pixelRect와 실제 투영을 함께 검증.
+- 근거: `output/playtests/2026-11-16-board-layout/play-results.txt`, `editor-play-pass02.log`, 실제 게임 PNG6장. 01 기본6×7,02 축소4×5,03 실제 드래그 후 점수,04 행만6×3,05 최소2×1,06 긴 화면/모의 노치4×5. 01/02/04/06 직접 이미지 검토 완료. 테스트는 런타임 복제 GridShapeData·별도 저장 폴더를 사용하며 기본 에셋6×7/씬은 수정하지 않음. 원래 최고점·입력 설정·GameView 복원.
+- 초기 실행: 제한 실행의 라이선스 연결 정지 후 이번 검증용 프로세스만 정리해 재실행. 첫 검사에서 카메라 정수 높이 반올림을 배율 변화로 오판한 실패를 보존(`attempt01/play-results.txt`, `editor-play-final.log`). 검사식을 실수 경계와 실제 투영으로 보완 후 최종 성공. 런타임 레이아웃은 첫 검사 이후 동작 변경 없음(설명 주석/Inspector 제목만 정비).
+- 한계/남은 항목: 이번 레이아웃 검사에서 미해결 오류 없음. Android/iOS/WebGL Player 재빌드 및 실제 터치·장애물/보스 전체 플레이는 미수행이며 D-010에 절차/기대 결과/사유 기록. 기존 D-001/D-005/V-002 및 다른 미검증·미해결 상태는 유지. 임의로 매우 작은 보드에서 모든 보스 요구 경로가 성립한다는 검증은 아님.
 
 ### V-025 — 보스·패턴 에셋/개별 연속 대응/요구 경로/피버 보드 및 Android 설치
 - 등록일·최근 확인일·수행일: 2026-11-16. 관련: BossDefinition.cs, BossPatternDefinition.cs, BossEncounter.cs, BossController.cs, BossBattleConfig.cs/asset, BasicResponse.asset/RatKingEncounter.asset, PuzzleBoardManager/TileInputHandler/TileMatcher, RunnerController, BossHUD/GameHUD/ItemTileLabels/ConceptPixelPresentation, SaveManager, NyanLinkEncounterAssets/Validation. 관련 커밋: `feat: add asset-driven boss responses and tap fever` 로컬 커밋. 실기기 후속 D-008/D-001/D-002.

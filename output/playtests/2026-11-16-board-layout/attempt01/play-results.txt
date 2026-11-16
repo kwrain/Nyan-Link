@@ -1,0 +1,9 @@
+PASS Default 6x7 tiles=6x7 pixels/unit=166.122 lower=60.00 %
+PASS Reduced 4x5 tiles=4x5 pixels/unit=166.160 lower=47.02 %
+PASS Columns only 4x7 tiles=4x7 pixels/unit=166.122 lower=60.00 %
+System.Exception: FAIL Rows only 6x3 tile pixel size preserved
+  at NyanLinkBoardLayoutValidation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkBoardLayoutValidation.cs:120 
+  at NyanLinkBoardLayoutValidation.CheckLayout (System.Single scale, System.String label) [0x00001] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkBoardLayoutValidation.cs:145 
+  at NyanLinkBoardLayoutValidation+<Sequence>d__53.MoveNext () [0x0065c] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkBoardLayoutValidation.cs:217 
+  at NyanLinkBoardLayoutValidation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkBoardLayoutValidation.cs:106 
+Assertions=107, runtime errors=0

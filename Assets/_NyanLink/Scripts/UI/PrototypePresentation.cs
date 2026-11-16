@@ -45,6 +45,7 @@ namespace NineMood.UI
             Layout();
             gameObject.AddComponent<NineMood.Presentation.ConceptPixelPresentation>();
             gameObject.AddComponent<NineMood.Presentation.PixelUIPresentation>();
+            gameObject.AddComponent<BoardBoundaryHUD>();
         }
         public static void Place(RectTransform r,float x0,float y0,float x1,float y1)
         {if(r==null)return;r.anchorMin=new Vector2(x0,y0);r.anchorMax=new Vector2(x1,y1);r.offsetMin=r.offsetMax=Vector2.zero;}

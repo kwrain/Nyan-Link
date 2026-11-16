@@ -127,19 +127,19 @@ namespace NineMood.Puzzle
             if (!IsPlaying && GameManager.Instance?.CurrentState!=GameState.ColorSelection) { Cancel(); return; }
             while (_colorShifts.Count>0)
             {
-                if (_colorShifts.Dequeue()==1) ApplyColor((TileColor)Random.Range(0,6));
+                if (_colorShifts.Dequeue()==1) ApplyColor((TileColor)Random.Range(0,6),4);
                 else
                 {
                     var panel=GameManager.Instance.GetComponent<ColorSelectionPanel>();
-                    if (panel!=null && panel.Show(color=> { ApplyColor(color); ContinueColorShifts(); })) return;
+                    if (panel!=null && panel.Show(color=> { ApplyColor(color,7); ContinueColorShifts(); })) return;
                 }
             }
             IsResolving=false;
             GameManager.Instance?.CompleteColorChoice();
         }
-        private void ApplyColor(TileColor color)
+        private void ApplyColor(TileColor color, int limit)
         {
-            boardManager.RecolorAll(color);
+            boardManager.RecolorPatch(color,limit);
             ItemEffectEvents.TriggerColorShift(color);
         }
     }

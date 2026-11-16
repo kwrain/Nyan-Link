@@ -18,7 +18,7 @@ MonoBehaviour:
   failureDamage: 20
   feverSeconds: 5
   feverRefillSeconds: 0.4
-  feverDamageMultiplier: 2
+  feverDamageMultiplier: 0.5
   phases:
   - enterAtHP: 1
     minimumLinks: 2

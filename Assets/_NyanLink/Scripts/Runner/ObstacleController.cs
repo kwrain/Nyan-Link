@@ -87,7 +87,7 @@ namespace NineMood.Runner
             if (!GameManager.IsCreated || GameManager.Instance.CurrentState != GameState.RunnerPhase ||
                 HasSuccessReservation || !IsInputWindowOpen || chainLength < 2 || tilesRemoved <= 0) return;
             if (color == RequiredColor) HasSuccessReservation = true;
-            else FindFirstObjectByType<TileInputHandler>()?.LockInput(DataManager.Instance?.BalanceData?.mistakeLockDuration ?? 0.5f);
+
         }
 
         private IEnumerator Pulse()

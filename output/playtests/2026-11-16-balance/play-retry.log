@@ -1,0 +1,1655 @@
+Unity Editor version:    6000.3.14f1 (d68c3f99a318)
+Branch:                  6000.3/staging
+Build type:              Release
+Batch mode:              NO
+macOS version:           Version 27.2 (Build 26B123)
+Darwin version:          27.2.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-11-16T10:07:09Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-kiwoolee doesn't exist
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Helpers/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client
+[Licensing::Module] Successfully launched the LicensingClient (PId: 16532)
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+-projectPath
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+-executeMethod
+NyanLinkEncounterValidation.Run
+-logFile
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/output/playtests/2026-11-16-balance/play-retry.log
+Successfully changed project path to: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [8330449664]  Target information:
+
+Player connection [8330449664]  * "[IP] 192.168.0.98 [Port] 55504 [Flags] 2 [Guid] 2013630595 [EditorId] 2013630595 [Version] 1048832 [Id] OSXEditor(0,Kiwoo-MacBook-Pro-M1.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8330449664] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8330449664] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-16531" after 0.0 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee" at "2026-11-16T10:07:10.225957Z"
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              8ec84009e1f84c34a5ce2c37ff4be870
+  Correlation Id:          b48bdf110f21b9f403a60a43456e75b9
+  External correlation Id: 3225727699838590843
+  Machine Id:              /WjKvKF+OzgsHfl3D08tQZYCd8Q=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kiwoolee" (connect: 0.58s, validation: 0.03s, handshake: 0.35s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee-notifications" at "2026-11-16T10:07:10.608969Z"
+[Licensing::Module] Connected to LicensingClient (PId: 16532, launch time: 0.00, total connection time: 0.96s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Module] Licensing Background thread has ended after 0.98s
+[Licensing::Module] Licensing is initialized (took 0.49s).
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Refreshing native plugins compatible for Editor in 0.72 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.3.14f1 (d68c3f99a318)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+ preferred device: Apple M1 Pro (high power)
+Metal devices available: 1
+0: Apple M1 Pro (high power)
+Using device Apple M1 Pro (high power)
+Initializing Metal device caps: Apple M1 Pro
+Mac GPU Family: 2
+Apple GPU Family: 7
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56531
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.004963 seconds.
+- Loaded All Assemblies, in  0.389 seconds
+[usbmuxd] Start listen thread
+[usbmuxd] Listen thread started
+[usbmuxd] Send listen message
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.396 seconds
+Domain Reload Profiling: 786ms
+	BeginReloadAssembly (138ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (14ms)
+	RebuildCommonClasses (35ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (41ms)
+	LoadAllAssembliesAndSetupDomain (165ms)
+		LoadAssemblies (126ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (158ms)
+			TypeCache.Refresh (156ms)
+				TypeCache.ScanAssembly (141ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (397ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (361ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (145ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (61ms)
+			ProcessInitializeOnLoadAttributes (94ms)
+			ProcessInitializeOnLoadMethodAttributes (57ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 83 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.2d.tilemap.extras@6.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tilemap.extras@3dde84bf3867)
+    com.unity.addressables@2.9.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.addressables@8460f1c9c927)
+    com.unity.ads@4.16.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ads@e89225828059)
+    com.unity.ai.navigation@2.0.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ai.navigation@734c2c4c5591)
+    com.unity.analytics@3.8.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
+    com.unity.collab-proxy@2.12.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.ide.rider@3.0.39 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.26 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.inputsystem@1.19.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83)
+    com.unity.timeline@1.8.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.visualscripting@8bed5ad90189)
+    com.unity.xr.legacyinputhelpers@2.1.13 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
+    com.unity.services.core@1.16.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.core@8ba50f624741)
+    com.unity.2d.animation@13.0.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.animation@7396d8477ca9)
+    com.unity.2d.pixel-perfect@5.1.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.pixel-perfect@09d99455b901)
+    com.unity.2d.psdimporter@12.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.psdimporter@9abe0f7cac7e)
+    com.unity.2d.spriteshape@13.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.spriteshape@0738bab11647)
+    com.unity.2d.aseprite@3.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.aseprite@809e3a168ff7)
+    com.unity.2d.tooling@1.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tooling@127d960d4dc1)
+    com.unity.services.analytics@6.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
+    com.unity.profiling.core@1.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.profiling.core@8a49f7027d06)
+    com.unity.scriptablebuildpipeline@2.6.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.scriptablebuildpipeline@36e3b5898ee2)
+    com.unity.services.cloud-diagnostics@1.0.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.cloud-diagnostics@d0dda3e9b17e)
+    com.unity.services.levelplay@9.2.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.levelplay@2d2a5e1fe9e9)
+    com.unity.purchasing@5.0.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.purchasing@015b4cec2127)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.searcher@d45a78918735)
+    com.unity.burst@1.8.29 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.burst@6bb9aca3ef38)
+    com.unity.mathematics@1.3.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
+    com.unity.collections@2.6.5 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.collections@12999e356c23)
+    com.unity.2d.common@12.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.common@2af7c9b44b5c)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.4.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.test-framework.performance@aa81a99c4a75)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.sprite@d14b9d497a24)
+    com.unity.2d.tilemap@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tilemap@43eb9b2da17d)
+    com.unity.feature.2d@2.0.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.feature.2d@0309d34ea7f2)
+    com.unity.multiplayer.center@1.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.render-pipelines.universal@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.universal@3b809f23691d)
+    com.unity.test-framework@1.6.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.test-framework@aebcb98460c6)
+    com.unity.ugui@2.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ugui@8ccc29d23a79)
+    com.unity.modules.accessibility@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
+    com.unity.render-pipelines.core@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.core@02dfbe8e43de)
+    com.unity.shadergraph@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.shadergraph@28ee1cc75774)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
+  Git packages:
+    com.boxqkrtm.ide.cursor@https://github.com/boxqkrtm/com.unity.ide.cursor.git (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.boxqkrtm.ide.cursor@53e1baac3cde)
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a)
+    com.ninemood.services@ssh://git@github.com/kwrain/NineMood.Services.git (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.ninemood.services@f78dd7921baf)
+[Package Manager] com.unity.services.cloud-diagnostics is deprecated: Attention: Cloud Diagnostics is deprecated, and will be phased out in future versions of Unity. For more robust reports and device information, including information on Application Not Responding (ANR) errors for Android, use the diagnostics (https://docs.unity.com/en/us/cloud/developer-data/diagnostics) experience available in Unity 6.2 and later.
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.02 seconds
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-e3581c700b0e6612c8018d106fe8ca26
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 48.5982ms
+Starting: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/1300b0aEDbg.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly unityeditor.ios.extensions.xcode has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll"
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@6bb9aca3ef38/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 20.9784ms
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/1300b0aEDbg.dag/Assembly-CSharp.dll, with 150 defines and 377 references
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with Library/Bee/artifacts/1300b0aEDbg.dag/Unity.Collections.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/UnityEditor.CoreModule.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/UnityEngine.CoreModule.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@6bb9aca3ef38/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc - - 200 - application/grpc 426.9597ms
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/1300b0aEDbg.dag/Assembly-CSharp-Editor.dll, with 148 defines and 410 references
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc - - 200 - application/grpc 69.2588ms
+ExitCode: 0 Duration: 3s418ms
+[ 972/1566  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1558/1566  2s] Csc Library/Bee/artifacts/1300b0aEDbg.dag/Assembly-CSharp.dll (+2 others)
+[1559/1566  0s] ILPostProcess Library/Bee/artifacts/1300b0aEDbg.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1300b0aEDbg.dag/Assembly-CSharp.dll, with 150 defines and 377 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1560/1566  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[1561/1566  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[1562/1566  0s] Csc Library/Bee/artifacts/1300b0aEDbg.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets/Editor/NyanLinkTestSceneSetup.cs(263,39): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+[1563/1566  0s] ILPostProcess Library/Bee/artifacts/1300b0aEDbg.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1300b0aEDbg.dag/Assembly-CSharp-Editor.dll, with 148 defines and 410 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1564/1566  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+[1565/1566  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+*** Tundra build success (3.40 seconds), 9 items updated, 1566 evaluated
+Assets/Editor/NyanLinkTestSceneSetup.cs(263,39): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+AssetDatabase: script compilation time: 4.087898s
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.984 seconds
+Refreshing native plugins compatible for Editor in 28.94 ms, found 4 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 4.69 ms, found 4 plugins.
+﻿﻿﻿﻿[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-NyanLink
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  9.024 seconds
+Domain Reload Profiling: 10009ms
+	BeginReloadAssembly (222ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (13ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (130ms)
+	RebuildCommonClasses (26ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (18ms)
+	LoadAllAssembliesAndSetupDomain (707ms)
+		LoadAssemblies (478ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (275ms)
+			TypeCache.Refresh (188ms)
+				TypeCache.ScanAssembly (164ms)
+			BuildScriptInfoCaches (76ms)
+			ResolveRequiredComponents (8ms)
+	FinalizeReload (9025ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (8856ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (37ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (247ms)
+			ProcessInitializeOnLoadAttributes (8406ms)
+			ProcessInitializeOnLoadMethodAttributes (158ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (13ms)
+Start importing Assets/Resources/Data/BossConfigs/RatKingEncounter.asset using Guid(e3eca500506c5419e999ca900bc2b968) (NativeFormatImporter) -> (artifact id: '7fdb31c786e4788e7ad26f2ffea5ce8b') in 0.03942575 seconds
+Refreshing native plugins compatible for Editor in 31.98 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7bf9df0a812864db5b30508c3b068ed8): Total: 16.529 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=5 ms, native=11025 ms
+		Asset DB Callback time: managed=263 ms, native=66 ms
+		Scripting: domain reloads=1, domain reload time=986 ms, compile time=4089 ms, other=92 ms
+		Project Asset Count: scripts=2249, non-scripts=3655
+		Asset File Changes: new=0, changed=6, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 24.762ms
+	ApplyChangesToAssetFolders: 0.491ms
+	Scan: 1400.059ms
+	OnSourceAssetsModified: 0.779ms
+	CategorizeAssetsWithTransientArtifact: 99.615ms
+	ProcessAssetsWithTransientArtifactChanges: 78.049ms
+	CategorizeAssets: 111.669ms
+	ImportOutOfDateAssets: 9117.927ms (4982.525ms without children)
+		ImportManagerImport: 43.126ms (1.928ms without children)
+			ImportInProcess: 41.176ms
+			UpdateCategorizedAssets: 0.021ms
+		CompileScripts: 4088.983ms
+		ReloadNativeAssets: 0.000ms
+		UnloadImportedAssets: 1.613ms
+		ReloadImportedAssets: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.046ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.633ms
+	PostProcessAllAssets: 266.883ms
+	Hotreload: 39.644ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
+	UnloadStreamsBegin: 2.032ms
+	PersistCurrentRevisions: 0.581ms
+	UnloadStreamsEnd: 0.003ms
+	GenerateScriptTypeHashes: 3.193ms
+	Untracked: 5386.499ms
+
+Application.AssetDatabase Initial Refresh End
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.08 seconds
+Scanning for USB devices : 0.766ms
+Initializing Unity extensions:
+Cannot add menu item 'Assets/Create/NyanLink/Data/Balance' for method 'RuntimeMethodInfo.CreateBalanceData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Boss Battle Config' for method 'RuntimeMethodInfo.CreateBossBattleConfig' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Character' for method 'RuntimeMethodInfo.CreateCharacterData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Color Effect Mapping' for method 'RuntimeMethodInfo.CreateColorEffectMappingData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Equipment' for method 'RuntimeMethodInfo.CreateEquipmentData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Grid Shape' for method 'RuntimeMethodInfo.CreateGridShapeData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Line Visual Effect' for method 'RuntimeMethodInfo.CreateLineVisualEffectConfig' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Loot Table' for method 'RuntimeMethodInfo.CreateLootTableData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Stage' for method 'RuntimeMethodInfo.CreateStageData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Tile Effect' for method 'RuntimeMethodInfo.CreateTileEffectData' because a menu item with the same name already exists.
+2026-11-16 19:07:30.696 Unity[16531:10480307] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a8c3310e0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 128 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/_NyanLink/Scene/Main.unity'
+	Deserialize:            35.948 ms
+	Integration:            398.902 ms
+	Integration of assets:  1.354 ms
+	Thread Wait Time:       -0.129 ms
+	Total Operation Time:   436.074 ms
+Unloading 9706 unused Assets / (2.4 MB). Loaded Objects now: 10567.
+Memory consumption went from 350.9 MB to 348.6 MB.
+Total: 16.229334 ms (FindLiveObjects: 0.495959 ms CreateObjectMapping: 0.289375 ms MarkObjects: 11.673750 ms  DeleteObjects: 3.769667 ms)
+
+[LAYOUT] About to load UserSettings/Layouts/default-6000.dwlt, keepMainWindow=False
+[LAYOUT] About to save layout /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/UserSettings/Layouts/default-6000.dwlt
+[LAYOUT] About to save layout /Users/kiwoolee/Library/Preferences/Unity/Editor-5.x/Layouts/current/default-6000.dwlt
+[MODES] ModeService[default].InitializeCurrentMode
+[MODES] ModeService[default].RaiseModeChanged(default, default)
+This project uses Input Manager, which is marked for deprecation. To manage input in your project, use the <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">Input System package</a> instead.
+2026-11-16 19:07:32.290 Unity[16531:10480307] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a8c32c8c0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Opening scene 'Assets/_NyanLink/Scene/Main.unity'
+Unloading 18 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/_NyanLink/Scene/Main.unity'
+	Deserialize:            1.181 ms
+	Integration:            296.111 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.010 ms
+	Total Operation Time:   297.304 ms
+Unloading 2 unused Assets / (5.2 MB). Loaded Objects now: 10823.
+Memory consumption went from 362.1 MB to 357.0 MB.
+Total: 21.035666 ms (FindLiveObjects: 0.287667 ms CreateObjectMapping: 0.165042 ms MarkObjects: 20.492333 ms  DeleteObjects: 0.088000 ms)
+
+[Project] Loading completed in 23.014 seconds
+	Project init time: 				20.160 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.523 seconds
+		Asset Database init time: 		0.770 seconds
+		Global illumination init time: 	0.002 seconds
+		Assemblies load time: 			0.799 seconds
+		Unity extensions init time: 	0.018 seconds
+		Asset Database refresh time: 	16.536 seconds
+	Scene opening time: 			2.640 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1794823652657,"processId":16531,"projectLoad":23.014354875,"projectInit":20.1596745,"templateInit":0.0,"packageManagerInit":0.523087833,"assetDatabaseInit":0.769931583,"globalIlluminationInit":0.002362334,"assembliesLoad":0.799317916,"unityExtensionsInit":0.018498208,"assetDatabaseRefresh":16.53585825,"sceneOpening":2.640245458}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1794823652658,"processId":16531,"editorVersion":"6000.3.14f1 (d68c3f99a318)","branch":"6000.3/staging","buildType":"Release","platform":"OSX"}
+Subscribe to USB device events
+Scanning for USB devices : 0.626ms
+Thread 0x705a7f7000 may have been prematurely finalized
+SpriteAtlasPacking completed in 0.007132 sec
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+<CFData 0x7a8bd48640 [0x1e5384fc8]>{length = 6, capacity = 6, bytes = 0xf84d897d7c54}
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.996 seconds
+Refreshing native plugins compatible for Editor in 5.49 ms, found 4 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+[BuildProfileEnvironmentConfig] 빌드 프로필에 따라 환경 설정: production
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Services.Editor.BuildProfile.BuildProfileEnvironmentConfig:OnBuildingConfiguration (Unity.Services.Core.Configuration.Editor.ConfigurationBuilder) (at ./Library/PackageCache/com.ninemood.services@f78dd7921baf/Editor/BuildProfile/BuildProfileEnvironmentConfig.cs:53)
+Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder:BuildConfiguration () (at ./Library/PackageCache/com.unity.services.core@8ba50f624741/Editor/Core/Configuration/ProjectConfigurationBuilder.cs:63)
+Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder:InitializeConfiguration () (at ./Library/PackageCache/com.unity.services.core@8ba50f624741/Editor/Core/Configuration/ProjectConfigurationBuilder.cs:52)
+Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder:SetUpPlayModeConfigOnEnteringPlayMode (UnityEditor.EnterPlayModeOptions) (at ./Library/PackageCache/com.unity.services.core@8ba50f624741/Editor/Core/Configuration/ProjectConfigurationBuilder.cs:37)
+
+(Filename: ./Library/PackageCache/com.ninemood.services@f78dd7921baf/Editor/BuildProfile/BuildProfileEnvironmentConfig.cs Line: 53)
+
+Refreshing native plugins compatible for Editor in 4.67 ms, found 4 plugins.
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.851 seconds
+Domain Reload Profiling: 3852ms
+	BeginReloadAssembly (530ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (61ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (340ms)
+	RebuildCommonClasses (29ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (18ms)
+	LoadAllAssembliesAndSetupDomain (413ms)
+		LoadAssemblies (252ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (224ms)
+			TypeCache.Refresh (17ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (191ms)
+			ResolveRequiredComponents (11ms)
+	FinalizeReload (2852ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (1737ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (158ms)
+			SetLoadedEditorAssemblies (6ms)
+			BeforeProcessingInitializeOnLoad (197ms)
+			ProcessInitializeOnLoadAttributes (1289ms)
+			ProcessInitializeOnLoadMethodAttributes (85ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (787ms)
+Asset Pipeline Refresh (id=4f3e810886163415d9d930cc6e5d18e9): Total: 4.014 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2971 ms
+		Asset DB Callback time: managed=22 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=1018 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=2249, non-scripts=3655
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.000ms
+	InvokePackagesCallback: 1.167ms
+	ApplyChangesToAssetFolders: 0.364ms
+	Scan: 0.002ms
+	OnSourceAssetsModified: 0.001ms
+	CategorizeAssetsWithTransientArtifact: 0.003ms
+	ProcessAssetsWithTransientArtifactChanges: 6.045ms
+	CategorizeAssets: 60.880ms
+	ImportOutOfDateAssets: 2871.991ms (2867.573ms without children)
+		CompileScripts: 0.763ms
+		CollectScriptTypesHashes: 1.124ms
+		ReloadNativeAssets: 0.682ms
+		UnloadImportedAssets: 0.711ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.822ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.316ms
+	PostProcessAllAssets: 22.873ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.483ms
+	UnloadStreamsBegin: 0.629ms
+	PersistCurrentRevisions: 0.142ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 3.547ms
+	Untracked: 1049.181ms
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            1.712 ms
+	Integration:            409.444 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.008 ms
+	Total Operation Time:   411.165 ms
+Created GICache directory at /Users/kiwoolee/Library/Caches/com.unity3d.UnityEditor/GiCache. Took: 0.003s, timestamps: [28.999 - 29.002]
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+[Session02] GameView group=Android; build target=Android
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:422)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+NyanLinkEncounterValidation:View (string,object[]) (at Assets/Editor/NyanLinkEncounterValidation.cs:140)
+NyanLinkEncounterValidation/<Sequence>d__73:MoveNext () (at Assets/Editor/NyanLinkEncounterValidation.cs:363)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:106)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 422)
+
+[Session02] View=60730 selected=18 requested=1080x1920 target=(1080.00, 1920.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:447)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+NyanLinkEncounterValidation:View (string,object[]) (at Assets/Editor/NyanLinkEncounterValidation.cs:140)
+NyanLinkEncounterValidation/<Sequence>d__73:MoveNext () (at Assets/Editor/NyanLinkEncounterValidation.cs:363)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:106)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 447)
+
+[Session02] GameView count=1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkSession02Validation:SetGameViewSize (int,int) (at Assets/Editor/NyanLinkSession02Validation.cs:449)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+NyanLinkEncounterValidation:View (string,object[]) (at Assets/Editor/NyanLinkEncounterValidation.cs:140)
+NyanLinkEncounterValidation/<Sequence>d__73:MoveNext () (at Assets/Editor/NyanLinkEncounterValidation.cs:363)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:106)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: Assets/Editor/NyanLinkSession02Validation.cs Line: 449)
+
+Android Extension - Scanning For ADB Devices 448 ms
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "zRxQc0zX"... (expires: 2026-11-16T11:58:49Z)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+Unloading 64 Unused Serialized files (Serialized files now loaded: 0)
+[Licensing::Client] Successfully resolved entitlement details
+[ScriptCompilation] Requested script compilation because: Define symbols changed
+UnloadTime: 4.295958 ms
+[DualCameraRig] Culling Mask 적용 완료. TopView layer = 8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.DualCameraRig:ApplyCullingMasks () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:88)
+NineMood.Core.DualCameraRig:ApplySplit () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:62)
+NineMood.Core.DualCameraRig:OnValidate () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:36)
+
+(Filename: Assets/_NyanLink/Scripts/Core/DualCameraRig.cs Line: 88)
+
+[DualCameraRig] Culling Mask 적용 완료. TopView layer = 8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.DualCameraRig:ApplyCullingMasks () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:88)
+NineMood.Core.DualCameraRig:ApplySplit () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:62)
+NineMood.Core.DualCameraRig:Awake () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:33)
+
+(Filename: Assets/_NyanLink/Scripts/Core/DualCameraRig.cs Line: 88)
+
+Loaded scene 'Assets/_NyanLink/Scene/Game.unity'
+	Deserialize:            29.649 ms
+	Integration:            408.757 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       385.044 ms
+	Total Operation Time:   823.453 ms
+Unloading 185 unused Assets / (16.3 MB). Loaded Objects now: 12535.
+Memory consumption went from 0.75 GB to 0.73 GB.
+Total: 37.049125 ms (FindLiveObjects: 0.891708 ms CreateObjectMapping: 0.174250 ms MarkObjects: 29.062042 ms  DeleteObjects: 6.919583 ms)
+
+[Licensing::Client] Successfully resolved entitlement details
+[DualCameraRig] Culling Mask 적용 완료. TopView layer = 8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.DualCameraRig:ApplyCullingMasks () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:88)
+NineMood.Core.DualCameraRig:ApplySplit () (at Assets/_NyanLink/Scripts/Core/DualCameraRig.cs:62)
+NineMood.Presentation.ConceptPixelPresentation/<Start>d__13:MoveNext () (at Assets/_NyanLink/Scripts/Presentation/ConceptPixelPresentation.cs:33)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: Assets/_NyanLink/Scripts/Core/DualCameraRig.cs Line: 88)
+
+[ObstacleSpawner] 보호 조건으로 요구 색 보정 불가. 다음 리필에서 재검사합니다.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+NineMood.Runner.ObstacleSpawner:PrepareRequiredColor () (at Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs:122)
+NineMood.Runner.ObstacleSpawner:OnGameStateChanged (NineMood.Core.GameState) (at Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs:217)
+NineMood.Core.GameEvents:TriggerGameStateChanged (NineMood.Core.GameState) (at Assets/_NyanLink/Scripts/Core/Events/GameEvents.cs:89)
+NineMood.Core.Managers.GameManager:PublishState (NineMood.Core.GameState) (at Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs:129)
+NineMood.Core.Managers.GameManager:StartRun (bool) (at Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs:54)
+NineMood.Core.Managers.GameManager:RetryGame () (at Assets/_NyanLink/Scripts/Core/Managers/GameManager.cs:49)
+NyanLinkEncounterValidation/<Sequence>d__73:MoveNext () (at Assets/Editor/NyanLinkEncounterValidation.cs:395)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:106)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: Assets/_NyanLink/Scripts/Runner/ObstacleSpawner.cs Line: 122)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 20)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 20)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 40)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 60)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 80)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 100)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 120)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 140)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 160)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 180)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 200)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+Ignoring depth surface load action as it is memoryless
+Ignoring depth surface store action as it is memoryless
+[ScoreManager] 체인 5개 / Lv1 / 타일 5개 → 5 × 10 × 2x = +100 (누적: 300)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 320)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 340)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 350)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 360)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 370)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 380)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 390)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 3개 / Lv0 / 타일 3개 → 3 × 10 × 1x = +30 (누적: 420)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 3개 / Lv0 / 타일 3개 → 3 × 10 × 1x = +30 (누적: 450)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 3개 / Lv0 / 타일 3개 → 3 × 10 × 1x = +30 (누적: 480)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 490)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:TryUseItem (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:48)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:198)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 500)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:TryUseItem (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:48)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:198)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 520)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 5개 / Lv1 / 타일 5개 → 5 × 10 × 2x = +100 (누적: 620)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+TrimDiskCacheJob: Current cache size 267mb
+[ScoreManager] 체인 5개 / Lv1 / 타일 5개 → 5 × 10 × 2x = +100 (누적: 720)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 5개 / Lv1 / 타일 5개 → 5 × 10 × 2x = +100 (누적: 820)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 830)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 840)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 850)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 860)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 870)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 880)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 890)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 900)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 910)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 920)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 930)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 940)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 950)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 960)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 970)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 980)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 990)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 1000)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 1010)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 1020)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 1개 / Lv0 / 타일 1개 → 1 × 10 × 1x = +10 (누적: 1030)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Boss.BossEncounter:TryFeverTap (UnityEngine.Vector3Int) (at Assets/_NyanLink/Scripts/Boss/BossEncounter.cs:182)
+NineMood.Puzzle.TileInputHandler:OnInputBegan (UnityEngine.Vector2) (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:150)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:102)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 20)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+[ScoreManager] 체인 2개 / Lv0 / 타일 2개 → 2 × 10 × 1x = +20 (누적: 40)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NineMood.Core.Managers.ScoreManager:AddScore (int,int,int,NineMood.Data.Enums.TileColor,bool) (at Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs:39)
+NineMood.Puzzle.TileMatcher:Resolve (System.Collections.Generic.List`1<UnityEngine.Vector3Int>,bool) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:117)
+NineMood.Puzzle.TileMatcher:ProcessMatch (System.Collections.Generic.List`1<UnityEngine.Vector3Int>) (at Assets/_NyanLink/Scripts/Puzzle/TileMatcher.cs:42)
+NineMood.Puzzle.TileInputHandler:OnInputReleased () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:197)
+NineMood.Puzzle.TileInputHandler:Update () (at Assets/_NyanLink/Scripts/Puzzle/TileInputHandler.cs:107)
+
+(Filename: Assets/_NyanLink/Scripts/Core/Managers/ScoreManager.cs Line: 39)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 13.597959 ms
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            2.653 ms
+	Integration:            455.798 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       94.938 ms
+	Total Operation Time:   553.392 ms
+Unloading 8 unused Assets / (292.7 KB). Loaded Objects now: 11902.
+Memory consumption went from 0.78 GB to 0.78 GB.
+Total: 42.349833 ms (FindLiveObjects: 2.056417 ms CreateObjectMapping: 0.313250 ms MarkObjects: 39.748750 ms  DeleteObjects: 0.230625 ms)
+
+[Encounter] PASS 274 encounter assertions; assets/paths/response/fever/save/pause/runner regressions passed
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkEncounterValidation:Pass (string) (at Assets/Editor/NyanLinkEncounterValidation.cs:125)
+NyanLinkEncounterValidation/<Sequence>d__73:MoveNext () (at Assets/Editor/NyanLinkEncounterValidation.cs:524)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:106)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: Assets/Editor/NyanLinkEncounterValidation.cs Line: 125)
+
+[Encounter] PASS Encounter completed without runtime errors
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkEncounterValidation:Pass (string) (at Assets/Editor/NyanLinkEncounterValidation.cs:125)
+NyanLinkEncounterValidation:Finish (System.Exception) (at Assets/Editor/NyanLinkEncounterValidation.cs:547)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:113)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: Assets/Editor/NyanLinkEncounterValidation.cs Line: 125)
+
+Thread 0x70583ab000 may have been prematurely finalized
+[LAYOUT] About to save layout /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/UserSettings/Layouts/default-6000.dwlt
+[LAYOUT] About to save layout /Users/kiwoolee/Library/Preferences/Unity/Editor-5.x/Layouts/current/default-6000.dwlt
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: No process found listening on port 8080
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+MCPForUnity.Editor.Helpers.McpLog:Info (string,bool) (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Helpers/McpLog.cs:40)
+MCPForUnity.Editor.Services.ServerManagementService:StopLocalHttpServerInternal (bool,System.Nullable`1<int>,bool) (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/ServerManagementService.cs:650)
+MCPForUnity.Editor.Services.ServerManagementService:StopLocalHttpServer () (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/ServerManagementService.cs:340)
+MCPForUnity.Editor.Services.McpEditorShutdownCleanup:OnEditorQuitting () (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/McpEditorShutdownCleanup.cs:60)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+NyanLinkEncounterValidation:Finish (System.Exception) (at Assets/Editor/NyanLinkEncounterValidation.cs:551)
+NyanLinkEncounterValidation:Tick () (at Assets/Editor/NyanLinkEncounterValidation.cs:113)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+
+(Filename: ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Helpers/McpLog.cs Line: 40)
+
+Killing ADB server in 0.051023 seconds.
+Thread 0x7080307000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kiwoolee-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kiwoolee channel disconnected successfully.
+Thread 0x16bc53000 may have been prematurely finalized
+Thread 0x16bcdf000 may have been prematurely finalized
+Thread 0x16bdf7000 may have been prematurely finalized
+Thread 0x16be83000 may have been prematurely finalized
+Thread 0x16bf0f000 may have been prematurely finalized
+Thread 0x16bd6b000 may have been prematurely finalized
+Thread 0x16bf9b000 may have been prematurely finalized
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      ALC ILPP context 1 is unloading
+debugger-agent: Unable to listen on 44
+[usbmuxd] Stop listen thread
+[usbmuxd] Error: 
+[usbmuxd] Listen thread exiting

@@ -398,10 +398,22 @@ public static class NyanLinkEncounterValidation
         var matcher=Object.FindFirstObjectByType<TileMatcher>();
         Assert(matcher.LastActivatedCount==1 && matcher.LastRemovedCount==2,"Runner mixed item consumption retained");
         game.RetryGame();
+        foreach(int limit in new[]{4,7})
+        {
+            board.SetRequiredMatchColor(null);
+            foreach(var cell in board.GetAllTileOffsets().ToArray()) board.SpawnTile(cell,TileColor.Red,TileState.Normal);
+            Assert(board.RecolorPatch(TileColor.Cyan,limit)==limit,"ColorShift bounded count "+limit);
+            Assert(board.GetAllTileOffsets().Count(c=>board.GetTileAtOffset(c).Color==TileColor.Cyan)==limit,"ColorShift leaves remainder unchanged");
+        }
+        game.RetryGame();
         foreach(var color in new[]{TileColor.Red,TileColor.Blue,TileColor.Yellow})
         {
             yield return Approach();yield return Wait(()=>spawner.CurrentObstacle.IsInputWindowOpen,"Runner input window");
-            int before=spawner.ClearedObstacleCount;yield return Match(color);
+            int before=spawner.ClearedObstacleCount;
+            Time.timeScale=0;
+            yield return Match((TileColor)(((int)color+1)%6));
+            Assert(!input.IsInputLocked && !spawner.CurrentObstacle.HasSuccessReservation,"Wrong runner color never locks the next command");
+            yield return Match(color);
             yield return Match((TileColor)(((int)color+1)%6));
             Assert(spawner.CurrentObstacle.HasSuccessReservation && !input.IsInputLocked,"Accepted runner command permits free matching");
             Time.timeScale=6;yield return Wait(()=>spawner.ClearedObstacleCount==before+1,"Runner obstacle clear");Time.timeScale=1;
@@ -423,18 +435,18 @@ public static class NyanLinkEncounterValidation
         var other=board.GetAllTileOffsets().First(c=>c!=normal && board.GetTileAtOffset(c).State==TileState.Normal);
         int taps=fight.FeverTapCount;float beforeTap=boss.CurrentHP;
         Send(Point(normal),true);yield return .1f;Send(Point(other),true);yield return .1f;Send(Point(other),false);yield return .05f;
-        Assert(fight.FeverTapCount==taps+1 && boss.CurrentHP==beforeTap-2 && board.GetTileAtOffset(normal)==null,"Pointer down is one immediate attack; holding/dragging does not repeat");
+        Assert(fight.FeverTapCount==taps+1 && boss.CurrentHP==beforeTap-.5f && board.GetTileAtOffset(normal)==null,"Pointer down is one immediate attack; holding/dragging does not repeat");
         yield return TapNew(normal);Assert(fight.FeverTapCount==taps+1,"Empty cooling-down slot cannot attack");
         yield return TapNew(other);Assert(fight.FeverTapCount==taps+2,"Different tile can attack without global lock");
         Time.timeScale=1;yield return .45f;Time.timeScale=0;
         Assert(board.GetTileAtOffset(normal)?.State==TileState.Normal,"Attack slot refills after 0.4 seconds");
         yield return TapNew(normal);Assert(fight.FeverTapCount==taps+3,"Refilled slot accepts a new tap");
         float specialHP=boss.CurrentHP;yield return TapNew(special);
-        Assert(boss.CurrentHP==specialHP-6 && board.GetTileAtOffset(special)==null,"Existing Lv1 item produces one x3 special attack");
+        Assert(boss.CurrentHP==specialHP-1.5f && board.GetTileAtOffset(special)==null,"Existing Lv1 item produces one x3 special attack");
         board.CancelTileAnimations();yield return .05f;
         var activeText=Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None).Where(t=>t.isActiveAndEnabled).ToArray();
         foreach(var text in activeText) {text.ForceMeshUpdate();Assert(!text.isTextOverflowing,"Fever text fits: "+text.name);}
-        Assert(activeText.Single(t=>t.name=="Boss damage popup").text=="-6","Special hit displays exact damage");
+        Assert(activeText.Single(t=>t.name=="Boss damage popup").text=="-1.5","Special hit displays exact damage");
         Assert(activeText.Single(t=>t.name=="Chain Tier").text.Contains("피버"),"Fever readout uses attack count rather than item-use label");
         Capture("02-fever-tap-and-special.png");yield return .05f;
         var cp=save.Capture(CheckpointBoundary.BossSuccess);
@@ -476,7 +488,16 @@ public static class NyanLinkEncounterValidation
         Assert(fight.AcceptingInput && fight.StepIndex==index && boss.CurrentHP==shortHP,"Two links do not satisfy a five-link command");
         Assert(board.TryGetMatchPath(fight.Step.color,5,out _),"Required path repaired after insufficient clear/refill");
         yield return Respond(5,"04-live-five-link-command.png");yield return BundleToFever();
-        boss.ApplyDamage(boss.CurrentHP-1);int wins=resultEvents;
+        float burstHP=boss.CurrentHP;
+        for(int i=0;i<20;i++)
+        {
+            var target=board.GetAllTileOffsets().First(c=>board.GetTileAtOffset(c)?.State==TileState.Normal);
+            yield return TapNew(target);
+            fight.Tick(.2f);
+        }
+        Assert(Mathf.Abs(burstHP-boss.CurrentHP-10)<.001f && !boss.IsDefeated,"Twenty ordinary fever taps deal ten damage and do not skip final phase");
+        Capture("04b-balanced-twenty-taps.png");yield return .05f;
+        boss.ApplyDamage(boss.CurrentHP-.25f);int wins=resultEvents;
         var finalCell=board.GetAllTileOffsets().First(c=>board.GetTileAtOffset(c).State==TileState.Normal);
         yield return TapNew(finalCell);
         Assert(game.CurrentState==GameState.Result && boss.IsDefeated && resultEvents==wins+1 && board.GetTileCount()==39 && !fight.IsFever,"Lethal fever tap restores normal board and wins once");

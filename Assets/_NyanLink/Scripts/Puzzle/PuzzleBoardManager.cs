@@ -284,6 +284,33 @@ namespace NineMood.Puzzle
             EnsureRequiredColorPair();
         }
 
+        /// <summary>Bounded connected recolor; item identity remains intact.</summary>
+        public int RecolorPatch(TileColor color, int limit)
+        {
+            var candidates = _tiles.Values.Where(t => t.IsActive && t.Color != color).ToArray();
+            if (candidates.Length == 0 || limit <= 0) return 0;
+            var queue = new Queue<Vector3Int>();
+            var visited = new HashSet<Vector3Int>();
+            queue.Enqueue(candidates[UnityEngine.Random.Range(0,candidates.Length)].OffsetPosition);
+            int changed = 0;
+            while (queue.Count > 0 && changed < limit)
+            {
+                var cell = queue.Dequeue();
+                if (!visited.Add(cell)) continue;
+                var tile = GetTileAtOffset(cell);
+                if (tile == null || !tile.IsActive) continue;
+                if (tile.Color != color)
+                {
+                    tile.Color = color;
+                    tilemap.SetTile(cell, GetTileByColorAndState(color,tile.State) ?? hexagonTile);
+                    changed++;
+                }
+                foreach (var next in HexOffsetUtils.GetNeighbors(cell)) queue.Enqueue(next);
+            }
+            EnsureRequiredColorPair();
+            return changed;
+        }
+
         private static ItemEffectType DefaultEffectForColor(TileColor color) => color switch
         {
             TileColor.Red    => ItemEffectType.Recovery,

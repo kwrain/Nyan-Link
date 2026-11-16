@@ -25,7 +25,7 @@ namespace NineMood.Data.Definitions
         [Min(0)] public float failureDamage = 20;
         [Min(.1f)] public float feverSeconds = 5;
         [Min(.1f)] public float feverRefillSeconds = .4f;
-        [Min(0)] public float feverDamageMultiplier = 2;
+        [Min(0)] public float feverDamageMultiplier = .5f;
         public BossHealthPhase[] phases;
 
         public int PhaseFor(float hpRatio)

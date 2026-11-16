@@ -36,6 +36,14 @@ namespace NineMood.Core.Persistence
         {
             string old=doc.checksum;doc.checksum="";string result=Hash(JsonUtility.ToJson(doc));doc.checksum=old;return result;
         }
+        private static bool MatchesChecksum(SaveDocument doc,string source)
+        {
+            if(Checksum(doc)==doc.checksum)return true;
+            if(source.Contains("\"groggyGauge\""))return false;
+            string checksum=doc.checksum; doc.checksum="";
+            string legacy=System.Text.RegularExpressions.Regex.Replace(JsonUtility.ToJson(doc),",\"groggyGauge\":0(?:\\.0+)?", "");
+            doc.checksum=checksum;return Hash(legacy)==checksum;
+        }
         public static bool Validate(SaveDocument doc,out string error)
         {
             error="Invalid save data";
@@ -58,7 +66,7 @@ namespace NineMood.Core.Persistence
                 if(!ValidBoardShape(c.board) || c.board.Any(t=>(t.state==NineMood.Data.Enums.TileState.Normal)!=(t.itemType==NineMood.Data.Enums.ItemEffectType.None))) return false;
                 if(c.board.Where(t=>t.state!=NineMood.Data.Enums.TileState.Normal).GroupBy(t=>t.itemType).Any(g=>g.Count()>2)) return false;
                 var boss=c.boss;
-                if(!Enum.IsDefined(typeof(BossNextStep),boss.nextStep) || boss.phase<0 || boss.attackBonus<0 || boss.groggyRemaining<0 || boss.intervalRemaining<0 || boss.nextSequence==null || boss.nextSequence.Any(t=>!Enum.IsDefined(typeof(NineMood.Data.Enums.TileColor),t))) return false;
+                if(!Enum.IsDefined(typeof(BossNextStep),boss.nextStep) || boss.phase<0 || !Finite(boss.groggyGauge) || boss.groggyGauge<0 || boss.groggyGauge>100 || boss.attackBonus<0 || boss.groggyRemaining<0 || boss.intervalRemaining<0 || boss.nextSequence==null || boss.nextSequence.Any(t=>!Enum.IsDefined(typeof(NineMood.Data.Enums.TileColor),t))) return false;
                 if(boss.active!=(c.phase==GameState.BossPhase) || (boss.active && (boss.hp<=0 || boss.maxHP<=0 || boss.hp>boss.maxHP || boss.nextStep==BossNextStep.None))) return false;
             }
             error=null;return true;
@@ -91,7 +99,7 @@ namespace NineMood.Core.Persistence
                 var doc=JsonUtility.FromJson<SaveDocument>(json);
                 if(doc!=null && !doc.hasCheckpoint) doc.checkpoint=null;
                 if(doc!=null && doc.schemaVersion!=1) return new SaveReadResult { status=SaveReadStatus.Unsupported,message="Save version is unsupported; original preserved" };
-                if(!Validate(doc,out var error) || string.IsNullOrEmpty(doc.checksum) || Checksum(doc)!=doc.checksum) return new SaveReadResult { status=SaveReadStatus.Corrupt,message=error ?? "Save checksum mismatch" };
+                if(!Validate(doc,out var error) || string.IsNullOrEmpty(doc.checksum) || !MatchesChecksum(doc,json)) return new SaveReadResult { status=SaveReadStatus.Corrupt,message=error ?? "Save checksum mismatch" };
                 return new SaveReadResult { status=SaveReadStatus.Ready,data=doc };
             }
             catch(Exception e) when(e is IOException || e is UnauthorizedAccessException || e is ArgumentException)

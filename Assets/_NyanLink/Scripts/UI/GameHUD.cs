@@ -50,7 +50,7 @@ namespace NineMood.UI
         {
             var boss=NineMood.Boss.BossController.Instance;
             _chainTier.text=boss!=null && boss.UsesEncounter && boss.IsGroggy
-                ? $"피버 {boss.Encounter.FeverTapCount}타 / {boss.Encounter.Feedback}"
+                ? $"그로기 {boss.Encounter.FeverTapCount}회 연결 / {boss.Encounter.Feedback}"
                 : $"아이템 사용  /  제거 {removed}개";
         }
         private void OnEnable()

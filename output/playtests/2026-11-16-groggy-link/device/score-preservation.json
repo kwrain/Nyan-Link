@@ -1,0 +1,10 @@
+{
+  "before": {
+    "NyanLink_BestScore": "3770",
+    "NyanLink_TestBestScore": "960"
+  },
+  "after": {
+    "NyanLink_BestScore": "3770",
+    "NyanLink_TestBestScore": "960"
+  }
+}

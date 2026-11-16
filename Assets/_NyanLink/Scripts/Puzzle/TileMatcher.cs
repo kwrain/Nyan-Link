@@ -38,7 +38,9 @@ namespace NineMood.Puzzle
         }
         public void ProcessMatch(List<Vector3Int> selectedChain)
         {
-            if ((BossController.Instance?.UsesEncounter==true && BossController.Instance.IsGroggy) || !IsPlaying || IsResolving || !ValidateChain(selectedChain)) return;
+            if (!IsPlaying || IsResolving || !ValidateChain(selectedChain)) return;
+            if(BossController.Instance?.UsesEncounter==true && BossController.Instance.IsGroggy)
+            { BossController.Instance.Encounter.AttackFeverChain(new List<Vector3Int>(selectedChain)); return; }
             Resolve(new List<Vector3Int>(selectedChain),false);
         }
         public bool TryUseItem(Vector3Int cell)

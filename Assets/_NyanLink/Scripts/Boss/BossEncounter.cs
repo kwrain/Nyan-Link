@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace NineMood.Boss
 {
-    /// <summary>Asset-driven response bundles and a temporary tap-only fever board.</summary>
+    /// <summary>Asset-driven response bundles and a temporary two-color link attack board.</summary>
     public sealed class BossEncounter : MonoBehaviour
     {
         private enum State { Idle, Preview, Input, Response, Interval, PendingFever, Fever }
@@ -24,6 +24,9 @@ namespace NineMood.Boss
         private BossHealthPhase Phase => Definition.phases[_owner.PhaseIndex];
         private float _remaining, _feverDuration, _poseRemaining;
         private bool _bundleSucceeded;
+        public float GroggyGauge { get; private set; }
+        private float _grace;
+        private int _bundleGauge;
         private int _progress, _misses;
         private readonly Dictionary<TileColor,int> _quotas = new Dictionary<TileColor,int>();
         private BossPatternExecution Mode => Pattern.execution;
@@ -75,7 +78,7 @@ namespace NineMood.Boss
         }
         public void Begin()
         {
-            References(); FeverTapCount=0;
+            References(); FeverTapCount=0; GroggyGauge=0;
             _owner.SetEncounterPhase(Definition.PhaseFor(_owner.CurrentHP/_owner.MaxHP));
             StartBundle();
         }
@@ -83,7 +86,7 @@ namespace NineMood.Boss
         {
             var candidates=Phase.patterns;
             Pattern=candidates[Random.Range(0,candidates.Length)]; StepIndex=0; _bundleSucceeded=true;
-            _progress=0; _misses=0; _quotas.Clear();
+            _bundleGauge=0; _progress=0; _misses=0; _quotas.Clear();
             if (Mode==BossPatternExecution.ColorQuota) foreach(var step in Pattern.steps) _quotas[step.color]=5;
             GameEvents.TriggerBossPatternStarted(BossBattleType.TimeAttack);
             StartStep();
@@ -109,14 +112,10 @@ namespace NineMood.Boss
             {
                 // Fever is a fixed burst window; normal TimeFreeze items do not extend it.
                 _remaining=Mathf.Max(0,_remaining-delta); _owner.SetEncounterFever(true,_remaining);
-                foreach(var cell in _refills.Keys.ToArray())
-                {
-                    _refills[cell]-=delta;
-                    if (_refills[cell]>0) continue;
-                    _refills.Remove(cell); _board.SpawnTile(cell,TileColor.Orange,TileState.Normal);
-                }
                 if (_remaining<=0)
                 {
+                    if(_input.SelectedChain.Count>=2 && _grace<.6f) { _grace+=delta; return; }
+                    _input.CancelCurrentSelection();
                     RestoreNormalBoard(); _owner.SetEncounterFever(false,0); GameEvents.TriggerBossGroggyEnded();
                     BeginInterval(); SaveManager.Instance?.RequestBoundary(CheckpointBoundary.GroggyEnd);
                 }
@@ -159,8 +158,8 @@ namespace NineMood.Boss
                     _progress+=connected; if(_progress>=10) CompleteBundle(0);
                     return;
                 case BossPatternExecution.WeaknessChoice:
-                    if(color==TileColor.Orange && connected>=5) CompleteBundle(connected);
-                    else if(color==TileColor.Blue && connected>=3) CompleteBundle(0);
+                    if(color==TileColor.Orange && connected>=5) { _bundleGauge=50+Mathf.Min(15,(connected-5)*5); CompleteBundle(connected); }
+                    else if(color==TileColor.Blue && connected>=3) { _bundleGauge=35; CompleteBundle(0); }
                     return;
                 case BossPatternExecution.ExactLinks:
                     if(color!=Step.color || connected!=MinimumLinks) { FailBundle(); return; }
@@ -191,6 +190,11 @@ namespace NineMood.Boss
         private void CompleteBundle(int damage)
         {
             ResolveStep(true,0);
+            if(Mode==BossPatternExecution.WeaknessChoice)
+            {
+                Feedback=damage>0 ? "반격 성공 · 그로기 +50" : "회피 성공 · 그로기 +35";
+                _runner?.PlayBossResponse(damage>0 ? RunnerState.Attack : RunnerState.Slide);
+            }
             StepIndex=Pattern.steps.Length-1;
             if(damage>0) _owner.ApplyEncounterAttack(damage);
         }
@@ -200,6 +204,7 @@ namespace NineMood.Boss
             _board.SetRequiredMatchColor(null); _input?.CancelCurrentSelection();
             if (success)
             {
+                if(Mode==BossPatternExecution.SequentialResponse) _bundleGauge+=Step.action==BossResponseAction.Attack ? 15+Mathf.Min(15,Mathf.Max(0,connected-MinimumLinks)*5) : 10;
                 Feedback=Step.action==BossResponseAction.Attack ? "공격 성공" : Step.action==BossResponseAction.Slide ? "회피 성공" : "방어 성공";
                 _runner?.PlayBossResponse(Step.action==BossResponseAction.Attack ? RunnerState.Attack : Step.action==BossResponseAction.Slide ? RunnerState.Slide : RunnerState.Block);
                 if (connected>0 && Step.action==BossResponseAction.Attack) _owner.ApplyEncounterAttack(connected*Step.damagePerLink);
@@ -213,9 +218,10 @@ namespace NineMood.Boss
         private void FinishBundle()
         {
             GameEvents.TriggerBossPatternResult(_bundleSucceeded);
-            if (_bundleSucceeded && Pattern.grantsFeverOnSuccess)
+            if(_bundleSucceeded) GroggyGauge=Mathf.Min(100,GroggyGauge+_bundleGauge);
+            if (GroggyGauge>=100)
             {
-                _feverDuration=Definition.feverSeconds;
+                GroggyGauge=0; _feverDuration=Definition.feverSeconds;
                 _state=State.PendingFever; _remaining=0;
                 // Save the normal board before its temporary fever replacement on the next frame.
                 SaveManager.Instance?.RequestBoundary(CheckpointBoundary.BossSuccess);
@@ -231,42 +237,40 @@ namespace NineMood.Boss
             _state=State.Interval; _remaining=Phase.patternGap; Feedback="다음 공격 준비";
             _board.SetRequiredMatchColor(null);
         }
+        public void StartTestGroggy()
+        {
+            if(!NineMood.UI.DeviceTestMode.Active || IsFever)return;
+            GroggyGauge=0;BeginFever(Definition.feverSeconds);
+        }
         private void BeginFever(float duration)
         {
             _input?.CancelCurrentSelection(); _board.SetRequiredMatchColor(null);
             _normalBoard=_board.GetAllTileOffsets().Select(c=> {var t=_board.GetTileAtOffset(c);return new TileRecord {
                 x=c.x,y=c.y,color=t.Color,state=t.State,itemType=t.ItemType};}).ToList();
-            _consumedItems.Clear(); _refills.Clear();
+            _consumedItems.Clear(); _refills.Clear(); _grace=0;
             foreach(var tile in _normalBoard)
-            {
-                var attack=_board.SpawnTile(new Vector3Int(tile.x,tile.y,0),TileColor.Orange,tile.state);
-                attack.SetItemType(tile.itemType);
-            }
+                _board.SpawnTile(new Vector3Int(tile.x,tile.y,0),FeverColor(tile.x,tile.y),TileState.Normal);
             _board.CancelTileAnimations();
-            _state=State.Fever; _remaining=duration; _feverDuration=Definition.feverSeconds; Feedback="공격 타일을 연타하세요";
+            _state=State.Fever; _remaining=duration; _feverDuration=Definition.feverSeconds; Feedback="같은 색 2개 이상 연결해 공격";
             _owner.SetEncounterFever(true,_remaining); GameEvents.TriggerBossGroggyStarted(duration);
         }
-        public bool TryFeverTap(Vector3Int cell)
+        private static TileColor FeverColor(int x,int y) => (x/2+y)%2==0 ? TileColor.Orange : TileColor.Purple;
+        // Legacy callers cannot trigger tap damage anymore.
+        public bool TryFeverTap(Vector3Int cell) => false;
+        public void AttackFeverChain(List<Vector3Int> chain)
         {
-            if (!IsFever || GameManager.Instance?.CurrentState!=GameState.BossPhase || _refills.ContainsKey(cell)) return false;
-            var tile=_board.GetTileAtOffset(cell);
-            if (tile==null || !tile.IsActive) return false;
-            float special=1;
-            if (tile.State!=TileState.Normal)
-            {
-                _consumedItems.Add(cell);
-                int level=tile.State==TileState.ItemLv2 ? 2 : 1;
-                special=level==2 ? 5 : 3;
-                Feedback="특수 공격 ×"+special;
-                // Original item identity is consumed, never queued as a modal or TimeFreeze during fever.
-            }
-            else Feedback="연속 공격";
-            FeverTapCount++; _poseRemaining=.18f;
-            _board.RemoveTile(cell); _refills[cell]=Definition.feverRefillSeconds;
-            ScoreManager.Instance?.AddScore(1,0,1,TileColor.Orange,true);
+            if(!IsFever || GameManager.Instance?.CurrentState!=GameState.BossPhase || chain.Count<2) return;
+            int count=chain.Count;
+            foreach(var cell in chain) _board.SpawnTile(cell,Random.value<.5f ? TileColor.Orange : TileColor.Purple,TileState.Normal);
+            if(!_board.TryGetMatchPath(TileColor.Orange,2,out _) && !_board.TryGetMatchPath(TileColor.Purple,2,out _))
+                _board.SetRequiredMatchPath(TileColor.Orange,2);
+            _board.SetRequiredMatchColor(null); _board.CancelTileAnimations();
+            FeverTapCount++; _poseRemaining=.3f;
+            float multiplier=count>=5 ? 2f : count>=3 ? 1.5f : 1f;
+            Feedback=$"{count}개 연결 · 공격 ×{multiplier:0.#}";
+            ScoreManager.Instance?.AddScore(count,0,count,TileColor.Orange,true);
             _runner?.PlayBossResponse(RunnerState.Attack);
-            _owner.ApplyEncounterAttack(Definition.feverDamageMultiplier*special);
-            return true;
+            _owner.ApplyEncounterAttack(count*multiplier);
         }
         private void RestoreNormalBoard()
         {
@@ -277,12 +281,12 @@ namespace NineMood.Boss
         }
         public void Abort()
         {
-            RestoreNormalBoard(); _state=State.Idle; Pattern=null; _poseRemaining=0; _remaining=0;
+            RestoreNormalBoard(); _state=State.Idle; Pattern=null; GroggyGauge=0; _poseRemaining=0; _remaining=0;
         }
         public BossRecord Capture()
         {
             return new BossRecord {active=true,hp=_owner.CurrentHP,maxHP=_owner.MaxHP,phase=_owner.PhaseIndex,
-                attackBonus=_owner.PendingAttackBonus,failureShield=_owner.HasFailureShield,
+                groggyGauge=GroggyGauge,attackBonus=_owner.PendingAttackBonus,failureShield=_owner.HasFailureShield,
                 nextStep=(_state==State.PendingFever || IsFever) ? BossNextStep.Groggy : BossNextStep.Interval,
                 groggyRemaining=IsFever ? _remaining : _state==State.PendingFever ? _feverDuration : 0,
                 intervalRemaining=_state==State.Interval ? _remaining : Phase.patternGap};
@@ -292,7 +296,7 @@ namespace NineMood.Boss
             itemType=_consumedItems.Contains(new Vector3Int(t.x,t.y,0)) ? ItemEffectType.None : t.itemType}).ToList();
         public void Restore(BossRecord record)
         {
-            References();
+            References(); GroggyGauge=record.groggyGauge;
             _state=record.nextStep==BossNextStep.Groggy ? State.PendingFever : State.Interval;
             _feverDuration=record.groggyRemaining; _remaining=record.intervalRemaining;
         }

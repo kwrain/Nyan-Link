@@ -145,9 +145,6 @@ namespace NineMood.Puzzle
             if (!CanAcceptInput() || IsOverUI(position)) return;
             ClearSelection();
             if (!TryGetTileAtScreenPosition(position, out var cell, _usingTouch)) return;
-            var boss=NineMood.Boss.BossController.Instance;
-            if (boss!=null && boss.UsesEncounter && boss.Encounter.IsFever)
-            { boss.Encounter.TryFeverTap(cell); return; }
             var tile = boardManager.GetTileAtOffset(cell);
             _selectedChain.Add(cell);
             tile.IsSelected = true;

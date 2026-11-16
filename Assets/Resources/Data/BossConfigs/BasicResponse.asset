@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicResponse
   m_EditorClassIdentifier: Assembly-CSharp::NineMood.Data.Definitions.BossPatternDefinition
   patternId: basic-response
-  displayName: "\uC5F0\uC18D \uB300\uC751"
+  displayName: "반응형"
   execution: 0
   steps:
   - color: 4

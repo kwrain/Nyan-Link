@@ -6,6 +6,14 @@
 
 ## 미검증
 
+### V-033 — 그로기 게이지·2색 연결 공격 추가 조합
+- 등록일·최근 확인일: 2026-11-16. 관련: BossEncounter/BossHUD/TileMatcher/TileInputHandler/SaveStore/SaveData/DeviceTestMode, V-030/V-031/D-011/D-012/D-002.
+- 사용자 승인: 반응형·약점 선택만 활성화. 성공 시35~65 게이지 축적,100에 그로기7초. 주황/보라 연결 공격,2개×1·3~4개×1.5·5개이상×2. 테스트모드 그로기 직접진입 추가. 세부 GROGGY-LINK-2026-11-16.txt.
+- 수행: Unity6000.3.14f1 macOS1080×1920 실제Mouse 드래그105assertion/종료0/런타임오류0. 첫성공35 즉시그로기없음·3성공그로기·실패게이지유지·선택회피35/공격50·단독탭0피해·주황2개2/보라5개10피해·2색일반타일·종료원보드복원·게이지메모리/파일저장복원 확인. 구형체크포인트문서 및 실제기기백업의checksum읽기호환/신형쓰기검사 통과.
+- 근거: output/playtests/2026-11-16-groggy-link/editor/play-results.txt, play-final.log, 실제PNG3장. 01게이지35/02두색공격 화면 직접 열람. 검사중 시간정지로 제거애니메이션 중간이 캡처될 수 있으며 자연플레이 난도결과가 아님.
+- 미검증: 종료0.6초 유예 경계·아이템/피버복원/장시간반복·모달/정지·앱재실행 전체 조합, 실제 사람 무보정 난도. 각각 마지막선택해제1회피해/시간무한연장없음/아이템보존·저장복원일관성을 추가 검사. 기존 전체10패턴검사는 현재활성2종규칙과 구분. D-013에서 실기기후속.
+
+
 ### V-031 — 실기기용 테스트 메뉴 추가 검증
 - 등록일·최근 확인일: 2026-11-16. 관련: DeviceTestMode.cs, GameManager/SaveManager/ScoreManager/MainMenuController, NyanLinkDeviceTestValidation.cs. 관련 ID: D-012, V-030, D-011, D-002.
 - 구현: 로비 테스트 모드, 보스/패턴/체력구간 선택, 보스 바로 시작·전체 주행, 재설정 재시작·회복·보드 초기화. 런타임 복제 설정·별도 세션 프로필·별도 최고점. 로비 복귀/콜드 실행은 일반 모드.
@@ -590,3 +598,17 @@
 - 기대/실제: 일반 저장 유지와 테스트 메뉴 표시 기대. 실행·메뉴 진입 후 profile-v1.json/.bak 바이트 일치, 최고점3770 유지. PlayerPrefs의 세션 식별자/횟수와 화면 해상도 키만 변경 확인(기존 게임 데이터 변경 아님). 보스·패턴·난도·시작/닫기 버튼 표시 정상. 실제PNG03-device-test-mode.png 직접 열람.
 - 근거: output/playtests/2026-11-16-device-test-mode/device/{install.txt,before-sha256.json,after-install.txt,after-launch-check.json,prefs-comparison.json,02-lobby.png,03-device-test-mode.png}. 최초 UnityPlayerActivity 호출은 존재하지 않아 실패했고 패키지 조회로 UnityPlayerGameActivity를 확인해 정상 실행.
 - D-012 부분 완료: 설치/세로 메뉴 표시/테스트 메뉴 진입/기존 저장 보존. 이전 연결0·설치미수행 기록은 당시 이력. 보스 선택 후 실제 전투·전체10패턴/아이템/회복/초기화·앱복귀/콜드 테스트 프로필 검증은 D-012/D-011/V-030에서 계속 대기. 사용자가 직접 설정할 수 있도록 선택 화면에 둠. 이번 확인 범위 내 미해결 문제 없음.
+
+### D-013 — 게이지·연결 그로기 실기기 체감
+- 등록일·최근 확인일: 2026-11-16. 관련: V-033/D-012/D-002, BossEncounter/DeviceTestMode.
+- 대상: Lenovo TB320FC Android15 및 후속iOS. 테스트모드 반응형·약점선택으로2~3회성공→게이지진입, 공격/회피선택 차이, 실패 유지, 그로기2색긴연결/짧은연결·연속리필·종료유예와 정상아이템복원 확인. 실제PNG 촬영.
+- 기대: 길게 연결할 보상이 느껴지고 판정/타이머/게이지가 명확하며 일반저장 불변. 실제 손가락 난도·앱복귀/강제종료 저장 등은 개별 근거가 확보될 때까지 유지.
+
+2026-11-16 D-013 부분 확인: Lenovo TB320FC Android15 /1600×2560, 최종 ARM64 IL2CPP APK 업데이트 설치 성공(오류0/경고1). 그로기 직접진입·ADB 터치 드래그 주황2개 연결·120→118피해·즉시리필 확인. 일시정지/재개 확인. 체력 숫자와 테스트 버튼 겹침 발견 후 우측 이동, 최종07화면에서 해소 확인. 일반 저장2개 바이트 및 최고점3770 유지. 기기는 그로기 바로시작 선택 메뉴에 유지.
+- 남은 실기기 테스트: 반응형/약점선택으로 게이지를 채우는 전체 흐름, 긴 연결/종료유예/아이템복원 반복, 실제 손가락 체감 난도, 앱복귀/강제종료, iOS. Editor 검사로 대체 완료 처리하지 않음.
+- 근거: output/playtests/2026-11-16-groggy-link/device/{03-groggy-before.png,04-paused.png,07-final-link-attack.png,08-final-test-menu.png,install-final.txt,after-final-play.json,score-preservation.json}, android-layout/{build-results.txt,apk.sha256}. 원본백업 Builds/AndroidDeviceBackups/2026-11-16-groggy-link.
+
+### V-034 — 게이지·연결 그로기 기본 동작 및 Android 설치 확인 완료
+- 등록일·최근 확인일·수행일: 2026-11-16. 관련: V-033/D-013, BossEncounter/SaveStore/DeviceTestMode. 로컬 커밋 메시지 feat: add groggy gauge and two-color link attacks.
+- 환경/결과: Unity6000.3.14f1 Mac Editor105assertion 통과·종료0. Android TB320FC 최종 업데이트 설치 및2개연결2피해 확인. 저장파일2개 바이트/최고점3770 유지. 검증 범위와 증거는 V-033/D-013 및 GROGGY-LINK-2026-11-16.txt 참조.
+- 이번 확인 범위의 미해결 문제 없음. 추가 조합 미검증 V-033·실기기후속 D-013은 유지.

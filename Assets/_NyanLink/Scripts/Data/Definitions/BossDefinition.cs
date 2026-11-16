@@ -60,7 +60,7 @@ namespace NineMood.Data.Definitions
         // Persist stable content, never Unity instance IDs (which vary between processes/builds).
         public string RulesKey()
         {
-            var key=new StringBuilder("response-fever-v1|");
+            var key=new StringBuilder("link-groggy-v2|");
             key.Append(bossId).Append('|');
             foreach(var v in new[]{maxHP,failureDamage,feverSeconds,feverRefillSeconds,feverDamageMultiplier})
                 key.Append(v.ToString("R",CultureInfo.InvariantCulture)).Append('|');

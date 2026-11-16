@@ -44,6 +44,7 @@ namespace NineMood.UI
         private RectTransform _responseRow;
         private Image _responseIcon, _responseTimeFill;
         private TextMeshProUGUI _responseCue, _responseCount;
+        private Image _gaugeFill;
         private Image _rhythmLine;
         private CanvasGroup _group;
         private TextMeshProUGUI _timer;
@@ -165,11 +166,17 @@ namespace NineMood.UI
             _rhythmLine.transform.SetParent(_responseRow,false); _rhythmLine.raycastTarget=false;
             _rhythmLine.color=new Color(1,.85f,.35f); Place(_rhythmLine.rectTransform,.01f,.56f,.15f,.59f);
             _rhythmLine.gameObject.SetActive(false);
+            var gauge=new GameObject("Groggy gauge track",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+            gauge.transform.SetParent(transform,false);Place(gauge.rectTransform,.12f,.731f,.88f,.737f);gauge.color=new Color(.12f,.17f,.22f);gauge.raycastTarget=false;
+            _gaugeFill=new GameObject("Groggy gauge fill",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+            _gaugeFill.transform.SetParent(gauge.transform,false);Place(_gaugeFill.rectTransform,0,0,1,1);
+            _gaugeFill.sprite=PixelUIResources.Get("meter-boss");_gaugeFill.type=Image.Type.Filled;_gaugeFill.fillMethod=Image.FillMethod.Horizontal;_gaugeFill.color=new Color(1,.75f,.25f);_gaugeFill.raycastTarget=false;
             _responseRow.gameObject.SetActive(false);
         }
         private void RefreshEncounter(BossController boss)
         {
             var fight=boss.Encounter;
+            _gaugeFill.fillAmount=fight.IsFever ? 1 : fight.GroggyGauge/100;
             bool rhythm=fight.Pattern!=null && fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.RhythmNote && fight.AcceptingInput;
             _rhythmLine.gameObject.SetActive(rhythm);
             float noteY=Mathf.Lerp(.2f,.95f,Mathf.Clamp01(fight.Remaining/2));
@@ -183,12 +190,12 @@ namespace NineMood.UI
             _damagePopup.gameObject.SetActive(_damagePopupRemaining>0);
             if(fight.IsFever)
             {
-                textPatternType.text="피버 · 공격 가능";
-                _timer.text=$"피버  {fight.Remaining:F1}초";
+                textPatternType.text="그로기 · 연결 공격";
+                _timer.text=$"그로기  {fight.Remaining:F1}초";
                 _responseIcon.enabled=true;
                 _responseIcon.sprite=ConceptArtLibrary.Get("tile-"+(int)TileColor.Orange);
-                _responseCue.text="공격 타일을 하나씩 터치!";
-                _responseCount.text="0.4초 후 보충 · 특수 타일 ×3 / ×5";
+                _responseCue.text="주황 / 보라 · 같은 색 연결 공격";
+                _responseCount.text="2개 ×1 · 3~4개 ×1.5 · 5개 이상 ×2";
                 _responseCount.color=new Color(1,.85f,.35f);
                 _responseTimeFill.fillAmount=fight.Remaining/Mathf.Max(.1f,fight.FeverDuration);
                 _responseTimeFill.color=new Color(1,.65f,.2f);
@@ -214,7 +221,8 @@ namespace NineMood.UI
                 _responseTimeFill.fillAmount=fight.AcceptingInput ? fight.Remaining/fight.InputDuration : 0;
                 _responseTimeFill.color=new Color(.35f,.9f,1);
             }
-            else {textPatternType.text="연속 대응";_timer.text="다음 공격 준비";}
+            else {textPatternType.text="반응형";_timer.text="다음 공격 준비";}
+            if(!fight.IsFever) textPatternType.text+=$" · 그로기 {fight.GroggyGauge:0}/100";
         }
 
         private void RefreshSequence()

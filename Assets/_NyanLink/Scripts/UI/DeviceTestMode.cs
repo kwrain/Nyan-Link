@@ -19,7 +19,8 @@ namespace NineMood.UI
     {
         public static bool Active { get; private set; }
         public static string StoragePath { get; private set; }
-        public static bool BossOnly = true;
+        public static int EntryMode;
+        public static bool BossOnly => EntryMode!=1;
         public static int BossIndex, PatternIndex, PhaseIndex;
         public static BossDefinition[] Bosses => Resources.LoadAll<BossDefinition>("Data/BossConfigs").OrderBy(b=>b.bossId).ToArray();
         GameObject panel, canvasRoot;
@@ -31,7 +32,7 @@ namespace NineMood.UI
         public Button Launch { get; private set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetSession() { Active=false; StoragePath=null; BossIndex=PatternIndex=PhaseIndex=0; BossOnly=true; }
+        static void ResetSession() { Active=false; StoragePath=null; BossIndex=PatternIndex=PhaseIndex=0; EntryMode=0; }
         public static void Leave() { Active=false; StoragePath=null; }
         public static void Enter()
         {
@@ -47,14 +48,14 @@ namespace NineMood.UI
             var safe=new GameObject("Safe area",typeof(RectTransform));safe.transform.SetParent(root.transform,false);
             var area=Screen.safeArea;var rect=safe.GetComponent<RectTransform>();rect.anchorMin=area.min/new Vector2(Screen.width,Screen.height);rect.anchorMax=area.max/new Vector2(Screen.width,Screen.height);rect.offsetMin=rect.offsetMax=Vector2.zero;
             bool inGame=GameManager.IsCreated;
-            Entry=Button(safe.transform,Active?"테스트 설정":"테스트 모드",.5f,inGame?.91f:.16f,340,80,Open);
+            Entry=Button(safe.transform,Active?"테스트 설정":"테스트 모드",inGame?.84f:.5f,inGame?.91f:.16f,inGame?260:340,80,Open);
             Entry.gameObject.SetActive(!inGame || Active);
             panel=new GameObject("Test settings",typeof(RectTransform),typeof(Image));panel.transform.SetParent(safe.transform,false);
             rect=panel.GetComponent<RectTransform>();rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=rect.offsetMax=Vector2.zero;
             panel.GetComponent<Image>().color=new Color(.025f,.04f,.08f,.98f);
             Label(panel.transform,"실기기 테스트",.88f,48);
             Label(panel.transform,"테스트 전용 저장 · 일반 진행과 분리",.82f,26);
-            modeLabel=Button(panel.transform,"",.5f,.73f,850,105,()=>{BossOnly=!BossOnly;Refresh();}).GetComponentInChildren<Text>();
+            modeLabel=Button(panel.transform,"",.5f,.73f,850,105,()=>{EntryMode=(EntryMode+1)%3;Refresh();}).GetComponentInChildren<Text>();
             bossLabel=Button(panel.transform,"",.5f,.64f,850,105,()=>{BossIndex++;PatternIndex=PhaseIndex=0;Refresh();}).GetComponentInChildren<Text>();
             patternLabel=Button(panel.transform,"",.5f,.55f,850,105,()=>{PatternIndex++;Refresh();}).GetComponentInChildren<Text>();
             phaseLabel=Button(panel.transform,"",.5f,.46f,850,105,()=>{PhaseIndex++;Refresh();}).GetComponentInChildren<Text>();
@@ -84,7 +85,7 @@ namespace NineMood.UI
             if(bosses.Length==0) {bossLabel.text="등록된 보스 없음";return;}
             BossIndex%=bosses.Length;var boss=bosses[BossIndex];PhaseIndex%=boss.phases.Length;
             var patterns=boss.phases[PhaseIndex].patterns;PatternIndex%=patterns.Length+1;
-            modeLabel.text="진입: "+(BossOnly?"보스 바로 시작":"일반 주행 · 장애물 · 보스")+"  ↻";
+            modeLabel.text="진입: "+(EntryMode==0?"보스 바로 시작":EntryMode==1?"일반 주행 · 장애물 · 보스":"그로기 연결 공격 바로 시작")+"  ↻";
             bossLabel.text="보스: "+boss.displayName+"  ↻";
             patternLabel.text="패턴: "+(PatternIndex==0?"전체 무작위":patterns[PatternIndex-1].displayName)+"  ↻";
             phaseLabel.text="난도: 체력 구간 "+(PhaseIndex+1)+"  ↻";
@@ -104,6 +105,7 @@ namespace NineMood.UI
             if(!Active || !BossOnly)return;
             var spawner=FindFirstObjectByType<ObstacleSpawner>();var progress=FindFirstObjectByType<RunnerProgressSystem>();
             spawner.RestoreCheckpoint(spawner.stageData.obstacles.Count);progress.RestoreDistance(progress.StageLength);GameManager.Instance.TriggerBossFight();
+            if(EntryMode==2)BossController.Instance.Encounter.StartTestGroggy();
         }
         void OnDestroy(){if(canvasRoot!=null)Destroy(canvasRoot);if(clone!=null)Destroy(clone);if(definition!=null)Destroy(definition);}
         static Text Label(Transform parent,string text,float y,int size)

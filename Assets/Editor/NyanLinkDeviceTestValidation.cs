@@ -380,7 +380,7 @@ public static class NyanLinkDeviceTestValidation
         game=GameManager.Instance;boss=BossController.Instance;fight=boss.Encounter;
         Assert(DeviceTestMode.Active && SaveManager.StorageDirectory!=normalPath,"Separate test storage selected");
         Assert(boss.config.definition.phases.Length==1 && boss.config.definition.phases[0].minimumLinks==3,"Selected health difficulty applied");
-        Assert(fight.Pattern.execution==BossPatternExecution.TimeAttack,"Selected pattern fixed");
+        Assert(fight.Pattern.execution==BossPatternExecution.WeaknessChoice,"Selected pattern fixed");
         game.PauseGame();yield return .05f;game.ResumeGame();
         Capture("02-selected-boss.png");yield return .05f;
         menu=Object.FindFirstObjectByType<DeviceTestMode>();
@@ -388,7 +388,7 @@ public static class NyanLinkDeviceTestValidation
         yield return .15f;
         Capture("03-in-game-tools.png");yield return .05f;
         yield return Click(menu.Launch);
-        Assert(game.CurrentState==GameState.BossPhase && fight.Pattern.execution==BossPatternExecution.TimeAttack,"Restart retains direct boss selection");
+        Assert(game.CurrentState==GameState.BossPhase && fight.Pattern.execution==BossPatternExecution.WeaknessChoice,"Restart retains direct boss selection");
         ScoreManager.Instance.AddScore(2,0,2,TileColor.Red);
         Assert(PlayerPrefs.GetInt("NyanLink_BestScore",0)==bestBefore,"Normal best score preserved");
         yield return Click(menu.Entry);

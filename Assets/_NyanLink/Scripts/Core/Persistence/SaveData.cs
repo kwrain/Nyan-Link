@@ -46,6 +46,7 @@ namespace NineMood.Core.Persistence
     {
         public bool active, failureShield;
         public float hp,maxHP,attackBonus,groggyRemaining,intervalRemaining;
+        public float groggyGauge;
         public int phase;
         public BossNextStep nextStep;
         public List<TileColor> nextSequence=new List<TileColor>();

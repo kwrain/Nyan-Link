@@ -158,10 +158,18 @@ namespace NineMood.Core.Managers
             public float speed,length,decay,decayGrowth,obstacleSpeed,obstacleDamage;
             public List<ObstacleEntry> obstacles;
         }
+        // Additive 0→12 success damage preserves existing checkpoints; restored groggy never reapplies it.
+        private string CompatibleBossRules()
+        {
+            string json = JsonUtility.ToJson(Boss.config);
+            return Boss.config.successDamage == 12f
+                ? System.Text.RegularExpressions.Regex.Replace(json, @"""successDamage"":12(?:\.0+)?(?=[,}])", "\"successDamage\":0.0")
+                : json;
+        }
         private string BaseRulesSignature => SaveStore.Hash(JsonUtility.ToJson(new Rules {
             stageId=stageData.stageId,speed=stageData.runnerSpeed,length=stageData.stageLength,decay=stageData.stageDecayMultiplier,
             decayGrowth=stageData.decayIncreasePerSecond,obstacleSpeed=stageData.obstacleMoveSpeed,obstacleDamage=stageData.ActualObstacleDamage,
-            obstacles=stageData.obstacles,balance=JsonUtility.ToJson(DataManager.Instance.BalanceData),boss=JsonUtility.ToJson(Boss.config) }));
+            obstacles=stageData.obstacles,balance=JsonUtility.ToJson(DataManager.Instance.BalanceData),boss=CompatibleBossRules() }));
         public string RulesSignature
         {
             get

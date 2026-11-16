@@ -30,7 +30,7 @@ namespace NineMood.Data.Definitions
         [Min(0f)] public float inputTimeLimit = 10f;
 
         [Tooltip("패턴 파훼 시 보스에게 즉시 입히는 데미지 (Groggy 전 선공격)")]
-        [Min(0f)] public float successDamage = 0f; // 보존용 구형 필드. 프로토타입에서는 사용하지 않음.
+        [Min(0f)] public float successDamage = 12f;
 
         [Tooltip("패턴 실패 시 스태미나 차감량 (BossPatternDamageValue)")]
         [Min(0f)] public float failureStaminaDamage = 20f;

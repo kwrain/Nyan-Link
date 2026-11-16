@@ -34,6 +34,11 @@ namespace NineMood.UI
         private readonly List<TextMeshProUGUI> _sequenceLabels = new List<TextMeshProUGUI>();
         private RectTransform _sequenceRow;
         private Material _completedMaterial;
+        private RectTransform _groggyRow;
+        private Image _groggyFill;
+        private TextMeshProUGUI _damagePopup;
+        private float _damagePopupRemaining;
+        private float _lastHP = -1f;
         private int _sequenceSignature = int.MinValue;
         private float _sequenceWidth;
         private CanvasGroup _group;
@@ -58,6 +63,14 @@ namespace NineMood.UI
             bool visible = NineMood.Core.Managers.GameManager.Instance?.CurrentState == GameState.BossPhase;
             if (!visible) return;
             RefreshSequence();
+            _groggyRow.gameObject.SetActive(boss.IsGroggy);
+            if (boss.IsGroggy)
+            {
+                _groggyFill.fillAmount = Mathf.Clamp01(boss.GroggyRemaining / boss.config.GetGroggyDuration(boss.balance));
+                if (textPatternType != null) textPatternType.text = "공격 가능";
+            }
+            _damagePopupRemaining = Mathf.Max(0f, _damagePopupRemaining - Time.deltaTime);
+            _damagePopup.gameObject.SetActive(_damagePopupRemaining > 0f);
             _timer.text = boss.IsGroggy ? $"그로기  {boss.GroggyRemaining:F1}초" :
                 boss.IsPatternActive ? $"남은 시간  {boss.timeAttackPattern.RemainingTime:F1}초" : "다음 순서 준비";
             if (boss.TimersFrozen) _timer.text += "  · 시간 정지";
@@ -83,6 +96,46 @@ namespace NineMood.UI
             Place(_sequenceRow, .10f, .748f, .90f, .805f);
             _completedMaterial = new Material(Resources.Load<Shader>("BossCompletedIcon"));
             _sequenceRow.gameObject.SetActive(false);
+            CreateGroggyGuide();
+        }
+
+        private TextMeshProUGUI GuideText(string name, Transform parent, string value)
+        {
+            var label = new GameObject(name, typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+            label.transform.SetParent(parent, false);
+            label.text = value; label.fontSize = 27; label.alignment = TextAlignmentOptions.Center;
+            label.raycastTarget = false; KoreanUIPresentation.Apply(label);
+            return label;
+        }
+        private void CreateGroggyGuide()
+        {
+            _groggyRow = new GameObject("Groggy icon guide", typeof(RectTransform)).GetComponent<RectTransform>();
+            _groggyRow.SetParent(transform, false);
+            Place(_groggyRow, .12f, .750f, .88f, .802f);
+            for (int i = 0; i < 2; i++)
+            {
+                var icon = new GameObject(i == 0 ? "Orange attack icon" : "Cyan defense icon", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+                icon.transform.SetParent(_groggyRow, false);
+                icon.sprite = ConceptArtLibrary.Get("tile-" + (int)(i == 0 ? TileColor.Orange : TileColor.Cyan));
+                icon.preserveAspect = true; icon.raycastTarget = false;
+                Place(icon.rectTransform, i == 0 ? .08f : .55f, .24f, i == 0 ? .21f : .68f, .98f);
+                var label = GuideText(i == 0 ? "Attack multiplier" : "Failure shield", _groggyRow, "");
+                label.text = i == 0 ? "×2" : "방어 1회";
+                Place(label.rectTransform, i == 0 ? .22f : .69f, .26f, i == 0 ? .46f : .99f, .98f);
+            }
+            var track = new GameObject("Groggy time track", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            track.transform.SetParent(_groggyRow, false); Place(track.rectTransform, 0, 0, 1, .14f);
+            track.color = new Color(.12f,.18f,.25f); track.raycastTarget = false;
+            _groggyFill = new GameObject("Groggy time fill", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            _groggyFill.transform.SetParent(track.transform, false); Place(_groggyFill.rectTransform,0,0,1,1);
+            _groggyFill.sprite = PixelUIResources.Get("meter-boss");
+            _groggyFill.type = Image.Type.Filled; _groggyFill.fillMethod = Image.FillMethod.Horizontal;
+            _groggyFill.fillOrigin = 0; _groggyFill.color = new Color(1f,.83f,.35f); _groggyFill.raycastTarget = false;
+            _groggyRow.gameObject.SetActive(false);
+            _damagePopup = GuideText("Boss damage popup", transform, "");
+            Place(_damagePopup.rectTransform,.35f,.68f,.65f,.72f);
+            _damagePopup.fontSize = 44; _damagePopup.color = new Color(1f,.83f,.35f);
+            _damagePopup.gameObject.SetActive(false);
         }
 
         private void RefreshSequence()
@@ -90,7 +143,7 @@ namespace NineMood.UI
             var pattern = BossController.Instance?.timeAttackPattern;
             bool visible = pattern != null && pattern.IsRunning;
             _sequenceRow.gameObject.SetActive(visible);
-            if (textInstruction != null) textInstruction.enabled = !visible;
+            if (textInstruction != null) textInstruction.enabled = !visible && !(BossController.Instance?.IsGroggy ?? false);
             if (!visible) { _sequenceSignature = int.MinValue; return; }
             int count = pattern.Sequence.Count;
             int signature = pattern.NextIndex;
@@ -164,7 +217,8 @@ namespace NineMood.UI
 
         private void OnGameStateChanged(GameState state)
         {
-            if (state == GameState.Paused) return;
+            if (state == GameState.Paused || state == GameState.ColorSelection) return;
+            if (state != GameState.BossPhase) { _lastHP = -1f; _damagePopupRemaining = 0f; }
             _group.alpha = state == GameState.BossPhase ? 1f : 0f;
 
         }
@@ -179,6 +233,12 @@ namespace NineMood.UI
 
         private void OnBossHPChanged(float current, float max)
         {
+            if (_lastHP > current && _damagePopup != null)
+            {
+                _damagePopup.text = "-" + (_lastHP - current).ToString("0.#");
+                _damagePopupRemaining = .7f;
+            }
+            _lastHP = current;
             if (sliderHP != null)
             {
                 sliderHP.maxValue = max;
@@ -191,7 +251,7 @@ namespace NineMood.UI
         private void OnBossGroggyStarted(float duration)
         {
             // 그로기 표시는 타이머와 안내 텍스트에서 표시. 기존 오버레이는 보존하되 숨긴다.
-            if (textInstruction != null) textInstruction.text = "자유 연결  /  주황 공격 ×2  /  청록 방어";
+            if (textInstruction != null) textInstruction.text = "";
         }
 
         private void OnBossGroggyEnded()

@@ -1,0 +1,5 @@
+PASS Chapter 07 numeric examples and tier boundaries
+System.Exception: FAIL Groggy shows both tile icons
+  at NyanLinkSession04Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession04Validation.cs:118 
+  at NyanLinkSession04Validation+<Sequence>d__78.MoveNext () [0x00f57] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession04Validation.cs:442 
+  at NyanLinkSession04Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession04Validation.cs:104 

@@ -1,0 +1,13 @@
+{
+  "install": "adb install -r -t Success",
+  "before_first_launch": {
+    "profile-v1.json": {
+      "equal": true,
+      "sha256": "33a307ab5b0af981ebca9723850efb0376e8ca84e1f397691ea11fc7b9c93a69"
+    },
+    "profile-v1.json.bak": {
+      "equal": true,
+      "sha256": "75b73dd0d4167aa1feb9ac41b4219528be5d45baad62bda2e2b4fc1bcc507a57"
+    }
+  }
+}

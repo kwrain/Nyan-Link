@@ -1,0 +1,362 @@
+--------- beginning of main
+11-16 16:29:49.164  3135  3135 I nlink.prototype: Late-enabling -Xcheck:jni
+11-16 16:29:49.176  3135  3135 I nlink.prototype: Using generational CollectorTypeCMC GC.
+11-16 16:29:49.183  3135  3135 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+11-16 16:29:49.311  3135  3135 D nativeloader: Configuring clns-7 for other apk /data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/lib/arm64:/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.314  3135  3135 I Perf    : Connecting to perf service.
+11-16 16:29:49.315  3135  3135 V GraphicsEnvironment: Currently set values for:
+11-16 16:29:49.315  3135  3135 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+11-16 16:29:49.315  3135  3135 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+11-16 16:29:49.315  3135  3135 V GraphicsEnvironment: Global.Settings values are invalid: number of packages: 0, number of values: 0
+11-16 16:29:49.316  3135  3135 V GraphicsEnvironment: Updatable production driver is not supported on the device.
+11-16 16:29:49.317  3135  3135 I LoadedApk: No resource references to update in package com.zuisdk
+11-16 16:29:49.330  3135  3135 D Choreographer: mBindCoreEnabled? true
+11-16 16:29:49.330  3135  3135 D ZuiPerformanceManager: getAppBindCoreConfigs in!
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceConfigList: config end
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: mAppBindCoreConfigs,[Yuanshen:Yuanshen,toStch:Worker Thread:5:240:0:false:-1, LuDaShi:shi.benchmark2:benchmark2,Render Thread:300:15:0:false:-1, pubg:MainThread-UE4,tmgp.pubg:MainThread-UE4,TaskGraphNP,PoolThread,FAsyncLoading,RenderThread:8000:240:0:false:-1, UnityMain:UnityMain:Worker Thread,Job Worker:8000:240:0:false:-1, HuYa:duawan kiwi:[HY] HYMedia,KT RxComputa:10000:15:1000:false:-1, DouYin:ugc.aweme:pop view thread,Render Thread:10000:15:1000:false:-1, JkChess:jkchess:Job Worker, UnityMain:5:240:0:false:-1]
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: mservice getAppBindCoreConfigs done! [Yuanshen:Yuanshen,toStch:Worker Thread:5:240:0:false:-1, LuDaShi:shi.benchmark2:benchmark2,Render Thread:300:15:0:false:-1, pubg:MainThread-UE4,tmgp.pubg:MainThread-UE4,TaskGraphNP,PoolThread,FAsyncLoading,RenderThread:8000:240:0:false:-1, UnityMain:UnityMain:Worker Thread,Job Worker:8000:240:0:false:-1, HuYa:duawan kiwi:[HY] HYMedia,KT RxComputa:10000:15:1000:false:-1, DouYin:ugc.aweme:pop view thread,Render Thread:10000:15:1000:false:-1, JkChess:jkchess:Job Worker, UnityMain:5:240:0:false:-1]
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,Yuanshen:Yuanshen,toStch:Worker Thread:5:240:0:false:-1
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,LuDaShi:shi.benchmark2:benchmark2,Render Thread:300:15:0:false:-1
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,pubg:MainThread-UE4,tmgp.pubg:MainThread-UE4,TaskGraphNP,PoolThread,FAsyncLoading,RenderThread:8000:240:0:false:-1
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,UnityMain:UnityMain:Worker Thread,Job Worker:8000:240:0:false:-1
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,HuYa:duawan kiwi:[HY] HYMedia,KT RxComputa:10000:15:1000:false:-1
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,DouYin:ugc.aweme:pop view thread,Render Thread:10000:15:1000:false:-1
+11-16 16:29:49.391  3135  3135 D ZuiPerformanceManager: appbindcoreconfig,JkChess:jkchess:Job Worker, UnityMain:5:240:0:false:-1
+11-16 16:29:49.391  3135  3135 D Choreographer: targetPkg: shi.benchmark2
+11-16 16:29:49.391  3135  3135 D Choreographer: pidKey: shi.benchmark2
+11-16 16:29:49.391  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.391  3135  3135 D Choreographer: pkg LuDaShipid3135 targetpid -1
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgLuDaShifalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy LuDaShi enabled false
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: duawan kiwi
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: duawan
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: pkg HuYapid3135 targetpid -1
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgHuYafalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy HuYa enabled false
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: ugc.aweme
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: ugc.aweme
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: pkg DouYinpid3135 targetpid -1
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgDouYinfalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy DouYin enabled false
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: jkchess
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: jkchess
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: pkg JkChesspid3135 targetpid -1
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgJkChessfalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy JkChess enabled false
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: Yuanshen
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: Yuanshen
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: toStch
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: toStch
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: pkg Yuanshenpid3135 targetpid -1
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgYuanshenfalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy Yuanshen enabled false
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: MainThread-UE4
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: MainThread-UE4
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: tmgp.pubg
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: tmgp.pubg
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: pkg pubgpid3135 targetpid -1
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgpubgfalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy pubg enabled false
+11-16 16:29:49.392  3135  3135 D Choreographer: targetPkg: UnityMain
+11-16 16:29:49.392  3135  3135 D Choreographer: pidKey: UnityMain
+11-16 16:29:49.392  3135  3135 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:49.392  3135  3135 D Choreographer: pkgUnityMainfalsetruefalse
+11-16 16:29:49.392  3135  3135 D Choreographer: 3d Game policy UnityMain enabled false
+11-16 16:29:49.392  3135  3135 D WM-WrkMgrInitializer: Initializing WorkManager with default configuration.
+11-16 16:29:49.418  3135  3135 D nativeloader: Load /data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/lib/arm64/libgame.so using class loader ns clns-7 (caller=/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk!1): ok
+11-16 16:29:49.418  3135  3135 D GameActivity: GameActivity_register
+11-16 16:29:49.418  3135  3164 I DynamiteModule: Considering local module com.google.android.gms.cronet_dynamite:0 and remote module com.google.android.gms.cronet_dynamite:4911
+11-16 16:29:49.418  3135  3164 I DynamiteModule: Selected remote version of com.google.android.gms.cronet_dynamite, version >= 4911
+11-16 16:29:49.418  3135  3164 V DynamiteModule: Dynamite loader version >= 2, using loadModule2NoCrashUtils
+11-16 16:29:49.424  3135  3135 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+11-16 16:29:49.425  3135  3164 W System  : ClassLoader referenced unknown path: 
+11-16 16:29:49.425  3135  3164 D nativeloader: Configuring clns-8 for other apk . target_sdk_version=37, uses_libraries=, library_path=/data/app/~~FjEbxXxhMcXTDlDx8I95xg==/com.google.android.gms-2-aW93RIU6gKyxHfVUr8_g==/lib/arm64:/data/app/~~FjEbxXxhMcXTDlDx8I95xg==/com.google.android.gms-2-aW93RIU6gKyxHfVUr8_g==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+11-16 16:29:49.427  3135  3135 D Embedding_ActivityThread: ActivityThread mZuiEmbeddingEnabled true
+--------- beginning of system
+11-16 16:29:49.430  3135  3135 D SystemServiceRegistry:  zuiHandwriting new zuihandwritingmanager
+11-16 16:29:49.430  3135  3135 E ZuiHandWritingManager: Constructor called
+11-16 16:29:49.431  3135  3135 D gti.InputConnection: InputConnection created
+11-16 16:29:49.432  3135  3135 D gti.InputConnection: setEditorInfo
+11-16 16:29:49.434  3135  3164 W nlink.prototype: ClassLoaderContext classpath element checksum mismatch. expected=1214684876, found=3956537883 (DLC[];PCL[base.apk*1214684876]{PCL[/system/framework/org.apache.http.legacy.jar*437079508]#PCL[/system/framework/com.android.location.provider.jar*3414091812]#PCL[/system/framework/com.android.media.remotedisplay.jar*2042759013]#PCL[/system_ext/framework/androidx.window.extensions.jar*619365284]#PCL[/system_ext/framework/androidx.window.sidecar.jar*3498432204]} | DLC[];PCL[/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk*3956537883])
+11-16 16:29:49.435  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.435  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.435  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.438  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.438  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.442  3135  3135 I nlink.prototype: hiddenapi: Accessing hidden method Landroid/view/View;->computeFitSystemWindows(Landroid/graphics/Rect;Landroid/graphics/Rect;)Z (runtime_flags=0, domain=platform, api=unsupported) from Landroidx/appcompat/widget/ViewUtils; (domain=app, TargetSdkVersion=36) using reflection: allowed
+11-16 16:29:49.442  3135  3135 I nlink.prototype: hiddenapi: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (runtime_flags=0, domain=platform, api=unsupported) from Landroidx/appcompat/widget/ViewUtils; (domain=app, TargetSdkVersion=36) using reflection: allowed
+11-16 16:29:49.445  3135  3135 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+11-16 16:29:49.445  3135  3135 D nativeloader: Load /data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/lib/arm64/libmain.so using class loader ns clns-7 (caller=/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk!3): ok
+11-16 16:29:49.462  3135  3135 I IL2CPP  : JNI_OnLoad
+11-16 16:29:49.462  3135  3135 V Unity   : Context Type: GameActivity
+11-16 16:29:49.462  3135  3135 D Unity   : CommandLine:  
+11-16 16:29:49.466  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.467  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.467  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.467  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.468  3135  3135 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+11-16 16:29:49.468  3135  3135 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+11-16 16:29:49.469  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.469  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.469  3135  3135 I GameActivity: Looking for library libgame.so
+11-16 16:29:49.469  3135  3135 I GameActivity: Found library libgame.so. Loading...
+11-16 16:29:49.470  3135  3135 D GameActivity: SDK version: 35
+11-16 16:29:49.471  3135  3188 I Unity   : UnityApplication::CreateInstance
+11-16 16:29:49.471  3135  3188 I Unity   : GameActivity Package Version '4.4.0'
+11-16 16:29:49.471  3135  3188 I Unity   : Starting Game Loop
+11-16 16:29:49.476  3135  3135 D ActivityThread: handleStartActivity will called startAppLockIfNeeded 
+11-16 16:29:49.476  3135  3135 D ActivityThread: startAppLockIfNeeded is called
+11-16 16:29:49.477  3135  3188 I Unity   : Handle cmd APP_CMD_START(11)
+11-16 16:29:49.480  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.480  3135  3135 I Unity   : onResume
+11-16 16:29:49.484  3135  3188 I Unity   : Handle cmd APP_CMD_RESUME(12)
+11-16 16:29:49.485  3135  3135 D WindowManagerImpl: addView displayId=0 0
+11-16 16:29:49.485  3135  3135 D WindowManagerImpl: addView displayId33= 0
+11-16 16:29:49.492  3135  3135 D OvCommonUtils: tryApplyFullScreen topActivity:ComponentInfo{kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity},  title:kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity,  windowMode:1,  applyFullScreen:false,  hasHideStatusBar:false
+11-16 16:29:49.506  3135  3135 I Unity   : onPause
+11-16 16:29:49.507  3135  3135 I Unity   : pauseUnity
+11-16 16:29:49.509  3135  3188 I Unity   : Handle cmd APP_CMD_PAUSE(14)
+11-16 16:29:49.512  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.514  3135  3135 V GameActivity: onImeInsetsChanged from Text Listener
+11-16 16:29:49.514  3135  3188 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+11-16 16:29:49.522  3135  3135 D OvCommonUtils: tryApplyFullScreen topActivity:ComponentInfo{kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity},  title:kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity,  windowMode:1,  applyFullScreen:false,  hasHideStatusBar:true
+11-16 16:29:49.522  3135  3135 D OvCommonUtils: tryApplyFullScreen: Skip hide status bar, because the status bar is no longer visible
+11-16 16:29:49.531  3135  3135 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+11-16 16:29:49.531  3135  3135 W libc    : Access denied finding property "vendor.gpp.create_frc_extension"
+11-16 16:29:49.526  3135  3135 W nlink.prototype: type=1400 audit(0.0:19894): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=430 scontext=u:r:untrusted_app:s0:c30,c256,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.532  3135  3135 D OvCommonUtils: tryApplyFullScreen topActivity:ComponentInfo{kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity},  title:kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity,  windowMode:1,  applyFullScreen:false,  hasHideStatusBar:true
+11-16 16:29:49.532  3135  3135 D OvCommonUtils: tryApplyFullScreen: Skip hide status bar, because the status bar is no longer visible
+11-16 16:29:49.534  3135  3188 I Unity   : Handle cmd APP_CMD_CONTENT_RECT_CHANGED(5)
+11-16 16:29:49.538  3135  3135 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+11-16 16:29:49.538  3135  3135 W libc    : Access denied finding property "vendor.gpp.create_frc_extension"
+11-16 16:29:49.538  3135  3188 I Unity   : Handle cmd APP_CMD_INIT_WINDOW(1)
+11-16 16:29:49.534  3135  3135 W nlink.prototype: type=1400 audit(0.0:19895): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=430 scontext=u:r:untrusted_app:s0:c30,c256,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=kr.fairstudios.nyanlink.prototype
+11-16 16:29:49.546  3135  3188 I Unity   : MemoryManager: Using 'Dynamic Heap' Allocator.
+11-16 16:29:49.547  3135  3188 D Unity   : [UnityMemory] Configuration Parameters - Can be set up in boot.config
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-allocator-temp-initial-block-size-main=262144"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-allocator-temp-initial-block-size-worker=262144"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-background-worker=32768"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-job-worker=262144"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-preload-manager=262144"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-audio-worker=65536"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-cloud-worker=32768"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-bucket-allocator-granularity=16"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-bucket-allocator-bucket-count=8"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-bucket-allocator-block-size=4194304"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-bucket-allocator-block-count=1"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-main-allocator-block-size=16777216"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-thread-allocator-block-size=16777216"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-gfx-main-allocator-block-size=16777216"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-gfx-thread-allocator-block-size=16777216"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-cache-allocator-block-size=4194304"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-typetree-allocator-block-size=2097152"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-profiler-bucket-allocator-granularity=16"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-profiler-bucket-allocator-bucket-count=8"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-profiler-bucket-allocator-block-size=4194304"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-profiler-bucket-allocator-block-count=1"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-profiler-allocator-block-size=16777216"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-profiler-editor-allocator-block-size=1048576"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-main=4194304"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-job-temp-allocator-block-size=2097152"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-job-temp-allocator-block-size-background=1048576"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+11-16 16:29:49.547  3135  3188 D Unity   :     "memorysetup-temp-allocator-size-gfx=262144"
+11-16 16:29:49.552  3135  3135 I Unity   : onResume
+11-16 16:29:49.554  3135  3135 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+11-16 16:29:49.554  3135  3135 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+11-16 16:29:49.568  3135  3188 D Unity   : Enabling Unity systrace
+11-16 16:29:49.568  3135  3188 D Unity   : Starting Unity systrace
+11-16 16:29:49.588  3135  3188 I Unity   : SetGameState: isLoading: true, mode: UNKNOWN, label: -2, quality: -1
+11-16 16:29:49.599  3135  3188 D Unity   : [VFS] Mount /data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk
+11-16 16:29:49.612  3135  3188 I Unity   : SystemInfo CPU = ARM64 FP ASIMD AES, Cores = 8, Memory = 11211mb
+11-16 16:29:49.612  3135  3188 I Unity   : SystemInfo ARM big.LITTLE configuration: 4 big (mask: 0xf0), 4 little (mask: 0xf)
+11-16 16:29:49.612  3135  3188 I Unity   : ApplicationInfo 'kr.fairstudios.nyanlink.prototype', Version '1.0', Min API Level '25', Target API Level '36'
+11-16 16:29:49.612  3135  3188 I Unity   : Built from '6000.3/staging' branch, Version '6000.3.14f1 (d68c3f99a318)', Build type 'Development', Scripting Backend 'il2cpp', CPU 'arm64-v8a', Stripping 'Enabled'
+11-16 16:29:49.612  3135  3188 I Unity   : Device Model 'Lenovo TB320FC', OS 'Android OS 15 (API 35)'
+11-16 16:29:49.613  3135  3188 D Unity   : Determine if il2cpp resources need to extracted:
+11-16 16:29:49.615  3135  3188 D Unity   :     Guid in '/storage/emulated/0/Android/data/kr.fairstudios.nyanlink.prototype/files/il2cpp/unity.ver' is invalid, expected '9a8589a7-6984-4089-ba8a-790968815b11' was '0677ecbe-c544-4783-9aa3-31bf83792925'
+11-16 16:29:49.615  3135  3188 D Unity   :     Extracting il2cpp resources
+11-16 16:29:49.707  3135  3188 D Unity   : Unable to find library path for 'il2cpp.usym'.
+11-16 16:29:49.775  3135  3188 D Unity   : [EGL] Attaching window :0xb400007ce026b120
+11-16 16:29:49.775  3135  3188 D Unity   : InitializeScriptEngine OK (0x7f3c992fc0)
+11-16 16:29:49.775  3135  3188 D Unity   : Found 1 interfaces on host :
+11-16 16:29:49.775  3135  3188 D Unity   :  0) 192.168.0.50
+11-16 16:29:49.775  3135  3188 D Unity   : 
+11-16 16:29:49.776  3135  3188 D Unity   : Player connection [532682589936]  Target information:
+11-16 16:29:49.776  3135  3188 D Unity   : 
+11-16 16:29:49.776  3135  3188 D Unity   : Player connection [532682589936]  * "[IP] 192.168.0.50 [Port] 55000 [Flags] 2 [Guid] 1405118464 [EditorId] 2045639295 [Version] 1048832 [Id] AndroidPlayer(11,Lenovo_TB320FC@192.168.0.50) [Debug] 0 [PackageName] AndroidPlayer [ProjectName] NyanLink" 
+11-16 16:29:49.776  3135  3188 D Unity   : 
+11-16 16:29:49.776  3135  3188 D Unity   : Player connection [532682589936] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+11-16 16:29:49.776  3135  3188 D Unity   : 
+11-16 16:29:49.783  3135  3188 D Unity   : Input System module state changed to: Initialized.
+11-16 16:29:49.785  3135  3188 D Unity   : [Physics::Module] Initialized fallback backend.
+11-16 16:29:49.785  3135  3188 D Unity   : [Physics::Module] Id: 0xdecafbad
+11-16 16:29:49.786  3135  3188 D Unity   : PlayerInitEngineNoGraphics OK
+11-16 16:29:49.786  3135  3188 I Unity   : Company Name: DefaultCompany
+11-16 16:29:49.786  3135  3188 I Unity   : Product Name: NyanLink
+11-16 16:29:49.786  3135  3188 D Unity   : AndroidGraphics::Startup window =  0xb400007ce026b120
+11-16 16:29:49.786  3135  3188 D Unity   : [EGL] Attaching window :0xb400007ce026b120
+11-16 16:29:49.787  3135  3188 D Unity   : [Subsystems] Discovering subsystems at path /data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk/assets/bin/Data/UnitySubsystems
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: QUALCOMM build                   : 700cfb7ebe, I2d73421614
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Build Date                       : 02/14/25
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: OpenGL ES Shader Compiler Version: EV031.36.08.30
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Local Branch                     : 
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Remote Branch                    : refs/tags/AU_LINUX_ANDROID_LA.VENDOR.1.0.R1.11.00.00.816.269
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Remote Branch                    : NONE
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Reconstruct Branch               : NOTHING
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Build Config                     : S P 12.1.1 AArch64
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Driver Path                      : /vendor/lib64/egl/libGLESv2_adreno.so
+11-16 16:29:49.788  3135  3188 I AdrenoGLES-0: Driver Version                   : 0615.96
+11-16 16:29:49.790  3135  3188 I AdrenoGLES-0: PFP: 0x01730158, ME: 0x00000000
+11-16 16:29:49.791  3135  3143 I nlink.prototype: Compiler allocated 5269KB to compile void android.view.ViewRootImpl.performTraversals()
+11-16 16:29:49.795  3135  3188 D Unity   : [EGL] Request: ES 3.2 RGB 000 0/0
+11-16 16:29:49.795  3135  3188 D Unity   : [EGL] Checking ES 3.2 support...
+11-16 16:29:49.796  3135  3188 D Unity   : [EGL] ES 3.2 support detected
+11-16 16:29:49.796  3135  3188 D Unity   : [EGL] Found: ID[1] ES 3.2 RGB 565 0/0
+11-16 16:29:49.796  3135  3188 D Unity   : GfxDevice: creating device client; kGfxThreadingModeThreaded
+11-16 16:29:49.796  3135  3188 D Unity   : [EGL] Request: ES 3.2 RGB 000 0/0
+11-16 16:29:49.796  3135  3188 D Unity   : [EGL] Found: ID[1] ES 3.2 RGB 565 0/0
+11-16 16:29:49.797  3135  3188 D Unity   : [EGL] Request: ES 3.0 RGBA 8888 0/0
+11-16 16:29:49.797  3135  3188 D Unity   : [EGL] Found: ID[9] ES 3.0 RGBA 8888 0/0
+11-16 16:29:49.798  3135  3188 D Unity   : ANativeWindow: (1600/2560) RequestedResolution: (0/0) RenderingResolution: (0/0) EGLSurface: (1600/2560)
+11-16 16:29:49.800  3135  3188 D Unity   : Renderer: Adreno (TM) 730
+11-16 16:29:49.800  3135  3188 D Unity   : Vendor:   Qualcomm
+11-16 16:29:49.800  3135  3188 D Unity   : Version:  OpenGL ES 3.2 V@0615.96 (GIT@700cfb7ebe, I2d73421614, 1739518162) (Date:02/14/25)
+11-16 16:29:49.800  3135  3188 D Unity   : GLES:     3
+11-16 16:29:49.800  3135  3188 D Unity   :  GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_half_float GL_OES_framebuffer_object GL_OES_rgb8_rgba8 GL_OES_compressed_ETC1_RGB8_texture GL_AMD_compressed_ATC_texture GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_hdr GL_OES_texture_compression_astc GL_OES_texture_npot GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_read_format_bgra GL_OES_texture_3D GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_QCOM_alpha_test GL_OES_depth24 GL_OES_packed_depth_stencil GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_EXT_sRGB GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_EXT_texture_type_2_10_10_10_REV GL_EXT_texture_sRGB_decode GL_EXT_texture_format_sRGB_override GL_OES_element_index_uint GL_EXT_copy_image GL_EXT_geometry_shader GL_EXT_tessellation_shader GL_OES_texture_stencil8 GL_EXT_shader_io_blocks GL_OES_shader_image_atomic GL_OES_sample_variables GL_EXT_texture_b
+11-16 16:29:49.800  3135  3188 D Unity   : order_clamp GL_EXT_EGL_image_external_wrap_modes GL_EXT_multisampled_render_to_texture GL_EXT_multisampled_render_to_texture2 GL_OES_shader_multisample_interpolation GL_EXT_texture_cube_map_array GL_EXT_draw_buffers_indexed GL_EXT_gpu_shader5 GL_EXT_robustness GL_EXT_texture_buffer GL_EXT_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_OES_texture_storage_multisample_2d_array GL_OES_sample_shading GL_OES_get_program_binary GL_EXT_debug_label GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_QCOM_tiled_rendering GL_ANDROID_extension_pack_es31a GL_EXT_primitive_bounding_box GL_OES_standard_derivatives GL_OES_vertex_array_object GL_EXT_disjoint_timer_query GL_KHR_debug GL_EXT_YUV_target GL_EXT_sRGB_write_control GL_EXT_texture_norm16 GL_EXT_discard_framebuffer GL_OES_surfaceless_context GL_OVR_multiview GL_OVR_multiview2 GL_EXT_texture_sRGB_R8 GL_KHR_no_error GL_EXT_debug_marker GL_OES_EGL_image_external_essl3 GL_OVR_multiview_multisampled_render_to_texture GL_E
+11-16 16:29:49.800  3135  3188 D Unity   : XT_buffer_storage GL_EXT_external_buffer GL_EXT_blit_framebuffer_params GL_EXT_clip_cull_distance GL_EXT_protected_textures GL_EXT_shader_non_constant_global_initializers GL_QCOM_texture_foveated GL_QCOM_texture_foveated2 GL_QCOM_texture_foveated_subsampled_layout GL_QCOM_shader_framebuffer_fetch_noncoherent GL_QCOM_shader_framebuffer_fetch_rate GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_EGL_image_array GL_NV_shader_noperspective_interpolation GL_KHR_robust_buffer_access_behavior GL_EXT_EGL_image_storage GL_EXT_blend_func_extended GL_EXT_clip_control GL_OES_texture_view GL_EXT_fragment_invocation_density GL_QCOM_motion_estimation GL_QCOM_validate_shader_binary GL_QCOM_YUV_texture_gather GL_QCOM_shading_rate GL_QCOM_frame_extrapolation GL_IMG_texture_filter_cubic GL_QCOM_render_shared_exponent
+11-16 16:29:49.803  3135  3188 D Unity   : OPENGL LOG: Creating OpenGL ES 3.2 graphics device ; Context level  <OpenGL ES 3.2> ; Context handle -1608012128
+11-16 16:29:49.809  3135  3188 D Unity   : [EGL] Attaching window :0xb400007ce026b120
+11-16 16:29:49.810  3135  3188 D Unity   : Requested framebuffer: resolution[1600x2560], rgba[8/8/8/8], depth+stencil[on], samples[1]
+11-16 16:29:49.810  3135  3188 D Unity   : Created framebuffer: resolution[1600x2560], rgba[8/8/8/8], depth+stencil[24/8], samples[0] 
+11-16 16:29:49.811  3135  3188 D nativeloader: Load liblibswappywrapper.so using class loader ns clns-7 (caller=/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk!3): dlopen failed: library "liblibswappywrapper.so" not found
+11-16 16:29:49.811  3135  3188 D nativeloader: Load /data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/lib/arm64/libswappywrapper.so using class loader ns clns-7 (caller=/data/app/~~AtpfAk-5U8Qb2FGjVSzqHA==/kr.fairstudios.nyanlink.prototype-1_OoWxbNhhgEjKy1NJBZgw==/base.apk!3): ok
+11-16 16:29:49.811  3135  3188 I SwappyWrapper: SwappyWrapperInit() succeeded. Build: Mon Nov 16 12:05:06 2026
+11-16 16:29:49.811  3135  3188 D Unity   : SwappyWrapper: InitSwappyWrapper() succeeded.
+11-16 16:29:49.813  3135  3308 D AChoreographer: Attaching thread to JVM for AChoreographer
+11-16 16:29:49.815  3135  3188 E SwappyDisplayManager: dalvik.system.InMemoryDexClassLoader[DexPathList[[dex file "InMemoryDexFile[cookie=[0, -5476376608398198384]]"],nativeLibraryDirectories=[/system/lib64, /system_ext/lib64]]] couldn't find "libgame.so"
+11-16 16:29:49.815  3135  3311 I SwappyDisplayManager: Starting looper thread
+11-16 16:29:49.816  3135  3188 D Unity   : [EGL] Attaching window :0xb400007ce026b120
+11-16 16:29:49.816  3135  3188 D Unity   : Initialize engine version: 6000.3.14f1 (d68c3f99a318)
+11-16 16:29:49.825  3135  3188 I AAudio  : AAudioStreamBuilder_openStream() called ----------------------------------------
+11-16 16:29:49.825  3135  3188 I AudioStreamBuilder: rate   =  24000, channels  = 2, channelMask = 0x80000003, format   = 5, sharing = SH, dir = OUTPUT
+11-16 16:29:49.825  3135  3188 I AudioStreamBuilder: device =      0, sessionId = 0, perfMode = 12, callback: ON with frames = 512
+11-16 16:29:49.825  3135  3188 I AudioStreamBuilder: usage  =      0, contentType = 0, inputPreset = 0, allowedCapturePolicy = 0
+11-16 16:29:49.825  3135  3188 I AudioStreamBuilder: privacy sensitive = false, opPackageName = (null), attributionTag = (null)
+11-16 16:29:49.825  3135  3188 D AudioStreamBuilder: build() MMAP not used because sessionId specified.
+11-16 16:29:49.825  3135  3188 D nlink.prototype: PlayerBase::PlayerBase()
+11-16 16:29:49.825  3135  3188 D AudioStreamTrack: open(), request notificationFrames = 0, frameCount = 8192
+11-16 16:29:49.831  3135  3188 D AudioTrack: createTrack_l(): RelativeVolumeFeature, mStreamType -1, streamType 3, sessionId 4105, attributes: usage=1 content=2 flags=0x100 tags=[], mAudioTrackClientInfo: uid=10030 pid=3135 percentage=1.000000 clientId=351
+11-16 16:29:49.832  3135  3188 D AudioTrack: createTrack_l: RelativeVolumeFeature, mRelativePercentage:1.000000
+11-16 16:29:49.832  3135  3188 D AudioTrack: setVolume: RelativeVolumeFeature, mRelativePercentage:1.000000, left:1.000000, right:1.000000
+11-16 16:29:49.832  3135  3188 D AudioStreamTrack: open() flags changed from 0x00000004 to 0x00000000
+11-16 16:29:49.832  3135  3188 D AudioStreamTrack: open() perfMode changed from 12 to 10
+11-16 16:29:49.832  3135  3188 D AAudioStream: setState(s#1) from 0 to 2
+11-16 16:29:49.833  3135  3188 I AAudio  : AAudioStreamBuilder_openStream() returns 0 = AAUDIO_OK for s#1 ----------------
+11-16 16:29:49.833  3135  3188 D AAudio  : AAudioStream_requestStart(s#1) called --------------
+11-16 16:29:49.833  3135  3188 D AAudioStream: setState(s#1) from 2 to 3
+11-16 16:29:49.843  3135  3188 D AAudio  : AAudioStream_requestStart(s#1) returned 0 ---------
+11-16 16:29:49.843  3135  3148 D AudioStreamLegacy: onAudioDeviceUpdate(deviceId = 2)
+11-16 16:29:49.903  3135  3317 D AAudioStream: setState(s#1) from 3 to 4
+11-16 16:29:49.939  3135  3188 D Unity   : [Physics::Module] Selected backend.
+11-16 16:29:49.939  3135  3188 D Unity   : [Physics::Module] Name: PhysX
+11-16 16:29:49.939  3135  3188 D Unity   : [Physics::Module] Id: 0xf2b8ea05
+11-16 16:29:49.939  3135  3188 D Unity   : [Physics::Module] SDK Version: 4.1.2
+11-16 16:29:49.939  3135  3188 D Unity   : [Physics::Module] Integration Version: 1.0.0
+11-16 16:29:49.939  3135  3188 D Unity   : [Physics::Module] Threading Mode: Multi-Threaded
+11-16 16:29:49.983  3135  3188 I IL2CPP  : Locale ko-KR
+11-16 16:29:50.026  3135  3188 D Unity   : PlayerInitEngineGraphics OK
+11-16 16:29:50.039  3135  3188 I Unity   : SetGameState: isLoading: false, mode: UNKNOWN, label: -1, quality: 0
+11-16 16:29:50.039  3135  3188 I Unity   :     HasWindow = 1, HasFocus = 0
+11-16 16:29:50.039  3135  3188 I Unity   : Handle cmd APP_CMD_WINDOW_RESIZED(3)
+11-16 16:29:50.039  3135  3188 D Unity   : NativeWindow resized 1600x2560
+11-16 16:29:50.039  3135  3188 I Unity   : Handle cmd APP_CMD_WINDOW_REDRAW_NEEDED(4)
+11-16 16:29:50.039  3135  3188 I Unity   : Handle cmd APP_CMD_RESUME(12)
+11-16 16:29:50.041  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:50.041  3135  3135 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+11-16 16:29:50.043  3135  3135 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+11-16 16:29:50.043  3135  3135 I Unity   : windowFocusChanged: true
+11-16 16:29:50.044  3135  3135 I Unity   : resumeUnity
+11-16 16:29:50.044  3135  3188 I Unity   : Handle cmd APP_CMD_GAINED_FOCUS(7)
+11-16 16:29:50.044  3135  3135 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 16:29:50.044  3135  3329 D Choreographer: mBindCoreEnabled? true
+11-16 16:29:50.045  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:50.045  3135  3329 D Choreographer: targetPkg: shi.benchmark2
+11-16 16:29:50.045  3135  3329 D Choreographer: pidKey: shi.benchmark2
+11-16 16:29:50.046  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.046  3135  3135 V GameActivity: onImeInsetsChanged from Text Listener
+11-16 16:29:50.046  3135  3188 D Unity   : ANativeWindow: (1600/2560) RequestedResolution: (0/0) RenderingResolution: (0/0) EGLSurface: (1600/2560)
+11-16 16:29:50.046  3135  3329 D Choreographer: pkg LuDaShipid3135 targetpid -1
+11-16 16:29:50.046  3135  3329 D Choreographer: pkgLuDaShifalsetruefalse
+11-16 16:29:50.046  3135  3329 D Choreographer: 3d Game policy LuDaShi enabled false
+11-16 16:29:50.046  3135  3135 D OvCommonUtils: tryApplyFullScreen topActivity:ComponentInfo{kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity},  title:kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity,  windowMode:1,  applyFullScreen:false,  hasHideStatusBar:true
+11-16 16:29:50.046  3135  3135 D OvCommonUtils: tryApplyFullScreen: Skip hide status bar, because the status bar is no longer visible
+11-16 16:29:50.046  3135  3329 D Choreographer: targetPkg: duawan kiwi
+11-16 16:29:50.046  3135  3329 D Choreographer: pidKey: duawan
+11-16 16:29:50.047  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.047  3135  3329 D Choreographer: pkg HuYapid3135 targetpid -1
+11-16 16:29:50.047  3135  3329 D Choreographer: pkgHuYafalsetruefalse
+11-16 16:29:50.047  3135  3329 D Choreographer: 3d Game policy HuYa enabled false
+11-16 16:29:50.047  3135  3329 D Choreographer: targetPkg: ugc.aweme
+11-16 16:29:50.047  3135  3329 D Choreographer: pidKey: ugc.aweme
+11-16 16:29:50.047  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.047  3135  3329 D Choreographer: pkg DouYinpid3135 targetpid -1
+11-16 16:29:50.048  3135  3329 D Choreographer: pkgDouYinfalsetruefalse
+11-16 16:29:50.048  3135  3329 D Choreographer: 3d Game policy DouYin enabled false
+11-16 16:29:50.048  3135  3329 D Choreographer: targetPkg: jkchess
+11-16 16:29:50.048  3135  3329 D Choreographer: pidKey: jkchess
+11-16 16:29:50.048  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.048  3135  3329 D Choreographer: pkg JkChesspid3135 targetpid -1
+11-16 16:29:50.048  3135  3329 D Choreographer: pkgJkChessfalsetruefalse
+11-16 16:29:50.048  3135  3329 D Choreographer: 3d Game policy JkChess enabled false
+11-16 16:29:50.050  3135  3329 D Choreographer: targetPkg: Yuanshen
+11-16 16:29:50.050  3135  3329 D Choreographer: pidKey: Yuanshen
+11-16 16:29:50.050  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.051  3135  3329 D Choreographer: targetPkg: toStch
+11-16 16:29:50.052  3135  3329 D Choreographer: pidKey: toStch
+11-16 16:29:50.052  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.052  3135  3329 D Choreographer: pkg Yuanshenpid3135 targetpid -1
+11-16 16:29:50.052  3135  3329 D Choreographer: pkgYuanshenfalsetruefalse
+11-16 16:29:50.052  3135  3329 D Choreographer: 3d Game policy Yuanshen enabled false
+11-16 16:29:50.053  3135  3329 D Choreographer: targetPkg: MainThread-UE4
+11-16 16:29:50.053  3135  3329 D Choreographer: pidKey: MainThread-UE4
+11-16 16:29:50.053  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.053  3135  3329 D Choreographer: targetPkg: tmgp.pubg
+11-16 16:29:50.053  3135  3329 D Choreographer: pidKey: tmgp.pubg
+11-16 16:29:50.053  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.053  3135  3329 D Choreographer: pkg pubgpid3135 targetpid -1
+11-16 16:29:50.053  3135  3329 D Choreographer: pkgpubgfalsetruefalse
+11-16 16:29:50.053  3135  3329 D Choreographer: 3d Game policy pubg enabled false
+11-16 16:29:50.054  3135  3329 D Choreographer: targetPkg: UnityMain
+11-16 16:29:50.054  3135  3329 D Choreographer: pidKey: UnityMain
+11-16 16:29:50.054  3135  3329 D Choreographer: commvalue: nlink.prototype
+11-16 16:29:50.054  3135  3329 D Choreographer: pkgUnityMainfalsetruefalse
+11-16 16:29:50.054  3135  3329 D Choreographer: 3d Game policy UnityMain enabled false
+11-16 16:29:50.064  3135  3135 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 16:29:50.068  3135  3188 V MediaRouter: Selecting route: RouteInfo{ name=태블릿, description=null, status=null, category=RouteCategory{ name=시스템 types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=null }
+11-16 16:29:50.068  3135  3188 I MediaRouter: Skip setBluetoothA2dpOn(): types=8388615, isPlaybackActive()=true, BT route=null
+11-16 16:29:50.102  3135  3188 I Unity   : SetGameState: isLoading: true, mode: UNKNOWN, label: 0, quality: 0
+11-16 16:29:50.110  3135  3188 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+11-16 16:29:50.226  3135  3135 E nlink.prototype: Invalid resource ID 0x00000001.
+11-16 16:29:50.310  3135  3329 W InteractionJankMonitor: Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=kr.fairstudios.nyanlink.prototype
+11-16 16:29:52.166  3135  3135 D GameActivity: ************** mainWorkCallback *********
+11-16 16:29:52.166  3135  3135 D gti.InputConnection: setSoftKeyboardActive, active: false
+11-16 16:29:52.166  3135  3188 D Unity   : UnloadTime: 0.516979 ms
+11-16 16:29:52.168  3135  3135 I ImeTracker: kr.fairstudios.nyanlink.prototype:ec6a1122: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+11-16 16:29:52.169  3135  3135 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 16:29:52.289  3135  3188 I Unity   : SetGameState: isLoading: false, mode: UNKNOWN, label: 0, quality: 0
+11-16 16:29:52.295  3135  3135 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 16:29:52.295  3135  3188 D Unity   : Using NDK Choreographer.
+11-16 16:29:52.316  3135  3188 D Unity   : Stopping Unity systrace
+11-16 16:29:52.318  3135  3135 D OvCommonUtils: tryApplyFullScreen topActivity:ComponentInfo{kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity},  title:kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity,  windowMode:1,  applyFullScreen:false,  hasHideStatusBar:true
+11-16 16:29:52.318  3135  3135 D OvCommonUtils: tryApplyFullScreen: Skip hide status bar, because the status bar is no longer visible
+11-16 16:29:55.178  3135  3543 D ProfileInstaller: Installing profile for kr.fairstudios.nyanlink.prototype

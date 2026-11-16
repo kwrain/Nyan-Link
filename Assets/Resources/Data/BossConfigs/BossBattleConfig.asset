@@ -19,7 +19,7 @@ MonoBehaviour:
   patternShowDuration: 5
   inputTimeLimit: 10
   failureStaminaDamage: 20
-  successDamage: 0
+  successDamage: 12
   phaseHPThresholds:
   - 0.5
   - 0.2

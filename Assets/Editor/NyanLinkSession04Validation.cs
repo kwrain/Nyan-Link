@@ -375,6 +375,14 @@ public static class NyanLinkSession04Validation
         yield return Click(Button(Object.FindFirstObjectByType<MainMenuController>(),"buttonPlay"));
         yield return Wait(()=>SceneManager.GetActiveScene().name=="Game" && Object.FindFirstObjectByType<PuzzleBoardManager>()?.GetTileCount()==39,"Game ready");
         Configure(); boss=BossController.Instance;
+        var save=SaveManager.Instance;
+        save.stageData=stageClone;
+        string currentRules=save.RulesSignature;
+        boss.config.successDamage=0f;
+        Assert(save.RulesSignature==currentRules,"Legacy zero-success-damage save signature remains compatible");
+        boss.config.successDamage=13f;
+        Assert(save.RulesSignature!=currentRules,"Other combat rule changes remain incompatible");
+        boss.config.successDamage=12f; save.stageData=null;
         Assert(boss.enableCombat && boss.config.maxHP==120 && boss.config.timeAttackSequenceLength==3 && boss.config.inputTimeLimit==10,"Production boss baseline data and activation");
         Assert(boss.rhythmNotePattern==null && boss.colorQuotaPattern==null && boss.memorySequencePattern==null,"Deferred patterns detached");
         yield return Click(Button(Object.FindFirstObjectByType<GameReadyPanel>(),"buttonStart"));
@@ -428,8 +436,18 @@ public static class NyanLinkSession04Validation
         Assert(boss.timeAttackPattern.NextIndex==nextIndex+1 && itemOnly.All(c=>board.GetTileAtOffset(c).State==TileState.ItemLv1),"Two-item chain is pattern input, items preserved");
         yield return .05f; CheckSequenceIcons(); Capture("01c-two-colors-completed.png"); yield return .1f;
         yield return CompletePattern();
+        yield return .05f; // HUD refreshes in LateUpdate after the combat transition.
         Assert(!Object.FindFirstObjectByType<BossHUD>().transform.Find("Boss color sequence").gameObject.activeSelf, "Sequence hidden during groggy");
-        Near(boss.CurrentHP,120,"Pattern success has zero fixed damage");
+        Near(boss.CurrentHP,108,"Pattern success deals exactly 12 fixed damage");
+        var guide=Object.FindFirstObjectByType<BossHUD>().transform.Find("Groggy icon guide");
+        Assert(guide.gameObject.activeSelf && guide.Find("Orange attack icon").GetComponent<Image>().sprite!=null && guide.Find("Cyan defense icon").GetComponent<Image>().sprite!=null,"Groggy shows both tile icons");
+        Assert(guide.Find("Groggy time track/Groggy time fill").GetComponent<Image>().fillAmount>0f,"Groggy time gauge active");
+        var boundary=boss.CaptureBoundary(); boss.RestoreBoundary(boundary);
+        Near(boss.CurrentHP,108,"Restored success boundary never repeats success damage");
+        int successCount=successfulPatterns;
+        typeof(BossController).GetMethod("ResolvePattern",PrivateInstance).Invoke(boss,new object[]{true});
+        Near(boss.CurrentHP,108,"Repeated success callback does not deal another 12");
+        Assert(successfulPatterns==successCount,"Repeated success callback does not emit another result");
         Assert(boss.PendingAttackBonus==.5f,"Pattern success does not consume pending attack buff");
         Assert(successfulPatterns==1 && failedPatterns==0 && boss.CanUseItems && !boss.PreserveItems,"Groggy opens item/action boundary");
         Capture("03-groggy-attack.png"); yield return 0.08f;
@@ -437,17 +455,17 @@ public static class NyanLinkSession04Validation
         boss.GrantAttackBuff(.5f); boss.GrantAttackBuff(1f); boss.GrantAttackBuff(.5f);
         Near(boss.PendingAttackBonus,1f,"Buff max, no stacking");
         yield return Drag(Chain(2,TileColor.Cyan));
-        Assert(boss.HasFailureShield && boss.PendingAttackBonus==1f && boss.CurrentHP==120,"Cyan shield, zero damage, buff retained");
+        Assert(boss.HasFailureShield && boss.PendingAttackBonus==1f && boss.CurrentHP==108,"Cyan shield, zero damage, buff retained");
         yield return Drag(Chain(5,TileColor.Orange));
-        Near(boss.CurrentHP,80,"5 Orange with max buff does 40"); Near(boss.PendingAttackBonus,0,"Buff consumed once");
-        yield return Drag(Chain(2,TileColor.Red)); Near(boss.CurrentHP,76,"Next attack unbuffed direct count");
+        Near(boss.CurrentHP,68,"5 Orange with max buff does 40"); Near(boss.PendingAttackBonus,0,"Buff consumed once");
+        yield return Drag(Chain(2,TileColor.Red)); Near(boss.CurrentHP,64,"Next attack unbuffed direct count");
         var blastChain=Chain(2,TileColor.Yellow); board.SpawnTile(blastChain[0],TileColor.Yellow,TileState.ItemLv1);
         int actualRemoved=-1, direct=-1;
         Action<int,int,int,TileColor> observe=(n,g,r,c)=>{ actualRemoved=r; direct=n; };
         GameEvents.OnMatchCompleted+=observe; hp=StaminaManager.Instance.CurrentStamina; score=ScoreManager.Instance.CurrentScore;
         yield return Drag(blastChain); GameEvents.OnMatchCompleted-=observe;
         Assert(direct==2 && actualRemoved>2,"Blast secondary removal is distinct from direct connection");
-        Near(boss.CurrentHP,72,"Blast chain attacks with 2 direct tiles only");
+        Near(boss.CurrentHP,60,"Blast chain attacks with 2 direct tiles only");
         Assert(ScoreManager.Instance.CurrentScore-score==actualRemoved*10,"Secondary removals count toward score once");
         Near(StaminaManager.Instance.CurrentStamina,Mathf.Min(100,hp+actualRemoved*.3f),"Secondary removals count toward recovery once");
         yield return BossPause("04-paused-groggy.png");
@@ -456,7 +474,7 @@ public static class NyanLinkSession04Validation
         Near(boss.GroggyRemaining,remaining,"Time freeze leaves groggy timer unchanged");
         Assert(boss.TimerFreezeRemaining>0 && boss.TimerFreezeRemaining<.7f,"Freeze duration max not sum");
         yield return Wait(()=>!boss.TimersFrozen,"Freeze expires");
-        boss.ApplyDamage(20f); Near(boss.CurrentHP,52,"Unified external damage applies immediately");
+        boss.ApplyDamage(20f); Near(boss.CurrentHP,40,"Unified external damage applies immediately");
         Assert(boss.PhaseIndex==0,"Crossed threshold waits for groggy end");
         Time.timeScale=8f; yield return Wait(()=>boss.PhaseIndex==1,"Phase change after groggy end"); Time.timeScale=1f;
         Assert(!boss.IsGroggy,"Phase change after groggy only");
@@ -474,7 +492,7 @@ public static class NyanLinkSession04Validation
         Time.timeScale=8f; yield return Wait(()=>failedPatterns==failed+1,"Timeout failure"); Time.timeScale=1f;
         Near(StaminaManager.Instance.CurrentStamina,hp-20,"Timeout exactly20 damage");
         Assert(failedPatterns==failed+1,"No duplicate failure event");
-        Pass("Natural obstacle→boss entry; item protection, exact score/recovery, no success damage, cyan/buff/direct attacks, pause/freeze and deferred phase strengthening");
+        Pass("Natural obstacle→boss entry; item protection, exact score/recovery, 12 success damage, cyan/buff/direct attacks, pause/freeze and deferred phase strengthening");
         // Melee lethal and all public damage sources converge on one immediate result.
         yield return Wait(()=>boss.timeAttackPattern.IsRunning,"Next pattern for groggy lethal");
         yield return CompletePattern();
@@ -484,6 +502,14 @@ public static class NyanLinkSession04Validation
         boss.ApplyDamage(999); game.TriggerStageClear();
         Assert(resultEvents==resultCount+1 && hpEvents==hpCount+1 && Time.timeScale==0,"No duplicate HP0 or victory");
         Capture("06-victory.png"); yield return 0.1f;
+        // Success damage itself may kill; no groggy, repeated callback or reward result.
+        game.RetryGame(); yield return .1f; boss=BossController.Instance;
+        spawner.RestoreCheckpoint(3); progress.RestoreDistance(progress.StageLength); game.TriggerBossFight();
+        boss.ApplyDamage(108f); resultCount=resultEvents;
+        typeof(BossController).GetMethod("ResolvePattern",PrivateInstance).Invoke(boss,new object[]{true});
+        Assert(boss.CurrentHP==0 && game.CurrentState==GameState.Result && resultEvents==resultCount+1 && !boss.IsGroggy,"Success damage kills immediately without opening groggy");
+        typeof(BossController).GetMethod("ResolvePattern",PrivateInstance).Invoke(boss,new object[]{true});
+        Assert(resultEvents==resultCount+1,"Repeated success callback cannot duplicate victory");
         // Fresh run: direct API lethal during pattern, no missing victory without match handler.
         game.RetryGame(); yield return 0.1f; boss=BossController.Instance;
         spawner.RestoreCheckpoint(3); progress.RestoreDistance(progress.StageLength); game.TriggerBossFight();

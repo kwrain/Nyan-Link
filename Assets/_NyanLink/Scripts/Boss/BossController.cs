@@ -112,6 +112,10 @@ namespace NineMood.Boss
             FindFirstObjectByType<PuzzleBoardManager>()?.SetRequiredMatchColor(null);
             if (success)
             {
+                // 성공 피해는 버프/색상 배율 없이 1회. 치명타면 그로기를 열지 않는다.
+                _state = BossState.Interval;
+                ApplyDamage(config.successDamage);
+                if (!IsActive) return;
                 // 마지막 패턴 입력 자체가 그로기 공격으로 다시 처리되지 않도록 다음 프레임에 연다.
                 _groggyPending = true;
                 _state = BossState.Interval;

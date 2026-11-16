@@ -1,0 +1,30 @@
+[
+  {
+    "path": "Assets/Resources/Art/PixelUI/buttons.png",
+    "width": 1774,
+    "height": 887,
+    "sha256": "5e5a54d9e2b9dbd6b1895ea17c1d07b9f07e75fe8db3d90c1698a29675af1d58",
+    "source": "OpenAI built-in image generation; prompts.json; original copies retained under .codex/generated_images"
+  },
+  {
+    "path": "Assets/Resources/Art/PixelUI/icons.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "a35b9eea55c80efcc25218c34ec860f741291ddd104b15721b16660cd05b0f58",
+    "source": "OpenAI built-in image generation; prompts.json; original copies retained under .codex/generated_images"
+  },
+  {
+    "path": "Assets/Resources/Art/PixelUI/meters.png",
+    "width": 1774,
+    "height": 887,
+    "sha256": "b2b8de82a71ce40adbd58c051ec4a035a54d4f7bbfad9f909dd22fca9b76b592",
+    "source": "OpenAI built-in image generation; prompts.json; original copies retained under .codex/generated_images"
+  },
+  {
+    "path": "Assets/Resources/Art/PixelUI/panels.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "5245ea43580db478489cb0a4b5019ac6fdcf167a2c0f15afdf5b90a850e3c76e",
+    "source": "OpenAI built-in image generation; prompts.json; original copies retained under .codex/generated_images"
+  }
+]

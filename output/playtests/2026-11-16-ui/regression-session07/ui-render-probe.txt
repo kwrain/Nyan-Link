@@ -1,0 +1,4 @@
+before scroll header white pixels=4978
+scrolled down header white pixels=4978
+scrolled up and disabled input header white pixels=4978
+pressed close header white pixels=4978

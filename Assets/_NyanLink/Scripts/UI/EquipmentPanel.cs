@@ -100,6 +100,7 @@ namespace NineMood.UI
                 var upgrade=Button(row.transform,cost==0 ? "MAX LV.5" : "UPGRADE  "+cost,new Vector2(.75f,.23f),new Vector2(390,70),()=>{ProgressionService.Upgrade(id);notice=ProgressionService.LastMessage;Refresh();});
                 equip.interactable=allowed && data!=null;upgrade.interactable=allowed && data!=null && cost>0 && p.coins>=cost;
                 EquipButtons[id]=equip;UpgradeButtons[id]=upgrade;
+                NineMood.Presentation.PixelUISkin.EquipmentRow(row.transform,data);
             }
         }
         static void Stretch(RectTransform r,Vector2 min,Vector2 max) {r.anchorMin=min;r.anchorMax=max;r.offsetMin=r.offsetMax=Vector2.zero;}

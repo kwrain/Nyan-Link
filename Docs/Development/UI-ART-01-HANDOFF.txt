@@ -1,0 +1,86 @@
+냥링크 픽셀 UI 교체01 인수인계
+작성·최근 확인: 2026-11-16 Asia/Seoul
+기준: 프로토타입 확정 기준.txt / 통합 기획서.docx1.1. 기존 ART-AUDIO-01 인수인계·WORK_ITEMS·현재 코드 확인.
+실제 경로: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+브랜치 main. 적용 AGENTS는 프로젝트 루트1개. 시작 시 작업 트리 깨끗함, e883693 기준 origin/main보다1커밋 앞섬.
+이번 요청은 UI 리소스 제작·교체·Unity CLI 검증/실제 캡처. 큰 작업 묶음 검증 뒤 로컬 커밋, 푸시 요청은 없어 원격 푸시 안 함.
+
+1. 보존
+기존 씬 YAML/Script GUID/타일·캐릭터·사운드/패키지/기획 문서/저장 스키마·데이터 ID·게임 수치 보존.
+새 리소스는 Assets/Resources/Art/PixelUI 별도 경로. 기존 기본 UI의 Image/Button/Slider/Canvas와 onClick/이벤트 수명/저장 책임 유지.
+외부 앱 데이터 백업:
+/Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-ui-20261116-before
+manifest.json 및 files/9개 SHA256 복사 직후 확인. 원래 앱 경로 /Users/kiwoolee/Library/Application Support/DefaultCompany/NyanLink.
+시작 시 saves 폴더 없음.9개는 Unity 내부 파일이며 실제 사용자 게임 진행으로 해석하지 않음.
+검사는 SaveManager.TestDirectoryOverride 또는 stageData=null로 격리. 최고점/입력 장치·설정/GameView는 기존 도구의 복원 절차 유지.
+새 테스트의 긴 장비 목록은 격리 파일에만 임시10개를 넣고 검사 후 그10개만 제거, 원래 테스트3개/능력치 복원. 사용자 장비를 추가·삭제한 것이 아님.
+
+2. 적용
+AI 이미지 생성 PNG4장 / UI Sprite18개:
+- buttons2×2: blue/mint/gold/red, 기본/진행·재개/강화·장비/재시작·종료 역할.
+- panels2×2: modal/card/slot/reward, 팝업·HUD·보상·장비 행/슬롯.
+- meters1×4: frame/HP/progress/boss, 기존 Slider.fillRect 연결.
+- icons3×2: heart/coin/hat/outfit/weapon/unknown shield.
+프롬프트·SHA·해상도·교체 절차: output/art/2026-11-16-ui/{prompts.json,asset-manifest.json,README.txt}.
+생성 원본은 .codex/generated_images에 보존하고 프로젝트에 복사. 원본 그림을 수작업/코드로 편집하지 않음.
+
+NyanLinkPixelUIPipeline.Prepare: Texture2D/NPOT 원본/Point/비압축/mipmap없음/CPU읽기복사없음.
+셀별 최대 alpha>220 연결 영역으로 SpriteRect 선택, 분리된 생성 잡티만 영역에서 제외. catalog.json에9-slice border기록.
+PixelUIResources: 런타임Sprite FullRect+border 캐시, 종료 시 소유Sprite만 정리. 원본 Texture는 Resources 소유. 카탈로그 없으면 기존 표현 유지.
+PixelUISkin: Image에9-slice Sprite 연결. 버튼 기존 RectTransform/리스너/Interactable 유지, 눌림·비활성 ColorTint와 기존 클릭음 연결. 글자는 기존 TMP 동적 텍스트, 이미지에 굽지 않음.
+청록 선택6개 버튼은 현재 색의 실제 심볼과 색 이름으로 구분. 선택값·정지·복귀 계약 유지, 기존 단색 배경만 픽셀 버튼으로 교체.
+게이지: 기존 Slider 값/normalizedValue가 실제HP·진행률/보스HP의 권위 있는 값. fillRect의 부모 안쪽 여백과 장식 틀/색만 연결. 기존 이벤트·HP공식 유지.
+PixelUIPresentation: Main/준비 버튼 트레이, 상단 HUD·점수/아이템 배지·장애물 경고, Pause/색 선택 팝업, 승패 결과, 장비 전체/행·아이콘·슬롯 테마. 장식 Image.raycastTarget=false.
+EquipmentPanel.Refresh는 기존 레코드·버튼을 만든 뒤 표현 헬퍼만 호출. 모자/옷/무기·미등록 장비는 실제 데이터로 아이콘 선택, 미등록 이름/레벨/기존 장착 보존. 장비 목록 행높이·비용·장착/강화/잠금 규칙 변경 없음.
+장비 viewport의 기존 Mask 컴포넌트는 삭제하지 않고 런타임 비활성화. 사각형 RectMask2D로 긴 목록이 주변 제목/버튼 영역에 그려지지 않게 함. 기존 ScrollRect·클램프/입력·목록 바인딩 유지.
+게임 API·이벤트·저장schema1·규칙서명·보상·확률·스탯·39칸/카메라 분할 변경 없음. 신규 상점/광고/치명타/승급/보류 기능 활성화 없음.
+
+3. 변경 파일
+추가(.meta포함): Presentation/{PixelUIResources,PixelUISkin,PixelUIPresentation}.cs, Editor/NyanLinkPixelUIPipeline.cs, Art/PixelUI PNG4/catalog.json.
+수정: PrototypePresentation.cs(어댑터 연결), ConceptPixelPresentation.cs(새 픽셀 버튼 우선), EquipmentPanel.cs(생성된 장비 행 표현 연결).
+검사: Session08Validation 옵션 UI검사/실제 피해→HP Slider·새 UI Sprite/장식 입력차단검사·Main장비/팝업 캡처.
+Session07Validation 동적 목록 배치 확정 후 포인터 좌표 읽기, raycast 진단 및 옵션 긴목록·스크롤·비활성/눌림 검사.
+문서/근거: WORK_ITEMS, 본 파일, output/art/2026-11-16-ui, output/playtests/2026-11-16-ui.
+
+4. 검증
+환경: Unity6000.3.14f1/macOS27.2 arm64/Mac Standalone 현재캐시. Unity CLI 그래픽 Play, 가상Mouse 이벤트→기존 UGUI 입력 처리.
+리소스 가져오기/컴파일 종료0,18개 카탈로그 생성·CPU 복사 비활성화.
+통합896 assertion 종료0/게임경로 오류0. 기존 저장/전투/아이템/실제 장비UI/보상중복·재도전 흐름 유지,18개 UI리소스·9-slice·눌림/비활성 설정·장식 raycast없음·실제20피해와 Slider값/채움일치 확인.
+독립 Unity 프로세스 Cold64, 아이템/색 선택 회귀322 통과·각 종료0·게임 경로 오류0.
+장비 최종204 checks 통과/종료0/게임 경로 오류0. 실제 장착·해제·Lv5·코인부족/기존 진행 잠금·중복보상·유효 능력치,13개 격리 장비 목록의 Mouse wheel·비활성 버튼 저장 불변·실제 눌림·창 밖 release 취소 확인.
+추가4개 화면의 실제PNG 제목 영역 흰 픽셀4978개 동일, 각 단계 제목 렌더 확인. Unity 픽셀검사+별도PNG 디코드 독립확인. png-header-independent-audit.json 및 ui-render-probe.txt.
+통합896/Cold64/아이템322는 픽셀 UI 최초 연결 버전에서 통과. 이후 사각형 장비 클리핑·불필요 UI갱신 정비 뒤 해당 경로 장비204를 다시 수행. 최종 Native 빌드 Succeeded/오류0/기존UGS경고1,401,083,063bytes. Builds/PixelUI/NyanLink.app는 로컬 Development 빌드이며 커밋/배포하지 않음.
+Native 실제540×960/20 checks 통과·종료0. 픽셀 장비창(공개 Open API로 표시)/Pause팝업·HP바/새 아트와음원/실제Mouse쌍 선택→20점·리필/단일Listener/격리저장/BGM위치진행·정지/재개/Main정지 확인. 실제PNG5장.
+SourcePlaying=true/비영점PCM이나 출력 분석peak0은 유지, 실제 청취 통과로 해석하지 않음(V-012). 종료 때 기존ComputeBuffer자동정리/Development메모리 경고I-009 재현, 실행중검사오류와구분.
+최종 외부백업9개SHA 재확인/원래saves부재유지/.meta302개 중복GUID0. Unity가 바꾼Cloud설정은patch보존 후 시작값으로 복원. final-protection-audit.json.
+각 PNG의 환경·확인동작·기대/실제 결과는 SCREENSHOTS.txt. 별도 격리 데이터를 사용한 자동검사이며 사람의 무보정 완주/실기기 결과가 아님.
+
+5. 발견·수정 이력
+regression-session07/attempt01-equip-click: 처음 장비창 열기 직후 장착 검사 HP100≠105 실패. 새 Sprite의 레이아웃이 확정되기 전 도구가 클릭좌표를 읽음. Canvas.ForceUpdateCanvases 후 실제 버튼 좌표 읽기/포인터 raycast진단 보강, 장착·Lv5·200 checks 통과.
+regression-session07/pass01-scroll-stencil-issue 및 pass02-rect-clip: 기능200 통과 후 미리보기에서 제목 누락처럼 보여 추가 조사. 최초로 실제 렌더 결함이라고 설명했으나, 후속 독립 PNG디코드 결과 이 두 이전 시도의 스크롤/눌림 PNG도 제목4978픽셀로 정상임을 확인. 미리보기 표현만으로 실제 결함을 단정한 판단을 정정한다. 실제 제목 누락을 수정했다고 보고하지 않는다.
+장비 목록은 장식 Sprite 알파와 독립적인 사각형 클리핑으로 정비하고, Surface/형제순서가 동일하면 다시 갱신하지 않도록 해 불필요한 UI mesh dirty 방지. 이전 Mask 컴포넌트·ScrollRect 보존. 최종4단계 원본픽셀/포인터 및204 checks 통과.
+attempt02-frame-capture-timing: 검사 도구가 LateUpdate에서 CaptureScreenshotAsTexture를 호출해 end-of-frame 이전 오류 발생. 실제 게임 오류가 아님. 기존 비동기 ScreenCapture.CaptureScreenshot→파일 완성 대기→원본PNG 읽기 검사로 변경, 최종 성공. 생성PNG 편집/합성 없음.
+통합 캡처는 저장 경계 비교를 위해 timeScale0을 사용해 일부 리필 타일이 작은 상태인 화면도 있음. 고양이/타일 그림을 합성한 화면으로 대체하지 않음.
+
+6. 재현·복구
+Unity=/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+동일 프로젝트 실행1개만 유지. 다른 프로젝트 Unity는 종료하지 않음.
+가져오기: -batchmode -quit -buildTarget StandaloneOSX -projectPath <프로젝트> -executeMethod NyanLinkPixelUIPipeline.Prepare -logFile <새로그>
+통합: NYANLINK_UI_QA=1 NYANLINK_CONCEPT_QA=1 NYANLINK_SESSION08_OUTPUT=<새출력> Unity -buildTarget StandaloneOSX ... -executeMethod NyanLinkSession08Validation.Run
+Cold: 동일출력 ... NyanLinkSession08Validation.RunColdContinue
+아이템: NYANLINK_SESSION05_OUTPUT=<새폴더> ... NyanLinkSession05Validation.Run
+장비: NYANLINK_UI_QA=1 NYANLINK_SESSION07_OUTPUT=<새폴더> ... NyanLinkSession07Validation.Run
+그래픽 검사에 -batchmode/-nographics/-quit 넣지 않음. 도구 종료, 검사 중reload잠금/종료해제 유지.
+기존 결과를 덮어쓰지 말고 새 출력폴더 지정. 테스트 sandbox/가상아이템을 원래 saves로 복사하지 말 것.
+Native 빌드: NYANLINK_BUILD_PATH=Builds/PixelUI/NyanLink.app NYANLINK_BUILD_OUTPUT=<새출력> Unity -batchmode -quit -buildTarget StandaloneOSX ... NyanLinkSession08Build.Build
+Native 실행: .app/Contents/MacOS/NyanLink -nyanSmoke <격리출력> -logFile <새로그>. Development에서 명시 옵션에만 QA 실행, Release는 제외.
+코드/리소스 복구는 현재 작업 먼저 보존 후 별도 새 폴더에 e883693 또는 최종 커밋을 복원해 비교. 현 프로젝트 reset/clean/Library삭제 금지.
+게임 데이터 복구가 필요하면 현재saves전체를 먼저 보존하고 같은revision의 주 또는.bak 문서하나를 사용. 이번 원래 경로에는 게임 저장 없음, Unity 내부 파일백업을 게임저장으로 덮어쓰면 안 됨.
+
+7. 미검증·미해결·실기기
+미검증: V-013 한국어폰트/현지화, V-002 사람의 무보정 전체 플레이·밸런스, V-012 실제 청취, V-001 새캐시·모바일빌드.
+미해결: I-009 기존 Native 종료 시 렌더 자원 정리 경고(원인 미확정). UI 작업으로 해결 완료 처리하지 않음.
+실기기: D-001 노치/홈바·물리터치·스크롤·작은화면 글/픽셀선명도·메모리/성능, D-002 모바일저장·강제종료. 설치 모듈 MacStandaloneSupport뿐(2026-11-16 확인), 이번에 모바일 기기 실행은 수행하지 않음. Mac/모의노치와 실제 모바일 결과 구분.
+다음 작업: 실제 기기에서 버튼·스크롤·팝업과 기존 대기항목 함께 확인. 한국어 폰트/현지화, 실제 청취·무보정 플레이 후 균형조정. 추가 장착 외형/애니메이션/출시용 대규모 최종 리소스는 후속 합의 범위.
+
+로컬 커밋 메시지: feat: replace prototype UI with generated pixel art assets. 최종 해시는 git log 및 최종 답변 참조. 이번 커밋 미푸시.

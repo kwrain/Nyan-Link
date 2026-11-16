@@ -1,0 +1,16 @@
+[
+  {
+    "method": "NyanLinkSession08Validation.RunColdContinue",
+    "exit": 0
+  },
+  {
+    "method": "NyanLinkSession05Validation.Run",
+    "exit": 0
+  },
+  {
+    "method": "NyanLinkSession07Validation.Run",
+    "exit": 0,
+    "finalAssertions": 204,
+    "priorFailure": "regression-session07/attempt01-equip-click"
+  }
+]

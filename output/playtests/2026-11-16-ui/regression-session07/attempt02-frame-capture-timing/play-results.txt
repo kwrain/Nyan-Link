@@ -1,0 +1,14 @@
+PASS Reward branches, coin filter, stable rolls, pending recovery, duplicate and invalid transaction cases
+System.NullReferenceException: Object reference not set to an instance of an object
+  at NyanLinkSession07Validation.HeaderPixels () [0x00007] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession07Validation.cs:406 
+  at NyanLinkSession07Validation.CheckHeader (System.String phase) [0x00001] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession07Validation.cs:414 
+  at NyanLinkSession07Validation+<PixelInventoryCases>d__67.MoveNext () [0x00141] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession07Validation.cs:422 
+  at NyanLinkSession07Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession07Validation.cs:107 
+RUNTIME_ERROR CaptureScreenshotAsTexture() failed to generate texture! Was method called before the 'end of frame' state was reached?
+UnityEngine.ScreenCapture:CaptureScreenshotAsTexture ()
+NyanLinkSession07Validation:HeaderPixels () (at Assets/Editor/NyanLinkSession07Validation.cs:405)
+NyanLinkSession07Validation:CheckHeader (string) (at Assets/Editor/NyanLinkSession07Validation.cs:414)
+NyanLinkSession07Validation/<PixelInventoryCases>d__67:MoveNext () (at Assets/Editor/NyanLinkSession07Validation.cs:422)
+NyanLinkSession07Validation:Tick () (at Assets/Editor/NyanLinkSession07Validation.cs:107)
+NyanLinkSession02PlayDriver:LateUpdate () (at Assets/Tests/NyanLinkSession02PlayDriver.cs:12)
+

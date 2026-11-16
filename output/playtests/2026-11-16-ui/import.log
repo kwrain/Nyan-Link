@@ -1,0 +1,789 @@
+Unity Editor version:    6000.3.14f1 (d68c3f99a318)
+Branch:                  6000.3/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 27.2 (Build 26B123)
+Darwin version:          27.2.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-11-16T00:33:39Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-kiwoolee doesn't exist
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Helpers/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client
+[Licensing::Module] Successfully launched the LicensingClient (PId: 33088)
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-quit
+-buildTarget
+StandaloneOSX
+-projectPath
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+-executeMethod
+NyanLinkPixelUIPipeline.Prepare
+-logFile
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/output/playtests/2026-11-16-ui/import.log
+Successfully changed project path to: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [8330449664]  Target information:
+
+Player connection [8330449664]  * "[IP] 192.168.0.98 [Port] 55505 [Flags] 2 [Guid] 318206544 [EditorId] 318206544 [Version] 1048832 [Id] OSXEditor(0,Kiwoo-MacBook-Pro-M1.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8330449664] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8330449664] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-33086" after 0.3 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee" at "2026-11-16T00:33:40.293605Z"
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              0e5937015cde468eac94af652f67772f
+  Correlation Id:          0ce3176abb9d58d4a88d178c3fa73730
+  External correlation Id: 3925145616036187824
+  Machine Id:              /WjKvKF+OzgsHfl3D08tQZYCd8Q=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kiwoolee" (connect: 0.86s, validation: 0.13s, handshake: 1.01s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kiwoolee-notifications" at "2026-11-16T00:33:41.438383Z"
+[Licensing::Module] Connected to LicensingClient (PId: 33088, launch time: 0.00, total connection time: 2.01s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+[Licensing::Module] Licensing Background thread has ended after 2.04s
+[Licensing::Module] Licensing is initialized (took 1.33s).
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 2 unused hashed content files
+Targeting platform: StandaloneOSX
+Refreshing native plugins compatible for Editor in 1.55 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.3.14f1 (d68c3f99a318)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M1 Pro (high power)
+Metal devices available: 1
+0: Apple M1 Pro (high power)
+Using device Apple M1 Pro (high power)
+Initializing Metal device caps: Apple M1 Pro
+Mac GPU Family: 2
+Apple GPU Family: 7
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56086
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.010306 seconds.
+- Loaded All Assemblies, in  0.525 seconds
+[usbmuxd] Start listen thread
+[usbmuxd] Listen thread started
+[usbmuxd] Send listen message
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.497 seconds
+Domain Reload Profiling: 1023ms
+	BeginReloadAssembly (243ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (19ms)
+	RebuildCommonClasses (37ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (49ms)
+	LoadAllAssembliesAndSetupDomain (185ms)
+		LoadAssemblies (219ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (179ms)
+			TypeCache.Refresh (176ms)
+				TypeCache.ScanAssembly (153ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (497ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (460ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (185ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (79ms)
+			ProcessInitializeOnLoadAttributes (114ms)
+			ProcessInitializeOnLoadMethodAttributes (78ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: SC-NV7B-2HYZ-W56V-A5TP-XXXX
+  Product: Unity Pro
+  Type: ULF
+  Expiration: 2027-10-26T00:00:00Z
+[Licensing::Module] License group:
+  Id: 14569694429240-fairstudios-UnitXXXX
+  Product: Unity Pro
+  Type: Assigned
+  Expiration: 2027-10-20T00:00:00Z
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 83 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.2d.tilemap.extras@6.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tilemap.extras@3dde84bf3867)
+    com.unity.addressables@2.9.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.addressables@8460f1c9c927)
+    com.unity.ads@4.16.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ads@e89225828059)
+    com.unity.ai.navigation@2.0.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ai.navigation@734c2c4c5591)
+    com.unity.analytics@3.8.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
+    com.unity.collab-proxy@2.12.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.ide.rider@3.0.39 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.26 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.inputsystem@1.19.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83)
+    com.unity.timeline@1.8.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.visualscripting@8bed5ad90189)
+    com.unity.xr.legacyinputhelpers@2.1.13 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
+    com.unity.services.core@1.16.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.core@8ba50f624741)
+    com.unity.2d.animation@13.0.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.animation@7396d8477ca9)
+    com.unity.2d.pixel-perfect@5.1.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.pixel-perfect@09d99455b901)
+    com.unity.2d.psdimporter@12.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.psdimporter@9abe0f7cac7e)
+    com.unity.2d.spriteshape@13.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.spriteshape@0738bab11647)
+    com.unity.2d.aseprite@3.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.aseprite@809e3a168ff7)
+    com.unity.2d.tooling@1.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tooling@127d960d4dc1)
+    com.unity.services.analytics@6.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
+    com.unity.profiling.core@1.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.profiling.core@8a49f7027d06)
+    com.unity.scriptablebuildpipeline@2.6.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.scriptablebuildpipeline@36e3b5898ee2)
+    com.unity.services.cloud-diagnostics@1.0.12 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.cloud-diagnostics@d0dda3e9b17e)
+    com.unity.services.levelplay@9.2.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.services.levelplay@2d2a5e1fe9e9)
+    com.unity.purchasing@5.0.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.purchasing@015b4cec2127)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.4 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.searcher@d45a78918735)
+    com.unity.burst@1.8.29 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.burst@6bb9aca3ef38)
+    com.unity.mathematics@1.3.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
+    com.unity.collections@2.6.5 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.collections@12999e356c23)
+    com.unity.2d.common@12.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.common@2af7c9b44b5c)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.4.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.test-framework.performance@aa81a99c4a75)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.sprite@d14b9d497a24)
+    com.unity.2d.tilemap@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.2d.tilemap@43eb9b2da17d)
+    com.unity.feature.2d@2.0.2 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.feature.2d@0309d34ea7f2)
+    com.unity.multiplayer.center@1.0.1 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.render-pipelines.universal@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.universal@3b809f23691d)
+    com.unity.test-framework@1.6.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.test-framework@aebcb98460c6)
+    com.unity.ugui@2.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ugui@8ccc29d23a79)
+    com.unity.modules.accessibility@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
+    com.unity.render-pipelines.core@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.core@02dfbe8e43de)
+    com.unity.shadergraph@17.3.0 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.shadergraph@28ee1cc75774)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
+  Git packages:
+    com.boxqkrtm.ide.cursor@https://github.com/boxqkrtm/com.unity.ide.cursor.git (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.boxqkrtm.ide.cursor@53e1baac3cde)
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a)
+    com.ninemood.services@ssh://git@github.com/kwrain/NineMood.Services.git (location: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Library/PackageCache/com.ninemood.services@f78dd7921baf)
+[Package Manager] com.unity.services.cloud-diagnostics is deprecated: Attention: Cloud Diagnostics is deprecated, and will be phased out in future versions of Unity. For more robust reports and device information, including information on Application Not Responding (ANR) errors for Android, use the diagnostics (https://docs.unity.com/en/us/cloud/developer-data/diagnostics) experience available in Unity 6.2 and later.
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-e3581c700b0e6612c8018d106fe8ca26
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 114.7077ms
+Starting: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aEDbg.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 0s653ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/200b0aEDbg-inputdata.json
+*** Tundra requires additional run (0.62 seconds), 0 items updated, 2 evaluated
+Starting: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/netcorerun/netcorerun "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/BuildPipeline/ScriptCompilationBuildProgram.exe" "Library/Bee/200b0aEDbg.dag.json" "Library/Bee/200b0aEDbg-inputdata.json" "Library/Bee/buildprogram0.traceevents"
+WorkingDir: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+ExitCode: 0 Duration: 2s7ms
+Starting: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aEDbg.dag" --continue-on-failure --dagfilejson="Library/Bee/200b0aEDbg.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly unityeditor.ios.extensions.xcode has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll"
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@6bb9aca3ef38/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 22.3472ms
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp.dll, with 135 defines and 380 references
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with Library/Bee/artifacts/200b0aEDbg.dag/Unity.Collections.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/UnityEditor.CoreModule.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/UnityEngine.CoreModule.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@6bb9aca3ef38/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc - - 200 - application/grpc 544.3975ms
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp-Editor.dll, with 133 defines and 409 references
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly application/grpc - - 200 - application/grpc 69.3195ms
+ExitCode: 0 Duration: 4s828ms
+Finished compiling graph: 1568 nodes, 35824 flattened edges (29372 ToBuild, 286 ToUse), maximum node priority 1853
+[ 731/1565  0s] WriteText Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp.rsp
+[ 742/1565  0s] WriteText Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp-Editor.rsp
+[1151/1565  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1557/1565  3s] Csc Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp.dll (+2 others)
+[1558/1565  0s] ILPostProcess Library/Bee/artifacts/200b0aEDbg.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp.dll, with 135 defines and 380 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1559/1565  0s] Csc Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets/Editor/NyanLinkTestSceneSetup.cs(263,39): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+[1560/1565  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[1561/1565  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[1562/1565  0s] ILPostProcess Library/Bee/artifacts/200b0aEDbg.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aEDbg.dag/Assembly-CSharp-Editor.dll, with 133 defines and 409 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1563/1565  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[1564/1565  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (4.80 seconds), 11 items updated, 1565 evaluated
+Assets/Editor/NyanLinkTestSceneSetup.cs(263,39): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+AssetDatabase: script compilation time: 10.352424s
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  1.314 seconds
+Start importing ProjectSettings/UnityConnectSettings.asset using Guid(0000000000000000a100000000000000) (LibraryAssetImporter) -> (artifact id: '8277d23a0264aed63c0c1f77e8749aad') in 0.052343 seconds
+Start importing Assets/Resources/Art/PixelUI using Guid(43fe9433252845f29abdf7b2d4d3e597) (DefaultImporter) -> (artifact id: 'fb42c81733416f98b5d0f465e118a51c') in 0.002317167 seconds
+Refreshing native plugins compatible for Editor in 36.21 ms, found 4 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 4.83 ms, found 4 plugins.
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  6.674 seconds
+Domain Reload Profiling: 7991ms
+	BeginReloadAssembly (348ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (25ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (161ms)
+	RebuildCommonClasses (36ms)
+	RebuildNativeTypeToScriptingClass (18ms)
+	initialDomainReloadingComplete (37ms)
+	LoadAllAssembliesAndSetupDomain (875ms)
+		LoadAssemblies (659ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (331ms)
+			TypeCache.Refresh (231ms)
+				TypeCache.ScanAssembly (201ms)
+			BuildScriptInfoCaches (85ms)
+			ResolveRequiredComponents (10ms)
+	FinalizeReload (6677ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (6512ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (442ms)
+			SetLoadedEditorAssemblies (6ms)
+			BeforeProcessingInitializeOnLoad (252ms)
+			ProcessInitializeOnLoadAttributes (5662ms)
+			ProcessInitializeOnLoadMethodAttributes (149ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (13ms)
+Start importing Assets/Resources/Art/PixelUI/panels.png using Guid(122f5cc38f834478abb93c2258d73a8d) (TextureImporter) -> (artifact id: '9018fe91881321aa9546683dfb8bec74') in 0.201321875 seconds
+Start importing Assets/Resources/Art/PixelUI/meters.png using Guid(93a3c6bf8f5a467b88f87c85133ced32) (TextureImporter) -> (artifact id: '25d59a85767ac7a7b80faf8a10db9cd2') in 0.147172125 seconds
+Start importing Assets/Resources/Art/PixelUI/icons.png using Guid(0794f9bb872f404a892ec3489d545573) (TextureImporter) -> (artifact id: 'd5e192fa793879ea236b876a982c182c') in 0.114947542 seconds
+Start importing Assets/Resources/Art/PixelUI/buttons.png using Guid(1fcb3cfbd8b14ed1affff14bcddafa0f) (TextureImporter) -> (artifact id: '8ad071f5e78dd2bb278efdd6b23b4c03') in 0.175418916 seconds
+Refreshing native plugins compatible for Editor in 54.89 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=0e1c4b171a8e94afa9fb02f113ed46e5): Total: 25.826 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=6 (actual=6, local cache=0, cache server=0)
+		Asset DB Process Time: managed=21 ms, native=12043 ms
+		Asset DB Callback time: managed=1835 ms, native=134 ms
+		Scripting: domain reloads=1, domain reload time=1316 ms, compile time=10356 ms, other=118 ms
+		Project Asset Count: scripts=2243, non-scripts=3643
+		Asset File Changes: new=9, changed=13, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 25.352ms
+	ApplyChangesToAssetFolders: 0.826ms
+	Scan: 3031.465ms
+	OnSourceAssetsModified: 1.077ms
+	CategorizeAssetsWithTransientArtifact: 133.418ms
+	ProcessAssetsWithTransientArtifactChanges: 88.047ms
+	CategorizeAssets: 314.410ms
+	ImportOutOfDateAssets: 7451.522ms (-3625.022ms without children)
+		ImportManagerImport: 713.519ms (4.502ms without children)
+			ImportInProcess: 708.870ms
+			UpdateCategorizedAssets: 0.147ms
+		CompileScripts: 10356.219ms
+		ReloadNativeAssets: 0.001ms
+		UnloadImportedAssets: 4.035ms
+		ReloadImportedAssets: 0.001ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.317ms
+		InitializingProgressBar: 0.012ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 1.439ms
+	PostProcessAllAssets: 1844.152ms
+	Hotreload: 105.017ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
+	UnloadStreamsBegin: 4.095ms
+	PersistCurrentRevisions: 0.314ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 4.549ms
+	Untracked: 12826.448ms
+
+Application.AssetDatabase Initial Refresh End
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.39 seconds
+Scanning for USB devices : 1.448ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-NyanLink
+Cannot add menu item 'Assets/Create/NyanLink/Data/Balance' for method 'RuntimeMethodInfo.CreateBalanceData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Boss Battle Config' for method 'RuntimeMethodInfo.CreateBossBattleConfig' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Character' for method 'RuntimeMethodInfo.CreateCharacterData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Color Effect Mapping' for method 'RuntimeMethodInfo.CreateColorEffectMappingData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Equipment' for method 'RuntimeMethodInfo.CreateEquipmentData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Grid Shape' for method 'RuntimeMethodInfo.CreateGridShapeData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Line Visual Effect' for method 'RuntimeMethodInfo.CreateLineVisualEffectConfig' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Loot Table' for method 'RuntimeMethodInfo.CreateLootTableData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Stage' for method 'RuntimeMethodInfo.CreateStageData' because a menu item with the same name already exists.
+Cannot add menu item 'Assets/Create/NyanLink/Data/Tile Effect' for method 'RuntimeMethodInfo.CreateTileEffectData' because a menu item with the same name already exists.
+2026-11-16 09:34:15.127 Unity[33086:9514227] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7b23ad1a40 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 130 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 9699 unused Assets / (2.4 MB). Loaded Objects now: 10469.
+Memory consumption went from 284.8 MB to 282.4 MB.
+Total: 66.272709 ms (FindLiveObjects: 5.744458 ms CreateObjectMapping: 4.013417 ms MarkObjects: 50.017541 ms  DeleteObjects: 6.409750 ms)
+
+2026-11-16 09:34:15.426 Unity[33086:9514227] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7b23aca4e0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Start importing Assets/Resources/Art/PixelUI/buttons.png using Guid(1fcb3cfbd8b14ed1affff14bcddafa0f) (TextureImporter) -> (artifact id: '5995d6563136f82f9ccdda832c66373d') in 0.094107917 seconds
+Refreshing native plugins compatible for Editor in 6.83 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b46372456e73f466dac9573ccc6144c8): Total: 0.680 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=3 ms, native=270 ms
+		Asset DB Callback time: managed=388 ms, native=16 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2243, non-scripts=3643
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 5
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.000ms
+	ApplyChangesToAssetFolders: 0.461ms
+	Scan: 33.241ms
+	OnSourceAssetsModified: 0.990ms
+	CategorizeAssetsWithTransientArtifact: 0.035ms
+	ProcessAssetsWithTransientArtifactChanges: 0.634ms
+	CategorizeAssets: 90.769ms
+	ImportOutOfDateAssets: 98.739ms (0.607ms without children)
+		ImportManagerImport: 96.279ms (0.829ms without children)
+			ImportInProcess: 95.425ms
+			UpdateCategorizedAssets: 0.026ms
+		ReloadNativeAssets: 0.034ms
+		UnloadImportedAssets: 0.159ms
+		ReloadImportedAssets: 0.257ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.060ms
+		InitializingProgressBar: 0.008ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.334ms
+	PostProcessAllAssets: 395.751ms
+	Hotreload: 8.890ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.910ms
+	UnloadStreamsBegin: 0.035ms
+	PersistCurrentRevisions: 0.538ms
+	UnloadStreamsEnd: 0.001ms
+	Untracked: 49.468ms
+
+Start importing Assets/Resources/Art/PixelUI/buttons.png using Guid(1fcb3cfbd8b14ed1affff14bcddafa0f) (TextureImporter) -> (artifact id: 'e4c26c48b087db1f6819806352658179') in 0.069106667 seconds
+Refreshing native plugins compatible for Editor in 13.13 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=fca48cf945af14dfda05cd8416e76152): Total: 0.229 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Resources/Art/PixelUI/panels.png using Guid(122f5cc38f834478abb93c2258d73a8d) (TextureImporter) -> (artifact id: '41e7206b33ca10e64f78d34a943db6f0') in 0.066008333 seconds
+Refreshing native plugins compatible for Editor in 8.28 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a9af2b31b4cd44358b192bb02dca1ff2): Total: 1.148 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=118 ms
+		Asset DB Callback time: managed=1000 ms, native=29 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2243, non-scripts=3643
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 5
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.000ms
+	ApplyChangesToAssetFolders: 0.176ms
+	Scan: 12.328ms
+	OnSourceAssetsModified: 9.564ms
+	CategorizeAssetsWithTransientArtifact: 0.025ms
+	ProcessAssetsWithTransientArtifactChanges: 0.062ms
+	CategorizeAssets: 29.779ms
+	ImportOutOfDateAssets: 71.540ms (0.023ms without children)
+		ImportManagerImport: 68.655ms (1.458ms without children)
+			ImportInProcess: 67.162ms
+			UpdateCategorizedAssets: 0.035ms
+		ReloadNativeAssets: 0.046ms
+		UnloadImportedAssets: 0.247ms
+		ReloadImportedAssets: 0.485ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.277ms
+		InitializingProgressBar: 0.006ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 0.801ms
+	PostProcessAllAssets: 1007.186ms
+	Hotreload: 12.473ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.432ms
+	UnloadStreamsBegin: 0.022ms
+	PersistCurrentRevisions: 0.230ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 4.500ms
+
+Start importing Assets/Resources/Art/PixelUI/panels.png using Guid(122f5cc38f834478abb93c2258d73a8d) (TextureImporter) -> (artifact id: '760e15fed029f713ff2758f22721960b') in 0.063682667 seconds
+Refreshing native plugins compatible for Editor in 13.23 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c59b301019005453fbdf2b68d2b9d740): Total: 0.255 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Resources/Art/PixelUI/meters.png using Guid(93a3c6bf8f5a467b88f87c85133ced32) (TextureImporter) -> (artifact id: '60bee0f29f918dd8d82e4637b0015d50') in 0.079795625 seconds
+Refreshing native plugins compatible for Editor in 11.79 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c2783fef8476548cb875ed13f738824a): Total: 0.570 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=6 ms, native=119 ms
+		Asset DB Callback time: managed=424 ms, native=19 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2243, non-scripts=3643
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 5
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.398ms
+	Scan: 10.762ms
+	OnSourceAssetsModified: 0.097ms
+	CategorizeAssetsWithTransientArtifact: 0.024ms
+	ProcessAssetsWithTransientArtifactChanges: 0.066ms
+	CategorizeAssets: 24.874ms
+	ImportOutOfDateAssets: 82.117ms (0.163ms without children)
+		ImportManagerImport: 80.603ms (0.485ms without children)
+			ImportInProcess: 80.099ms
+			UpdateCategorizedAssets: 0.019ms
+		ReloadNativeAssets: 0.032ms
+		UnloadImportedAssets: 0.178ms
+		ReloadImportedAssets: 0.159ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.647ms
+		InitializingProgressBar: 0.007ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 0.327ms
+	PostProcessAllAssets: 430.475ms
+	Hotreload: 13.625ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.353ms
+	UnloadStreamsBegin: 0.017ms
+	PersistCurrentRevisions: 0.226ms
+	UnloadStreamsEnd: 0.001ms
+	Untracked: 6.980ms
+
+Start importing Assets/Resources/Art/PixelUI/meters.png using Guid(93a3c6bf8f5a467b88f87c85133ced32) (TextureImporter) -> (artifact id: '713247f9d6e26f3ec490973f1323e61f') in 0.049030333 seconds
+Refreshing native plugins compatible for Editor in 5.67 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=cb4c2020f98c14362921896262036f8f): Total: 0.100 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Resources/Art/PixelUI/icons.png using Guid(0794f9bb872f404a892ec3489d545573) (TextureImporter) -> (artifact id: '78d56afd3e4b38c5094165b7abe6a047') in 0.055451958 seconds
+Refreshing native plugins compatible for Editor in 5.96 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c05ba362f684e4e909a2ea20e5d0cb8b): Total: 0.387 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=102 ms
+		Asset DB Callback time: managed=275 ms, native=7 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2243, non-scripts=3643
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 5
+	InvokeCustomDependenciesCallbacks: 0.000ms
+	InvokePackagesCallback: 0.000ms
+	ApplyChangesToAssetFolders: 0.270ms
+	Scan: 12.888ms
+	OnSourceAssetsModified: 0.049ms
+	CategorizeAssetsWithTransientArtifact: 0.018ms
+	ProcessAssetsWithTransientArtifactChanges: 0.081ms
+	CategorizeAssets: 22.099ms
+	ImportOutOfDateAssets: 59.057ms (0.278ms without children)
+		ImportManagerImport: 56.859ms (0.465ms without children)
+			ImportInProcess: 56.373ms
+			UpdateCategorizedAssets: 0.021ms
+		ReloadNativeAssets: 0.038ms
+		UnloadImportedAssets: 0.194ms
+		ReloadImportedAssets: 0.153ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.168ms
+		InitializingProgressBar: 0.005ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 0.361ms
+	PostProcessAllAssets: 275.998ms
+	Hotreload: 7.289ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.203ms
+	UnloadStreamsBegin: 0.014ms
+	PersistCurrentRevisions: 0.210ms
+	UnloadStreamsEnd: 0.001ms
+	Untracked: 8.474ms
+
+Start importing Assets/Resources/Art/PixelUI/icons.png using Guid(0794f9bb872f404a892ec3489d545573) (TextureImporter) -> (artifact id: '8f7d965dc7a36729af856d254e5ee5df') in 0.053319292 seconds
+Refreshing native plugins compatible for Editor in 6.19 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7fe63687ded704a2c86f421ce445537b): Total: 0.112 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Resources/Art/PixelUI/catalog.json using Guid(67e14db29e6a34aa0b2c81268644431a) (TextScriptImporter) -> (artifact id: 'b01069a5c31ca42c4dd6ff5ce427076d') in 0.003571834 seconds
+Refreshing native plugins compatible for Editor in 6.97 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e9cc058a26bed4a2a88e04e417af6c00): Total: 0.195 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Pixel UI catalog: 18 sprites. Readable CPU copies disabled.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+NyanLinkPixelUIPipeline:Prepare () (at Assets/Editor/NyanLinkPixelUIPipeline.cs:20)
+
+(Filename: Assets/Editor/NyanLinkPixelUIPipeline.cs Line: 20)
+
+Batchmode quit successfully invoked - shutting down!
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: No process found listening on port 8080
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+MCPForUnity.Editor.Helpers.McpLog:Info (string,bool) (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Helpers/McpLog.cs:40)
+MCPForUnity.Editor.Services.ServerManagementService:StopLocalHttpServerInternal (bool,System.Nullable`1<int>,bool) (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/ServerManagementService.cs:650)
+MCPForUnity.Editor.Services.ServerManagementService:StopLocalHttpServer () (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/ServerManagementService.cs:340)
+MCPForUnity.Editor.Services.McpEditorShutdownCleanup:OnEditorQuitting () (at ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Services/McpEditorShutdownCleanup.cs:60)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+
+(Filename: ./Library/PackageCache/com.coplaydev.unity-mcp@dc802eabc19a/Editor/Helpers/McpLog.cs Line: 40)
+
+Killing ADB server in 0.482207 seconds.
+Thread 0x7025853000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kiwoolee-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kiwoolee channel disconnected successfully.
+Thread 0x16faaf000 may have been prematurely finalized
+Thread 0x16fbc7000 may have been prematurely finalized
+Thread 0x16fd6b000 may have been prematurely finalized
+Thread 0x16fb3b000 may have been prematurely finalized
+Thread 0x16fcdf000 may have been prematurely finalized
+Thread 0x16fc53000 may have been prematurely finalized
+Thread 0x16fdf7000 may have been prematurely finalized
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      ALC ILPP context 1 is unloading
+debugger-agent: Unable to listen on 44
+[usbmuxd] Stop listen thread
+[usbmuxd] Error: 
+[usbmuxd] Listen thread exiting
+Exiting batchmode successfully now!
+[Package Manager] Server process was shutdown

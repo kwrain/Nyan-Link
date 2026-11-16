@@ -402,6 +402,33 @@ public static class NyanLinkSession08Validation
         Assert(AudioManager.Instance.GetComponents<AudioSource>()[0].isPlaying,"SFX playback source active");
         Pass("Three portrait sizes, simulated notch/home insets,40:60 logical split, safe controls and board");
     }
+    static IEnumerator PixelUICases()
+    {
+        yield return .2f;
+        var ids=new[]{"button-blue","button-mint","button-gold","button-red","panel-modal","panel-card","panel-slot","panel-reward","meter-frame","meter-hp","meter-progress","meter-boss","icon-heart","icon-coin","icon-hat","icon-outfit","icon-weapon","icon-unknown"};
+        foreach(var id in ids)
+        {
+            var sprite=NineMood.Presentation.PixelUIResources.Get(id);
+            Assert(sprite!=null && !sprite.texture.isReadable && sprite.texture.filterMode==FilterMode.Point,"Pixel UI resource and import: "+id);
+            if(id.StartsWith("panel") || id.StartsWith("button"))Assert(sprite.border.x>0 && sprite.border.x*2<sprite.rect.width,"Scalable pixel frame: "+id);
+        }
+        foreach(var button in Object.FindObjectsByType<Button>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+        {
+            var image=button.targetGraphic as Image;
+            Assert(image!=null && image.sprite!=null && image.sprite.name.StartsWith("PixelUI_"),"Existing button uses generated UI sprite: "+button.name);
+            Assert(button.colors.pressedColor!=button.colors.normalColor && button.colors.disabledColor!=button.colors.normalColor,"Pressed and disabled feedback: "+button.name);
+        }
+        foreach(var image in Object.FindObjectsByType<Image>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(i=>i.name.StartsWith("Pixel ")))
+            Assert(!image.raycastTarget,"Decorative graphic cannot intercept input: "+image.name);
+        var health=Object.FindObjectsByType<Slider>(FindObjectsInactive.Include,FindObjectsSortMode.None).Single(s=>s.name=="Slider_Stamina");
+        Assert(health.fillRect.GetComponent<Image>().sprite.name=="PixelUI_meter-hp","Existing HP binding has new fill");
+        float hp=StaminaManager.Instance.CurrentStamina,elapsed=StaminaManager.Instance.ElapsedRunnerTime;
+        StaminaManager.Instance.TakeDamage(20);Near(health.value,StaminaManager.Instance.CurrentStamina,"HP fill follows actual damage");
+        Near(health.fillRect.anchorMax.x,health.normalizedValue,"HP visual amount matches normalized authoritative slider");
+        StaminaManager.Instance.RestoreStamina(hp,elapsed);
+        Capture("ui-02-hud.png");yield return .15f;
+        Pass("18 pixel UI resources, sliced frames, existing button feedback, nonblocking decorations, live HP binding");
+    }
     static IEnumerator ArtCases()
     {
         foreach(var cell in board.GetAllTileOffsets())
@@ -469,6 +496,12 @@ public static class NyanLinkSession08Validation
             Pass("Cold Unity restart: all checkpoint fields and item identity exact, permanent record intact, actual UI restart progress-only");Pass(assertions+" cold Play assertions");yield break;
         }
         Capture("00-main.png");yield return .15f;
+        if(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1")
+        {
+            var mainGear=Object.FindFirstObjectByType<EquipmentPanel>();
+            yield return Click(mainGear.OpenButton);yield return .2f;
+            Capture("ui-01-main-equipment.png");yield return .1f;yield return Click(mainGear.CloseButton);
+        }
         StorageCases();
         // Legacy format lacks board/effects, so it is deliberately retained rather than guessed.
         Directory.CreateDirectory(SaveManager.StorageDirectory);string legacyPath=Path.Combine(SaveManager.StorageDirectory,"checkpoint_prototype-stage-01.json");
@@ -478,6 +511,7 @@ public static class NyanLinkSession08Validation
         Assert(save.TryUpdatePermanent(p=>{p.coins=321;p.equipment.Add(new EquipmentRecord{instanceId="test-weapon",dataId="test-weapon-data",level=2,equippedSlot=2});}),"Permanent transaction seed");
         yield return LayoutCases();
         if(Environment.GetEnvironmentVariable("NYANLINK_CONCEPT_QA")=="1")yield return ArtCases();
+        if(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1")yield return PixelUICases();
         holdSave=true;
         int count=saves;
         yield return Approach();Time.timeScale=1f;
@@ -504,7 +538,7 @@ public static class NyanLinkSession08Validation
         yield return Reload(runnerCp,"02-continue-choice.png");Capture("03-runner-restored.png");yield return .1f;
         // Pause is memory resume, not disk restore.
         Time.timeScale=1f;yield return Drag(TileColor.Red);string changed=Tiles(save.Capture(runnerCp.boundary).board);int restoresBefore=restores;
-        yield return PauseSnapshot(null);Assert(Tiles(save.Capture(runnerCp.boundary).board)==changed && restores==restoresBefore,"Pause does not reload checkpoint");
+        yield return PauseSnapshot(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1" ? "ui-03-pause.png":null);Assert(Tiles(save.Capture(runnerCp.boundary).board)==changed && restores==restoresBefore,"Pause does not reload checkpoint");
         yield return Reload(runnerCp);Time.timeScale=1f;
         yield return Approach();count=saves;yield return Wait(()=>saves>count,"Failure boundary saved");var retryCp=SaveStore.Clone(last);
         Assert(retryCp.boundary==CheckpointBoundary.ObstacleRetry && retryCp.retryRemaining>0 && retryCp.obstacleIndex==1,"Failure checkpoint retains same obstacle and remaining retry");

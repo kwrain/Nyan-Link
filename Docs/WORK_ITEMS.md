@@ -42,8 +42,9 @@
 ## 미해결
 
 ### I-009 — Mac Development Player 종료 시 렌더 자원 정리 경고
+- 2026-11-16 최근 확인: 픽셀UI Native20 checks/종료0 뒤 동일 ComputeBuffer/Development메모리 진단 재현. UI 작업으로 해결 처리하지 않음. 근거 2026-11-16-ui/player.log, V-017.
 - 2026-11-14 최근 확인: 새 아트 Native17 checks·실행 중 오류0/종료0 뒤 ComputeBuffer 자동정리 및 Development MemoryLeaks 경고 재현. 원인 미확정/기존 증상 유지. 이번 표현 변경에 원인을 단정하지 않고 URP·패키지 수명 추적 필요, 불필요한 패키지 제거/경고 억제 안 함. 근거 output/playtests/2026-11-14-art-audio/player.log, V-016.
-- 등록일: 2026-11-13 / 최근 확인일: 2026-11-14. 관련: URP/Native Player 종료, output/playtests/2026-11-13-session08/player.log.
+- 등록일: 2026-11-13 / 최근 확인일: 2026-11-16. 관련: URP/Native Player 종료, output/playtests/2026-11-13-session08/player.log.
 - 증상: 종료0 및 Main/입력/리필/저장 smoke 성공 뒤 프로세스 정리에서 ComputeBuffer 자동해제 경고/Development 메모리 진단 출력. 실행 중 프레임 누수나 게임 데이터 손상을 확인한 것은 아님.
 - 재현: Session08Build.Build→Development Player -nyanSmoke 실행→Application.Quit. 종료 로그 말미.
 - 이번 최초 Player 검사에서 확인했으며 세션08 변경으로 새로 발생했다고 단정하지 않음.
@@ -53,6 +54,7 @@
 ## 실기기 테스트 필요
 
 ### D-001 — Android/iOS 세로 화면과 입력
+- 2026-11-16 최근 확인: 픽셀 버튼/게이지/팝업/장비창·아이콘·긴목록 클리핑 적용(V-017). Mac CLI 가상Mouse/모의노치와 Native540×960 확인, 실제 터치검사 아님. 기기에서 눌림/비활성·6색선택·13개 이상 장비 스크롤·노치경계·작은글자·픽셀 리소스 메모리/성능 확인. Unity모바일모듈 없어 대기 유지.
 - 2026-11-14 최근 확인: 새 고양이/보스/장애물·6색 심볼/아이템 링·배경/로고 및 BGM2/SFX8도 대상에 추가. Mac Editor3해상도/모의 노치·Native540×960은 V-016에서 확인, 실제 모바일 검증 아님. 기기에서 글·심볼·색 선택·손가락 가림/장애물 가독성·고해상도 텍스처 메모리·음량/무음/앱 전환 확인 필요. 관련 Presentation/, Art/ConceptPixel, Audio/ConceptPixel, V-012.
 - 관련: Main/Game 씬, New Input System, TileInputHandler, DualCameraRig, TMP, PlayerSettings.
 - 대상: Android 및 iOS 실제 터치 기기, 노치·홈 바 기기, 9:16 및 더 긴 화면.
@@ -79,6 +81,19 @@
 
 ## 완료 이력
 
+### V-017 — 픽셀 UI 리소스·기존 기능 유지 검증
+- 등록일·최근 확인일·수행일: 2026-11-16. 기준 e883693, 로컬 커밋 메시지 feat: replace prototype UI with generated pixel art assets, 미푸시.
+- 관련: Presentation/PixelUIResources·PixelUISkin·PixelUIPresentation, Editor/PixelUIPipeline, EquipmentPanel/PrototypePresentation/ConceptPixelPresentation, Art/PixelUI PNG4·catalog18, Session07/08Validation 및 PrototypePlayerSmoke.
+- 적용: AI 생성 버튼4/패널4/게이지4/아이콘6. Main·준비·HP/진행/보스바·점수/아이템배지·경고·Pause/색선택·승패 결과·장비 창/행·아이콘.9-slice/Point/CPU텍스처복사없음, 동적 TMP문구/기존UGUI·리스너·Slider값 유지. 장식 raycast없음, 비활성/눌림색 구분. 색 선택은6색 심볼·색 이름/선택값 유지.
+- 장비: 기존 ScrollRect/비용/슬롯/레벨·잠금/보상 계약 보존. 행 생성 뒤 표현만 연결, 미등록 장비 이름/기존 레코드 보존·방패 대체아이콘. viewport는 원래Mask를 삭제 없이 런타임 비활성화하고 RectMask2D로 장식 알파와 독립적인 사각형 클리핑. 동일 Sprite/색/형제순서 갱신 생략해 불필요 mesh dirty 방지.
+- 환경/결과: Unity6000.3.14f1 Mac Editor CLI 통합896/독립Cold64/아이템322 통과·각 종료0·게임 경로 오류0. 실제20피해→HP Slider값·채움 일치,3세로해상도/모의노치/실제UI 포인터/기존 저장·전투·보상중복/성장 연결.
+- 최종 장비204 checks 종료0·오류0: 실제 장착·해제/Lv5/비용/재도전 HP135·공격1.1/잠금,13개 격리 목록 Mouse wheel·비활성 버튼 저장불변·실제 눌림·창 밖release 취소, 임시10개 제거 후 원래 테스트3개/능력치 복원.4단계 원본PNG 제목 흰픽셀4978 동일.
+- Native: 최종 Mac Development 빌드성공/오류0/기존UGS경고1,실행20 checks/종료0. 실제540×960 픽셀 장비창/팝업/HP바/Mouse 쌍·20점·리필/격리저장/BGM전환·정지/재개. actualPNG5장. 빌드는 로컬 Builds/PixelUI로 배포/커밋 안 함.
+- 검사 이력: 동적 목록 배치 전 포인터좌표 읽기 실패→Canvas.ForceUpdateCanvases 후 sampling/raycast보강. LateUpdate의 CaptureScreenshotAsTexture 검사도구 오류→비동기 실제PNG 완료 후 읽기로 수정. 미리보기 제목 누락 추정은 이전/최종6PNG 독립디코드에서 모두4978픽셀로 정상 확인하여 정정, 실제 제목 누락을 고쳤다고 기록하지 않음.
+- 보호: 시작 작업트리깨끗함/외부앱파일9개SHA 백업·재확인/원래saves부재유지/.meta302중복0. 기존씬·GUID·패키지/저장schema·규칙서명·수치/보류기능 불변. Unity자동Cloud설정diff보존 후복원. 검사는 별도폴더/입력·최고점·GameView복원.
+- 근거: output/playtests/2026-11-16-ui/{play-results.txt,cold-results.txt,regression-session05/,regression-session07/,build-results.txt,player/,final-protection-audit.json,SCREENSHOTS.txt}, UI-ART-01-HANDOFF.txt. 생성프롬프트/에셋SHA output/art/2026-11-16-ui/.
+- 한계: 통합896/Cold64/아이템322는 최초연결 버전, 이후 장비 클리핑/중복갱신 변경은 장비204와 최종Native20에서 재확인. 실제청취V-012/한국어폰트V-013/사람무보정V-002/새캐시·모바일V-001/실기기D-001·D-002/종료경고I-009 유지.
+
 ### V-016 — 콘셉트 픽셀 아트·새 음악 실제 연결 검증
 - 등록일·최근 확인일·수행일: 2026-11-14. 기준35bdffc, 로컬 커밋 메시지 feat: apply concept pixel art and original chiptune audio.
 - 관련: Presentation/{ConceptArtLibrary,ConceptPixelPresentation,PixelRunnerAnimator,PixelButtonAudio}, PuzzleBoardManager/AudioManager/PrototypePresentation, Art/ConceptPixel PNG6·catalog17, Audio/ConceptPixel WAV10, ConceptArtPipeline/Session02·05·07·08 검사/PlayerSmoke.
@@ -90,7 +105,7 @@
 - 초기 도구 실패: TextureImporter 기본Cube→명시Texture2D, Play도중 도구재시작→검사중reload잠금, 복원직후 표식검사→모델즉시검사 유지/표식LateUpdate 대기. 최종 검증 성공. 실패와 이전 HUD 화면도 접두사/하위폴더로 보존.
 - 보호: 시작 시 원래 saves 없음, 외부 백업13개SHA 재확인/게임저장 부재 유지, 검사 격리/최고점·입력·GameView 복원. 빌드 자동 ProjectSettings/InputSystem/Cloud 변경 patch보존 후 원복. 기존 테스트 결과 덮어쓰기 없음.
 - 근거: output/playtests/2026-11-14-art-audio/play-results.txt·cold-results.txt·regression-exits.json·build-results.txt·static-audit.json·final-protection-audit.json, player/results.txt 및 PNG/로그, Docs/Development/ART-AUDIO-01-HANDOFF.txt.
-- 남은 범위: V-001 새캐시/모바일, V-002 사람 무보정 완주/밸런스, V-012 실제 청취, V-013 한국어폰트, D-001/D-002 실기기. 추가 장비 아이콘·장착 외형·음량 설정/확장 애니메이션은 후속 범위이며 최종 출시 아트 전체 완료를 의미하지 않음.
+- 남은 범위: V-001 새캐시/모바일, V-002 사람 무보정 완주/밸런스, V-012 실제 청취, V-013 한국어폰트, D-001/D-002 실기기. 장비 아이콘·UI 프레임은 2026-11-16 V-017에서 적용. 장착 외형·음량 설정/확장 애니메이션은 후속 범위이며 최종 출시 아트 전체 완료를 의미하지 않음.
 
 ### I-003 — 프로토타입 활성 화면 가독성 정비 완료
 - 등록일·최근 확인일·수행일: 2026-11-13. 관련: PrototypePresentation/SafeArea, DualCameraRig, 기존 UGUI HUD/메뉴, ItemTileLabels.

@@ -60,6 +60,13 @@ namespace NineMood.UI
             Check(SceneManager.GetActiveScene().name=="Main","Native Mac Player starts Main");
             Check(AudioManager.Instance.sfxMatchShort!=null,"Player includes sound resources");
             ScreenCapture.CaptureScreenshot(Path.Combine(output,"01-main.png"));yield return new WaitForSecondsRealtime(.2f);
+            if(NineMood.Presentation.PixelUISkin.Available)
+            {
+                var gear=FindFirstObjectByType<EquipmentPanel>();gear.Open();yield return new WaitForSecondsRealtime(.2f);
+                Check(gear.IsOpen && gear.CloseButton.image.sprite.name.StartsWith("PixelUI_"),"Native equipment window includes pixel UI resources");
+                ScreenCapture.CaptureScreenshot(Path.Combine(output,"ui-01-equipment.png"));yield return new WaitForSecondsRealtime(.2f);
+                gear.CloseButton.onClick.Invoke();
+            }
             SceneLoader.LoadGame();yield return new WaitForSecondsRealtime(2);
             var board=FindFirstObjectByType<PuzzleBoardManager>();Check(board!=null && board.GetTileCount()==39,"Player serialized tile references render39 cells");
             GameManager.Instance.StartGame();yield return new WaitForSecondsRealtime(.2f);
@@ -76,6 +83,14 @@ namespace NineMood.UI
             else passed.Add("UNVERIFIED BGM position did not advance; actual audio output requires listening check");
             GameManager.Instance.PauseGame();float pausedMusic=AudioManager.Instance.MusicTime;
             yield return new WaitForSecondsRealtime(.2f);
+            if(NineMood.Presentation.PixelUISkin.Available)
+            {
+                var pause=GameManager.Instance.GetComponent<GamePausePanel>();
+                Check(pause.IsOpen && pause.ResumeButton.image.sprite.name=="PixelUI_button-mint","Native pixel pause popup");
+                var health=FindObjectsByType<UnityEngine.UI.Slider>(FindObjectsSortMode.None).Single(s=>s.name=="Slider_Stamina");
+                Check(health.fillRect.GetComponent<UnityEngine.UI.Image>().sprite.name=="PixelUI_meter-hp","Native pixel HP gauge");
+                ScreenCapture.CaptureScreenshot(Path.Combine(output,"ui-02-paused.png"));yield return new WaitForSecondsRealtime(.2f);
+            }
             Check(!AudioManager.Instance.MusicPlaying && Mathf.Abs(AudioManager.Instance.MusicTime-pausedMusic)<.04f,"Native pause preserves BGM position");
             GameManager.Instance.ResumeGame();yield return new WaitForSecondsRealtime(.1f);
             Check(AudioManager.Instance.MusicPlaying,"Native resume BGM");

@@ -143,6 +143,7 @@ public static class NyanLinkSession07Validation
     static Button Button(Component component,string field) => new SerializedObject(component).FindProperty(field).objectReferenceValue as Button;
     static Vector2 ButtonPoint(Button button)
     {
+        Canvas.ForceUpdateCanvases(); // Runtime-generated inventory rows must finish layout before sampling their coordinates.
         var rect = button.GetComponent<RectTransform>();
         return RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(rect.rect.center));
     }
@@ -155,6 +156,12 @@ public static class NyanLinkSession07Validation
     {
         Assert(button != null && button.isActiveAndEnabled && button.interactable,"Actual UI button available");
         Vector2 point = ButtonPoint(button);
+        if(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1")
+        {
+            var hits=new List<UnityEngine.EventSystems.RaycastResult>();
+            UnityEngine.EventSystems.EventSystem.current.RaycastAll(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){position=point},hits);
+            File.AppendAllText(Path.Combine(Output,"ui-click-probe.txt"),button.name+" @ "+point+" -> "+string.Join(",",hits.Take(5).Select(h=>h.gameObject.name))+"\n");
+        }
         Send(point,true); yield return 0.06f;
         Send(point,false); yield return 0.12f;
     }
@@ -374,7 +381,9 @@ public static class NyanLinkSession07Validation
             // API then fresh UI buttons; inventory supports scrolling for all owned items.
             Assert(ProgressionService.ChangeEquipment(outfit,true) && ProgressionService.ChangeEquipment(weapon,true),"All3 slots equipped");panel.Refresh();
             Near(ProgressionService.Stats().maxHP,135,"HatLv5 +25 and outfitLv1 +10");Near(ProgressionService.Stats().attack,1.1f,"Weapon adds .1 attack coefficient");
-            Capture("03-three-slots-lv5.png");yield return .15f;yield return Click(panel.CloseButton);game.RetryGame();yield return BossEntry();
+            Capture("03-three-slots-lv5.png");yield return .15f;
+            if(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1")yield return PixelInventoryCases(panel);
+            yield return Click(panel.CloseButton);game.RetryGame();yield return BossEntry();
             while(boss.timeAttackPattern.IsRunning) yield return Match(boss.timeAttackPattern.RequiredColor.Value);yield return Wait(()=>boss.IsGroggy,"Geared groggy");
             StaminaManager.Instance.PauseDecay(7);float hp=boss.CurrentHP;yield return Match(TileColor.Red);Near(hp-boss.CurrentHP,4.4f,"Real equipped red attack 2*1.1*2");
             hp=boss.CurrentHP;boss.GrantAttackBuff(.5f);yield return Match(TileColor.Orange);Near(hp-boss.CurrentHP,13.2f,"Real orange with gear and50percent one-shot buff");
@@ -389,6 +398,51 @@ public static class NyanLinkSession07Validation
         }
         var after=Saves();Assert(saveHashes.Count==after.Count && saveHashes.All(p=>after.TryGetValue(p.Key,out var v)&&v==p.Value),"Original user saves byte-identical");
         CheckSubscribers();Pass(assertions+" Play assertions");
+    }
+
+    static IEnumerator CheckHeader(string phase)
+    {
+        string filename="ui-header-"+phase.Replace(" ","-")+".png";
+        string path=Path.GetFullPath(Path.Combine(Output,filename));Capture(filename);yield return .15f;
+        yield return Wait(()=>File.Exists(path) && new FileInfo(path).Length>100,"Rendered UI frame saved");
+        var frame=new Texture2D(2,2);frame.LoadImage(File.ReadAllBytes(path));
+        var pixels=frame.GetPixels32();int count=0;
+        for(int y=(int)(frame.height*.92f);y<(int)(frame.height*.96f);y++)
+            for(int x=(int)(frame.width*.2f);x<(int)(frame.width*.8f);x++)
+            {var c=pixels[y*frame.width+x];if(c.r>200 && c.g>200 && c.b>200)count++;}
+        Object.Destroy(frame);
+        File.AppendAllText(Path.Combine(Output,"ui-render-probe.txt"),phase+" header white pixels="+count+"\n");
+        Assert(count>100,"Equipment title remains rendered: "+phase);
+    }
+    static IEnumerator PixelInventoryCases(EquipmentPanel panel)
+    {
+        string prefix="ui-scroll-fixture-";
+        Assert(save.TryUpdatePermanent(p=>{for(int i=0;i<10;i++)p.equipment.Add(new EquipmentRecord{instanceId=prefix+i,dataId="prototype-hat-01",level=1,equippedSlot=-1});}),"Isolated long inventory fixture");
+        panel.Refresh();yield return .2f;Canvas.ForceUpdateCanvases();
+        var scroll=panel.GetComponentInChildren<ScrollRect>(true);scroll.verticalNormalizedPosition=1;yield return .1f;yield return CheckHeader("before scroll");
+        var rect=scroll.viewport;Vector2 center=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(rect.rect.center));
+        InputSystem.QueueStateEvent(mouse,new MouseState{position=center,scroll=new Vector2(0,-1200)});yield return .3f;
+        Assert(scroll.verticalNormalizedPosition<.9f,"Actual mouse wheel scrolls framed inventory");yield return CheckHeader("scrolled down");
+        Assert(panel.EquipButtons.Count==13 && Profile().equipment.Count==13,"Long list retains every equipment binding");
+        Capture("ui-04-inventory-scroll.png");yield return .1f;
+        InputSystem.QueueStateEvent(mouse,new MouseState{position=center,scroll=new Vector2(0,2000)});yield return .3f;
+        Canvas.ForceUpdateCanvases();
+        var disabled=panel.UpgradeButtons.Values.First(b=>!b.interactable);string bytes=Bytes();
+        Send(ButtonPoint(disabled),true);yield return .1f;Send(ButtonPoint(disabled),false);yield return .15f;
+        Assert(Bytes()==bytes && !disabled.interactable,"Disabled upgrade pointer input cannot charge or mutate save");
+        Assert(disabled.targetGraphic.canvasRenderer.GetColor().r<.8f,"Disabled button has visible dimmed tint");
+        yield return CheckHeader("scrolled up and disabled input");
+        Capture("ui-05-disabled-upgrade.png");yield return .1f;
+        Send(ButtonPoint(panel.CloseButton),true);yield return .15f;
+        Assert(panel.CloseButton.targetGraphic.canvasRenderer.GetColor().r<.8f,"Real pointer down displays pressed tint");
+        yield return CheckHeader("pressed close");
+        Capture("ui-06-pressed-button.png");yield return .1f;
+        Send(new Vector2(-100,-100),false);yield return .15f;Assert(panel.IsOpen,"Release outside cancels button activation");
+        Assert(save.TryUpdatePermanent(p=>p.equipment.RemoveAll(e=>e.instanceId.StartsWith(prefix))),"Remove isolated inventory fixture only");
+        panel.Refresh();yield return .2f;
+        Assert(Profile().equipment.Count==3 && panel.EquipButtons.Count==3,"Original fixture inventory restored");
+        Near(ProgressionService.Stats().maxHP,135,"Scroll and skin preserve equipped stats");
+        Pass("Pixel inventory mouse wheel, disabled save protection, real pressed feedback and release-outside cancellation");
     }
 
     static void Finish(Exception error)

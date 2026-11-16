@@ -1,0 +1,32 @@
+[
+  {
+    "file": "pass01-scroll-stencil-issue/ui-04-inventory-scroll.png",
+    "headerWhitePixels": 4978,
+    "colorType": 2
+  },
+  {
+    "file": "pass01-scroll-stencil-issue/ui-06-pressed-button.png",
+    "headerWhitePixels": 4978,
+    "colorType": 2
+  },
+  {
+    "file": "pass02-rect-clip/ui-04-inventory-scroll.png",
+    "headerWhitePixels": 4978,
+    "colorType": 2
+  },
+  {
+    "file": "pass02-rect-clip/ui-06-pressed-button.png",
+    "headerWhitePixels": 4978,
+    "colorType": 2
+  },
+  {
+    "file": "ui-04-inventory-scroll.png",
+    "headerWhitePixels": 4978,
+    "colorType": 2
+  },
+  {
+    "file": "ui-06-pressed-button.png",
+    "headerWhitePixels": 4978,
+    "colorType": 2
+  }
+]

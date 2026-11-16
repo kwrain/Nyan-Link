@@ -1,0 +1,55 @@
+실제 테스트 스크린샷 — 2026-11-16
+환경: macOS27.2 arm64 / Unity6000.3.14f1. Editor는 CLI 그래픽 Play/격리 저장/가상Mouse, Native는 Mac Development 실제540×960.
+기대=실제 아래 동작 확인. 상세 상태·수치는 각 결과/로그 참조. 사람의 무보정 플레이·모바일 실기기 결과가 아님.
+PNG는 실제 ScreenCapture 출력. 합성·수작업 수정 없음.
+
+00-main.png | Editor Play 1080×1920 | 기대/실제: 로고·도시 배경과 새 픽셀 PLAY/EXIT/EQUIPMENT 버튼·패널
+01-runner-saved.png | Editor Play 1080×1920 | 기대/실제: 장애물 성공 경계 저장과 주행/게이지·아이템 표시
+02-continue-choice.png | Editor Play 1080×1920 | 기대/실제: 이어하기/새 게임·보존 정책의 준비 화면 버튼
+03-runner-restored.png | Editor Play 1080×1920 | 기대/실제: 주행 보드·아이템·효과 복원과 새 HUD
+04-retry-saved.png | Editor Play 1080×1920 | 기대/실제: 실패 후 같은 장애물의 재도전 경계
+05-boss-failure-saved.png | Editor Play 1080×1920 | 기대/실제: 보스 실패 뒤 HP/다음 패턴·새 안내 패널
+06-groggy-saved.png | Editor Play 1080×1920 | 기대/실제: 금색 보스HP·그로기/시간정지 패널과 기존 전투 상태
+07-boss-restored.png | Editor Play 1080×1920 | 기대/실제: 강화 Phase2 보스·저장된HP 복원
+08-cold-continue-ready.png | Editor Play 1080×1920 | 기대/실제: 새 프로세스에서 이어하기 선택과 픽셀 버튼
+09-cold-restored-board.png | Editor Play 1080×1920 | 기대/실제: 39칸·재색칠된 PowerUp2·효과·영구기록의 독립 복원
+10-reward-equipment-upgrade.png | Editor Play 1080×1920 | 기대/실제: 미등록 보존 장비/방패 대체아이콘·모자 장착/Lv2·HP110
+11-obstacle-loss.png | Editor Play 1080×1920 | 기대/실제: 치명 장애물 실패 뒤 결과 프레임·재시작
+12-concept-runner.png | Editor Play 1080×1920 | 기대/실제: 주행 캐릭터·심볼 타일과 기존 아트 유지
+layout-1080x1920.png | Editor Play 1080×1920 | 기대/실제: 기본 세로 화면의 HUD/보드/안전영역
+layout-1284x2778-simulated-notch.png | Editor Play 1284×2778 | 기대/실제: 긴 세로 화면·모의노치/홈여백의 HUD/보드 경계
+layout-720x1280.png | Editor Play 720×1280 | 기대/실제: 작은 세로 화면의 HUD/보드/안전영역
+player/01-main.png | Native Mac Development 540×960 | 기대/실제: 실행파일의 로고/메뉴 픽셀 리소스
+player/02-selected-chain.png | Native Mac Development 540×960 | 기대/실제: 실행파일 실제가상Mouse 인접2개 선택·선택 셰이더
+player/03-running-board.png | Native Mac Development 540×960 | 기대/실제: 실행파일 Mouse해제 후20점·39칸리필/픽셀 게이지
+player/ui-01-equipment.png | Native Mac Development 540×960 | 기대/실제: 실행파일에서 공개Open API로 연 빈 장비창/아이콘·닫기 버튼
+player/ui-02-paused.png | Native Mac Development 540×960 | 기대/실제: 실행파일에서 Pause API로 표시한 팝업·기존 정지 상태
+regression-session05/01-item-types-and-levels.png | Editor Play 1080×1920 | 기대/실제: 6종×2레벨 아이템 배지/레벨링
+regression-session05/02-color-selection-runner.png | Editor Play 1080×1920 | 기대/실제: 주행 중6색 심볼·색 이름·선택 대기/게임정지
+regression-session05/03-recolored-items.png | Editor Play 1080×1920 | 기대/실제: 색 변경 뒤 ItemType/레벨 보존
+regression-session05/04-chain-effects.png | Editor Play 1080×1920 | 기대/실제: 아이템 연쇄의 고유 셀 제거/리필
+regression-session05/05-frozen-obstacle.png | Editor Play 1080×1920 | 기대/실제: 시간정지 중 장애물/입력·경고 UI
+regression-session05/06-color-selection-groggy.png | Editor Play 1080×1920 | 기대/실제: 그로기 중 색선택 팝업·기반 상태 복귀
+regression-session05/07-items-groggy.png | Editor Play 1080×1920 | 기대/실제: 그로기 아이템 사용/공격·시간정지 안내
+regression-session05/08-item-chain-victory.png | Editor Play 1080×1920 | 기대/실제: 아이템 연쇄 처치→단일 승리·결과 UI
+regression-session07/01-first-clear-reward.png | Editor Play 1080×1920 | 기대/실제: 첫100코인/모자 보상과 금색 결과 프레임·버튼
+regression-session07/02-equipped-upgrade.png | Editor Play 1080×1920 | 기대/실제: 실제 장착/Lv2 비용100·HP110/코인0
+regression-session07/03-three-slots-lv5.png | Editor Play 1080×1920 | 기대/실제: 3슬롯·모자Lv5/HP135·공격1.1·비활성 강화
+regression-session07/04-geared-boss.png | Editor Play 1080×1920 | 기대/실제: 장비 공격 계수가 실제 보스 피해로 반영
+regression-session07/05-saved-loadout-locked.png | Editor Play 1080×1920 | 기대/실제: 저장된 진행 중 장비 변경 잠금/새 구성 선택
+regression-session07/final-pressed-confirm-20261116.png | Editor Play 1080×1920 | 기대/실제: ui-06의 바이트 동일 복사로 원본 화면 재확인
+regression-session07/ui-04-inventory-scroll.png | Editor Play 1080×1920 | 기대/실제: 격리13개 목록을 실제Mouse wheel로 스크롤·사각형 경계
+regression-session07/ui-05-disabled-upgrade.png | Editor Play 1080×1920 | 기대/실제: 비활성 강화에 포인터 입력해도 저장/코인 불변
+regression-session07/ui-06-pressed-button.png | Editor Play 1080×1920 | 기대/실제: CLOSE 포인터 down·눌림색, 이후 창 밖release로 닫기 취소
+regression-session07/ui-header-before-scroll.png | Editor Play 1080×1920 | 기대/실제: 스크롤/비활성/눌림 단계에서 제목 원본픽셀4978개 유지 확인
+regression-session07/ui-header-pressed-close.png | Editor Play 1080×1920 | 기대/실제: 스크롤/비활성/눌림 단계에서 제목 원본픽셀4978개 유지 확인
+regression-session07/ui-header-scrolled-down.png | Editor Play 1080×1920 | 기대/실제: 스크롤/비활성/눌림 단계에서 제목 원본픽셀4978개 유지 확인
+regression-session07/ui-header-scrolled-up-and-disabled-input.png | Editor Play 1080×1920 | 기대/실제: 스크롤/비활성/눌림 단계에서 제목 원본픽셀4978개 유지 확인
+ui-01-main-equipment.png | Editor Play 1080×1920 | 기대/실제: 로비 빈 장비창의 슬롯/코인 아이콘·패널/닫기 버튼
+ui-02-hud.png | Editor Play 1080×1920 | 기대/실제: 실제20피해·복원 검사 뒤 픽셀HP/진행률/점수·Pause버튼
+ui-03-pause.png | Editor Play 1080×1920 | 기대/실제: 실제 Pause입력·동결 상태와 Resume/Restart/Home 버튼
+
+일부 저장 경계 캡처는정확비교를 위해 timeScale0을 써서 리필타일 크기가 중간인 상태도 포함.
+attempt01-equip-click/는 도구의 미완성 배치 좌표 읽기 실패, attempt02-frame-capture-timing/는 도구 캡처 시점 실패. 최종게임 실패로 해석하지 않음.
+pass01-scroll-stencil-issue/는 최초 미리보기 의심 당시 이름이나 실제 누락은 독립 PNG검사에서 부정됨. pass02-rect-clip/와 최종 모두 제목4978픽셀 동일, png-header-independent-audit.json.
+실제 청취/모바일 검증은 이 이미지로 증명하지 않으며 V-012/D-001/D-002 유지.

@@ -119,6 +119,7 @@ namespace NineMood.Presentation
         {
             foreach(var button in FindObjectsByType<Button>(FindObjectsInactive.Include,FindObjectsSortMode.None))
             {
+                if(PixelUISkin.Available) {PixelUISkin.Button(button);continue;}
                 if(button.GetComponent<PixelButtonAudio>()!=null)continue;
                 button.gameObject.AddComponent<PixelButtonAudio>();
                 bool colorChoice=false;for(var parent=button.transform.parent;parent!=null;parent=parent.parent)if(parent.name=="Color selection")colorChoice=true;

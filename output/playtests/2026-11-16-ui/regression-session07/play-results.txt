@@ -1,0 +1,5 @@
+PASS Reward branches, coin filter, stable rolls, pending recovery, duplicate and invalid transaction cases
+PASS Pixel inventory mouse wheel, disabled save protection, real pressed feedback and release-outside cancellation
+PASS Actual clear -> reward -> UI equip/upgrade Lv5 -> retry -> effective HP/attack -> checkpoint; cold fixture ready
+PASS 204 Play assertions
+PASS Session07 completed without runtime errors

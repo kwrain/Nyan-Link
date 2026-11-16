@@ -1,0 +1,18 @@
+EQUIPMENT @ (540.00, 422.40) -> EQUIPMENT,MainMenu
+CLOSE @ (540.00, 96.00) -> CLOSE,EquipmentOverlay,MainMenu
+Button_Play @ (540.00, 844.80) -> Button_Play,MainMenu
+Button_Start @ (540.00, 729.60) -> 
+EQUIPMENT @ (540.00, 422.40) -> EQUIPMENT,StageClearPanel
+EQUIP @ (297.60, 1158.80) -> EQUIP,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+UPGRADE  100 @ (782.40, 1158.80) -> UPGRADE  100,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+CLOSE @ (540.00, 96.00) -> CLOSE,EquipmentOverlay,StageClearPanel
+Button_Continue @ (540.00, 537.60) -> Button_Continue,StageClearPanel
+EQUIPMENT @ (540.00, 422.40) -> EQUIPMENT,StageClearPanel
+UPGRADE  150 @ (782.40, 1158.80) -> UPGRADE  150,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+UPGRADE  200 @ (782.40, 1158.80) -> UPGRADE  200,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+UPGRADE  250 @ (782.40, 1158.80) -> UPGRADE  250,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+UNEQUIP @ (297.60, 1158.80) -> UNEQUIP,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+EQUIP @ (297.60, 1158.80) -> EQUIP,Item-reward-71017738bce94220a1f14d530a6ef0a2,InventoryScroll,EquipmentOverlay,StageClearPanel
+CLOSE @ (540.00, 96.00) -> CLOSE,EquipmentOverlay,StageClearPanel
+EQUIPMENT @ (540.00, 422.40) -> 
+CLOSE @ (540.00, 96.00) -> CLOSE,EquipmentOverlay,MainMenu

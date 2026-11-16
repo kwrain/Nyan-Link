@@ -1,0 +1,2 @@
+PASS Preview 5x5 tiles=5x5 pixels/unit=166.154 lower=47.02 %
+Assertions=32, runtime errors=0

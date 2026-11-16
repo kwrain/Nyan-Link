@@ -88,7 +88,7 @@
 
 ### D-010 — 가변 보드 높이의 카메라·UI·실제 터치
 - 등록일·최근 확인일: 2026-11-16. 관련: DualCameraRig.cs, PuzzleBoardManager.cs, BoardBoundaryHUD.cs, PrototypePresentation.cs. 관련 ID: V-027, D-001, D-005.
-- 대상: Android Lenovo TB320FC/Android15 및 노치·홈 표시줄이 있는 실제 iPhone/iPad. 현재 설치 APK는 이번 변경을 포함하지 않음.
+- 대상: Android Lenovo TB320FC/Android15 및 노치·홈 표시줄이 있는 실제 iPhone/iPad. 현재 설치 APK는 이번 변경을 포함하지 않음. 2026-11-16 기본 보드5×5 변경 후에는5×5/23칸도 아래 절차에 포함.
 - 절차: 다음 기기 빌드에서 기준6×7과 축소4×5/6×3을 각각 실행. 같은 기기·안전 영역에서 타일 표시 크기가 같고 행 감소만큼 하단이 줄며 상단이 늘어나는지 확인. 열만4×7로 줄이면 높이 유지·좌우 여백 증가. 점수/연결 안내·저장 오류 안내·장애물 입력 영역/예고·보스 UI·일시정지/재개·앱 복귀에서 겹침/잘림 없이 가장자리 타일도 실제 손가락으로 연결되어야 함. 실제 PNG 촬영.
 - 현재 근거: V-027은 Mac Unity Editor 실제 렌더·가상 Mouse와 모의 안전 영역 결과이며 실기기 결과와 구분. 이번에는 APK/iOS/WebGL 재빌드·설치/기기 터치를 수행하지 않아 대기 유지.
 - 다음 조치: 다음 실기기 테스트 때 D-001/D-005의 같은 화면·입력 항목을 함께 확인. 보드 축소에 따른 게임 난도·최대 요구 경로 성립 여부는 별도 게임 규칙 검토(2×1 표시는 레이아웃 경계 검사에 한함).
@@ -183,6 +183,7 @@
 ## 완료 이력
 
 ### V-027 — 타일 표시 크기를 유지하는 보드 높이 자동 분할
+- 2026-11-16 5×5 추가 변경·검증: 사용자 요청으로 DefaultGridShape.asset의 기본값을6×7→5×5로 변경. 아래6×7기본 유지 문구는 최초 구현 당시 이력이며, 배율 계산의 기준은 계속6×7. `NyanLinkBoardLayoutValidation.Preview5x5`로 기본 에셋에서5/4/5/4/5행·23칸 초기화, 기준과 같은166.154px/월드 단위·하단47.02%·안전영역/경계점수·모든23셀입력좌표 확인. Unity6000.3.14f1 Mac Editor1080×1920,32assertion·종료0·게임런타임오류0. 실제PNG `output/playtests/2026-11-16-board-5x5/01-default-5x5.png` 직접 열람, 기대와 실제 일치. 근거 같은 폴더의play-results.txt/editor-play.log/TEST-RESULTS.txt. 로컬 커밋 메시지 `chore: set prototype board to 5x5`(미푸시). 별도 저장/최고점·입력/GameView복원. 이번5×5의드래그/전체보스완주·Player빌드·실기기터치는미수행이며 D-010/V-002를 유지(기존4×5드래그 검증과 구분). 39칸 고정 전제의 기존 전체회귀도구는 다음 실행 때6×7복제fixture를 명시하거나 새기본23칸에맞춰 기대값 정비 필요.
 - 등록일·최근 확인일·수행일: 2026-11-16. 관련: DualCameraRig.cs, PuzzleBoardManager.cs, BoardBoundaryHUD.cs, PrototypePresentation.cs, NyanLinkBoardLayoutValidation.cs. 관련 ID: D-010, D-001, D-005. 관련 커밋: `feat: resize gameplay regions while preserving tile size` 로컬 커밋(미푸시).
 - 구현: 현재 GridShapeData와 독립적인 기준6×7의 실제 셀/스프라이트/변환 경계로 기기별 표시 배율을 산출. 행을 줄여도 타일 배율을 유지하고 줄어든 픽셀 높이를 상단에 전부 배분. 열만 줄이면 가운데 정렬/좌우 여백 증가. 기본6×7 분할60% 유지. 상단 가로 시야·바닥 기준 유지, 경계 점수/연결·저장 안내/배경 함께 이동. 큰 보드는 상단 공간을 남기며 화면에 맞춤.
 - 환경/결과: macOS27.2 arm64, Unity6000.3.14f1 Editor, 실제1080×1920 및1284×2778(모의 안전 영역0,100,1284,2550). 최종241 assertion 통과·프로세스 종료0·게임 런타임 오류0. 6×7/4×5/4×7/6×3/2×1 및 축소 데이터로 새 씬 시작, 화면 변경·안전 영역·10×12 큰 보드 표시 확인. 각 셀 화면 투영/입력 역변환과 줄어든 보드의 실제 Input System Mouse 드래그→득점/18칸 리필 확인.

@@ -54,6 +54,12 @@ public static class NyanLinkBoardLayoutValidation
     static int oldBest;
     static bool hadBest;
 
+    public static void Preview5x5()
+    {
+        SessionState.SetBool(Key + ".Preview5x5", true);
+        Run();
+    }
+
     public static void Run()
     {
         Directory.CreateDirectory(Output);
@@ -82,7 +88,8 @@ public static class NyanLinkBoardLayoutValidation
         Application.logMessageReceived += Log;
         expires = EditorApplication.timeSinceStartup + 180;
         next = EditorApplication.timeSinceStartup + 3;
-        work = new Stack<IEnumerator>(); work.Push(Sequence());
+        work = new Stack<IEnumerator>();
+        work.Push(SessionState.GetBool(Key + ".Preview5x5", false) ? PreviewSequence() : Sequence());
         EditorApplication.update += KeepAlive;
     }
     static void KeepAlive()
@@ -173,6 +180,25 @@ public static class NyanLinkBoardLayoutValidation
         yield return .1f;
         ScreenCapture.CaptureScreenshot(Path.GetFullPath(Path.Combine(Output,file)));
         yield return .15f;
+    }
+    static IEnumerator PreviewSequence()
+    {
+        View("SetGameViewSize",1080,1920); yield return .5f;
+        SceneManager.LoadScene("Game"); yield return 1f;
+        board=Object.FindFirstObjectByType<PuzzleBoardManager>();
+        rig=Object.FindFirstObjectByType<DualCameraRig>(); camera=rig.cameraPuzzle;
+        Assert(board.gridShapeData.width==5 && board.gridShapeData.height==5 && board.GetTileCount()==23,
+            "Default asset initializes 5/4/5/4/5 rows, 23 cells");
+        shape=Object.Instantiate(board.gridShapeData); board.gridShapeData=shape;
+        game=GameManager.Instance; game.StartGame(); yield return .3f; Time.timeScale=0;
+        SetShape(6,7); yield return .3f;
+        baselineScale=PixelsPerUnit(camera);
+        baselineRunnerWidth=rig.cameraRunner.orthographicSize*2*rig.cameraRunner.aspect;
+        baselineScoreY=Score.anchorMin.y;
+        SetShape(5,5); yield return .4f;
+        CheckLayout(baselineScale,"Preview 5x5");
+        Assert(board.GetTileCount()==23,"5x5 retains 23 actual hex tiles");
+        yield return Capture("01-default-5x5.png");
     }
     static IEnumerator Sequence()
     {
@@ -266,7 +292,8 @@ public static class NyanLinkBoardLayoutValidation
         Time.timeScale=1;PrototypeSafeArea.TestPixels=null;
         results.Add($"Assertions={assertions}, runtime errors={errors.Count}");
         File.WriteAllLines(Path.Combine(Output,"play-results.txt"),results);
-        SessionState.SetBool(Key,false);EditorApplication.UnlockReloadAssemblies();
+        SessionState.SetBool(Key,false); SessionState.SetBool(Key + ".Preview5x5",false);
+        EditorApplication.UnlockReloadAssemblies();
         EditorApplication.Exit(error==null && errors.Count==0 ? 0:1);
     }
 }

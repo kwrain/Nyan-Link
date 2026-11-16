@@ -1,0 +1,14 @@
+{
+  "device": "Lenovo TB320FC",
+  "os": "Android 15 / API35",
+  "screen": "1600x2560",
+  "source_commit": "3fc0057",
+  "package": "kr.fairstudios.nyanlink.prototype",
+  "backup_directory": "Builds/AndroidDeviceBackups/2026-11-16-pre-migration",
+  "sha256": {
+    "app-data-before.tar": "ed82725676fb0e31e3c35aae7ec86a24f10cb180d615771cb6d395582b626e46",
+    "saves-before/profile-v1.json": "9abcdf7653aba5529bc470cdd29767971bb38544e51a7d1456044fceaa5de4dd",
+    "saves-before/profile-v1.json.bak": "badbe29762c5ab6862ba4728e1cb177e77973fb70da1859b40719362b956e860"
+  },
+  "status": "Backed up before update; physical playtest pending"
+}

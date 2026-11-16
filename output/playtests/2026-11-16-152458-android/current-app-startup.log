@@ -1,0 +1,51 @@
+--------- beginning of system
+11-16 15:28:24.946 21367 21367 D SystemServiceRegistry:  zuiHandwriting new zuihandwritingmanager
+11-16 15:28:24.950 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.951 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.951 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.954 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.954 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.980 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.980 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.980 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.980 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.982 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.982 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.989 21367 21367 D ActivityThread: startAppLockIfNeeded is called
+11-16 15:28:24.992 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:24.996 21367 21367 D WindowManagerImpl: addView displayId=0 0
+11-16 15:28:24.996 21367 21367 D WindowManagerImpl: addView displayId33= 0
+11-16 15:28:25.009 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:25.024 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:25.069 21367 21367 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 15:28:25.081 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:25.087 21367 21367 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 15:28:25.224 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+--------- beginning of main
+11-16 15:28:25.408 21367 21412 W InteractionJankMonitor: Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=kr.fairstudios.nyanlink.prototype
+11-16 15:28:25.423 21367 21407 I IL2CPP  : Locale ko-KR
+11-16 15:28:25.449 21367 21407 D Unity   : PlayerInitEngineGraphics OK
+11-16 15:28:25.457 21367 21407 I Unity   : SetGameState: isLoading: false, mode: UNKNOWN, label: -1, quality: 0
+11-16 15:28:25.457 21367 21407 I Unity   :     HasWindow = 1, HasFocus = 0
+11-16 15:28:25.458 21367 21407 I Unity   : Handle cmd APP_CMD_WINDOW_RESIZED(3)
+11-16 15:28:25.458 21367 21407 D Unity   : NativeWindow resized 1600x2560
+11-16 15:28:25.458 21367 21407 I Unity   : Handle cmd APP_CMD_WINDOW_REDRAW_NEEDED(4)
+11-16 15:28:25.458 21367 21407 I Unity   : Handle cmd APP_CMD_GAINED_FOCUS(7)
+11-16 15:28:25.458 21367 21407 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+11-16 15:28:25.458 21367 21407 D Unity   : ANativeWindow: (1600/2560) RequestedResolution: (0/0) RenderingResolution: (0/0) EGLSurface: (1600/2560)
+11-16 15:28:25.462 21367 21407 V MediaRouter: Selecting route: RouteInfo{ name=태블릿, description=null, status=null, category=RouteCategory{ name=시스템 types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=null }
+11-16 15:28:25.463 21367 21407 I MediaRouter: Skip setBluetoothA2dpOn(): types=8388615, isPlaybackActive()=true, BT route=null
+11-16 15:28:25.489 21367 21407 I Unity   : SetGameState: isLoading: true, mode: UNKNOWN, label: 0, quality: 0
+11-16 15:28:25.608 21367 21367 E nlink.prototype: Invalid resource ID 0x00000001.
+11-16 15:28:27.542 21367 21367 D GameActivity: ************** mainWorkCallback *********
+11-16 15:28:27.543 21367 21367 D gti.InputConnection: setSoftKeyboardActive, active: false
+11-16 15:28:27.544 21367 21407 D Unity   : UnloadTime: 1.427708 ms
+11-16 15:28:27.548 21367 21367 I ImeTracker: kr.fairstudios.nyanlink.prototype:e00d3d4a: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+11-16 15:28:27.550 21367 21367 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 15:28:27.656 21367 21407 I Unity   : SetGameState: isLoading: false, mode: UNKNOWN, label: 0, quality: 0
+11-16 15:28:27.661 21367 21367 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 15:28:27.661 21367 21407 D Unity   : Using NDK Choreographer.
+11-16 15:28:27.667 21367 21367 D OvCommonUtils: tryApplyFullScreen topActivity:ComponentInfo{kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity},  title:kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity,  windowMode:1,  applyFullScreen:false,  hasHideStatusBar:true
+11-16 15:28:27.667 21367 21367 D OvCommonUtils: tryApplyFullScreen: Skip hide status bar, because the status bar is no longer visible
+11-16 15:28:27.691 21367 21407 D Unity   : Stopping Unity systrace
+11-16 15:28:29.977 21367 21496 D ProfileInstaller: Installing profile for kr.fairstudios.nyanlink.prototype

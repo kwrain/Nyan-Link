@@ -1,0 +1,7 @@
+{
+  "install": "adb install -r -t: Success",
+  "comparison_before_first_launch": {
+    "profile-v1.json": true,
+    "profile-v1.json.bak": true
+  }
+}

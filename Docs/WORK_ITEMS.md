@@ -6,6 +6,8 @@
 
 ## 미검증
 
+2026-11-16 Godot 이전 전 실기기 테스트 준비: 소스3fc0057의 최신 Android APK 빌드 성공(오류0·BuildReport 경고1), Lenovo TB320FC/Android15에 데이터 유지 업데이트 설치 성공. 설치 직후·첫 실행 전 profile-v1.json 및 .bak의 바이트가 설치 전 백업과 동일함을 확인. 실제 로비 PNG는1600×2560 세로 전체 화면으로 확인했으나 물리 회전·홈/잠금 복귀·실제 손가락 전체 플레이는 미수행. V-021/I-011/D-004/D-005/D-001/D-002/V-002/V-012는 해당 범위의 결과가 확보될 때까지 유지. 절차: Docs/Development/PRE-MIGRATION-DEVICE-TEST.txt. 근거: output/playtests/2026-11-16-152458-android/의 빌드 결과·설치 전후 저장 비교·02-updated-device-lobby.png·현재 앱 시작 로그. 기존 앱 데이터 백업은 Builds/AndroidDeviceBackups/2026-11-16-pre-migration/에 별도 보존(미커밋).
+
 ### V-021 — 다음 Android APK의 세로 고정과 기기 회전
 - 등록일·최근 확인일: 2026-11-16. 관련: ProjectSettings.asset, NyanLinkAndroidPortrait.cs, NyanLinkAndroidBuild.cs, ANDROID-TEST-BUILD.txt. 관련 ID: I-011, D-001, V-020.
 - 확인할 동작·기대 결과: 다음 APK를 기존 진행을 보존해 업데이트한 후 Lenovo TB320FC에서 세로·가로로 기기를 돌려도 게임이 세로 방향을 유지. 로비/준비/플레이/정지/홈 복귀·콜드 실행 각각 확인하고 실제 PNG 촬영.

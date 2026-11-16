@@ -1,0 +1,17 @@
+Godot 이전 전 Android 실기기 테스트 준비 / 2026-11-16 KST
+기준 소스: 3fc0057. Unity6000.3.14f1 / ARM64 IL2CPP / OpenGLES3 Development.
+기기: Lenovo TB320FC / Android15 API35 / 1600x2560.
+빌드: 성공, 오류0·BuildReport 경고1. 전체 로그의 기존 obsolete API/미사용 셰이더 등 경고는 build.log 참조.
+최종 APK: aapt로 package/version/portrait/resizeableActivity=false/override거부2속성 확인.
+설치: adb install -r -t 성공. 앱 제거·데이터 삭제·진행 주입 없음.
+보호: 앱 내부 files/shared_prefs 및 외부 saves의 JSON/.bak 백업.
+설치 직후·첫 실행 전 JSON/.bak 모두 이전 백업과 바이트 동일.
+실행: 실제 기기에서 로비 표시, 02-updated-device-lobby.png를 촬영·열람.
+기대: 로비가 세로로 표시되고 버튼/한글이 표시됨.
+실제:1600x2560 세로 전체 화면, 최고점1660·게임시작/종료/장비관리 표시 확인.
+01 PNG는 일시적인 USB 충전 시스템 알림이 겹친 실제 원본. 알림 패널 닫은 뒤02를 촬영.
+로그: device-startup.log는 과거 다른 프로세스 로그 포함. 현재 PID21367의 current-app-startup.log로 구분.
+미검증: 기기 물리 회전·홈/잠금 복귀·러닝/보스/전체 손가락 플레이·승패·성장·이어하기·전체 청취.
+미해결: I-011은 로비 세로 표시만 확인, 전체 회전 검사 전까지 유지. I-009/I-010은 이번 준비에서 미조사.
+실기기 테스트 필요: V-021/D-004/D-005/D-001/D-002/V-002/V-012의 나머지 절차. iOS/노치폰/모바일웹도 유지.
+절차: Docs/Development/PRE-MIGRATION-DEVICE-TEST.txt.

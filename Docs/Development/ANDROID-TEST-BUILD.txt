@@ -1,0 +1,50 @@
+냥링크 Android 기기 테스트 빌드
+작성·최근 확인: 2026-11-16 (Asia/Seoul)
+
+빌드:
+  bash Tools/build_android.sh
+같은 프로젝트의 Unity Editor는 닫고 실행. Unity6000.3.14f1 Android Build Support,
+해당 버전 SDK/NDK/OpenJDK 필요. NYANLINK_UNITY로 Unity 실행 파일 경로 지정 가능.
+출력 기본값 Builds/Android/NyanLink-test.apk.
+NYANLINK_ANDROID_PATH / NYANLINK_ANDROID_OUTPUT으로 APK·새 검사 폴더 지정 가능.
+결과·로그·SHA256은 지정된 검사 폴더에 기록. APK는 Builds/에만 보존하며 커밋 안 함.
+APK 옆 Galmuri-LICENSE.txt/Galmuri-NOTICE.txt도 함께 전달.
+기존 LevelPlay/Ads 의존성 해석기가 생성한 Assets/Plugins/Android의 Gradle 템플릿과
+ProjectSettings/AndroidResolverDependencies.xml은 이번 최초 Android 빌드의 실제 산출 설정.
+의존성 버전은 기존 XML 선언에서 가져오며 게임 패키지를 임의 업그레이드하지 않음.
+
+기기 조건/앱 구분:
+- ARM64 Android, 최소 OS는 프로젝트 AndroidMinSdkVersion 설정을 따름(현재 API25).
+- kr.fairstudios.nyanlink.prototype, 기존 정식 앱과 구분하는 테스트 패키지.
+- Development/IL2CPP/ARM64/ETC2/OpenGLES3/세로 화면, Unity 기본 개발 서명.
+- 앱스토어 업로드용 AAB·정식 서명이 아님. 디버그 키·비밀번호는 저장소에 추가하지 않음.
+- 테스트 앱도 플레이 기록이 생기므로 테스트 중 무단 삭제/데이터 지우기 금지.
+
+입력/설정 보존:
+New Input System만 사용하는 APK. 원래 프로젝트는 Both로 설정되어 있어 Android 빌드 전
+스크립트가 activeInputHandler=1로 임시 적용하고 종료 시 원래 파일로 복원.
+동일 스크립트가 프로젝트/UnityConnect 설정도 복원. 설정 백업은 Builds/AndroidToolchain/settings.*/.
+빌드 중 다른 Unity 프로세스에서 이 프로젝트 설정을 편집하지 말 것.
+짧은 /tmp/nyan-android.* 링크로 외장 임시 폴더 사용(소켓 경로 길이 제한 회피).
+메뉴 Nyan Link > Build Android Test APK는 Android 입력을 New만으로 설정한 Editor에서 사용.
+반복 가능한 권장 경로는 위 스크립트이며 원격 저장소 push는 수행하지 않음.
+
+USB 설치:
+기기 개발자 옵션→USB 디버깅, 데이터 전송 가능한 USB 연결, 기기의 디버깅 허용 승인.
+adb devices -l 에 device로 보여야 설치 가능(unauthorized면 휴대폰에서 허용).
+여러 기기가 있으면 adb -s <serial>로 정확한 기기를 선택.
+기존 테스트 패키지가 있으면 앱 데이터부터 백업하고 adb install -r -t <APK>로 업데이트.
+서명/버전 충돌은 uninstall·데이터 삭제로 우회하지 말 것. 기존 앱/저장부터 보존.
+adb 명령의 위치: Unity 설치의 PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb.
+
+실기기 검증: Docs/WORK_ITEMS.md의 D-001/D-002/V-012와 함께 진행.
+- 기기 모델/OS/API/ABI/화면 크기·앱 버전 기록, 로비→준비→시작.
+- 39칸 전체/한글·노치·홈 바/일시정지 UI 가독성, 실제 터치 위치와 타일 일치.
+- 인접 같은 색 드래그→선택선→해제 점수·리필/아이템, 되돌리기·오입력.
+- 장애물3종·보스·아이템/색 선택·장비 스크롤 등 기존 대기 항목도 가능한 범위 확인.
+- 정지/재개/재시작/메인 왕복, 홈 버튼→복귀, 화면 잠금→복귀, BGM/SFX 실제 청취.
+- 실제 저장 경계 뒤 앱 강제종료→재실행, 동일 보드/HP/점수·장비/코인 복원.
+  기록이 있음을 먼저 확인하고 종료. 데이터 삭제나 임의 진행 덮어쓰기로 대체하지 않음.
+- 첫 설치와 덮어쓰기 업데이트/저사양 성능/장시간 플레이는 별도 검사로 구분.
+- 실제 화면은 output/playtests/<날짜>-android/에 캡처, 기대·실제·환경을 함께 기록.
+빌드 성공은 설치/터치/청취/저장·앱 수명 검증 성공을 뜻하지 않음.

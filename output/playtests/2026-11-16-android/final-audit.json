@@ -1,0 +1,13 @@
+{
+  "apk_bytes": 79398044,
+  "apk_sha256": "f10f52f482550efb73d91c7bc02ecbbbc70ee27049e395264df6082718850fab",
+  "zip_crc_passed": true,
+  "abis": [
+    "arm64-v8a"
+  ],
+  "checkpoint_bytes_unchanged": true,
+  "checkpoint_sha256": "29940e038e3f566511887058bf70ec78c05e5af679a9394cf32f56e12eb54706",
+  "unity_error_lines": 0,
+  "fatal_exception_lines": 0,
+  "user_audio_report": "사용자가 배경음악과 타일 연결 효과음 모두 실제 기기에서 들었다고 확인"
+}

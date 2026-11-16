@@ -1,0 +1,64 @@
+--------- beginning of system
+11-16 12:12:10.207  4098  4098 D SystemServiceRegistry:  zuiHandwriting new zuihandwritingmanager
+11-16 12:12:10.213  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.213  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.213  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.216  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.217  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.254  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.254  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.254  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.255  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.258  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.258  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.270  4098  4098 D ActivityThread: startAppLockIfNeeded is called
+11-16 12:12:10.273  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.277  4098  4098 D WindowManagerImpl: addView displayId=0 0
+11-16 12:12:10.277  4098  4098 D WindowManagerImpl: addView displayId33= 0
+11-16 12:12:10.293  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.304  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.346  4098  4098 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.370  4098  4098 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.380  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:10.525  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:12:12.900  4098  4098 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 12:12:13.014  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:13:03.408  4098  4098 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 12:13:03.420  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:15:02.273  4098  4098 D ActivityThread: startAppLockIfNeeded is called
+11-16 12:15:02.287  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+--------- beginning of main
+11-16 12:15:02.292  4098  4172 D Unity   : ANativeWindow: (1279/1600) RequestedResolution: (0/0) RenderingResolution: (0/0) EGLSurface: (1279/1600)
+11-16 12:15:02.295  4098  4172 I Unity   :     HasWindow = 1, HasFocus = 0
+11-16 12:15:02.295  4098  4172 I Unity   : Handle cmd APP_CMD_WINDOW_REDRAW_NEEDED(4)
+11-16 12:15:02.318  4098  4098 I DecorViewDelegate: getWindowNavigationBarColor: window has mEdgeToEdgeEnforced kr.fairstudios.nyanlink.prototype
+11-16 12:15:02.319  4098  4098 V GameActivity: onImeInsetsChanged from Text Listener
+11-16 12:15:02.319  4098  4172 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+11-16 12:15:02.354  4098  4098 I Unity   : windowFocusChanged: true
+11-16 12:15:02.354  4098  4098 I Unity   : resumeUnity
+11-16 12:15:02.354  4098  4172 I Unity   : Handle cmd APP_CMD_GAINED_FOCUS(7)
+11-16 12:15:02.354  4098  4098 D OvcEditorInfoUtils[OV_IME]: bindActivityTokenIfNeeded, create extras for pkgName: kr.fairstudios.nyanlink.prototype
+11-16 12:15:02.356  4098  4172 D Unity   : Found 1 interfaces on host Lenovo_TB320FC@192.168.0.50:
+11-16 12:15:02.356  4098  4172 D Unity   :  0) 192.168.0.50
+11-16 12:15:02.356  4098  4172 D Unity   : 
+11-16 12:15:02.357  4098  4172 D Unity   : Player connection [532696569584]  Target information:
+11-16 12:15:02.357  4098  4172 D Unity   : 
+11-16 12:15:02.357  4098  4172 D Unity   : Player connection [532696569584]  * "[IP] 192.168.0.50 [Port] 55000 [Flags] 2 [Guid] 3169508552 [EditorId] 547804581 [Version] 1048832 [Id] AndroidPlayer(11,Lenovo_TB320FC@192.168.0.50) [Debug] 0 [PackageName] AndroidPlayer [ProjectName] NyanLink" 
+11-16 12:15:02.357  4098  4172 D Unity   : 
+11-16 12:15:02.357  4098  4172 D Unity   : Player connection [532696569584] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+11-16 12:15:02.357  4098  4172 D Unity   : 
+11-16 12:15:02.357  4098  4172 D Unity   : Player connection [532696569584] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+11-16 12:15:02.357  4098  4172 D Unity   : 
+11-16 12:15:02.359  4098  4172 I Unity   : SetGameState: isLoading: false, mode: UNKNOWN, label: 1, quality: 0
+11-16 12:15:02.359  4098  4172 D AAudio  : AAudioStream_requestStart(s#1) called --------------
+11-16 12:15:02.359  4098  4172 D AAudioStream: setState(s#1) from 10 to 3
+11-16 12:15:02.416  4098  4172 D AAudio  : AAudioStream_requestStart(s#1) returned 0 ---------
+11-16 12:15:02.416  4098  4183 D AudioStreamLegacy: onAudioDeviceUpdate(deviceId = 2)
+11-16 12:15:02.419  4098  4098 D MediaRouter: onRestoreRoute() : route=RouteInfo{ name=태블릿, description=null, status=null, category=RouteCategory{ name=시스템 types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=null }
+11-16 12:15:02.419  4098  4098 V MediaRouter: Selecting route: RouteInfo{ name=태블릿, description=null, status=null, category=RouteCategory{ name=시스템 types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=null }
+11-16 12:15:02.519  4098  4270 D AAudioStream: setState(s#1) from 3 to 4
+11-16 12:15:02.603  4098  4098 E nlink.prototype: Invalid resource ID 0x00000001.
+11-16 12:15:32.596  4098  4098 V ViewRootImpl: title = kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity enqueue motion: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=639.0, y[0]=720.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=87265605, downTime=87265605, deviceId=-1, source=0x1002, displayId=0, eventId=-62897677 }
+11-16 12:15:32.601  4098  4098 V ViewRootImpl: title = kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity enqueue motion: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=639.0, y[0]=720.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=87265605, downTime=87265605, deviceId=-1, source=0x1002, displayId=0, eventId=-703726232 }
+11-16 12:15:44.689  4098  4098 V ViewRootImpl: title = kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity enqueue motion: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=1127.0, y[0]=65.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=87277696, downTime=87277696, deviceId=-1, source=0x1002, displayId=0, eventId=-828758764 }
+11-16 12:15:44.694  4098  4098 V ViewRootImpl: title = kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity enqueue motion: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=1127.0, y[0]=65.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=87277696, downTime=87277696, deviceId=-1, source=0x1002, displayId=0, eventId=-623268895 }

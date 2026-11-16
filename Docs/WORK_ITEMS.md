@@ -17,11 +17,12 @@
 한글 UI·폰트 V-013은 2026-11-16 완료 이력으로 이동. 이전 V-016/V-017의 미검증 언급은 당시 이력이며 현재 모바일 가독성은 D-001로 추적.
 
 ### V-001 — Player 빌드와 새 환경의 패키지 복구
+- 2026-11-16 Android 추가 확인: 설치된 Android 지원 모듈/SDK36·NDK27.2·OpenJDK17로 ARM64 IL2CPP APK 빌드·서명 검사·실제 Lenovo Android15 설치/실행/터치/저장 복원 성공(V-020). 기존 패키지 캐시를 사용했으므로 새 환경 복구 성공으로 해석하지 않음.
 - 2026-11-16 부분 확인: 기존 캐시에서 Unity WebGL Release 빌드 성공·오류0, Mac Chrome 실제 WebGL 실행/입력/저장·새로고침 복원은 V-018에서 확인. 새 캐시 복구/Native 모바일/실제 모바일 웹 성공으로 해석하지 않음.
 - 관련: Packages/manifest.json, packages-lock.json, PuzzleBoardManager.cs, Game.unity의 `_tileEntries`.
 - 확인할 동작·기대 결과: 캐시 없는 환경에서 패키지 복구 후 데스크톱/모바일 Player 컴파일 및 타일 렌더링 성공.
 - 세션08 부분 확인: 현재 캐시에서 Mac Development Player 빌드·실제 실행·39칸/선택선 셰이더/입력·리필·격리 저장 성공. build-results/player/results.txt 및 V-014 참조.
-- 남은 미검증 사유: 캐시 없는 복구/모바일 빌드는 미수행. Unity iOS/Android 지원 모듈 미설치. 원본 캐시 삭제 없이 별도 안전 폴더에서 확인 필요.
+- 남은 미검증 사유: 캐시 없는 복구와 iOS Player 빌드는 미수행. 원본 캐시 삭제 없이 별도 안전 폴더에서 확인 필요. 과거 모듈 미설치 기록은 당시 환경이며 현재 Android 모듈은 설치 확인.
 - 검증 방법: 별도 복원 폴더에서 정확한 Unity 버전으로 의존성을 복구한 뒤 Player 빌드·실행. SSH Git 패키지 접근 권한 필요. 원본 Library 삭제 금지.
 - 관련: D-001. Git 패키지 캐시 3개는 외부 백업의 보조 압축 파일에 보존.
 
@@ -37,11 +38,12 @@
 - 관련: I-001, I-002, I-005, D-001.
 
 ### V-012 — 효과음 실제 청취와 출력·믹스
+- 2026-11-16 실제 기기 부분 확인: Lenovo TB320FC/Android15의 실제 플레이에서 사용자가 배경음악과 타일 연결 효과음을 모두 들었다고 확인. 기본 음악/매칭 SFX 청취 근거이며, 3티어·아이템·피격·승패·중첩/무음/앱 전환의 전체 청취·믹스 검증을 뜻하지 않음. 관련 V-020, android/TEST-RESULTS.txt. 최근 확인일2026-11-16.
 - 2026-11-14 최근 확인: ConceptPixel 새 BGM2곡/SFX8개 로드·비영점PCM, Native에서 BGM위치0.213→0.427초 진행·정지/재개·로비정지 확인(V-016). Editor/Native 출력 분석peak0 유지. 실제 청취·중첩 믹스/모바일 앱 전환은 여전히 미검증. 관련 Audio/ConceptPixel, AudioManager/PixelButtonAudio, art-audio/player/results.txt.
-- 등록일: 2026-11-13 / 최근 확인일: 2026-11-14. 관련: AudioManager, Resources/Audio/Prototype, audio-probe.txt, player/results.txt.
+- 등록일: 2026-11-13 / 최근 확인일: 2026-11-16. 관련: AudioManager, Resources/Audio/Prototype, audio-probe.txt, player/results.txt, 2026-11-16-android/TEST-RESULTS.txt.
 - 확인할 동작·기대: 스피커/헤드폰에서 매칭3티어·아이템·피격·승패가 구분되고 과도한 중첩·음량·잘림 없이 출력. 모바일 무음/앱 전환도 확인.
 - 확인한 범위: PCM 음원 데이터 비영점·Resources 로드·실제 매칭의 SFX 카운트 증가·SourcePlaying=true·활성 Listener1개 확인. Editor 및 Native Player의 AudioListener 출력 분석값은 peak0으로 남음. 실제 청취 성공이나 실제 무음 원인을 단정하지 않음.
-- 미검증 사유/방법: 실제 청취를 수행하지 못함. 출력 경로/분석 API의0값 원인 확인 후 실제 장치 청취, 필요 시 믹스/볼륨 조정. API 성공을 청취 통과로 바꾸지 않음.
+- 현재 남은 미검증 사유/방법: 기본 BGM/매칭음은 Android에서 사용자 청취 확인했으나 전체3티어·아이템·피격·승패·중첩/무음/앱 전환은 아직 청취 검사하지 않음. 해당 시나리오를 실제 장치에서 청취하고 필요 시 믹스/볼륨 조정. 과거 Mac 분석 API의0값 원인도 미확정이며 API 상태만으로 청취 성공 처리하지 않음.
 - 관련: D-001.
 
 
@@ -74,6 +76,7 @@
 - 대기 사유: 실제 모바일 기기를 사용하지 않음. PC Chrome의 모바일 크기/터치 에뮬레이션은 실제 iOS/Android WebGL·오디오·메모리 검증을 대체하지 않음. 기존 D-001/D-002의 Native 기기 대기 항목도 유지.
 
 ### D-001 — Android/iOS 세로 화면과 입력
+- 2026-11-16 실제 Android 부분 확인(V-020): Lenovo TB320FC/Android15, 물리1600×2560 패널이 현재 가로2560×1600 상태에서 OS의 세로 앱 호환 영역/좌우 여백으로 표시. 실제39칸·한글/HUD/일시정지, ADB로 주입한 Android touch swipe의2칸 연결·20점/리필/점프, 홈 전환 뒤 정지 상태 유지 확인. 시뮬레이터/가상 Input System 검사가 아닌 실제 기기 실행. 손가락 수동 조작·세로로 직접 들기/노치폰·iOS·전체 아이템/보스/장비 스크롤은 남음. APK를 기기에 설치하고 마지막은 복원된 게임의 일시정지 상태로 남김.
 - 2026-11-16 한글화 추가: 갈무리11·한글UI가 Editor3해상도/모의노치·Mac Native540×960에서 검증(V-013). 실제폰에서 작은한글/숫자·긴안내 줄바꿈/장비행·버튼·손가락가림·폰트메모리/추가글리프·성능 확인 필요. 모바일모듈미설치/실기기미실행 상태 유지.
 - 2026-11-16 최근 확인: 픽셀 버튼/게이지/팝업/장비창·아이콘·긴목록 클리핑 적용(V-017). Mac CLI 가상Mouse/모의노치와 Native540×960 확인, 실제 터치검사 아님. 기기에서 눌림/비활성·6색선택·13개 이상 장비 스크롤·노치경계·작은글자·픽셀 리소스 메모리/성능 확인. Unity모바일모듈 없어 대기 유지.
 - 2026-11-14 최근 확인: 새 고양이/보스/장애물·6색 심볼/아이템 링·배경/로고 및 BGM2/SFX8도 대상에 추가. Mac Editor3해상도/모의 노치·Native540×960은 V-016에서 확인, 실제 모바일 검증 아님. 기기에서 글·심볼·색 선택·손가락 가림/장애물 가독성·고해상도 텍스처 메모리·음량/무음/앱 전환 확인 필요. 관련 Presentation/, Art/ConceptPixel, Audio/ConceptPixel, V-012.
@@ -87,20 +90,31 @@
 - 세션05 추가 대상: 6종×2티어 단독 터치/같은색 체인·빠른 반복 입력·연쇄·종류별 한도·변색 후 종류 표시, 6색 창/중첩Pause/색 선택 뒤 같은 상태 복귀, TimeFreeze 중 실제 터치와 장애물 이동·앱 전환. 자동 Mouse 성공을 실기기 결과로 대체하지 않음.
 - 세션07 추가 대상: 3슬롯 보유품 스크롤·장착/해제·Lv5/코인부족 버튼, 저장 진행 잠금·명시적 NEW RUN SETUP, 전체 해상도에서 보상/능력치 가독성.
 - 세션08: Editor3해상도·노치/홈 여백 모의·실제 가상Mouse 드래그, NativeMac540×960 smoke 확인. iOS/Android Unity 모듈과 실제 모바일 기기가 없어 실기기 상태 유지.
-- 대기 사유: 연결 실기기/모바일 Player 미확보. 실제 터치·오디오·안전 영역·성능을 다음 제작 단계에서 확인.
+- 현재 남은 대기 사유: 최초 Android 태블릿 기본 동작만 이번에 검증. 실제 손가락으로 무보정 전체 플레이/여러 화면·회전·노치폰/iOS/장기 성능은 별도 기기·플레이 범위 필요. 기본 BGM/매칭음은 사용자 청취 확인(V-012)이며 모든 오디오 시나리오 완료는 아님.
 - 관련: V-001, V-002, I-001, I-003.
 
 ### D-002 — 모바일 저장·앱 수명·파일 교체 검증
-- 등록일·최근 확인일: 2026-11-13.
+- 등록일: 2026-11-13 / 최근 확인일: 2026-11-16.
+- 2026-11-16 Android 부분 확인(V-020): Lenovo TB320FC/Android15 IL2CPP에서 실제 profile revision2·backup 생성, 점수20/거리62.5/HP78.20675/39칸·ObstacleRetry 경계 저장. 앱 am force-stop→새 프로세스 실행→UI 이어하기→동일 보드/점수/경계 복원, 저장 문서 전체 바이트 불변 확인. 저장 이후 연속 진행분이 되돌아가는 정책에 따라 정지 직전 표시HP78과 복원 뒤 저장 경계의 표시HP79를 구분. 앱 삭제/데이터 지우기/저장 주입 없음.
 - 관련: SaveStore, SaveManager, GameReadyPanel, PlayerSettings, Application.persistentDataPath.
 - 대상: Android/iOS 실제 Player와 앱별 저장 공간. 저장 직전/중/직후 백그라운드·강제 종료, OS 저장 실패/공간 부족, 앱 업데이트 후 구버전/미지원 파일.
 - 절차·기대: 장애물 성공/실패·보스 성공/실패/그로기 경계에 반복 종료→재실행. 주/백업 중 온전한 한 문서로 코인/장비/영수증/보드/효과가 같은 revision으로 복원되고 원본 손상 파일은 보존. 미지원 파일 덮어쓰기 금지. New Game은 진행만 초기화.
 - 기존 확인: Mac Editor 실제 File.Replace/Flush(true), temp 완료 직후 예외 주입, 손상·체크섬·백업·미지원 버전·독립 Unity 프로세스 재실행 V-010 통과. 모바일 IL2CPP/전원 차단/실제 디스크 장애 시험이 아님.
 - 세션07 추가 대상: 첫 클리어/이후 추첨/강화 비용 차감/장착 저장의 직전·직후 강제 종료를 반복해 영수증·코인·장비·레벨의 일관성 및 재지급 방지 확인.
-- 대기 사유: 연결 실기기와 모바일 Player 미사용. 세션08 또는 해당 플랫폼 환경 확보 시 실행. D-001 입력/UI 항목도 함께 확인.
+- 현재 남은 대기 사유: 첫 Android 기기의 정상 저장 뒤 앱 종료/재실행 기본 검사만 수행. 실제 쓰기 직전·중·직후 중단/모든 보스·아이템·보상 경계/공간 부족/앱 업데이트·미지원 파일/iOS는 추가 검사 필요. 재현 가능한 별도 데이터 백업을 준비하고 D-001과 함께 진행.
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-020 — Android APK 빌드·실제 태블릿 설치와 기본 플레이
+- 등록일·최근 확인일·수행일: 2026-11-16. 관련: NyanLinkAndroidBuild.cs, build_android.sh, Android Gradle 템플릿/AndroidResolverDependencies.xml, ANDROID-TEST-BUILD.txt. 관련 커밋: 이번 Android 기기 빌드 로컬 커밋(최종 git log 참조), 원격 push 없음.
+- 빌드 환경: macOS27.2 arm64 / Unity6000.3.14f1 / 기존 패키지 캐시 / Android SDK36·NDK27.2.12479018·JDK17. Development APK·IL2CPP·ARM64·ETC2·OpenGLES3·세로 앱, kr.fairstudios.nyanlink.prototype. New Input System만 임시 사용 후 원래 Both 및 프로젝트/클라우드 설정 복원. git diff 없음.
+- 결과: Succeeded·오류0·기존 UGS 프로젝트 미연결 경고1, 빌드7분33초. APK79,398,044bytes, SHA256 f10f52f482550efb73d91c7bc02ecbbbc70ee27049e395264df6082718850fab. apksigner v2 검증/ZIP CRC/ARM64·API25최소·API36타깃 확인. report size1,164,777,873은 외부 개발 심볼 등 포함한 빌드 보고치로 APK 용량과 구분. 배포물은 APK와 폰트 LICENSE/NOTICE이며 DoNotShip 폴더를 배포하지 않음.
+- 실기기 환경: Lenovo TB320FC, Android15/API35, ARM64, 패널1600×2560/400dpi, 실제 캡처2560×1600(기기를 가로로 둔 OS 세로 앱 호환 영역). 이전 동일 테스트 패키지 없음 확인 후 신규 설치 Success, 실제 GameActivity Cold launch Status:ok. 개인 앱/기존 Native 저장 삭제 없음.
+- 실제 검증: 로비→준비→시작, 한글·픽셀 리소스·39칸, Android touch swipe로 빨강2개 연결→20점/리필/점프, 정지/재개. Home→게임 복귀에서 정지 유지, 실제 장애물 실패/재도전 저장, force-stop 후 새 프로세스에서 이어하기로 저장 경계 복원. HP/보드/점수/진행 수정이나 저장 주입 없음. 로그에서 Unity 오류/예외·Android fatal crash·저장 실패 미관찰.
+- 청취: 사용자가 실제 태블릿에서 배경음악과 타일 연결 효과음을 모두 들었다고 확인. 모든 아이템/피격/승패/중첩음·백그라운드 청취까지 완료한 것은 아님(V-012).
+- 실제 캡처: output/playtests/2026-11-16-android/01 로비,02 준비,03 실행,04/07 정지,05 드래그 도중,06 20점·리필·점프,08 홈 복귀,09 저장 뒤 정지,10 강제종료 뒤 이어하기,11 복원 뒤 정지. 각 환경·기대/실제 설명 TEST-RESULTS.txt, 앱별 logcat/서명/설치/원본 checkpoint 근거 보존.
+- 한계: 실제 기기의 ADB 입력 검사이며 사람 손가락으로 전체 무보정 완주/난이도 확인은 아님. D-001/D-002의 남은 기기·경계·장기 검사 유지. 단순 재실행을 전원 차단/쓰기 도중 종료 검증으로 해석하지 않음. 새 Android 미해결 게임 문제는 확인하지 않음. 기존 I-009 Native Mac 종료·I-010 WebGL 경고는 별개로 유지.
 
 ### V-018 — 웹 Release 빌드·로컬 Chrome 플레이·배포 패키징 확인
 - 등록일·최근 확인일·수행일: 2026-11-16. 관련: NyanLinkWebBuild.cs, WebGLTemplates/NyanLink, MainMenuController.cs, Tools/build_web.sh/package_web.py/serve_web.py/WebHosting, WEB-DEPLOYMENT.txt. 관련 커밋: 이번 웹 배포 준비 로컬 커밋(최종 git log 참조), 원격 push 없음.

@@ -1,0 +1,11 @@
+unity=6000.3.14f1
+result=Succeeded
+errors=0
+warnings=1
+size=1164777873
+duration=00:07:33.1591800
+package=kr.fairstudios.nyanlink.prototype
+architecture=ARM64
+backend=IL2CPP
+graphics=OpenGLES3
+output=/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Builds/Android/NyanLink-test.apk

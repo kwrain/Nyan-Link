@@ -1,0 +1,55 @@
+Android 실제 기기 빌드·설치·플레이 결과 (2026-11-16)
+
+Unity6000.3.14f1 / macOS27.2 arm64 / 기존 패키지 캐시.
+Android SDK36, NDK27.2.12479018, JDK17, Gradle8.13/AGP8.10.
+Development/IL2CPP/ARM64/ETC2/OpenGLES3, kr.fairstudios.nyanlink.prototype.
+Android API25 최소/API36 타깃, versionCode1/versionName1.0, 기본 개발 서명.
+빌드 Succeeded·errors0·warnings1(기존 UGS 프로젝트 미연결),7분33초.
+APK79,398,044bytes, SHA256:
+f10f52f482550efb73d91c7bc02ecbbbc70ee27049e395264df6082718850fab
+apksigner v2/ZIP CRC/ARM64 라이브러리 검사 통과(final-audit.json).
+report size1,164,777,873은 개발 심볼 등을 포함하므로 APK 용량과 구분.
+APK와 Galmuri-LICENSE/NOTICE는 Builds/Android/에 보존, DoNotShip 폴더는 배포 안 함.
+
+실기기: Lenovo TB320FC / Android15 API35 / ARM64 / 패널1600×2560,400dpi.
+실제 사용 상태는 가로2560×1600. OS가 세로 앱을 중앙 호환 영역과 좌우 여백으로 표시.
+기존 같은 테스트 앱 없음 확인 후 Streamed Install Success, Cold launch Status:ok.
+전체 플랫폼 성공이나 사람 손가락 무보정 플레이 성공으로 해석하지 않음.
+기기 자체 Android touch 입력을 ADB로 주입, 실제 GPU/OS/파일시스템/화면 촬영 사용.
+
+화면별 기대 결과와 실제 결과:
+01-device-main.png: 실행하면 한글 로비/로고/게임 시작/장비가 보여야 함 → 정상 표시.
+02-device-ready.png: 게임 시작 터치→새 게임과 저장 정책 표시 → 정상 진입.
+03-device-running.png: 시작 후39칸 전체·HP100·점수0·고양이/배경 표시 → 정상.
+04-device-pause-attempt.png: 일시정지 터치→정지 팝업 → 실제로 정상 정지한 화면.
+05-device-selected-chain.png: 실제 붉은 인접2칸 drag 도중 촬영. 전체 선택선의 시각적 검증은
+  이 중간 프레임만으로 단정하지 않음. 전체 연결 결과는06의 연결2/20점으로 확인.
+06-device-score-refill.png: drag 해제→20점·연결2/배율x1·2칸 리필·점프 → 기대대로 확인.
+07-device-paused.png: 재정지→20점·HP/보드 유지 → 정상.
+08-device-background-return.png: 홈 버튼→같은 게임 복귀→정지 상태/20점·보드 유지 → 정상.
+09-device-checkpoint-paused.png: 실제 첫 장애물 실패/재도전 뒤 정지→저장파일 존재 → 정상.
+10-device-continue-after-force-stop.png: 앱 강제종료→새 프로세스 실행→준비 UI 이어하기 → 정상.
+11-device-restored-paused.png: 이어하기→같은 보드/20점·저장 경계 복원→정지 → 정상.
+  실제 파일 revision2, runId/HP78.20674896/거리62.5/score20/39칸/ObstacleRetry 유지.
+  저장 경계 후 정지 직전 표시HP78과 저장 경계에서 다시 시작한 표시HP79는 구분.
+  before/after 저장 문서 전체 바이트·SHA256 일치. 앱 데이터 삭제/저장 주입/HP 보정 없음.
+
+홈 화면/잠금 화면의 개인 정보는 촬영하지 않음. 사용자 잠금 해제 후 게임 화면만 촬영.
+사용자가 실제 배경음악과 타일 연결 효과음을 모두 들었다고 확인(이번 채팅 응답).
+그로기/승패/아이템·3티어 효과음/중첩 믹스의 모든 청취까지 완료한 것은 아님.
+로그는 해당 게임 프로세스별로만 기록(startup/play/cold-logcat.txt).
+확인한 로그에서 Unity 오류/예외·Android fatal crash·저장 실패 미관찰.
+마지막 기기 상태는 저장 경계 복원 뒤 일시정지. 사용자가 계속하기로 플레이 가능.
+
+남은 항목:
+미검증 V-001 새 캐시 복구/iOS Player, V-002 전체 무보정 완주/장기 밸런스,
+V-012 전체 SFX/중첩/무음/앱 전환 청취.
+실기기 D-001 다른 폰·노치/iOS·물리 회전·실제 손가락/아이템·보스·장비 전체,
+D-002 쓰기 도중 종료/모든 저장 경계·업데이트·공간 부족/iOS.
+이번 Android 기본 검증에서 새 미해결 게임 문제는 확인하지 않음.
+기존 I-009 Mac 종료 경고와 I-010 WebGL 형식 조회 경고는 별개로 유지.
+
+재현·설치 안내: Docs/Development/ANDROID-TEST-BUILD.txt.
+기존 LevelPlay/Ads XML에 따라 해석기가 생성한 Android Gradle 템플릿과 의존성 상태 보존.
+입력/패키지/아키텍처·그래픽 설정은 빌드 중에만 적용하고 원래 프로젝트/클라우드 설정 복원.
+로컬 커밋(최종 git log 참조), 원격 push·외부 호스팅 업로드 없음.

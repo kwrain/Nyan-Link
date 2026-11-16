@@ -1,0 +1,8 @@
+Starting: Intent { cmp=kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity }
+Warning: Activity not started, its current task has been brought to the front
+Status: ok
+LaunchState: HOT
+Activity: kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity
+TotalTime: 47
+WaitTime: 54
+Complete

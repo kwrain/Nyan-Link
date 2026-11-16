@@ -1,0 +1,10 @@
+{
+  "manufacturer": "Lenovo",
+  "model": "TB320FC",
+  "android": "15",
+  "api": "35",
+  "abis": "arm64-v8a,armeabi-v7a,armeabi",
+  "screen": "Physical size: 1600x2560",
+  "density": "Physical density: 400",
+  "existing_test_package": ""
+}

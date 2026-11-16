@@ -1,0 +1,7 @@
+Starting: Intent { cmp=kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity }
+Status: ok
+LaunchState: COLD
+Activity: kr.fairstudios.nyanlink.prototype/com.unity3d.player.UnityPlayerGameActivity
+TotalTime: 487
+WaitTime: 489
+Complete

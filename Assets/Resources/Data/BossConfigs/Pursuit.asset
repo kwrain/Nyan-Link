@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503df3f4c3d0c4f6bbd0ce8c764b6c18, type: 3}
+  m_Name: Pursuit
+  m_EditorClassIdentifier: Assembly-CSharp::NineMood.Data.Definitions.BossPatternDefinition
+  patternId: Pursuit
+  displayName: "\ucd94\uaca9\uc804"
+  execution: 9
+  steps:
+  - color: 4
+    action: 2
+    cue: "\ucd94\uaca9\uc804"
+    minimumLinks: 2
+    inputSeconds: 4
+    damagePerLink: 1
+  - color: 1
+    action: 2
+    cue: "\ucd94\uaca9\uc804"
+    minimumLinks: 2
+    inputSeconds: 4
+    damagePerLink: 1
+  - color: 2
+    action: 2
+    cue: "\ucd94\uaca9\uc804"
+    minimumLinks: 2
+    inputSeconds: 4
+    damagePerLink: 1
+  grantsFeverOnSuccess: 1

@@ -6,6 +6,15 @@
 
 ## 미검증
 
+### V-030 — 확장 보스 패턴 경계·통합 회귀
+- 등록일·최근 확인일: 2026-11-16. 관련: BossEncounter.cs, BossHUD.cs, BossConfigs/*, NyanLinkPatternsValidation.cs. 관련 ID: D-011, D-008, D-002.
+- 구현: 원안4종+제안5종 및 기존 연속 대응 총10종을 모든 체력 구간에 등록. 세부 규칙은 Docs/Development/BOSS-PATTERNS-2026-11-16.txt.
+- 확인: Unity6000.3.14f1 macOS Editor1080×1920, 현행27칸 보드, 가상 마우스 실제 드래그. 192 assertion, 10종 성공→피버 및 시간초과 피해20, 메모리 공개/숨김 확인. play-final.log 종료0/런타임오류0. 각 패턴 input/success/failure PNG 및 메모리 preview PNG 촬영. MemorySequence-input/RhythmNote-input 직접 열람.
+- 미검증: 오답·정확수량 초과·금지색 실패, 리듬 Good/Perfect 경계, 약점 공격 선택, 체력50/20%·아이템/시간정지/모달·중간 저장 복귀 전체 조합. 이번 자동 검사는 성공 및 시간초과 중심으로 한정했으므로 추가 통합 검사 필요. 각 조건을 격리 보드로 배치해 단일 피해·정지 시계·정상 보드 복원·중복 보상 방지를 확인할 것.
+- 자동검사 한계: 요구 경로를 보정하고 시간을 수동 진행한 fixture. 자연 난이도·수동 손가락 플레이 검증과 구분. 패턴별 선택을 고정한 복제 설정 사용. 기존 원본 저장을 사용하지 않음.
+- 근거: output/playtests/2026-11-16-boss-patterns/editor/play-results.txt, play-final.log, 동일 editor 폴더 PNG. 테스트 전 최초 실행의 라이선스 대기는 검증용 프로세스 재실행으로 해소.
+
+
 2026-11-16 Godot 이전 전 실기기 테스트 준비: 소스3fc0057의 최신 Android APK 빌드 성공(오류0·BuildReport 경고1), Lenovo TB320FC/Android15에 데이터 유지 업데이트 설치 성공. 설치 직후·첫 실행 전 profile-v1.json 및 .bak의 바이트가 설치 전 백업과 동일함을 확인. 실제 로비 PNG는1600×2560 세로 전체 화면으로 확인했으나 물리 회전·홈/잠금 복귀·실제 손가락 전체 플레이는 미수행. V-021/I-011/D-004/D-005/D-001/D-002/V-002/V-012는 해당 범위의 결과가 확보될 때까지 유지. 절차: Docs/Development/PRE-MIGRATION-DEVICE-TEST.txt. 근거: output/playtests/2026-11-16-152458-android/의 빌드 결과·설치 전후 저장 비교·02-updated-device-lobby.png·현재 앱 시작 로그. 기존 앱 데이터 백업은 Builds/AndroidDeviceBackups/2026-11-16-pre-migration/에 별도 보존(미커밋).
 
 ### V-021 — 다음 Android APK의 세로 고정과 기기 회전
@@ -548,3 +557,9 @@
 - 근거: output/playtests/2026-11-16-balance/android/build-results.txt, apk.sha256, install-results.txt, device-startup.log, device-lobby.png.
 - 실제 화면: 가로2560×1600 디스플레이 안 세로 앱/좌우 여백으로 로비 표시됨. 전체 세로 화면 기대와 다른 상태이므로 V-021/D-001 회전·태블릿 호환 표시 확인은 완료 처리하지 않음. 사용자 설정 임의 변경 없이 유지.
 - D-009/D-010: 최신 빌드 설치 완료. 새 게임에서 장애물 오색→정답, 청록4/7칸, 피버0.5 피해, 27칸 실제 입력 체감은 사용자 테스트 대기. 이번 검증은 로비 실행까지이며 전투 플레이 미수행.
+
+### D-011 — 확장 보스 패턴 실기기 검증 대기
+- 등록일·최근 확인일: 2026-11-16. 관련: BossEncounter.cs/BossHUD.cs/BossConfigs, V-030, D-008, D-009, D-002.
+- 대상: Lenovo TB320FC Android15 및 iOS 세로 기기. 이번에는 Editor 검사만 수행했으며 새 APK 설치·실기기 플레이는 미수행.
+- 절차: 새 빌드에서10종 성공/오답/시간초과, 리듬 판정·기억 숨김·금지색과 아이템 연쇄, 선택 공격/회피, 피버·일시정지·홈 복귀·콜드 이어하기, 체력 구간별 난도 확인. D-008/D-009/D-002 대기 절차도 함께 검사하고 실제 PNG 촬영.
+- 기대: 안내가 잘리지 않고 손가락 입력과 판정이 일치하며 저장·피버 복원/피해 중복이 없어야 함. 사용자 체감 난이도는 Editor192assertion으로 완료 처리하지 않음.

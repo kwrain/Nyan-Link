@@ -14,7 +14,7 @@ namespace NineMood.Boss
     /// <summary>Asset-driven response bundles and a temporary tap-only fever board.</summary>
     public sealed class BossEncounter : MonoBehaviour
     {
-        private enum State { Idle, Input, Response, Interval, PendingFever, Fever }
+        private enum State { Idle, Preview, Input, Response, Interval, PendingFever, Fever }
         private State _state;
         private BossController _owner;
         private PuzzleBoardManager _board;
@@ -24,6 +24,28 @@ namespace NineMood.Boss
         private BossHealthPhase Phase => Definition.phases[_owner.PhaseIndex];
         private float _remaining, _feverDuration, _poseRemaining;
         private bool _bundleSucceeded;
+        private int _progress, _misses;
+        private readonly Dictionary<TileColor,int> _quotas = new Dictionary<TileColor,int>();
+        private BossPatternExecution Mode => Pattern.execution;
+        public bool HiddenSequence => Pattern != null && Mode == BossPatternExecution.MemorySequence && _state != State.Preview;
+        public string PatternGuide
+        {
+            get
+            {
+                if (Pattern == null) return "";
+                if (_state == State.Preview || Mode == BossPatternExecution.TimeAttack)
+                    return string.Join(" → ", Pattern.steps.Select(s => ColorName(s.color)));
+                if (Mode == BossPatternExecution.MemorySequence) return "기억한 순서대로 연결하세요";
+                if (Mode == BossPatternExecution.ColorQuota) return string.Join(" · ", _quotas.Select(q => ColorName(q.Key)+" "+q.Value));
+                if (Mode == BossPatternExecution.ChargeBreak) return $"주황 누적 {_progress} / 8 · 초과 연결 추가 피해";
+                if (Mode == BossPatternExecution.ForbiddenColor) return $"{ColorName(Step.color)} 금지 · 다른 색 {_progress} / 10";
+                if (Mode == BossPatternExecution.WeaknessChoice) return "주황 5개 공격 / 파랑 3개 회피";
+                if (Mode == BossPatternExecution.ExactLinks) return $"{ColorName(Step.color)} 정확히 {MinimumLinks}개";
+                if (Mode == BossPatternExecution.RhythmNote) return $"{ColorName(Step.color)} · 1.0초에 연결 · 실수 {_misses}/2";
+                return Step?.cue ?? "";
+            }
+        }
+        private static string ColorName(TileColor c) => new[]{"빨강","파랑","노랑","보라","주황","청록"}[(int)c];
         private List<TileRecord> _normalBoard;
         private readonly HashSet<Vector3Int> _consumedItems = new HashSet<Vector3Int>();
         private readonly Dictionary<Vector3Int,float> _refills = new Dictionary<Vector3Int,float>();
@@ -61,8 +83,11 @@ namespace NineMood.Boss
         {
             var candidates=Phase.patterns;
             Pattern=candidates[Random.Range(0,candidates.Length)]; StepIndex=0; _bundleSucceeded=true;
+            _progress=0; _misses=0; _quotas.Clear();
+            if (Mode==BossPatternExecution.ColorQuota) foreach(var step in Pattern.steps) _quotas[step.color]=5;
             GameEvents.TriggerBossPatternStarted(BossBattleType.TimeAttack);
             StartStep();
+            if(Mode==BossPatternExecution.MemorySequence) { _state=State.Preview; _remaining=3; _board.SetRequiredMatchColor(null); }
         }
         private void StartStep()
         {
@@ -70,6 +95,10 @@ namespace NineMood.Boss
             if (!_board.SetRequiredMatchPath(Step.color,MinimumLinks))
             { Debug.LogError("[BossEncounter] 요구 연결 경로를 만들 수 없습니다"); return; }
             Feedback=Step.cue; _remaining=InputDuration; _state=State.Input;
+            if(Mode==BossPatternExecution.Pursuit) _remaining=Mathf.Max(.8f,InputDuration-StepIndex*.25f);
+            if(Mode==BossPatternExecution.RhythmNote) _remaining=2;
+            if(Mode==BossPatternExecution.WeaknessChoice) _board.SetRequiredMatchPath(TileColor.Blue,3);
+            if(Mode==BossPatternExecution.ForbiddenColor) _board.SetRequiredMatchPath(Step.color==TileColor.Blue?TileColor.Yellow:TileColor.Blue,2);
             GameEvents.TriggerBossPatternInstructionChanged(Step.cue);
         }
         public void Tick(float delta)
@@ -93,10 +122,15 @@ namespace NineMood.Boss
                 }
                 return;
             }
-            if (_owner.TimersFrozen && _state==State.Input) return;
+            if (_owner.TimersFrozen && (_state==State.Input || _state==State.Preview)) return;
             _remaining=Mathf.Max(0,_remaining-delta);
             if (_remaining>0) return;
-            if (_state==State.Input) ResolveStep(false,0);
+            if (_state==State.Preview) StartStep();
+            else if (_state==State.Input) {
+                if(Mode==BossPatternExecution.RhythmNote && ++_misses<=2) ResolveStep(true,0);
+                else if(Mode==BossPatternExecution.SequentialResponse) ResolveStep(false,0);
+                else FailBundle();
+            }
             else if (_state==State.Response)
             {
                 StepIndex++;
@@ -107,8 +141,58 @@ namespace NineMood.Boss
         private void OnMatch(int connected,int score,int removed,TileColor color)
         {
             if (_owner==null || !_owner.UsesEncounter || !AcceptingInput ||
-                GameManager.Instance?.CurrentState!=GameState.BossPhase || color!=Step.color || connected<MinimumLinks || removed<=0) return;
+                GameManager.Instance?.CurrentState!=GameState.BossPhase || connected<2 || removed<=0) return;
+            switch(Mode)
+            {
+                case BossPatternExecution.ColorQuota:
+                    if(_quotas.ContainsKey(color)) _quotas[color]=Mathf.Max(0,_quotas[color]-connected);
+                    if(_quotas.Values.All(v=>v==0)) CompleteBundle(0);
+                    else _board.SetRequiredMatchPath(_quotas.First(q=>q.Value>0).Key,2);
+                    return;
+                case BossPatternExecution.ChargeBreak:
+                    if(color!=TileColor.Orange) return;
+                    _progress+=connected;
+                    if(_progress>=8) CompleteBundle(_progress);
+                    return;
+                case BossPatternExecution.ForbiddenColor:
+                    if(color==Step.color) { FailBundle(); return; }
+                    _progress+=connected; if(_progress>=10) CompleteBundle(0);
+                    return;
+                case BossPatternExecution.WeaknessChoice:
+                    if(color==TileColor.Orange && connected>=5) CompleteBundle(connected);
+                    else if(color==TileColor.Blue && connected>=3) CompleteBundle(0);
+                    return;
+                case BossPatternExecution.ExactLinks:
+                    if(color!=Step.color || connected!=MinimumLinks) { FailBundle(); return; }
+                    break;
+                case BossPatternExecution.TimeAttack:
+                case BossPatternExecution.MemorySequence:
+                    if(color!=Step.color) { FailBundle(); return; }
+                    if(connected<MinimumLinks) return;
+                    break;
+                case BossPatternExecution.RhythmNote:
+                    if(color!=Step.color || Mathf.Abs(_remaining-1)>.4f) {
+                        if(++_misses>2) FailBundle(); else ResolveStep(true,0);
+                        return;
+                    }
+                    Feedback=Mathf.Abs(_remaining-1)<=.15f ? "Perfect" : "Good";
+                    var grade=Feedback; ResolveStep(true,0); Feedback=grade; return;
+                default:
+                    if(color!=Step.color || connected<MinimumLinks) return;
+                    break;
+            }
             ResolveStep(true,connected);
+        }
+        private void FailBundle()
+        {
+            ResolveStep(false,0);
+            StepIndex=Pattern.steps.Length-1;
+        }
+        private void CompleteBundle(int damage)
+        {
+            ResolveStep(true,0);
+            StepIndex=Pattern.steps.Length-1;
+            if(damage>0) _owner.ApplyEncounterAttack(damage);
         }
         private void ResolveStep(bool success,int connected)
         {
@@ -118,7 +202,7 @@ namespace NineMood.Boss
             {
                 Feedback=Step.action==BossResponseAction.Attack ? "공격 성공" : Step.action==BossResponseAction.Slide ? "회피 성공" : "방어 성공";
                 _runner?.PlayBossResponse(Step.action==BossResponseAction.Attack ? RunnerState.Attack : Step.action==BossResponseAction.Slide ? RunnerState.Slide : RunnerState.Block);
-                if (Step.action==BossResponseAction.Attack) _owner.ApplyEncounterAttack(connected*Step.damagePerLink);
+                if (connected>0 && Step.action==BossResponseAction.Attack) _owner.ApplyEncounterAttack(connected*Step.damagePerLink);
             }
             else
             {

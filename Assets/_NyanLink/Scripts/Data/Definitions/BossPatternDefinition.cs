@@ -4,7 +4,7 @@ using NineMood.Data.Enums;
 
 namespace NineMood.Data.Definitions
 {
-    public enum BossPatternExecution { SequentialResponse }
+    public enum BossPatternExecution { SequentialResponse, TimeAttack, RhythmNote, ColorQuota, MemorySequence, ChargeBreak, ForbiddenColor, WeaknessChoice, ExactLinks, Pursuit }
     public enum BossResponseAction { Attack, Slide, Block }
 
     [Serializable]

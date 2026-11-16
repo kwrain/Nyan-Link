@@ -44,6 +44,7 @@ namespace NineMood.UI
         private RectTransform _responseRow;
         private Image _responseIcon, _responseTimeFill;
         private TextMeshProUGUI _responseCue, _responseCount;
+        private Image _rhythmLine;
         private CanvasGroup _group;
         private TextMeshProUGUI _timer;
         public string TimerText => _timer != null ? _timer.text : "";
@@ -160,11 +161,20 @@ namespace NineMood.UI
             _responseTimeFill.transform.SetParent(track.transform,false);Place(_responseTimeFill.rectTransform,0,0,1,1);
             _responseTimeFill.raycastTarget=false;_responseTimeFill.sprite=PixelUIResources.Get("meter-boss");
             _responseTimeFill.type=Image.Type.Filled;_responseTimeFill.fillMethod=Image.FillMethod.Horizontal;
+            _rhythmLine=new GameObject("Rhythm judgment line",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+            _rhythmLine.transform.SetParent(_responseRow,false); _rhythmLine.raycastTarget=false;
+            _rhythmLine.color=new Color(1,.85f,.35f); Place(_rhythmLine.rectTransform,.01f,.56f,.15f,.59f);
+            _rhythmLine.gameObject.SetActive(false);
             _responseRow.gameObject.SetActive(false);
         }
         private void RefreshEncounter(BossController boss)
         {
             var fight=boss.Encounter;
+            bool rhythm=fight.Pattern!=null && fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.RhythmNote && fight.AcceptingInput;
+            _rhythmLine.gameObject.SetActive(rhythm);
+            float noteY=Mathf.Lerp(.2f,.95f,Mathf.Clamp01(fight.Remaining/2));
+            if(rhythm) Place(_responseIcon.rectTransform,.02f,noteY-.16f,.14f,noteY+.16f);
+            else Place(_responseIcon.rectTransform,.02f,.2f,.14f,.95f);
             Place(_damagePopup.rectTransform,.60f,.68f,.90f,.72f);
             _sequenceRow.gameObject.SetActive(false);_groggyRow.gameObject.SetActive(false);
             if(textInstruction!=null) textInstruction.enabled=false;
@@ -175,6 +185,7 @@ namespace NineMood.UI
             {
                 textPatternType.text="피버 · 공격 가능";
                 _timer.text=$"피버  {fight.Remaining:F1}초";
+                _responseIcon.enabled=true;
                 _responseIcon.sprite=ConceptArtLibrary.Get("tile-"+(int)TileColor.Orange);
                 _responseCue.text="공격 타일을 하나씩 터치!";
                 _responseCount.text="0.4초 후 보충 · 특수 타일 ×3 / ×5";
@@ -185,12 +196,18 @@ namespace NineMood.UI
             else if(fight.Step!=null)
             {
                 textPatternType.text=$"{fight.Pattern.displayName}  {Mathf.Min(fight.StepIndex+1,fight.Pattern.steps.Length)} / {fight.Pattern.steps.Length}";
-                _responseIcon.sprite=ConceptArtLibrary.Get("tile-"+(int)fight.Step.color);
-                _responseCue.text=fight.AcceptingInput ? fight.Step.cue : fight.Feedback;
+                _responseIcon.sprite=fight.HiddenSequence ? null : ConceptArtLibrary.Get("tile-"+(int)fight.Step.color);
+                _responseIcon.enabled=!fight.HiddenSequence;
+                _responseCue.text=fight.PatternGuide;
                 var input=FindFirstObjectByType<NineMood.Puzzle.TileInputHandler>();
                 int count=input?.SelectedChain.Count ?? 0;
                 if(count>0 && FindFirstObjectByType<NineMood.Puzzle.PuzzleBoardManager>().GetTileAtOffset(input.SelectedChain[0])?.Color!=fight.Step.color) count=0;
-                _responseCount.text=fight.AcceptingInput ? $"최소 {fight.MinimumLinks}개 · 연결 {count} / {fight.MinimumLinks}" : "블록은 계속 연결할 수 있어요";
+                _responseCount.text=fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.RhythmNote ? (fight.AcceptingInput ? $"노트 ▼  {fight.Remaining:F1} → 판정선 1.0초" : fight.Feedback) : fight.HiddenSequence ? "순서를 기억해서 입력" : fight.AcceptingInput ? $"최소 {fight.MinimumLinks}개 · 연결 {count} / {fight.MinimumLinks}" : "블록은 계속 연결할 수 있어요";
+                if(fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.ColorQuota ||
+                   fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.ChargeBreak ||
+                   fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.ForbiddenColor ||
+                   fight.Pattern.execution==NineMood.Data.Definitions.BossPatternExecution.WeaknessChoice)
+                    _responseCount.text=fight.AcceptingInput ? "직접 연결한 타일만 집계" : fight.Feedback;
                 _responseCount.color=count>=fight.MinimumLinks ? new Color(.4f,1,.65f) : Color.white;
                 _timer.text=fight.AcceptingInput ? $"대응  {fight.Remaining:F1}초" : fight.Feedback;
                 if(boss.TimersFrozen && fight.AcceptingInput) _timer.text+=" · 시간 정지";

@@ -48,7 +48,7 @@ namespace NineMood.Data.Definitions
                 foreach (var pattern in p.patterns)
                 {
                     if (pattern==null || string.IsNullOrWhiteSpace(pattern.patternId) || pattern.steps==null || pattern.steps.Length==0 ||
-                        pattern.execution!=BossPatternExecution.SequentialResponse) return false;
+                        !Enum.IsDefined(typeof(BossPatternExecution),pattern.execution)) return false;
                     foreach (var step in pattern.steps)
                         if (step==null || !Enum.IsDefined(typeof(NineMood.Data.Enums.TileColor),step.color) ||
                             !Enum.IsDefined(typeof(BossResponseAction),step.action) || step.minimumLinks<0 || step.minimumLinks==1 ||

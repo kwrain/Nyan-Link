@@ -10,7 +10,7 @@ namespace NineMood.Core.Managers
     /// </summary>
     public class ScoreManager : SceneSingleton<ScoreManager>
     {
-        private const string BestScoreKey = "NyanLink_BestScore";
+        private static string BestScoreKey => NineMood.UI.DeviceTestMode.Active ? "NyanLink_TestBestScore" : "NyanLink_BestScore";
 
         public int CurrentScore { get; private set; }
         public int BestScore    { get; private set; }

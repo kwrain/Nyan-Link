@@ -21,6 +21,7 @@ namespace NineMood.Core.Managers
             base.Awake();
             if (!IsOwner) return;
             Application.targetFrameRate = 60;
+            gameObject.AddComponent<DeviceTestMode>();
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             SceneManager.sceneLoaded += OnSceneLoaded;
             var debugPanel = FindFirstObjectByType<GameStateDebugPanel>();
@@ -55,8 +56,9 @@ namespace NineMood.Core.Managers
             FindFirstObjectByType<PuzzleBoardManager>()?.ResetBoard();
             ScoreManager.Instance?.ResetScore();StaminaManager.Instance?.ResetStamina();
             PublishState(GameState.RunnerPhase);
-            if(continueSaved && (SaveManager.Instance?.TryRestoreCheckpoint() ?? false)) return;
+            if(!DeviceTestMode.Active && continueSaved && (SaveManager.Instance?.TryRestoreCheckpoint() ?? false)) return;
             SaveManager.Instance?.BeginNewRun();
+            DeviceTestMode.OnRunStarted();
         }
         public void RestorePhase(GameState phase)
         {

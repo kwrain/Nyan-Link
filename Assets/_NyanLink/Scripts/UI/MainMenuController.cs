@@ -18,6 +18,8 @@ namespace NineMood.UI
 
         private void Awake()
         {
+            DeviceTestMode.Leave();
+            gameObject.AddComponent<DeviceTestMode>();
             if (buttonPlay != null) buttonPlay.onClick.AddListener(OnClickPlay);
 #if UNITY_WEBGL && !UNITY_EDITOR
             // Browsers cannot close a user-opened tab through Application.Quit.

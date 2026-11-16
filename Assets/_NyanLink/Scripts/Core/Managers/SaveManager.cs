@@ -25,6 +25,7 @@ namespace NineMood.Core.Managers
         {
             get
             {
+                if(NineMood.UI.DeviceTestMode.Active) return NineMood.UI.DeviceTestMode.StoragePath;
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                 if(!string.IsNullOrEmpty(TestDirectoryOverride)) return TestDirectoryOverride;
 #endif

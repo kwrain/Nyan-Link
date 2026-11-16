@@ -6,6 +6,15 @@
 
 ## 미검증
 
+### V-031 — 실기기용 테스트 메뉴 추가 검증
+- 등록일·최근 확인일: 2026-11-16. 관련: DeviceTestMode.cs, GameManager/SaveManager/ScoreManager/MainMenuController, NyanLinkDeviceTestValidation.cs. 관련 ID: D-012, V-030, D-011, D-002.
+- 구현: 로비 테스트 모드, 보스/패턴/체력구간 선택, 보스 바로 시작·전체 주행, 재설정 재시작·회복·보드 초기화. 런타임 복제 설정·별도 세션 프로필·별도 최고점. 로비 복귀/콜드 실행은 일반 모드.
+- 확인: macOS Unity6000.3.14f1 1080×1920 가상Mouse 실제 버튼 클릭,21assertion 종료0/런타임오류0. 선택/직접 진입/고정 패턴 재시작/메뉴 정지/일반 주행/로비 복귀·원본 저장 바이트/최고점 불변. 실제 PNG4장, 로비 메뉴 이미지 직접 열람. 최초 배치 오류는 독립 루트Canvas로 수정 후 play-fixed.log에서 배치 통과, 이후 버튼 글자 누락은 테스트 메뉴의 독립 UGUI Text 표시로 수정하여 play-text.log에서 최종 통과.
+- 미검증: 회복/보드 초기화의 각 아이템·피버·모달 조합, 여러 실제 보스 데이터(현재1종), 테스트 앱 강제 종료와 재실행, 각 화면비/노치. 자동 검사는 기본 이동·선택·저장 분리 중심이므로 후속 조합 검사가 필요.
+- 검증 방법: 테스트 프로필에서 상기 조합을 수행, 피버 중 보드 초기화 거부/일반 보드 복원, 일반 프로필 해시 보존과 재실행 일반모드 확인. 관련 V-030/D-002 전체 대기 조건도 유지.
+- 근거: output/playtests/2026-11-16-device-test-mode/editor/play-results.txt 및 PNG, play-text.log; 사용법 Docs/Development/DEVICE-TEST-MODE.txt.
+
+
 ### V-030 — 확장 보스 패턴 경계·통합 회귀
 - 등록일·최근 확인일: 2026-11-16. 관련: BossEncounter.cs, BossHUD.cs, BossConfigs/*, NyanLinkPatternsValidation.cs. 관련 ID: D-011, D-008, D-002.
 - 구현: 원안4종+제안5종 및 기존 연속 대응 총10종을 모든 체력 구간에 등록. 세부 규칙은 Docs/Development/BOSS-PATTERNS-2026-11-16.txt.
@@ -563,3 +572,13 @@
 - 대상: Lenovo TB320FC Android15 및 iOS 세로 기기. 이번에는 Editor 검사만 수행했으며 새 APK 설치·실기기 플레이는 미수행.
 - 절차: 새 빌드에서10종 성공/오답/시간초과, 리듬 판정·기억 숨김·금지색과 아이템 연쇄, 선택 공격/회피, 피버·일시정지·홈 복귀·콜드 이어하기, 체력 구간별 난도 확인. D-008/D-009/D-002 대기 절차도 함께 검사하고 실제 PNG 촬영.
 - 기대: 안내가 잘리지 않고 손가락 입력과 판정이 일치하며 저장·피버 복원/피해 중복이 없어야 함. 사용자 체감 난이도는 Editor192assertion으로 완료 처리하지 않음.
+
+### D-012 — 테스트 모드 실기기 조작·저장 분리
+- 등록일·최근 확인일: 2026-11-16. 관련: DeviceTestMode.cs, V-031, D-011/D-008/D-002.
+- 대상: Lenovo TB320FC Android15 및 iOS 세로/노치 기기. adb devices -l 연결 기기0으로 이번 설치·실기기 플레이 불가.
+- 절차: 기존 데이터 백업 후 APK 업데이트, 로비 테스트 모드에서 보스/10패턴/3체력구간 선택·시작/재시작/주행, 회복·보드초기화, 정지/색선택/피버/홈복귀/앱 재실행 확인. 테스트 전후 일반 saves 및 최고점 비교. 각 패턴은 D-011 절차 병행.
+- 기대: 선택한 패턴이 반복되고 요구수/시간이 선택 구간과 일치. 터치/안전영역 겹침 없음. 일반 코인·장비·진행·최고점 유지. 강제 종료 후 일반 로비 진입. 실제 PNG 저장.
+
+2026-11-16 최종 화면 확인: 설정 메뉴는 Galmuri11 원본 폰트를 사용하는 독립 UGUI Text로 표시. 21assertion 재통과, 03-in-game-tools.png의 모든 버튼 글자 직접 열람 확인. 수정 전 TMP 글자 누락은 최초 캡처 이력이며 최종 화면에서는 재현되지 않음.
+
+2026-11-16 D-012 빌드 근거: android-final/build-results.txt의 Android ARM64 IL2CPP Development 빌드 성공/오류0/경고1, APK Builds/Android/NyanLink-device-tests.apk. SHA256은 android-final/apk.sha256. 실기기 연결0으로 설치·터치는 대기 유지. 관련 로컬 커밋 메시지: feat: add isolated on-device test mode and boss selectors.

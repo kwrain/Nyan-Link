@@ -74,8 +74,8 @@ namespace NineMood.UI
             var go = new GameObject("Label",typeof(RectTransform),typeof(TextMeshProUGUI));
             go.transform.SetParent(parent,false);
             var rect = go.GetComponent<RectTransform>(); rect.anchorMin = rect.anchorMax = anchor; rect.sizeDelta = size;
-            var label = go.GetComponent<TextMeshProUGUI>(); label.text = text; label.fontSize = fontSize;
-            label.alignment = TextAlignmentOptions.Center; label.raycastTarget = false;
+            var label = go.GetComponent<TextMeshProUGUI>(); label.text = KoreanText.UI(text); label.fontSize = fontSize;
+            label.alignment = TextAlignmentOptions.Center; label.raycastTarget = false; KoreanUIPresentation.Apply(label);
         }
     }
 }

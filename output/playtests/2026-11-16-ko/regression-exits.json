@@ -1,0 +1,14 @@
+[
+  {
+    "method": "NyanLinkSession08Validation.RunColdContinue",
+    "exit": 0
+  },
+  {
+    "method": "NyanLinkSession05Validation.Run",
+    "exit": 0
+  },
+  {
+    "method": "NyanLinkSession07Validation.Run",
+    "exit": 0
+  }
+]

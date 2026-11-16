@@ -67,7 +67,7 @@ namespace NineMood.UI
             _elapsed += Time.deltaTime;
             float fill = Mathf.Clamp01(Remaining / _totalDuration);
             if (actionLabel != null) actionLabel.text = GetActionLabel(_action) +
-                (_spawner != null && _spawner.CurrentObstacle != null && _spawner.CurrentObstacle.HasSuccessReservation ? " READY " : " ") +
+                (_spawner != null && _spawner.CurrentObstacle != null && _spawner.CurrentObstacle.HasSuccessReservation ? " 준비 완료 " : " ") +
                 Mathf.CeilToInt(Remaining);
 
             if (timerBar != null)
@@ -205,9 +205,9 @@ namespace NineMood.UI
 
         private static string GetActionLabel(RunnerState action) => action switch
         {
-            RunnerState.Jump  => "JUMP!",
-            RunnerState.Slide => "SLIDE!",
-            RunnerState.Block => "BLOCK!",
+            RunnerState.Jump  => "점프!",
+            RunnerState.Slide => "슬라이딩!",
+            RunnerState.Block => "방어!",
             _                 => "?"
         };
     }

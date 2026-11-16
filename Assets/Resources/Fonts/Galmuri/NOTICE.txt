@@ -1,0 +1,10 @@
+Galmuri11 v2.40.4 — original font by Lee Minseo (quiple)
+Official project: https://github.com/quiple/galmuri
+Pinned font: https://raw.githubusercontent.com/quiple/galmuri/v2.40.4/dist/Galmuri11.ttf
+Pinned license: https://raw.githubusercontent.com/quiple/galmuri/v2.40.4/dist/LICENSE.txt
+Fetched: 2026-11-16 Asia/Seoul.
+License: SIL Open Font License 1.1. Full copyright/license in LICENSE.txt, distributed alongside the font.
+The original TTF is preserved unchanged. NyanLinkKoreanPixel.asset is a Unity TMP bitmap atlas/material derived from this source for game rendering.
+Point size12 / RASTER_HINTED / Point filtering /2048 atlas /11324 preloaded characters including all11172 modern Hangul syllables.
+Dynamic atlas supports additional source glyphs. clearDynamicDataOnBuild=false preserves preloaded Korean characters in Player builds.
+Existing LiberationSans remains available as a fallback. No font data or IDs in game saves are rewritten.

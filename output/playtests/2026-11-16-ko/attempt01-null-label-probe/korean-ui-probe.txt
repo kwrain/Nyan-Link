@@ -1,0 +1,2 @@
+main textComponents=5 font=NyanLinkKoreanPixel
+main equipment textComponents=11 font=NyanLinkKoreanPixel

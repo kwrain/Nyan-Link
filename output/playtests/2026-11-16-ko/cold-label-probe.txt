@@ -1,0 +1,2 @@
+시간 정지  2.4초 active=True parent=Item badge
+강화 2 active=True parent=Item badge

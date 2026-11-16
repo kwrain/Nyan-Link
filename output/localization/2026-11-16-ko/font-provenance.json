@@ -1,0 +1,17 @@
+{
+  "upstream": "https://github.com/quiple/galmuri",
+  "version": "v2.40.4",
+  "license": "SIL OFL 1.1",
+  "files": [
+    {
+      "file": "Assets/Resources/Fonts/Galmuri/Galmuri11.ttf",
+      "url": "https://raw.githubusercontent.com/quiple/galmuri/v2.40.4/dist/Galmuri11.ttf",
+      "sha256": "2c709890595668f7bdb6df408420fda957dde0288e95b31a1cc17a2ab98b4b4f"
+    },
+    {
+      "file": "Assets/Resources/Fonts/Galmuri/LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/quiple/galmuri/v2.40.4/dist/LICENSE.txt",
+      "sha256": "86a3ee9495f942f0243f18c103da9faca27adb88142613edb8bb852e56c892c1"
+    }
+  ]
+}

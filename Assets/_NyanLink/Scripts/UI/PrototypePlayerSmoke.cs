@@ -38,7 +38,8 @@ namespace NineMood.UI
         {if(output!=null) {var go=new GameObject("Explicit development smoke");DontDestroyOnLoad(go);go.AddComponent<PrototypePlayerSmoke>();}}
         void Start() {Application.runInBackground=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;Application.logMessageReceived+=Log;StartCoroutine(Guard());}
         void Log(string text,string trace,LogType type)
-        {if(type==LogType.Error || type==LogType.Exception || type==LogType.Assert)errors.Add(text+"\n"+trace);}
+        {if(type==LogType.Error || type==LogType.Exception || type==LogType.Assert ||
+            (type==LogType.Warning && text.Contains("Unicode") && text.Contains("font")))errors.Add(text+"\n"+trace);}
         void Check(bool valid,string text) {if(!valid)throw new Exception(text);passed.Add("PASS "+text);}
         IEnumerator Guard()
         {
@@ -58,6 +59,10 @@ namespace NineMood.UI
         {
             Screen.SetResolution(540,960,FullScreenMode.Windowed);yield return new WaitForSecondsRealtime(2);
             Check(SceneManager.GetActiveScene().name=="Main","Native Mac Player starts Main");
+            var korean=KoreanUIPresentation.Font;
+            Check(korean!=null && korean.sourceFontFile!=null && Enumerable.Range(0xAC00,11172).All(c=>korean.HasCharacter(c)),"Native font includes source and all11172 modern Hangul syllables");
+            Check(korean.atlasTextures.All(t=>t.filterMode==FilterMode.Point),"Native pixel atlas keeps point filtering");
+            Check(FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="게임 시작" && t.font==korean),"Native menu localized in Korean pixel font");
             Check(AudioManager.Instance.sfxMatchShort!=null,"Player includes sound resources");
             ScreenCapture.CaptureScreenshot(Path.Combine(output,"01-main.png"));yield return new WaitForSecondsRealtime(.2f);
             if(NineMood.Presentation.PixelUISkin.Available)

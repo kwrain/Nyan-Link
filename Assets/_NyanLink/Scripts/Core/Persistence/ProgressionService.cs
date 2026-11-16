@@ -120,11 +120,11 @@ namespace NineMood.Core.Persistence
         }
         public static string RewardSummary(string runId)
         {
-            var read=Read();if(!read.Usable) return "SAVE UNAVAILABLE\n"+read.message;
-            if(!read.data.permanent.rewardReceipts.Contains(runId)) return "Reward pending. Return home to retry.\n"+LastMessage;
+            var read=Read();if(!read.Usable) return "저장 데이터를 사용할 수 없습니다\n"+NineMood.UI.KoreanText.Status(read.message);
+            if(!read.data.permanent.rewardReceipts.Contains(runId)) return "보상이 대기 중입니다. 메인에서 다시 확인하세요.\n"+NineMood.UI.KoreanText.Status(LastMessage);
             var gear=read.data.permanent.equipment.Find(e=>e.instanceId=="reward-"+runId);
             var data=gear==null ? null : DataManager.Instance.GetEquipmentData(gear.dataId);
-            return "CLEAR REWARD: +100 COINS\n"+(gear==null ? "No equipment this time" : "Equipment: "+(data!=null ? data.equipmentName : gear.dataId));
+            return "클리어 보상: 코인 +100개\n"+(gear==null ? "이번에는 장비를 얻지 못했습니다" : "획득 장비: "+(data!=null ? NineMood.UI.KoreanText.EquipmentName(data) : gear.dataId));
         }
     }
 }

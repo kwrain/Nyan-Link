@@ -48,9 +48,9 @@ namespace NineMood.UI
             if (boss == null || _timer == null) return;
             bool visible = NineMood.Core.Managers.GameManager.Instance?.CurrentState == GameState.BossPhase;
             if (!visible) return;
-            _timer.text = boss.IsGroggy ? $"GROGGY  {boss.GroggyRemaining:F1}s" :
-                boss.IsPatternActive ? $"TIME  {boss.timeAttackPattern.RemainingTime:F1}s" : "NEXT PATTERN";
-            if (boss.TimersFrozen) _timer.text += "  FROZEN";
+            _timer.text = boss.IsGroggy ? $"그로기  {boss.GroggyRemaining:F1}초" :
+                boss.IsPatternActive ? $"남은 시간  {boss.timeAttackPattern.RemainingTime:F1}초" : "다음 순서 준비";
+            if (boss.TimersFrozen) _timer.text += "  · 시간 정지";
         }
         private void Awake()
         {
@@ -103,7 +103,7 @@ namespace NineMood.UI
         {
             if (groggyIndicator != null) groggyIndicator.SetActive(false);
             if (textInstruction != null) textInstruction.text = "";
-            if (textPhase       != null) textPhase.text       = "Phase 1";
+            if (textPhase       != null) textPhase.text       = "1단계";
             if (textPatternType != null) textPatternType.text = "";
         }
 
@@ -121,7 +121,7 @@ namespace NineMood.UI
         private void OnBossGroggyStarted(float duration)
         {
             // 그로기 표시는 타이머와 안내 텍스트에서 표시. 기존 오버레이는 보존하되 숨긴다.
-            if (textInstruction != null) textInstruction.text = "FREE MATCH  /  ORANGE x2  /  CYAN SHIELD";
+            if (textInstruction != null) textInstruction.text = "자유 연결  /  주황 공격 ×2  /  청록 방어";
         }
 
         private void OnBossGroggyEnded()
@@ -132,7 +132,7 @@ namespace NineMood.UI
         private void OnBossPhaseChanged(int phaseIndex)
         {
             if (textPhase != null)
-                textPhase.text = $"Phase {phaseIndex + 1}";
+                textPhase.text = $"{phaseIndex + 1}단계";
         }
 
         private void OnBossPatternStarted(BossBattleType type)
@@ -140,10 +140,10 @@ namespace NineMood.UI
             if (textPatternType != null)
                 textPatternType.text = type switch
                 {
-                    BossBattleType.TimeAttack     => "TIME ATTACK",
-                    BossBattleType.RhythmNote     => "RHYTHM NOTE",
-                    BossBattleType.ColorQuota     => "COLOR QUOTA",
-                    BossBattleType.MemorySequence => "MEMORY",
+                    BossBattleType.TimeAttack     => "시간 내 순서 연결",
+                    BossBattleType.RhythmNote     => "리듬 노트",
+                    BossBattleType.ColorQuota     => "색상 모으기",
+                    BossBattleType.MemorySequence => "순서 기억",
                     _                             => type.ToString()
                 };
         }

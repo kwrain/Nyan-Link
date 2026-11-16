@@ -402,6 +402,27 @@ public static class NyanLinkSession08Validation
         Assert(AudioManager.Instance.GetComponents<AudioSource>()[0].isPlaying,"SFX playback source active");
         Pass("Three portrait sizes, simulated notch/home insets,40:60 logical split, safe controls and board");
     }
+    static void CheckKoreanUI(string phase)
+    {
+        KoreanUIPresentation.ApplySceneForValidation();
+        var font=KoreanUIPresentation.Font;Assert(font!=null,"Korean pixel font included");
+        Assert(Enumerable.Range(0xAC00,11172).All(c=>font.HasCharacter(c)),"All11172 modern Korean syllables preloaded");
+        Assert(font.atlasRenderMode==UnityEngine.TextCore.LowLevel.GlyphRenderMode.RASTER_HINTED && font.atlasTextures.All(t=>t.filterMode==FilterMode.Point),"True bitmap atlas with point filtering");
+        int count=0;
+        foreach(var text in Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Where(t=>t.isActiveAndEnabled))
+        {
+            Assert(text.font==font,"Korean font on "+text.name);
+            if(string.IsNullOrEmpty(text.text)) {count++;continue;}
+            Assert(font.HasCharacters(text.text,out uint[] missing,true,true),"No missing glyphs on "+text.name+": "+string.Join(",",missing ?? new uint[0]));
+            if(!text.text.StartsWith("미등록:") && !text.text.Contains("test-weapon-data"))
+                Assert(!System.Text.RegularExpressions.Regex.IsMatch(text.text,"[A-Za-z]{2,}"),"Localized functional UI: "+text.name+"="+text.text);
+            text.ForceMeshUpdate();
+            if(!string.IsNullOrEmpty(text.text) && text.rectTransform.rect.width>0 && text.rectTransform.rect.height>0)
+                Assert(!text.isTextOverflowing,"Korean text fits its rect: "+text.name+"="+text.text);
+            count++;
+        }
+        File.AppendAllText(Path.Combine(Output,"korean-ui-probe.txt"),phase+" textComponents="+count+" font="+font.name+"\n");
+    }
     static IEnumerator PixelUICases()
     {
         yield return .2f;
@@ -477,7 +498,7 @@ public static class NyanLinkSession08Validation
             Assert(board.GetTileAtOffset(Kept).Color==TileColor.Blue && board.GetTileAtOffset(Kept).ItemType==ItemEffectType.PowerUp,"Cold resume keeps recolored item identity");
             yield return .15f; // Let LateUpdate labels reflect the already-verified restored model.
             File.WriteAllLines(Path.Combine(Output,"cold-label-probe.txt"),Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t.name=="Item type/level").Select(t=>t.text+" active="+t.isActiveAndEnabled+" parent="+t.transform.parent.name));
-            Assert(Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="PWR 2" && t.isActiveAndEnabled),"Restored item identity badge active");
+            Assert(Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="강화 2" && t.isActiveAndEnabled),"Restored item identity badge active");
             Capture("09-cold-restored-board.png");yield return .15f;
             var permanent=save.Store.Load().data.permanent;
             Assert(permanent.coins==321 && permanent.equipment.Count==2 && permanent.rewardReceipts.Count==1 && permanent.clears.Single().firstRewardGranted && boss.PhaseIndex==1,"Permanent profile and strengthened phase survive process restart");
@@ -495,11 +516,13 @@ public static class NyanLinkSession08Validation
             Near(StaminaManager.Instance.MaxStamina,110,"Actual defeat retry retains upgraded loadout");
             Pass("Cold Unity restart: all checkpoint fields and item identity exact, permanent record intact, actual UI restart progress-only");Pass(assertions+" cold Play assertions");yield break;
         }
+        if(Environment.GetEnvironmentVariable("NYANLINK_KO_QA")=="1")CheckKoreanUI("main");
         Capture("00-main.png");yield return .15f;
         if(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1")
         {
             var mainGear=Object.FindFirstObjectByType<EquipmentPanel>();
             yield return Click(mainGear.OpenButton);yield return .2f;
+            if(Environment.GetEnvironmentVariable("NYANLINK_KO_QA")=="1")CheckKoreanUI("main equipment");
             Capture("ui-01-main-equipment.png");yield return .1f;yield return Click(mainGear.CloseButton);
         }
         StorageCases();
@@ -512,6 +535,7 @@ public static class NyanLinkSession08Validation
         yield return LayoutCases();
         if(Environment.GetEnvironmentVariable("NYANLINK_CONCEPT_QA")=="1")yield return ArtCases();
         if(Environment.GetEnvironmentVariable("NYANLINK_UI_QA")=="1")yield return PixelUICases();
+        if(Environment.GetEnvironmentVariable("NYANLINK_KO_QA")=="1")CheckKoreanUI("game HUD");
         holdSave=true;
         int count=saves;
         yield return Approach();Time.timeScale=1f;
@@ -563,6 +587,7 @@ public static class NyanLinkSession08Validation
         while(boss.timeAttackPattern.IsRunning) yield return Drag(boss.timeAttackPattern.RequiredColor.Value);
         yield return Wait(()=>saves>count,"Boss success saved after refill");var groggyCp=SaveStore.Clone(last);
         Assert(groggyCp.boundary==CheckpointBoundary.BossSuccess && groggyCp.boss.nextStep==BossNextStep.Groggy && groggyCp.boss.groggyRemaining==5 && groggyCp.freezeRemaining>0,"Success boundary opens full groggy with preserved effect");
+        if(Environment.GetEnvironmentVariable("NYANLINK_KO_QA")=="1")CheckKoreanUI("boss groggy");
         Capture("06-groggy-saved.png");yield return .1f;yield return Reload(groggyCp);Assert(boss.IsGroggy,"Continue resumes groggy, not a fresh pattern");
         Time.timeScale=1f;float hpBefore=boss.CurrentHP;long revision=save.Store.Load().data.revision;yield return Drag(TileColor.Orange);
         Near(boss.CurrentHP,hpBefore-12,"Restored50percent buff applied once");Assert(save.Store.Load().data.revision==revision,"No per-match checkpoint writes");

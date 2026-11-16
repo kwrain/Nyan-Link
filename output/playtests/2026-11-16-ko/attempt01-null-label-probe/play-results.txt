@@ -1,0 +1,10 @@
+PASS Atomic write/backup/checksum, interrupted temp, corrupt recovery with original preservation, future version refusal, invalid permanent data
+UNVERIFIED AudioListener output peak0 despite active source; audible output requires separate listening check
+PASS Three portrait sizes, simulated notch/home insets,40:60 logical split, safe controls and board
+PASS Concept sprites, preserved tile geometry, original audio PCM and pause/resume transitions
+PASS 18 pixel UI resources, sliced frames, existing button feedback, nonblocking decorations, live HP binding
+System.NullReferenceException: Object reference not set to an instance of an object
+  at TMPro.TMP_FontAsset.HasCharacters (System.String text, System.UInt32[]& missingCharacters, System.Boolean searchFallbacks, System.Boolean tryAddCharacter) [0x00275] in ./Library/PackageCache/com.unity.ugui@8ccc29d23a79/Runtime/TMP/TMP_FontAsset.cs:1454 
+  at NyanLinkSession08Validation.CheckKoreanUI (System.String phase) [0x00110] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:415 
+  at NyanLinkSession08Validation+<Sequence>d__90.MoveNext () [0x00be9] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:537 
+  at NyanLinkSession08Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession08Validation.cs:108 

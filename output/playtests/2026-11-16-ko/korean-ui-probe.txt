@@ -1,0 +1,4 @@
+main textComponents=5 font=NyanLinkKoreanPixel
+main equipment textComponents=11 font=NyanLinkKoreanPixel
+game HUD textComponents=12 font=NyanLinkKoreanPixel
+boss groggy textComponents=14 font=NyanLinkKoreanPixel

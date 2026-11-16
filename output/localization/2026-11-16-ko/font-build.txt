@@ -1,0 +1,7 @@
+font=Galmuri11 v2.40.4
+mode=RASTER_HINTED
+pointSize=12
+characters=11324
+atlasPages=1
+missingNonHangul=
+clearDynamicDataOnBuild=false

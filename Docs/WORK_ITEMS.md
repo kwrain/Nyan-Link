@@ -6,6 +6,8 @@
 
 ## 미검증
 
+한글 UI·폰트 V-013은 2026-11-16 완료 이력으로 이동. 이전 V-016/V-017의 미검증 언급은 당시 이력이며 현재 모바일 가독성은 D-001로 추적.
+
 ### V-001 — Player 빌드와 새 환경의 패키지 복구
 - 관련: Packages/manifest.json, packages-lock.json, PuzzleBoardManager.cs, Game.unity의 `_tileEntries`.
 - 확인할 동작·기대 결과: 캐시 없는 환경에서 패키지 복구 후 데스크톱/모바일 Player 컴파일 및 타일 렌더링 성공.
@@ -33,15 +35,11 @@
 - 미검증 사유/방법: 실제 청취를 수행하지 못함. 출력 경로/분석 API의0값 원인 확인 후 실제 장치 청취, 필요 시 믹스/볼륨 조정. API 성공을 청취 통과로 바꾸지 않음.
 - 관련: D-001.
 
-### V-013 — 최종 한국어 현지화·글리프
-- 등록일·최근 확인일: 2026-11-13. 관련: TMP/기본 LiberationSans, UI 전반, I-003 완료 기록.
-- 확인할 동작·기대: 적절한 라이선스의 한글 폰트로 메뉴/동적 안내/장비 이름/긴 문구가 깨지지 않고 작은 화면에서 읽힘.
-- 미검증 사유: 현재 프로토타입은 영문 UI/영문 데이터로 검증. 원래 한글 폰트를 추가한 것은 아니며 최종 현지화는 미구현.
-- 방법: 아트·UI 제작 단계에서 한국어 문자열/폰트 교체 후 모든 상태/해상도·실기기 검사. 미등록 보존 데이터가 한국어인 경우도 포함.
 
 ## 미해결
 
 ### I-009 — Mac Development Player 종료 시 렌더 자원 정리 경고
+- 2026-11-16 한글화 Native23/종료0 뒤 동일 ComputeBuffer·Development메모리 진단 재현. 이번 변경으로 해결 처리 안 함. 근거 2026-11-16-ko/player.log.
 - 2026-11-16 최근 확인: 픽셀UI Native20 checks/종료0 뒤 동일 ComputeBuffer/Development메모리 진단 재현. UI 작업으로 해결 처리하지 않음. 근거 2026-11-16-ui/player.log, V-017.
 - 2026-11-14 최근 확인: 새 아트 Native17 checks·실행 중 오류0/종료0 뒤 ComputeBuffer 자동정리 및 Development MemoryLeaks 경고 재현. 원인 미확정/기존 증상 유지. 이번 표현 변경에 원인을 단정하지 않고 URP·패키지 수명 추적 필요, 불필요한 패키지 제거/경고 억제 안 함. 근거 output/playtests/2026-11-14-art-audio/player.log, V-016.
 - 등록일: 2026-11-13 / 최근 확인일: 2026-11-16. 관련: URP/Native Player 종료, output/playtests/2026-11-13-session08/player.log.
@@ -54,6 +52,7 @@
 ## 실기기 테스트 필요
 
 ### D-001 — Android/iOS 세로 화면과 입력
+- 2026-11-16 한글화 추가: 갈무리11·한글UI가 Editor3해상도/모의노치·Mac Native540×960에서 검증(V-013). 실제폰에서 작은한글/숫자·긴안내 줄바꿈/장비행·버튼·손가락가림·폰트메모리/추가글리프·성능 확인 필요. 모바일모듈미설치/실기기미실행 상태 유지.
 - 2026-11-16 최근 확인: 픽셀 버튼/게이지/팝업/장비창·아이콘·긴목록 클리핑 적용(V-017). Mac CLI 가상Mouse/모의노치와 Native540×960 확인, 실제 터치검사 아님. 기기에서 눌림/비활성·6색선택·13개 이상 장비 스크롤·노치경계·작은글자·픽셀 리소스 메모리/성능 확인. Unity모바일모듈 없어 대기 유지.
 - 2026-11-14 최근 확인: 새 고양이/보스/장애물·6색 심볼/아이템 링·배경/로고 및 BGM2/SFX8도 대상에 추가. Mac Editor3해상도/모의 노치·Native540×960은 V-016에서 확인, 실제 모바일 검증 아님. 기기에서 글·심볼·색 선택·손가락 가림/장애물 가독성·고해상도 텍스처 메모리·음량/무음/앱 전환 확인 필요. 관련 Presentation/, Art/ConceptPixel, Audio/ConceptPixel, V-012.
 - 관련: Main/Game 씬, New Input System, TileInputHandler, DualCameraRig, TMP, PlayerSettings.
@@ -80,6 +79,20 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-013 — 프로토타입 한글 UI·픽셀 폰트·글리프 검증 완료
+- 등록일:2026-11-13 / 최근확인·수행일:2026-11-16. 기준6dff4ab. 기존 e883693/6dff4ab는 사용자 요청으로 origin/main에 푸시·6dff4ab54c58e0725cc0b8aaf537884de7e860f9 원격일치 확인. 새 한글화는 로컬 커밋 feat: localize prototype UI with Korean pixel typography, 미푸시.
+- 이전 상태: 기본 LiberationSans/영문UI로 한국어폰트·현지화 미구현. 이번에 활성 프로토타입 경로를 한글화하고 정식 출처·라이선스 포함 폰트를 적용.
+- 관련: UI/KoreanText·KoreanUIPresentation, FontPipeline, Resources/Fonts/Galmuri 및 TMP Settings, 기존UI·PixelUISkin/ConceptPixelPresentation, TimeAttackPattern 표시·ProgressionService.RewardSummary, Session06/07/08 기대문구/NativeQA.
+- 출처/허가: quiple/Galmuri11 v2.40.4 공식배포 TTF 원본·OFL1.1 저작권/라이선스 전문 보존. URI/SHA font-provenance.json·NOTICE.txt. 기존 폰트/씬/.meta/데이터ID·이름/저장schema·규칙서명·게임수치 유지, 알려진3종 장비 표시명만 한글.
+- 폰트:12pt RASTER_HINTED/Point/2048 Alpha8 atlas1개/11324문자,현대 한글11172전부 사전포함. Dynamic/sourceFont 참조/빌드캐시유지·기존LibSans fallback. UI표시만NFC정규화, 저장원본불변. Bitmap에 SDF-only outline설정 안 함.
+- 적용: 시작/이어하기정책/일시정지/승패·보상/체력·연결/아이템·시간정지/장애물/보스순서·시간·그로기/6색선택/장비 슬롯·장착·Lv5·비용·잠금·오류 안내. 버튼/GameObject 이름·이벤트/ID는보존하고 한글표시와기존역할색 연결. 이미지브랜드NYAN LINK·미등록원본ID는 보존.
+- Unity6000.3.14f1 Mac Editor CLI 통합1055/Cold64/아이템322/장비204 통과·각종료0·게임경로오류0. 실제UI·저장/재색칠아이템/효과·중복보상·장착/강화HP135/공격1.1·스크롤·눌림/비활성 유지.
+- 추가폰트 검사: 현대11172기본글리프·Point/bitmap·활성TMP의폰트/누락/영문기능문구/넘침 확인. Main5/장비11/HUD12/Boss14 컴포넌트 확인, 실제PNG 직접확인. 빈문구검사도구오류 attempt01 보존후nullguard로해결.
+- Native: Mac Development 빌드성공/오류0/기존UGS경고1·실행23 checks/종료0. 폰트원본·현대11172전부/Point·한글메뉴/장비/팝업·Mouse쌍/20점·리필/격리저장·음악정지/재개. 누락글리프 경고0·실제540×960 PNG5장.
+- 보호: 작업트리시작깨끗함/앱파일9개외부SHA백업·재확인/원래saves부재유지/.meta311중복0. Unity자동Cloud설정diff보존후복원, TMP Settings 기본폰트는의도된변경으로유지.
+- 근거: output/playtests/2026-11-16-ko/{play-results.txt,cold-results.txt,korean-ui-probe.txt,regression-session05/,regression-session07/,build-results.txt,player/,final-protection-audit.json,SCREENSHOTS.txt}, output/localization/2026-11-16-ko/, KO-UI-01-HANDOFF.txt.
+- 한계: 프로토타입 활성UI 기준 완료. 실제모바일의글자/줄바꿈·터치·메모리·성능 D-001,모바일저장D-002/새캐시V-001/사람무보정V-002/실제청취V-012/기존종료경고I-009 유지. 향후추가기능·출시전체현지화 완료를 의미하지 않음.
 
 ### V-017 — 픽셀 UI 리소스·기존 기능 유지 검증
 - 등록일·최근 확인일·수행일: 2026-11-16. 기준 e883693, 로컬 커밋 메시지 feat: replace prototype UI with generated pixel art assets, 미푸시.

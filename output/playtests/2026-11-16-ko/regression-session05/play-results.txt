@@ -1,0 +1,7 @@
+PASS All six types generate Lv1/Lv2, last cell, no new-item recursion, per-type2 cap without global slots
+PASS All 6x2 effects via single click: exact area, recovery/freeze/buff, color shift and retained identity, nested modal pause
+PASS Recursive overlap, unique removed set, all effects before refill, generated item survives chain
+PASS Shared freeze: decay only, elapsed/input/animation/obstacle movement, max duration, boss carry, pattern/groggy clocks; pattern item protection; actual buff consumption
+PASS Choice restart/Home cleanup, no destroyed/duplicate subscribers, user saves preserved
+PASS 322 Play assertions
+PASS Session05 completed without runtime errors

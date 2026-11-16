@@ -28,7 +28,7 @@ namespace NineMood.UI
             if(GetComponent<EquipmentPanel>()==null) gameObject.AddComponent<EquipmentPanel>();
             int best = PlayerPrefs.GetInt(BestScoreKey, 0);
             if (textBestScore != null)
-                textBestScore.text = $"BEST: {best:N0}";
+                textBestScore.text = $"최고 점수: {best:N0}";
         }
 
         private void OnClickPlay() => SceneLoader.LoadGame();

@@ -29,7 +29,7 @@ namespace NineMood.UI
             if (buttonContinue != null)
             {
                 buttonContinue.onClick.AddListener(OnClickContinue);
-                buttonContinue.GetComponentInChildren<TextMeshProUGUI>().text="RETRY";
+                buttonContinue.GetComponentInChildren<TextMeshProUGUI>().text=KoreanText.UI("RETRY");
             }
             if (buttonMainMenu != null) buttonMainMenu.onClick.AddListener(OnClickMainMenu);
         }

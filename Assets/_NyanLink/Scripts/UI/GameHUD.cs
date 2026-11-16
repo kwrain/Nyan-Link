@@ -26,7 +26,7 @@ namespace NineMood.UI
         private TextMeshProUGUI _chainTier;
         private TextMeshProUGUI _saveStatus;
         private void LateUpdate()
-        { if(_saveStatus!=null) _saveStatus.text=(SaveManager.Instance?.HasWriteError ?? false) ? "SAVE UNAVAILABLE - last checkpoint retained" : ""; }
+        { if(_saveStatus!=null) _saveStatus.text=(SaveManager.Instance?.HasWriteError ?? false) ? "저장할 수 없습니다 · 마지막 저장 구간을 유지합니다" : ""; }
         private void Awake()
         {
             _chainTier = new GameObject("Chain Tier",typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
@@ -44,9 +44,9 @@ namespace NineMood.UI
         private void OnMatch(int connected,int gained,int removed,NineMood.Data.Enums.TileColor color)
         {
             int tier = DataManager.Instance.BalanceData.GetChainMultiplier(connected);
-            _chainTier.text = $"CHAIN {connected}  /  TIER x{tier}";
+            _chainTier.text = $"연결 {connected}  /  배율 ×{tier}";
         }
-        private void OnItemUse(int score,int removed) => _chainTier.text=$"ITEM USE  /  REMOVED {removed}";
+        private void OnItemUse(int score,int removed) => _chainTier.text=$"아이템 사용  /  제거 {removed}개";
         private void OnEnable()
         {
             GameEvents.OnItemUseCompleted += OnItemUse;

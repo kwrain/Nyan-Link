@@ -70,19 +70,19 @@ namespace NineMood.UI
             reward.text=SaveManager.IsCreated ? ProgressionService.RewardSummary(SaveManager.Instance.CurrentRunId) : "";
             EquipButtons.Clear();UpgradeButtons.Clear();
             foreach(Transform child in content) {child.gameObject.SetActive(false);Destroy(child.gameObject);}
-            if(!read.Usable) {stats.text="SAVE UNAVAILABLE";slots.text="";status.text=read.message;NewSetupButton.gameObject.SetActive(false);return;}
+            if(!read.Usable) {stats.text=KoreanText.UI("SAVE UNAVAILABLE");slots.text="";status.text=KoreanText.Status(read.message);NewSetupButton.gameObject.SetActive(false);return;}
             var doc=read.data;var p=doc.permanent;var effective=ProgressionService.Stats(p);
-            stats.text=$"COINS  {p.coins:N0}\nMAX HP  {effective.maxHP:0.#}     ATTACK  {effective.attack:0.##}";
-            string[] names={"HAT","OUTFIT","WEAPON"};slots.text="";
+            stats.text=$"코인  {p.coins:N0}\n최대 체력  {effective.maxHP:0.#}     공격력  {effective.attack:0.##}";
+            string[] names={"모자","옷","무기"};slots.text="";
             for(int slot=0;slot<3;slot++)
             {
                 var e=p.equipment.Find(x=>x.equippedSlot==slot);
                 var d=e==null ? null : DataManager.Instance.GetEquipmentData(e.dataId);
-                slots.text+=names[slot]+": "+(e==null ? "Empty" : (d!=null ? d.equipmentName : e.dataId)+" Lv."+e.level)+"\n";
+                slots.text+=names[slot]+": "+(e==null ? "비어 있음" : (d!=null ? KoreanText.EquipmentName(d) : e.dataId)+" "+e.level+"레벨")+"\n";
             }
             bool allowed=ProgressionService.CanChangeLoadout(doc);
             NewSetupButton.gameObject.SetActive(doc.hasCheckpoint);
-            status.text=notice ?? (doc.pendingClears.Count>0 ? "CLEAR REWARD PENDING\n"+ProgressionService.LastMessage : allowed ? "Select gear, then retry to use these stats.\nUpgrades: 100 / 150 / 200 / 250 coins" : "Saved run kept. Gear changes are locked.\nNEW RUN SETUP discards only the saved run.");
+            status.text=notice!=null ? KoreanText.Status(notice) : doc.pendingClears.Count>0 ? "클리어 보상 대기 중\n"+KoreanText.Status(ProgressionService.LastMessage) : KoreanText.UI(allowed ? "Select gear, then retry to use these stats.\nUpgrades: 100 / 150 / 200 / 250 coins" : "Saved run kept. Gear changes are locked.\nNEW RUN SETUP discards only the saved run.");
             if(p.equipment.Count==0)
             {
                 var empty=new GameObject("Empty",typeof(RectTransform),typeof(LayoutElement));empty.transform.SetParent(content,false);empty.GetComponent<LayoutElement>().preferredHeight=190;
@@ -93,7 +93,7 @@ namespace NineMood.UI
                 var data=DataManager.Instance.GetEquipmentData(record.dataId);string id=record.instanceId;
                 var row=new GameObject("Item-"+id,typeof(RectTransform),typeof(Image),typeof(LayoutElement));row.transform.SetParent(content,false);row.GetComponent<LayoutElement>().preferredHeight=200;row.GetComponent<Image>().color=new Color(.12f,.17f,.27f);
                 var bonus=data!=null ? data.GetStatAtLevel(record.level) : null;
-                Label(row.transform,(data!=null ? data.equipmentName : "Unknown: "+record.dataId)+$"  Lv.{record.level}"+(record.equippedSlot>=0 ? "  [EQUIPPED]" : "")+"\n"+(bonus==null ? "Preserved legacy equipment" : $"HP +{bonus.hpBonus:0.#}   ATTACK +{bonus.attackBonus:0.##}"),new Vector2(.5f,.72f),new Vector2(920,95),30);
+                Label(row.transform,(data!=null ? KoreanText.EquipmentName(data) : "미등록: "+record.dataId)+$"  {record.level}레벨"+(record.equippedSlot>=0 ? "  [장착 중]" : "")+"\n"+(bonus==null ? "이전 장비 기록 보존" : $"체력 +{bonus.hpBonus:0.#}   공격력 +{bonus.attackBonus:0.##}"),new Vector2(.5f,.72f),new Vector2(920,95),30);
                 bool equipped=record.equippedSlot>=0;
                 var equip=Button(row.transform,equipped ? "UNEQUIP" : "EQUIP",new Vector2(.25f,.23f),new Vector2(390,70),()=>{ProgressionService.ChangeEquipment(id,!equipped);notice=ProgressionService.LastMessage;Refresh();});
                 int cost=ProgressionService.UpgradeCost(record.level);
@@ -115,7 +115,7 @@ namespace NineMood.UI
         {
             var go=new GameObject("Label",typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);
             var r=go.GetComponent<RectTransform>();r.anchorMin=r.anchorMax=anchor;r.sizeDelta=size;
-            var label=go.GetComponent<TextMeshProUGUI>();label.text=text;label.fontSize=font;label.alignment=TextAlignmentOptions.Center;label.raycastTarget=false;return label;
+            var label=go.GetComponent<TextMeshProUGUI>();label.text=KoreanText.UI(text);label.fontSize=font;label.alignment=TextAlignmentOptions.Center;label.raycastTarget=false;KoreanUIPresentation.Apply(label);return label;
         }
     }
 }

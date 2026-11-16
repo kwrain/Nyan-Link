@@ -35,7 +35,7 @@ namespace NineMood.UI
             if(playing)
             {
                 remaining=Mathf.Max(0,remaining-Time.deltaTime);
-                action.text=runner==null || runner.CurrentState==NineMood.Data.Enums.RunnerState.Run ? "" : runner.CurrentState.ToString().ToUpperInvariant();
+                action.text=runner==null || runner.CurrentState==NineMood.Data.Enums.RunnerState.Run ? "" : KoreanText.ActionName(runner.CurrentState);
             }
             else if(game==null || game.CurrentState!=GameState.Paused) {action.text="";remaining=0;}
             flash.color=new Color(1,.1f,.15f,remaining/.28f*.22f);

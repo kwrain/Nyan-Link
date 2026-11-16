@@ -24,8 +24,8 @@ namespace NineMood.UI
         [Header("버튼 레이블 (TMPro — Inspector 할당 선택)")]
         [SerializeField] private TextMeshProUGUI textButtonStart;
 
-        private const string LabelStart    = "NEW GAME";
-        private const string LabelContinue = "CONTINUE";
+        private const string LabelStart    = "새 게임";
+        private const string LabelContinue = "이어하기";
 
         // ── 라이프사이클 ──────────────────────────────────────────
 
@@ -37,9 +37,9 @@ namespace NineMood.UI
                 buttonNewGame=Instantiate(buttonStart,buttonStart.transform.parent);
                 buttonNewGame.name="New Game";buttonNewGame.onClick.RemoveAllListeners();
                 var rect=buttonNewGame.GetComponent<RectTransform>();rect.anchoredPosition+=Vector2.down*150f;
-                buttonNewGame.GetComponentInChildren<TextMeshProUGUI>().text="NEW GAME";
+                buttonNewGame.GetComponentInChildren<TextMeshProUGUI>().text="새 게임";
             }
-            if(buttonNewGame!=null) buttonNewGame.GetComponentInChildren<TextMeshProUGUI>().text="NEW GAME";
+            if(buttonNewGame!=null) buttonNewGame.GetComponentInChildren<TextMeshProUGUI>().text="새 게임";
             var go=new GameObject("Continue policy",typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(transform,false);
             var r=go.GetComponent<RectTransform>();r.anchorMin=new Vector2(.1f,.10f);r.anchorMax=new Vector2(.9f,.22f);r.offsetMin=r.offsetMax=Vector2.zero;
             _policy=go.GetComponent<TextMeshProUGUI>();_policy.fontSize=26;_policy.alignment=TextAlignmentOptions.Center;_policy.raycastTarget=false;
@@ -90,8 +90,8 @@ namespace NineMood.UI
         {
             bool hasCheckpoint = SaveManager.Instance?.HasCurrentCheckpoint() ?? false;
 
-            if(_policy!=null) _policy.text="Continue resumes the last saved boundary.\nLater actions may be rolled back.\nNew game keeps coins and equipment."+
-                (string.IsNullOrEmpty(SaveManager.Instance?.LastMessage) ? "" : "\n"+SaveManager.Instance.LastMessage);
+            if(_policy!=null) _policy.text="이어하기는 마지막 저장 구간부터 시작합니다.\n저장 이후의 진행은 되돌아갈 수 있습니다.\n새 게임을 시작해도 코인과 장비는 유지됩니다."+
+                (string.IsNullOrEmpty(SaveManager.Instance?.LastMessage) ? "" : "\n"+KoreanText.Status(SaveManager.Instance.LastMessage));
             // 시작 버튼 레이블
             if (textButtonStart != null)
                 textButtonStart.text = hasCheckpoint ? LabelContinue : LabelStart;

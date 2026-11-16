@@ -30,7 +30,7 @@ namespace NineMood.UI
             var go=new GameObject("Item type/level",typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(badge.transform,false);
             var rect=go.GetComponent<RectTransform>();rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=rect.offsetMax=Vector2.zero;
             var text=go.GetComponent<TextMeshProUGUI>();text.alignment=TextAlignmentOptions.Center;text.raycastTarget=false;text.fontStyle=FontStyles.Bold;
-            text.outlineWidth=.2f;text.outlineColor=Color.black;return text;
+            if(text.fontSharedMaterial.HasProperty(ShaderUtilities.ID_OutlineWidth)) {text.outlineWidth=.2f;text.outlineColor=Color.black;} KoreanUIPresentation.Apply(text);return text;
         }
         private void LateUpdate()
         {
@@ -50,14 +50,14 @@ namespace NineMood.UI
                 if(count==_labels.Count) _labels.Add(MakeLabel());
                 var text=_labels[count++];text.transform.parent.gameObject.SetActive(true);
                 text.transform.parent.GetComponent<RectTransform>().position=_camera.WorldToScreenPoint(_board.GetCellCenterWorld(cell));text.transform.parent.GetComponent<RectTransform>().sizeDelta=new Vector2(150,60)*scale;text.fontSize=26*scale;
-                string kind=tile.ItemType switch { ItemEffectType.Recovery=>"REC",ItemEffectType.TimeFreeze=>"FRZ",ItemEffectType.Blast=>"BLAST",ItemEffectType.LineClear=>"LINE",ItemEffectType.PowerUp=>"PWR",ItemEffectType.ColorShift=>"COLOR",_=>"?" };
+                string kind=KoreanText.ItemName(tile.ItemType);
                 text.text=kind+" "+(tile.State==TileState.ItemLv2 ? "2" : "1");
             }
             for(int i=count;i<_labels.Count;i++) _labels[i].transform.parent.gameObject.SetActive(false);
             float remaining=StaminaManager.Instance?.DecayFreezeRemaining ?? 0f;
             _freeze.transform.parent.GetComponent<RectTransform>().position=new Vector2(PrototypeSafeArea.Pixels.center.x,PrototypeSafeArea.Pixels.y+PrototypeSafeArea.Pixels.height*.615f);_freeze.transform.parent.GetComponent<RectTransform>().sizeDelta=new Vector2(Screen.width,60*scale);_freeze.fontSize=28*scale;
             _freeze.transform.parent.gameObject.SetActive(remaining>0);
-            _freeze.text=remaining>0 ? $"TIME FREEZE  {remaining:F1}s" : "";
+            _freeze.text=remaining>0 ? $"시간 정지  {remaining:F1}초" : "";
         }
     }
 }

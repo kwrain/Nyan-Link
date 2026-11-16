@@ -1,0 +1,25 @@
+PASS Native Mac Player starts Main
+PASS Native font includes source and all11172 modern Hangul syllables
+PASS Native pixel atlas keeps point filtering
+PASS Native menu localized in Korean pixel font
+PASS Player includes sound resources
+PASS Native equipment window includes pixel UI resources
+PASS Player serialized tile references render39 cells
+PASS Player displays generated cat
+PASS Player displays generated tiles
+PASS Player starts adventure BGM
+MUSIC time before=0.2133107 after=0.426644
+PASS Native BGM playback position advances
+PASS Native pixel pause popup
+PASS Native pixel HP gauge
+PASS Native pause preserves BGM position
+PASS Native resume BGM
+PASS Player runtime stats initialize
+PASS Player includes selection shader
+PASS Native Player input selects adjacent pair
+PASS Player release scores and refills
+PASS Player sound dispatched with single listener
+PASS Player writes isolated profile
+AUDIO sourcePlaying=True listenerVolume=1 peak=0
+PASS Native home stops BGM
+PASS Native Player has no runtime errors

@@ -1,0 +1,16 @@
+{
+  "baseline": "6dff4ab54c58e0725cc0b8aaf537884de7e860f9",
+  "pushedOriginMain": "6dff4ab54c58e0725cc0b8aaf537884de7e860f9",
+  "backupFilesVerified": 9,
+  "originalSavesExists": false,
+  "metaCount": 311,
+  "duplicateGuids": [],
+  "nativeExitCode": 0,
+  "nativeChecks": 23,
+  "fontWarnings": 0,
+  "restoredSettings": "ProjectSettings/UnityConnectSettings.asset",
+  "fontLicenseBesideLocalApp": [
+    "Builds/KoreanUI/Galmuri-LICENSE.txt",
+    "Builds/KoreanUI/Galmuri-NOTICE.txt"
+  ]
+}

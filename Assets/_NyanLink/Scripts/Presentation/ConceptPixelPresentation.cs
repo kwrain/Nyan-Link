@@ -142,7 +142,7 @@ namespace NineMood.Presentation
             PrototypePresentation.Place(info.GetComponent<RectTransform>(),0,.778f,1,.895f);info.GetComponent<Image>().color=new Color(.025f,.055f,.13f,.78f);info.GetComponent<Image>().raycastTarget=false;
             foreach(var text in bossHud.GetComponentsInChildren<TextMeshProUGUI>(true))
             {
-                text.outlineColor=new Color(.02f,.04f,.10f);text.outlineWidth=.22f;
+                if(text.fontSharedMaterial.HasProperty(ShaderUtilities.ID_OutlineWidth)) {text.outlineColor=new Color(.02f,.04f,.10f);text.outlineWidth=.22f;}
                 switch(text.name)
                 {
                     case "Text_BossHP":PlaceText(text,.87f,.895f,27);break;

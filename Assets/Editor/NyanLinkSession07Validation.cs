@@ -336,7 +336,7 @@ public static class NyanLinkSession07Validation
             yield return Click(panel.EquipButtons[hat]);Near(ProgressionService.Stats().maxHP,110,"Cold UI unequip persisted");
             yield return Click(panel.EquipButtons[hat]);Near(ProgressionService.Stats().maxHP,135,"Cold UI re-equip persisted");
             yield return Click(panel.CloseButton);
-            Assert(Button(Object.FindFirstObjectByType<GameReadyPanel>(),"buttonStart").GetComponentInChildren<TMPro.TextMeshProUGUI>().text=="NEW GAME","Setup action refreshes ready label immediately");
+            Assert(Button(Object.FindFirstObjectByType<GameReadyPanel>(),"buttonStart").GetComponentInChildren<TMPro.TextMeshProUGUI>().text=="새 게임","Setup action refreshes ready label immediately");
             Assert(Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="135/135"),"Ready HUD previews current equipment HP135");Capture("08-new-setup-preserved-gear.png");yield return .15f;
         }
         else

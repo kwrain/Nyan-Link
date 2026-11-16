@@ -1,0 +1,80 @@
+냥링크 한글 UI·픽셀 폰트 인수인계
+작성·최근 확인: 2026-11-16 Asia/Seoul
+기준: 프로토타입 확정1.1 / 기존 UI-ART-01-HANDOFF / WORK_ITEMS / 현재 코드.
+
+1. Git·작업 범위
+실제 경로 /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link, main. 적용 지침 프로젝트 루트 AGENTS.md.
+시작 시 작업 트리 깨끗함, e883693+6dff4ab 두 로컬 커밋이 미푸시 상태.
+사용자 요청대로 두 커밋을 origin/main에 푸시, 원격 refs/heads/main=6dff4ab54c58e0725cc0b8aaf537884de7e860f9 직접 확인.
+origin URL 유지/명령별 SSH 인증/강제푸시 없음. 이번 한글화는 검증 후 별도 로컬 커밋, 새 푸시 요청은 없어 미푸시.
+로컬 커밋 메시지 feat: localize prototype UI with Korean pixel typography. 최종 해시는 git log 및 최종 답변 참조.
+기존 사용자 변경 없었음. 씬 YAML/기존.meta GUID/기획·타일·아트·사운드·패키지·장비 데이터/저장ID·스키마·수치 보존.
+
+2. 보존·복구
+원래 앱 경로 /Users/kiwoolee/Library/Application Support/DefaultCompany/NyanLink
+외부 백업 /Users/kiwoolee/.codex/visualizations/2026/11/13/01a1d285-d609-7523-a6ba-5ad5d5334841/Nyan-Link-ko-20261116-before
+files/9개와 manifest.json의 SHA256 복사 직후/종료 시 재확인.9개는 Unity 내부 파일, 시작 시 게임 saves 폴더 없음.
+원래 saves 부재 유지. 자동 검사는 전용 TestDirectoryOverride/stageData=null, 최고점/입력·GameView 복원. 실제 사용자 진행이 있었던 것으로 해석하지 않음.
+코드 복구는 현재 작업을 먼저 보존하고 별도 새 폴더에 기준6dff4ab 또는 최종커밋을 복원해 비교. 현 프로젝트 reset/clean/Library 삭제 금지.
+저장 복구는 현재saves전체부터 보존하고 유효한 같은revision의 주 또는.bak 문서1개 사용. Unity 내부파일 백업을 게임 저장으로 덮어쓰지 말 것.
+
+3. 폰트
+제작자 quiple의 Galmuri11 v2.40.4 공식 TTF 원본/라이선스를 내려받아 Assets/Resources/Fonts/Galmuri에 보존.
+출처 https://github.com/quiple/galmuri
+고정폰트 https://raw.githubusercontent.com/quiple/galmuri/v2.40.4/dist/Galmuri11.ttf
+라이선스 https://raw.githubusercontent.com/quiple/galmuri/v2.40.4/dist/LICENSE.txt
+SIL OFL1.1, 제작자 저작권과 전문은 LICENSE.txt, 출처/설정은 NOTICE.txt. TTF 원본 바이트 수정 없음.
+원본 파일/라이선스 SHA256·다운로드 URL은 output/localization/2026-11-16-ko/font-provenance.json.
+
+NyanLinkKoreanPixel.asset: TMP bitmap/RASTER_HINTED/12pt/Point,2048 Alpha8 atlas1개,11324문자 사전 포함.
+현대 한글 U+AC00..D7A3 전체11172음절 및 ASCII/호환자모/표시 기호를 미리 포함. UI/이전 저장의 한글 이름에 사각형 대체글자가 생기지 않도록 함.
+Dynamic/multi-atlas로 원본이 지원하는 추가 글리프 확장 가능. 원본Font 참조 포함. m_ClearDynamicDataOnBuild=0으로 Player에서도 사전 한글 유지.
+기존 LiberationSans SDF를 보존하고 fallback 연결. TMP Settings의 기본폰트를 새 자산으로 연결, 부수적 Unity직렬화/커닝필드 마이그레이션 외 UI설정 의도적 변경 없음.
+SDF 전용 outline 설정은 해당 shader property가 있을 때만 사용. Bitmap 글꼴은 기존 어두운 픽셀패널/배지로 대비 유지.
+LICENSE/NOTICE는 소스 Resources에 포함되고 로컬 실행물 옆 Builds/KoreanUI/Galmuri-LICENSE.txt·Galmuri-NOTICE.txt에도 복사. 앱을 별도 전달할 경우 저작권/라이선스도 함께 전달.
+
+4. 한글화·계약
+KoreanText: 표시용 고정 문구/색·액션·아이템·장비 이름/상태 메시지. 저장·장비·스테이지ID, 열거형, GameObject 이름은 번역하지 않음.
+KoreanUIPresentation: 씬 수명에서 기존/동적 TMP에 폰트 적용, 직렬화된 정적 문구 변환. 표시 문자열만 NFC 정규화, 저장 원본은 변경 안 함.
+Main 시작·종료·최고점/준비·이어하기 정책/일시정지·재개·재시작·메인/승패 결과·보상/장비 슬롯·장착·해제·Lv5·비용·잠금·오류/청록6색 선택/HP·체인 배율·액션·아이템·시간 정지/보스단계·순서·그로기·제한시간에 적용.
+이미지 로고의 NYAN LINK 브랜드 표기와 미등록 장비의 원래ID는 보존. 일반 기능 UI 문구는 한글.
+3개 고정 장비의 표시명만 여행자 모자/여행자 옷/여행자 지팡이로 제공, ScriptableObject 이름/ID·영구 기록은 그대로.
+ProgressionService.RewardSummary는 표시 문자열만 한글, LastMessage 등 내부 진단/거래 검증과 영수증·지급 로직은 유지. 플레이어 오류안내는 KoreanText.Status에서 원본보존/다음조치 안내, 기술 예외명은 노출하지 않음.
+BossPatternInstructionChanged(string)는 표시용 한글 순서로 발행, Sequence/RequiredColor 열거형·저장값은 동일. UI문자열을 색/장비ID로 파싱하지 말 것.
+PixelUISkin.ButtonRole에서 한글 버튼 표시와 기존 역할색을 연결. 실제 버튼 이름/리스너·클릭영역·상태/스크롤/클리핑은 유지.
+저장schema1·규칙서명·RNG·HP/점수/아이템·피해·보상/강화 비용 변경 없음. UGUI 유지, 새 패키지/언어선택·보류기능 추가 없음.
+
+5. 변경 파일
+추가: UI/KoreanText.cs·KoreanUIPresentation.cs 및.meta, Editor/NyanLinkKoreanFontPipeline.cs(.meta), Resources/Fonts/Galmuri TTF/라이선스/NOTICE/TMP.asset(.meta).
+수정: TMP Settings.asset 기본폰트, MainMenu/GameReady/GameHUD/BossHUD/GamePause/ColorSelection/Equipment/ItemTileLabels/RunnerWarningHUD/StageClear/PrototypeFeedback의 표시 문자열과 폰트 적용.
+Presentation/PixelUISkin 버튼 역할, ConceptPixelPresentation 폰트별 outline guard. Boss/Patterns/TimeAttackPattern 순서 표시, ProgressionService 보상 요약.
+검사: Session06/07/08의 기대 표시만 한글(새 게임/강화2)로 갱신.08에 옵션 폰트/누락/넘침/영문잔류 검사, Native smoke에 폰트 원본·전체음절·Point·한글메뉴 확인/누락글리프 경고 검사.
+Docs/WORK_ITEMS, 본 파일, output/localization/2026-11-16-ko 및 output/playtests/2026-11-16-ko.
+
+6. 실제 검증 결과
+Unity6000.3.14f1 / macOS27.2 arm64 / StandaloneOSX / 현재캐시.
+폰트 생성 CLI 종료0. 현대11172음절 누락0, 비한글 사전문자 누락0,11324문자/atlas1개. font-build.txt.
+Editor CLI 통합1055 assertion/종료0/게임 경로 오류0. 실제 UI 가상Mouse·저장·전투·보상/장비/재시작을 유지하면서 로비/장비/HUD/보스의 폰트·한글/글리프·text overflow 검사.
+Active TMP 검사 컴포넌트 Main5/Main장비11/GameHUD12/Boss14, Korean font·영문 기능문구 잔류 없음·누락/범위넘침 없음. 로고는 Image이므로 별도 브랜드 유지.
+새 Unity 프로세스 Cold64/아이템·색선택322/장비204 통과, 모두 종료0·게임 경로 오류0. 재색칠 강화2 복원, 한글6색 선택/기반상태 복귀, 장착·Lv5·HP135/공격1.1·중복보상거부·긴목록·눌림/비활성·원래저장 보호 유지.
+Native Mac Development 빌드 Succeeded/오류0/기존UGS경고1,411636574bytes, Builds/KoreanUI/NyanLink.app 로컬만 보존·배포/커밋 안 함.
+Native 실행23 checks/종료0,실제540×960: 폰트 원본/현대11172전체/Point/한글메뉴·장비·팝업·UI·Mouse선택/20점·리필/격리저장/BGM재생·정지/재개 확인. 글리프 누락 경고0,실제PNG5장.
+원래saves부재/백업9개SHA재확인/.meta311중복GUID0, font/licenseSHA일치, final-protection-audit.json.
+Unity 자동Cloud 설정 변경은 patch보존 후 시작값으로 복원. TMP Settings 변경은 폰트 적용에 필요한 의도된 변경으로 유지.
+첫 시도 attempt01-null-label-probe: 검사 도구가 빈 TMP.text에 HasCharacters(null)을 호출해 실패. 게임 구현 오류가 아니며 빈 문구를 건너뛰도록 검사만 보완, 최종 성공. 초기로그/PNG 보존.
+
+7. 재현
+같은 프로젝트 Unity는1개만 실행. 그래픽 검사는 -batchmode/-nographics/-quit 없이, 검사 도구가 스스로 종료. 다른 프로젝트 Unity 종료 금지.
+통합: NYANLINK_KO_QA=1 NYANLINK_UI_QA=1 NYANLINK_CONCEPT_QA=1 NYANLINK_SESSION08_OUTPUT=<새출력> Unity -buildTarget StandaloneOSX -projectPath <프로젝트> -executeMethod NyanLinkSession08Validation.Run -logFile <새로그>
+Cold: 동일출력 ... NyanLinkSession08Validation.RunColdContinue
+회귀05/07: NYANLINK_SESSION05_OUTPUT 또는 NYANLINK_SESSION07_OUTPUT=<새폴더>,07은 NYANLINK_UI_QA=1,해당번호Validation.Run.
+빌드: NYANLINK_BUILD_PATH=Builds/KoreanUI/NyanLink.app NYANLINK_BUILD_OUTPUT=<새출력> Unity -batchmode -quit ... NyanLinkSession08Build.Build
+실행: .app/Contents/MacOS/NyanLink -nyanSmoke <격리출력> -logFile <새로그>. Development의 명시 QA옵션만 활성, Release 제외.
+NyanLinkKoreanFontPipeline.Prepare는 최초 생성용. 이미 생성된.asset이 있으면 GUID보호를 위해 거부. 일반 실행/빌드에는 재생성 불필요. 재생성 시 기존.asset/.meta/출처부터 별도 보존하고 GUID연결을 유지하는 재생성 절차를 마련할 것.
+기존 검증 출력은 덮어쓰지 않고 새폴더 지정. 테스트 sandbox/예제profile을 사용자saves로 복사 금지.
+
+8. 남은 항목
+V-013 프로토타입 한글UI·글리프는 완료. 출시용 전체현지화/새 기능 문구·모든기기 가독성까지 완료로 해석하지 않음.
+실기기 D-001: 실제폰의 작은한글/숫자·문구줄바꿈·노치·손가락가림·스크롤·폰트메모리/성능. Unity모듈은MacStandaloneSupport만, 모바일실행미수행.
+D-002 모바일저장·강제종료, V-001 새캐시/모바일빌드, V-002 사람무보정완주/밸런스, V-012 실제청취/믹스 유지. 분석출력peak0과 재생상태·청취를 구분.
+I-009 기존 Native 종료 ComputeBuffer 자동정리/Development메모리 경고 재현. 원인 미확정, 이번 한글화로 해결 처리 안 함.

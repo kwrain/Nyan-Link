@@ -43,6 +43,7 @@ namespace NineMood.Presentation
             bool choice = false;
             for (var p = button.transform.parent; p != null; p = p.parent) if (p.name == "Color selection") choice = true;
             string label = button.GetComponentInChildren<TextMeshProUGUI>(true)?.text ?? button.name;
+            label = KoreanText.ButtonRole(label);
             string id = label.Contains("UPGRADE") || label.Contains("EQUIPMENT") ? "button-gold" :
                 label.Contains("NEW RUN") || label == "RESTART" || label == "EXIT" ? "button-red" :
                 label == "PLAY" || label == "RESUME" || label == "CONTINUE" || label == "RETRY" || label == "EQUIP" ? "button-mint" : "button-blue";

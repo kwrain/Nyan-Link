@@ -44,7 +44,7 @@ namespace NineMood.UI
         {
             var go=new GameObject("Label",typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);
             var rect=go.GetComponent<RectTransform>();rect.anchorMin=rect.anchorMax=anchor;rect.sizeDelta=size;
-            var text=go.GetComponent<TextMeshProUGUI>();text.text=value;text.fontSize=font;text.alignment=TextAlignmentOptions.Center;text.raycastTarget=false;return text;
+            var text=go.GetComponent<TextMeshProUGUI>();text.text=KoreanText.UI(value);text.fontSize=font;text.alignment=TextAlignmentOptions.Center;text.raycastTarget=false;KoreanUIPresentation.Apply(text);return text;
         }
         public bool Show(Action<TileColor> choose)
         {

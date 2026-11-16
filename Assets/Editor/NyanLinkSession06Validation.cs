@@ -380,7 +380,7 @@ public static class NyanLinkSession06Validation
             yield return Click(Button(Object.FindFirstObjectByType<GameReadyPanel>(),"buttonStart"));
             Assert(Tiles(save.Capture(expected.boundary).board)==Tiles(expected.board),"Cold board exact");Assert(restores==1 && saves==0 && patternResults==0,"Cold continue has no duplicate outcome or checkpoint events");
             Assert(board.GetTileAtOffset(Kept).Color==TileColor.Blue && board.GetTileAtOffset(Kept).ItemType==ItemEffectType.PowerUp,"Cold resume keeps recolored item identity");
-            Assert(Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="PWR 2" && t.isActiveAndEnabled),"Restored item identity badge active");
+            Assert(Object.FindObjectsByType<TMPro.TextMeshProUGUI>(FindObjectsSortMode.None).Any(t=>t.text=="강화 2" && t.isActiveAndEnabled),"Restored item identity badge active");
             Capture("09-cold-restored-board.png");yield return .15f;
             var permanent=save.Store.Load().data.permanent;
             Assert(permanent.coins==421 && permanent.equipment.Count==2 && permanent.rewardReceipts.Count==1 && permanent.clears.Single().firstRewardGranted && boss.PhaseIndex==1,"Permanent profile and strengthened phase survive process restart");

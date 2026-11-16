@@ -54,11 +54,11 @@ namespace NineMood.Boss.Patterns
             var board = FindFirstObjectByType<PuzzleBoardManager>();
             if (board != null && !board.SetRequiredMatchColor(RequiredColor) && board.IsInitialized)
                 Debug.LogWarning("[TimeAttack] 요구 색 보정 불가: 보호 타일 유지, 다음 리필에서 재검사");
-            var text = new StringBuilder("MATCH  ");
+            var text = new StringBuilder("순서  ");
             for (int i = 0; i < _sequence.Count; i++)
             {
-                if (i < NextIndex) text.Append("OK ");
-                else text.Append(i == NextIndex ? "[" + _sequence[i] + "] " : _sequence[i] + " ");
+                if (i < NextIndex) text.Append("완료 ");
+                else text.Append(i == NextIndex ? "[" + NineMood.UI.KoreanText.ColorName(_sequence[i]) + "] " : NineMood.UI.KoreanText.ColorName(_sequence[i]) + " ");
             }
             GameEvents.TriggerBossPatternInstructionChanged(text.ToString());
         }

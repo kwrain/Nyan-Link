@@ -50,12 +50,12 @@ namespace NineMood.Core.Persistence
             if(doc.checkpoint!=null)
             {
                 var c=doc.checkpoint;
-                if(string.IsNullOrWhiteSpace(c.runId) || string.IsNullOrWhiteSpace(c.stageId) || string.IsNullOrWhiteSpace(c.rulesSignature) || string.IsNullOrWhiteSpace(c.randomState) || c.board==null || c.board.Count!=39 || c.boss==null) return false;
+                if(string.IsNullOrWhiteSpace(c.runId) || string.IsNullOrWhiteSpace(c.stageId) || string.IsNullOrWhiteSpace(c.rulesSignature) || string.IsNullOrWhiteSpace(c.randomState) || c.board==null || c.board.Count==0 || c.boss==null) return false;
                 if(!Enum.IsDefined(typeof(CheckpointBoundary),c.boundary) || (c.phase!=GameState.RunnerPhase && c.phase!=GameState.BossPhase) || !Enum.IsDefined(typeof(NineMood.Data.Enums.RunnerState),c.runnerState)) return false;
                 if(!Finite(c.distance,c.hp,c.maxHP,c.elapsed,c.freezeRemaining,c.boostRemaining,c.actionRemaining,c.retryRemaining,c.boss.hp,c.boss.maxHP,c.boss.attackBonus,c.boss.groggyRemaining,c.boss.intervalRemaining)) return false;
                 if(c.hp<=0 || c.maxHP<=0 || c.hp>c.maxHP || c.distance<0 || c.elapsed<0 || c.freezeRemaining<0 || c.boostRemaining<0 || c.actionRemaining<0 || c.retryRemaining<0 || c.score<0 || c.obstacleIndex<0 || c.obstacleIndex>3 || c.requiredColor< -1 || c.requiredColor>5) return false;
-                if(c.board.Any(t=>t==null || t.y<0 || t.y>=7 || t.x<0 || t.x>=(t.y%2==0?6:5) || !Enum.IsDefined(typeof(NineMood.Data.Enums.TileColor),t.color) || !Enum.IsDefined(typeof(NineMood.Data.Enums.TileState),t.state) || !Enum.IsDefined(typeof(NineMood.Data.Enums.ItemEffectType),t.itemType))) return false;
-                if(c.board.Select(t=>(t.x,t.y)).Distinct().Count()!=39 || c.board.Any(t=>(t.state==NineMood.Data.Enums.TileState.Normal)!=(t.itemType==NineMood.Data.Enums.ItemEffectType.None))) return false;
+                if(c.board.Any(t=>t==null || !Enum.IsDefined(typeof(NineMood.Data.Enums.TileColor),t.color) || !Enum.IsDefined(typeof(NineMood.Data.Enums.TileState),t.state) || !Enum.IsDefined(typeof(NineMood.Data.Enums.ItemEffectType),t.itemType))) return false;
+                if(!ValidBoardShape(c.board) || c.board.Any(t=>(t.state==NineMood.Data.Enums.TileState.Normal)!=(t.itemType==NineMood.Data.Enums.ItemEffectType.None))) return false;
                 if(c.board.Where(t=>t.state!=NineMood.Data.Enums.TileState.Normal).GroupBy(t=>t.itemType).Any(g=>g.Count()>2)) return false;
                 var boss=c.boss;
                 if(!Enum.IsDefined(typeof(BossNextStep),boss.nextStep) || boss.phase<0 || boss.attackBonus<0 || boss.groggyRemaining<0 || boss.intervalRemaining<0 || boss.nextSequence==null || boss.nextSequence.Any(t=>!Enum.IsDefined(typeof(NineMood.Data.Enums.TileColor),t))) return false;
@@ -63,6 +63,24 @@ namespace NineMood.Core.Persistence
             }
             error=null;return true;
         }
+        // Validate the serialized shape without requiring scene objects or a fixed tile count.
+        // Runtime loading additionally requires the exact active cells of the current GridShapeData.
+        private static bool ValidBoardShape(System.Collections.Generic.List<TileRecord> board)
+        {
+            var rows = board.GroupBy(t => t.y).OrderBy(g => g.Key).ToArray();
+            int width = rows[0].Count();
+            if (width < 2) return false;
+            bool wider = rows.Length > 1 && rows[1].Count() == width + 1;
+            for (int y = 0; y < rows.Length; y++)
+            {
+                int start = wider && (y & 1) == 1 ? -1 : 0;
+                int count = width + (wider ? 1 : -1) * (y & 1);
+                if (rows[y].Key != y || rows[y].Count() != count ||
+                    !rows[y].Select(t => t.x).OrderBy(x => x).SequenceEqual(Enumerable.Range(start, count))) return false;
+            }
+            return true;
+        }
+
         private static bool Finite(params float[] values) => values.All(v=>!float.IsNaN(v) && !float.IsInfinity(v));
         private SaveReadResult ReadFile(string path)
         {

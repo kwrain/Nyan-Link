@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NyanLink.Data.Definitions.GridShapeData
   width: 5
   height: 5
+  widerOddRows: 1

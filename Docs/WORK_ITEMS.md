@@ -87,6 +87,7 @@
 ## 실기기 테스트 필요
 
 ### D-010 — 가변 보드 높이의 카메라·UI·실제 터치
+- 2026-11-16 배치 변경: 현재 기본은5/6/5/6/5행·27칸(V-028). 다음 실제 기기 빌드에서 넓은 행의 좌우 끝 드래그·아이템·리필과27칸 저장/앱 재시작 이어하기도 확인. 이전5/4/5/4/5·23칸 문구는 당시 이력. 관련 I-014(저장39칸 고정 수정), D-002. 기본27칸의 실제 기기 결과는 아직 없음.
 - 등록일·최근 확인일: 2026-11-16. 관련: DualCameraRig.cs, PuzzleBoardManager.cs, BoardBoundaryHUD.cs, PrototypePresentation.cs. 관련 ID: V-027, D-001, D-005.
 - 대상: Android Lenovo TB320FC/Android15 및 노치·홈 표시줄이 있는 실제 iPhone/iPad. 현재 설치 APK는 이번 변경을 포함하지 않음. 2026-11-16 기본 보드5×5 변경 후에는5×5/23칸도 아래 절차에 포함.
 - 절차: 다음 기기 빌드에서 기준6×7과 축소4×5/6×3을 각각 실행. 같은 기기·안전 영역에서 타일 표시 크기가 같고 행 감소만큼 하단이 줄며 상단이 늘어나는지 확인. 열만4×7로 줄이면 높이 유지·좌우 여백 증가. 점수/연결 안내·저장 오류 안내·장애물 입력 영역/예고·보스 UI·일시정지/재개·앱 복귀에서 겹침/잘림 없이 가장자리 타일도 실제 손가락으로 연결되어야 함. 실제 PNG 촬영.
@@ -181,6 +182,21 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-028 — 5/6/5/6/5행·27칸 배치
+- 등록일·최근 확인일·수행일:2026-11-16. 관련:GridShapeData.cs, DefaultGridShape.asset, NyanLinkBoardLayoutValidation.cs. 관련 ID:V-027,I-014,D-010,D-002. 관련 로컬 커밋 메시지:`feat: widen alternating board rows to 27 tiles`(미푸시).
+- 변경:기본5×5에widerOddRows=true. 짝수 행5칸/홀수 행6칸, 넓은 행은x=-1부터시작하여양옆반칸확장·각행중심일치. 기존6방향Cube좌표/타일표시배율/자동상하단분할사용. 설정이없는기존에셋은좁은홀수행유지.
+- Editor 검증:Unity6000.3.14f1/macOS27.2 arm64/실제1080×1920. 최종62assertion·종료0·게임런타임오류0. 기본에셋27칸초기화,각행수량·중심·활성마스크/전체셀화면투영·역변환·잘림없음 확인. 새왼쪽끝(-1,1)→(0,0)실제InputSystem Mouse드래그로점수증가/27칸리필. 기준타일166.154px/월드단위유지·하단47.02%/상단52.98%.
+- 기존레이아웃회귀:같은소스에서기존좁은행fixture로241assertion·종료0·게임런타임오류0. 6×7/4×5/4×7/6×3/2×1·새씬·1284×2778모의안전영역·큰보드·Mouse매칭을유지. 근거`output/playtests/2026-11-16-board-wider-rows/regression-layout/`의play-results.txt/editor-play.log/실제PNG6장. 새27칸검사62개와합계303개.
+- 실제 화면:`output/playtests/2026-11-16-board-wider-rows/01-default-5-6-5-6-5.png`(배치),`02-expanded-edge-after-drag.png`(확장끝매칭후점수/리필). 기대와실제일치. 같은폴더play-results.txt/editor-play-final.log. 첫61개검사는initial/play-results.txt와editor-play.log에보존,최종은셀별색/종류직렬값실제비교및기존JSON로드검사보강.
+- 한계/분류:이배치의전체장애물/보스완주·고해상도/노치실기기·Player빌드미수행. 미검증/실기기후속은D-010/D-002/V-002유지. 이번표시·입력검사에서미해결문제없음. 별도저장·런타임복제보드사용,기존사용자저장미사용·최고점/입력/GameView복원. 기본에셋27칸은요청에따라유지.
+
+### I-014 — 39칸 고정 저장 검사로 축소 보드를 거부하던 문제 해결
+- 등록일·최근확인일·수행일:2026-11-16. 관련:SaveStore.cs,SaveManager.cs,GridShapeData.cs,NyanLinkBoardLayoutValidation.cs. 관련ID:V-027,V-028,D-010,D-002. 관련커밋은V-028과동일.
+- 확인한원인/재현:기존SaveStore.Validate가board.Count/고유좌표수39와6/5칸×7행좌표범위를고정검사. 이전23칸/현재27칸체크포인트가저장단계에서거부됨. 보드모양또한기존RulesSignature에포함되지않음.
+- 수정:직렬화데이터는행번호연속·각행정확한셀범위·중복/누락없음·한칸넓거나좁은교대규칙을검사. 실제복원은현재GridShapeData의전체활성좌표와정확히일치해야함. 비표준보드는마스크를진행규칙서명에포함,역사적6×7/39칸서명은유지. 저장스키마/체크섬필드/영구코인·장비계약변경없음.
+- 수정후검증:V-028의62assertion에27칸runtime검사/실제원자Write→Load→SaveManager.TryRestoreCheckpoint·전체좌표/색/상태/아이템일치 포함. 누락/중복/한쪽치우친행거부·다른마스크진행거부/원래27칸재복원·23칸/39칸구조통과. 실제기존세션06schema-example.json을별도폴더에복사해checksum포함Ready읽기확인. 근거V-028과같음.
+- 남은확인:실제기기쓰기중종료/앱재실행은D-002/D-010에서유지. 이전23칸이저장성공했다는근거로해석하지않으며이번수정후에만지원. 축소보드전체게임난도/보스완주는V-002대기.
 
 ### V-027 — 타일 표시 크기를 유지하는 보드 높이 자동 분할
 - 2026-11-16 5×5 추가 변경·검증: 사용자 요청으로 DefaultGridShape.asset의 기본값을6×7→5×5로 변경. 아래6×7기본 유지 문구는 최초 구현 당시 이력이며, 배율 계산의 기준은 계속6×7. `NyanLinkBoardLayoutValidation.Preview5x5`로 기본 에셋에서5/4/5/4/5행·23칸 초기화, 기준과 같은166.154px/월드 단위·하단47.02%·안전영역/경계점수·모든23셀입력좌표 확인. Unity6000.3.14f1 Mac Editor1080×1920,32assertion·종료0·게임런타임오류0. 실제PNG `output/playtests/2026-11-16-board-5x5/01-default-5x5.png` 직접 열람, 기대와 실제 일치. 근거 같은 폴더의play-results.txt/editor-play.log/TEST-RESULTS.txt. 로컬 커밋 메시지 `chore: set prototype board to 5x5`(미푸시). 별도 저장/최고점·입력/GameView복원. 이번5×5의드래그/전체보스완주·Player빌드·실기기터치는미수행이며 D-010/V-002를 유지(기존4×5드래그 검증과 구분). 39칸 고정 전제의 기존 전체회귀도구는 다음 실행 때6×7복제fixture를 명시하거나 새기본23칸에맞춰 기대값 정비 필요.

@@ -1,0 +1,3 @@
+PASS Preview 5x5 tiles=5x5 pixels/unit=166.154 lower=47.02 %
+PASS Expanded row alignment, negative-edge drag/refill, 27-cell disk save/restore and malformed-mask rejection verified
+Assertions=61, runtime errors=0

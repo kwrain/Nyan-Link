@@ -176,9 +176,13 @@ namespace NineMood.Core.Managers
             get
             {
                 var stats=ProgressionService.Stats();
-                // Base loadouts retain Session06 signatures; changed stats must not resume old runs.
-                return stats.maxHP==100f && stats.attack==1f ? BaseRulesSignature
-                    : SaveStore.Hash(BaseRulesSignature+":"+stats.maxHP.ToString("R",System.Globalization.CultureInfo.InvariantCulture)+":"+stats.attack.ToString("R",System.Globalization.CultureInfo.InvariantCulture));
+                // Preserve historical 6×7 signatures; other masks must not restore a different board.
+                string signature = BaseRulesSignature;
+                var shape = Board?.gridShapeData;
+                if (shape != null && (shape.width != 6 || shape.height != 7 || shape.widerOddRows))
+                    signature = SaveStore.Hash(signature + ":grid:" + string.Join(";", shape.GetActiveOffsets().Select(c => c.x + "," + c.y)));
+                return stats.maxHP==100f && stats.attack==1f ? signature
+                    : SaveStore.Hash(signature+":"+stats.maxHP.ToString("R",System.Globalization.CultureInfo.InvariantCulture)+":"+stats.attack.ToString("R",System.Globalization.CultureInfo.InvariantCulture));
             }
         }
         public RunCheckpoint Capture(CheckpointBoundary boundary)
@@ -198,6 +202,9 @@ namespace NineMood.Core.Managers
             if(cp==null || !Configured || cp.stageId!=stageData.stageId || cp.rulesSignature!=RulesSignature) return false;
             var temporary=new SaveDocument {checkpoint=cp};
             if(!SaveStore.Validate(temporary,out error)) return false;
+            var shape = Board?.gridShapeData;
+            if (shape == null || !new HashSet<Vector3Int>(shape.GetActiveOffsets()).SetEquals(cp.board.Select(t => new Vector3Int(t.x,t.y,0))))
+            { error="Checkpoint board is incompatible; original preserved"; return false; }
             error="Checkpoint boundary is incompatible; original preserved";
             if(cp.distance>stageData.stageLength || cp.maxHP!=ProgressionService.Stats().maxHP || cp.boss.phase>(Boss.UsesEncounter ? Boss.config.definition.phases.Length-1 : Boss.config.phaseHPThresholds.Count)) return false;
             var obstacles=stageData.obstacles.OrderBy(o=>o.triggerDistance).ToArray();

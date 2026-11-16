@@ -187,18 +187,74 @@ public static class NyanLinkBoardLayoutValidation
         SceneManager.LoadScene("Game"); yield return 1f;
         board=Object.FindFirstObjectByType<PuzzleBoardManager>();
         rig=Object.FindFirstObjectByType<DualCameraRig>(); camera=rig.cameraPuzzle;
-        Assert(board.gridShapeData.width==5 && board.gridShapeData.height==5 && board.GetTileCount()==23,
-            "Default asset initializes 5/4/5/4/5 rows, 23 cells");
+        Assert(board.gridShapeData.width==5 && board.gridShapeData.height==5 && board.GetTileCount()==27 && board.gridShapeData.widerOddRows,
+            "Default asset initializes 5/6/5/6/5 rows, 27 cells");
         shape=Object.Instantiate(board.gridShapeData); board.gridShapeData=shape;
         game=GameManager.Instance; game.StartGame(); yield return .3f; Time.timeScale=0;
-        SetShape(6,7); yield return .3f;
+        shape.widerOddRows=false; SetShape(6,7); yield return .3f;
         baselineScale=PixelsPerUnit(camera);
         baselineRunnerWidth=rig.cameraRunner.orthographicSize*2*rig.cameraRunner.aspect;
         baselineScoreY=Score.anchorMin.y;
-        SetShape(5,5); yield return .4f;
+        shape.widerOddRows=true; SetShape(5,5); yield return .4f;
         CheckLayout(baselineScale,"Preview 5x5");
-        Assert(board.GetTileCount()==23,"5x5 retains 23 actual hex tiles");
-        yield return Capture("01-default-5x5.png");
+        Assert(board.GetTileCount()==27,"Wider odd rows retain 27 actual hex tiles");
+        for(int row=0;row<5;row++)
+        {
+            var cells=board.GetAllTileOffsets().Where(c=>c.y==row).ToArray();
+            Assert(cells.Length==((row&1)==0?5:6),"Exact row width " + row);
+            Assert(Mathf.Abs(cells.Average(c=>board.GetCellCenterWorld(c).x)-board.GetBoardWorldBounds().center.x)<.001f,
+                "Each row centered " + row);
+        }
+        Assert(shape.IsTileActive(new Vector3Int(-1,1,0)) && !shape.IsTileActive(new Vector3Int(-1,0,0)) &&
+            !shape.IsTileActive(new Vector3Int(5,1,0)),"Expanded left edge and outside mask");
+        yield return Capture("01-default-5-6-5-6-5.png");
+        previousMouse=Mouse.current;mouseWasEnabled=previousMouse!=null && previousMouse.enabled;
+        if(mouseWasEnabled) InputSystem.DisableDevice(previousMouse);
+        mouse=InputSystem.AddDevice<Mouse>("ExpandedRowMouse");mouse.MakeCurrent();
+        var pair=new[]{new Vector3Int(-1,1,0),new Vector3Int(0,0,0)};
+        Assert(HexOffsetUtils.IsAdjacent(pair[0],pair[1]),"Expanded edge uses existing hex adjacency");
+        foreach(var cell in pair) board.SpawnTile(cell,TileColor.Red,TileState.Normal);
+        board.CancelTileAnimations();
+        int before=ScoreManager.Instance.CurrentScore; Time.timeScale=1;
+        foreach(var cell in pair)
+        {
+            InputSystem.QueueStateEvent(mouse,new MouseState {position=camera.WorldToScreenPoint(board.GetCellCenterWorld(cell))}.WithButton(MouseButton.Left,true));
+            yield return .08f;
+        }
+        InputSystem.QueueStateEvent(mouse,new MouseState {position=camera.WorldToScreenPoint(board.GetCellCenterWorld(pair[1]))});
+        yield return .5f; Time.timeScale=0;
+        Assert(ScoreManager.Instance.CurrentScore>before && board.GetTileCount()==27,"Expanded edge drag scores and refills");
+        yield return Capture("02-expanded-edge-after-drag.png");
+        var save=SaveManager.Instance;
+        board.SetRequiredMatchColor(save.stageData.obstacles.OrderBy(o=>o.triggerDistance).First().requiredColor);
+        var cp=save.Capture(CheckpointBoundary.ObstacleSuccess);
+        Assert(save.ValidateRuntime(cp,out var error),"27-cell runtime checkpoint: " + error);
+        var doc=new SaveDocument {checkpoint=cp};
+        Assert(save.Store.Write(doc,out error),"27-cell atomic save: " + error);
+        Assert(save.Store.Load().status==SaveReadStatus.Ready,"27-cell disk read succeeds");
+        var expected=string.Join(";",cp.board.Select(t=>$"{t.x},{t.y}:{t.color}:{t.state}:{t.itemType}"));
+        SetShape(5,5);
+        Assert(save.TryRestoreCheckpoint(),"27-cell checkpoint restores through actual manager");
+        Assert(string.Join(";",save.Capture(CheckpointBoundary.ObstacleSuccess).board.Select(t=>$"{t.x},{t.y}:{t.color}:{t.state}:{t.itemType}"))==expected,"Restored cells/colors/items exactly match");
+        var broken=SaveStore.Clone(doc);broken.checkpoint.board.RemoveAt(0);
+        Assert(!SaveStore.Validate(broken,out _),"Missing cell rejected");
+        broken=SaveStore.Clone(doc);broken.checkpoint.board[0]=SaveStore.Clone(broken.checkpoint.board[1]);
+        Assert(!SaveStore.Validate(broken,out _),"Duplicate cell rejected");
+        broken=SaveStore.Clone(doc);broken.checkpoint.board.First(t=>t.x==-1).x=5;
+        Assert(!SaveStore.Validate(broken,out _),"Misaligned expanded edge rejected");
+        string widenedSignature=save.RulesSignature;
+        shape.widerOddRows=false;SetShape(6,7);
+        Assert(save.RulesSignature!=widenedSignature && !save.ValidateRuntime(cp,out _),"Different board masks cannot restore each other");
+        var old=save.Capture(CheckpointBoundary.ObstacleSuccess);
+        Assert(SaveStore.Validate(new SaveDocument {checkpoint=old},out error),"Legacy 39-cell shape remains structurally readable: " + error);
+        shape.widerOddRows=false;SetShape(5,5);
+        Assert(SaveStore.Validate(new SaveDocument {checkpoint=save.Capture(CheckpointBoundary.ObstacleSuccess)},out error),"Previous 23-cell shape remains structurally readable: " + error);
+        shape.widerOddRows=true;SetShape(5,5);
+        Assert(save.TryRestoreCheckpoint(),"Saved 27-cell board remains usable after other-mask rejection");
+        var legacyFolder=Path.Combine(Output,"legacy-fixture");Directory.CreateDirectory(legacyFolder);
+        File.Copy("output/playtests/2026-11-13-session06/schema-example.json",Path.Combine(legacyFolder,"profile-v1.json"),true);
+        Assert(new SaveStore(legacyFolder).Load().status==SaveReadStatus.Ready,"Actual legacy 39-cell JSON checksum and disk read remain valid");
+        Pass("Expanded row alignment, negative-edge drag/refill, 27-cell disk save/restore and malformed-mask rejection verified");
     }
     static IEnumerator Sequence()
     {
@@ -207,6 +263,7 @@ public static class NyanLinkBoardLayoutValidation
         board=Object.FindFirstObjectByType<PuzzleBoardManager>();
         rig=Object.FindFirstObjectByType<DualCameraRig>(); camera=rig.cameraPuzzle;
         shape=Object.Instantiate(board.gridShapeData); board.gridShapeData=shape;
+        shape.widerOddRows=false;
         game=GameManager.Instance; game.StartGame(); yield return .4f;
         Time.timeScale=0;
         SetShape(6,7); yield return .4f;
@@ -274,7 +331,7 @@ public static class NyanLinkBoardLayoutValidation
     {
         SceneManager.sceneLoaded-=ReducedScene;
         var target=Object.FindFirstObjectByType<PuzzleBoardManager>();
-        shape=Object.Instantiate(target.gridShapeData);shape.width=4;shape.height=5;target.gridShapeData=shape;
+        shape=Object.Instantiate(target.gridShapeData);shape.widerOddRows=false;shape.width=4;shape.height=5;target.gridShapeData=shape;
     }
     static void Finish(Exception error)
     {

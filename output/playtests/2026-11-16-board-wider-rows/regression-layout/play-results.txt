@@ -1,0 +1,10 @@
+PASS Default 6x7 tiles=6x7 pixels/unit=166.154 lower=60.00 %
+PASS Reduced 4x5 tiles=4x5 pixels/unit=166.154 lower=47.02 %
+PASS Columns only 4x7 tiles=4x7 pixels/unit=166.154 lower=60.00 %
+PASS Rows only 6x3 tiles=6x3 pixels/unit=166.154 lower=34.04 %
+PASS Minimum 2x1 tiles=2x1 pixels/unit=166.154 lower=21.06 %
+PASS Fresh scene 4x5 tiles=4x5 pixels/unit=166.154 lower=47.02 %
+PASS Tall safe baseline tiles=6x7 pixels/unit=197.538 lower=60.00 %
+PASS Tall safe reduced tiles=4x5 pixels/unit=197.538 lower=48.38 %
+PASS Actual mouse drag, cold reduced scene, safe area, and oversized fallback verified
+Assertions=241, runtime errors=0

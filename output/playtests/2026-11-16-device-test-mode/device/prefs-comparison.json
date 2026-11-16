@@ -1,0 +1,11 @@
+{
+  "semantic_equal": false,
+  "changed_keys": [
+    "unity_connect.mega_session_id",
+    "unity_connect.session_id",
+    "Screenmanager%20Resolution%20Width",
+    "unity.player_sessionid",
+    "unity.player_session_count",
+    "Screenmanager%20Resolution%20Height"
+  ]
+}

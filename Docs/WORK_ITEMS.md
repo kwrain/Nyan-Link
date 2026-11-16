@@ -582,3 +582,11 @@
 2026-11-16 최종 화면 확인: 설정 메뉴는 Galmuri11 원본 폰트를 사용하는 독립 UGUI Text로 표시. 21assertion 재통과, 03-in-game-tools.png의 모든 버튼 글자 직접 열람 확인. 수정 전 TMP 글자 누락은 최초 캡처 이력이며 최종 화면에서는 재현되지 않음.
 
 2026-11-16 D-012 빌드 근거: android-final/build-results.txt의 Android ARM64 IL2CPP Development 빌드 성공/오류0/경고1, APK Builds/Android/NyanLink-device-tests.apk. SHA256은 android-final/apk.sha256. 실기기 연결0으로 설치·터치는 대기 유지. 관련 로컬 커밋 메시지: feat: add isolated on-device test mode and boss selectors.
+
+### V-032 — 실기기 테스트 메뉴 업데이트 설치·저장 보존 완료
+- 등록일·최근 확인일·수행일: 2026-11-16. 관련: D-012/V-031, APK 소스4bbd94a, DeviceTestMode.cs.
+- 환경: Lenovo TB320FC(HA1XRFTC), Android15, 실제1600×2560 세로 화면. APK SHA256 6f2673495b44b0ec53be7136cc467adc934ce2affaaf2ac6ff4f6899f19358d6.
+- 수행: 기존 앱 종료 후 일반 저장2개·PlayerPrefs를 Builds/AndroidDeviceBackups/2026-11-16-test-mode에 백업. adb install -r -t 성공, 설치 직후 세 파일 바이트 일치. 실제 GameActivity cold launch 성공, ADB 터치로 로비 테스트 모드 진입 및 선택 화면 유지.
+- 기대/실제: 일반 저장 유지와 테스트 메뉴 표시 기대. 실행·메뉴 진입 후 profile-v1.json/.bak 바이트 일치, 최고점3770 유지. PlayerPrefs의 세션 식별자/횟수와 화면 해상도 키만 변경 확인(기존 게임 데이터 변경 아님). 보스·패턴·난도·시작/닫기 버튼 표시 정상. 실제PNG03-device-test-mode.png 직접 열람.
+- 근거: output/playtests/2026-11-16-device-test-mode/device/{install.txt,before-sha256.json,after-install.txt,after-launch-check.json,prefs-comparison.json,02-lobby.png,03-device-test-mode.png}. 최초 UnityPlayerActivity 호출은 존재하지 않아 실패했고 패키지 조회로 UnityPlayerGameActivity를 확인해 정상 실행.
+- D-012 부분 완료: 설치/세로 메뉴 표시/테스트 메뉴 진입/기존 저장 보존. 이전 연결0·설치미수행 기록은 당시 이력. 보스 선택 후 실제 전투·전체10패턴/아이템/회복/초기화·앱복귀/콜드 테스트 프로필 검증은 D-012/D-011/V-030에서 계속 대기. 사용자가 직접 설정할 수 있도록 선택 화면에 둠. 이번 확인 범위 내 미해결 문제 없음.

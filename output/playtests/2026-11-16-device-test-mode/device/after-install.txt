@@ -1,0 +1,1 @@
+Both save files and PlayerPrefs byte-identical after update.

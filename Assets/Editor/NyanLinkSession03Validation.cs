@@ -69,6 +69,7 @@ public static class NyanLinkSession03Validation
     static void Resume()
     {
         if (!SessionState.GetBool(Key,false)) return;
+        SaveManager.TestDirectoryOverride = Path.GetFullPath(Path.Combine(Output, "isolated-saves"));
         oldBest = SessionState.GetInt(Key + ".Best",0);
         hadBest = SessionState.GetBool(Key + ".HasBest",false);
         oldBackground = InputSystem.settings.backgroundBehavior;
@@ -181,6 +182,20 @@ public static class NyanLinkSession03Validation
         yield return Wait(() => ScoreManager.Instance.CurrentScore > scoreBefore,
             "Release score " + color + " (selection=" + input.SelectedChain.Count + ")",2f);
         yield return 0.02f;
+    }
+    static void CheckInputZone(ObstacleController obstacle, bool open)
+    {
+        var hud = Object.FindFirstObjectByType<RunnerWarningHUD>();
+        Assert(hud.InputZone.gameObject.activeSelf && hud.InputZone.color.a > 0 && hud.InputZone.color.a < .5f, "Translucent obstacle input zone");
+        Assert(hud.warningPanel.activeSelf == !open && obstacle.IsInputWindowOpen == open, "Approach and input cues are distinct");
+        Assert(hud.ZoneLabel.text == (open ? KoreanText.ColorName(obstacle.RequiredColor) + " 2개 이상 연결" : "영역에 들어오면 연결"), "Zone explains input timing");
+        var corners = new Vector3[4]; hud.InputZone.rectTransform.GetWorldCorners(corners);
+        var cameraRunner = Object.FindFirstObjectByType<DualCameraRig>().cameraRunner;
+        var start = cameraRunner.WorldToScreenPoint(new Vector3(obstacle.InputWindowStartX, 0, 0));
+        var end = cameraRunner.WorldToScreenPoint(new Vector3(obstacle.InputWindowEndX, 0, 0));
+        Assert(Mathf.Abs(corners[0].x - Mathf.Clamp(start.x,cameraRunner.pixelRect.xMin,cameraRunner.pixelRect.xMax)) < 2 &&
+            Mathf.Abs(corners[2].x - Mathf.Clamp(end.x,cameraRunner.pixelRect.xMin,cameraRunner.pixelRect.xMax)) < 2, "Zone matches actual judgment X bounds");
+        Assert(hud.InputZone.GetComponentsInChildren<UnityEngine.UI.Graphic>().All(g => !g.raycastTarget), "Cues do not intercept input");
     }
     static void Capture(string file) => ScreenCapture.CaptureScreenshot(Path.GetFullPath(Path.Combine(Output,file)));
     static string Fingerprint() => string.Join(";",board.GetAllTileOffsets().OrderBy(c=>c.y).ThenBy(c=>c.x)
@@ -326,21 +341,37 @@ public static class NyanLinkSession03Validation
         Pass("Main→Game→Main cycles, fresh 39-cell board, live scene references, shared-root duplicates, result retry, no stale subscriptions");
         Assert(bossEvents == 0,"No early boss event");
         game.TriggerBossFight(); Assert(game.CurrentState == GameState.RunnerPhase && bossEvents == 0,"Cannot skip the three obstacles");
+        foreach (var idleColor in new[] { TileColor.Red, TileColor.Blue, TileColor.Yellow, TileColor.Orange, TileColor.Cyan })
+        {
+            yield return Match(idleColor);
+            Assert(runner.CurrentState == RunnerState.Run, "Free running matches do not animate " + idleColor);
+        }
+        Capture("02a-free-running.png"); yield return .1f;
         yield return Match(TileColor.Purple);
         Assert(runner.SpeedMultiplier == 1.5f && Mathf.Abs(progress.RunnerSpeed - 7.5f) < 0.01f,"Purple speed connected: runnerMult=" + runner.SpeedMultiplier + " boost=" + runner.BoostTimeRemaining + " base=" + progress.BaseRunnerSpeed + " speed=" + progress.RunnerSpeed + " boundRunner=" + typeof(RunnerProgressSystem).GetField("_runner",PrivateInstance).GetValue(progress));
         yield return PauseSnapshot(null);
         Time.timeScale = 8f; yield return Wait(() => runner.BoostTimeRemaining <= 0f,"Boost expires"); Time.timeScale = 1f;
         Assert(progress.RunnerSpeed == 5f,"Base speed restored after boost");
         game.RetryGame();
-        Time.timeScale = 8f; yield return Wait(() => spawner.IsPreWarning,"Two-second prewarning"); Time.timeScale = 1f;
-        Assert(spawner.WarningRemaining > 1.6f && spawner.WarningRemaining <= 2.05f,"Prewarning begins approximately two seconds before spawn");
+        Time.timeScale = 2f; yield return Wait(() => spawner.IsPreWarning,"Two-second prewarning"); Time.timeScale = 1f;
+        Assert(spawner.WarningRemaining > 1.2f && spawner.WarningRemaining <= 2.05f,"Prewarning starts before spawn; remaining=" + spawner.WarningRemaining);
         Assert(board.RequiredMatchColor == TileColor.Red,"First obstacle registers required color");
-        Capture("03-jump-prewarning.png"); yield return 0.15f;
+        yield return .05f;
+        var cue = Object.FindFirstObjectByType<RunnerWarningHUD>();
+        Assert(cue.warningPanel.activeSelf && !cue.InputZone.gameObject.activeSelf, "Prewarning uses only right approach preview");
+        Assert(cue.actionIcon.sprite.name == "Concept_obstacle-0" && cue.actionLabel.text == "접근 중" && cue.timerBar == null, "Obstacle icon without countdown");
+        float alpha = cue.actionIcon.color.a; yield return .12f;
+        Assert(Mathf.Abs(cue.actionIcon.color.a - alpha) > .01f, "Approach icon blinks");
+        Capture("03-jump-prewarning.png"); yield return .05f;
+        yield return Match(TileColor.Red);
+        Assert(runner.CurrentState == RunnerState.Run, "Prewarning match does not jump");
         yield return Approach();
         var first = spawner.CurrentObstacle;
         Assert(!first.IsInputWindowOpen && !first.HasSuccessReservation,"No reservation at spawn");
         yield return Match(TileColor.Red);
-        Assert(!first.HasSuccessReservation,"Early match cannot reserve success");
+        Assert(!first.HasSuccessReservation && runner.CurrentState == RunnerState.Run,"Early match neither reserves success nor jumps");
+        yield return .05f; CheckInputZone(first, false);
+        Capture("03b-obstacle-approaching-zone.png"); yield return .05f;
         yield return ExpectFailure();
         float retryStarted = Time.time;
         float retryHp = StaminaManager.Instance.CurrentStamina, retryElapsed = StaminaManager.Instance.ElapsedRunnerTime, retryDistance = progress.CurrentDistance;
@@ -370,22 +401,41 @@ public static class NyanLinkSession03Validation
             Assert(obstacle.RequiredColor == color && !obstacle.HasSuccessReservation,"Ordered obstacle and no reservation leak: " + color);
             Assert(board.RequiredMatchColor == color,"Required color transition connected");
             yield return Wait(() => obstacle.IsInputWindowOpen,"Obstacle input window");
+            // Slow only this test fixture while taking screenshots and exercising wrong-input recovery.
+            float originalSpeed = obstacle.moveSpeed; obstacle.moveSpeed = 1f;
             if (color == TileColor.Blue)
             {
                 int score = ScoreManager.Instance.CurrentScore;
                 yield return Match(TileColor.Red);
+                Assert(runner.CurrentState == RunnerState.Run,"Wrong color does not trigger unrelated action");
                 Assert(input.IsInputLocked && !obstacle.HasSuccessReservation && ScoreManager.Instance.CurrentScore == score + 20,"Wrong match scores and locks without granting success");
                 float locked = Time.time;
                 yield return Wait(() => !input.IsInputLocked,"Half-second wrong-match lock");
                 Assert(Time.time - locked >= 0.35f,"Wrong match lock lasts roughly 0.5 seconds including completed input step");
             }
+            yield return .05f; CheckInputZone(obstacle, true);
+            if (color == TileColor.Red)
+            {
+                float scale = Time.timeScale; Time.timeScale = 0f;
+                PrototypeSafeArea.TestPixels = new Rect(36, 70, Screen.width - 72, Screen.height - 160);
+                yield return .15f; CheckInputZone(obstacle, true);
+                Capture("04-window-safe-area.png"); yield return .1f;
+                PrototypeSafeArea.TestPixels = null; yield return .1f; Time.timeScale = scale;
+            }
+            Capture("04-window-" + color + ".png"); yield return .05f;
             yield return Match(color);
+            Assert(runner.CurrentState == obstacle.RequiredAction, "Correct window match animates required action " + color);
+            yield return .05f;
+            Assert(Object.FindFirstObjectByType<RunnerWarningHUD>().ZoneLabel.text == "입력 완료", "Zone confirms accepted match");
             Assert(obstacle.HasSuccessReservation,"Correct match reserves success: " + color);
             if (color == TileColor.Red)
             {
+                Capture("05-jump-reserved.png"); yield return .05f;
                 yield return Wait(() => runner.CurrentState == RunnerState.Run,"Jump animation/state finishes");
                 Assert(spawner.CurrentObstacle == obstacle && !obstacle.IsResolved && obstacle.HasSuccessReservation,"Expired jump state does not lose reservation before contact");
+                obstacle.moveSpeed = originalSpeed;
             }
+            obstacle.moveSpeed = originalSpeed;
             if (color == TileColor.Yellow) { Capture("05-block-reserved.png"); yield return 0.05f; }
             float hp = StaminaManager.Instance.CurrentStamina, elapsed = StaminaManager.Instance.ElapsedRunnerTime;
             int index = spawner.NextObstacleIndex;
@@ -449,7 +499,7 @@ public static class NyanLinkSession03Validation
         if (hadBest) PlayerPrefs.SetInt(BestKey,oldBest); else PlayerPrefs.DeleteKey(BestKey);
         PlayerPrefs.Save();
         try { View("RestoreView"); } catch (Exception warning) { results.Add("View restore warning: " + warning.Message); }
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; PrototypeSafeArea.TestPixels = null;
         if (error == null && errors.Count == 0) Pass("Session03 completed without runtime errors");
         File.WriteAllLines(Path.Combine(Output,"play-results.txt"),results);
         SessionState.SetBool(Key,false);

@@ -1,4 +1,7 @@
+using NineMood.Core;
+using NineMood.Core.Managers;
 using NineMood.Data.Enums;
+using NineMood.Presentation;
 using NineMood.Runner;
 using TMPro;
 using UnityEngine;
@@ -6,209 +9,147 @@ using UnityEngine.UI;
 
 namespace NineMood.UI
 {
-    /// <summary>
-    /// 러너 뷰 영역에 장애물 경고를 표시하는 HUD.
-    /// ObstacleController.OnWarningBegan / OnWarningResolved 이벤트를 구독한다.
-    ///
-    /// UI 참조가 모두 비어 있으면 Awake에서 Screen Space Overlay 캔버스를 자동 생성한다.
-    /// 패널은 화면 상단 (puzzleRatio ~ 1.0 구간 = 러너 뷰) 에 배치된다.
-    /// </summary>
+    /// <summary>Approach preview and an input zone projected from the actual obstacle judgment bounds.</summary>
     public class RunnerWarningHUD : MonoBehaviour
     {
-        [Header("UI 참조 (비어있으면 자동 생성)")]
-        public GameObject      warningPanel;
-        public Image           actionIcon;
+        public GameObject warningPanel;
+        public Image actionIcon;
         public TextMeshProUGUI actionLabel;
-        public Image           timerBar;
-
-        [Header("화면 분할 비율 — DualCameraRig.puzzleRatio와 일치")]
-        [Range(0f, 1f)]
-        public float puzzleRatio = 0.60f;
-
-        private float _totalDuration;
-        private float _elapsed;
-        private bool  _warningActive;
-        private Color _actionColor;
-        private RunnerState _action;
+        // Retained for old serialized references; countdown graphics are no longer used.
+        public Image timerBar;
+        [Range(0f, 1f)] public float puzzleRatio = .60f;
+        public float Remaining => _spawner != null ? _spawner.WarningRemaining : 0f;
+        public Image InputZone { get; private set; }
+        public TextMeshProUGUI ZoneLabel { get; private set; }
         private ObstacleSpawner _spawner;
-        public float Remaining => _spawner != null ? _spawner.WarningRemaining : Mathf.Max(0f, _totalDuration - _elapsed);
-
-        // ── 라이프사이클 ──────────────────────────────────────────────
+        private Camera _camera;
+        private RunnerState _action;
+        private float _pulseTime, _entrance;
+        private bool _announced;
+        private readonly Image[] _zoneEdges = new Image[2];
 
         private void Awake()
         {
             _spawner = FindFirstObjectByType<ObstacleSpawner>();
-            if (warningPanel == null)
-                BuildUI();
+            _camera = FindFirstObjectByType<DualCameraRig>()?.cameraRunner;
+            if (warningPanel == null) BuildUI();
+            if (timerBar != null) timerBar.transform.parent.gameObject.SetActive(false);
+            BuildZone();
+            warningPanel.SetActive(false);
         }
-
-        private void Start()
-        {
-            if (warningPanel != null)
-                warningPanel.SetActive(false);
-        }
-
         private void OnEnable()
         {
-            ObstacleSpawner.OnPreWarningBegan  += ShowWarning;
-            ObstacleSpawner.OnPreWarningEnded  += HideWarning;
+            ObstacleSpawner.OnPreWarningBegan += ShowWarning;
+            ObstacleSpawner.OnPreWarningEnded += HideWarning;
         }
-
         private void OnDisable()
         {
-            ObstacleSpawner.OnPreWarningBegan  -= ShowWarning;
-            ObstacleSpawner.OnPreWarningEnded  -= HideWarning;
+            ObstacleSpawner.OnPreWarningBegan -= ShowWarning;
+            ObstacleSpawner.OnPreWarningEnded -= HideWarning;
+            HideWarning();
+            if (InputZone != null) InputZone.gameObject.SetActive(false);
         }
-
-        private void Update()
-        {
-            if (!_warningActive || _totalDuration <= 0f) return;
-
-            _elapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(Remaining / _totalDuration);
-            if (actionLabel != null) actionLabel.text = GetActionLabel(_action) +
-                (_spawner != null && _spawner.CurrentObstacle != null && _spawner.CurrentObstacle.HasSuccessReservation ? " 준비 완료 " : " ") +
-                Mathf.CeilToInt(Remaining);
-
-            if (timerBar != null)
-            {
-                timerBar.fillAmount = fill;
-                // 남은 시간에 따라 액션 색 → 빨강으로 전환
-                timerBar.color = Color.Lerp(Color.red, _actionColor, fill);
-            }
-        }
-
-        // ── 이벤트 핸들러 ────────────────────────────────────────────
-
         private void ShowWarning(RunnerState action, float duration)
         {
-            _action = action;
-            _totalDuration = duration;
-            _elapsed       = 0f;
-            _warningActive = true;
-            _actionColor   = GetActionColor(action);
-
-            if (warningPanel != null) warningPanel.SetActive(true);
-            if (timerBar     != null) { timerBar.fillAmount = 1f; timerBar.color = _actionColor; }
-            if (actionIcon   != null) actionIcon.color = _actionColor;
-            if (actionLabel  != null)
-            {
-                actionLabel.text  = GetActionLabel(action);
-                actionLabel.color = _actionColor;
-            }
+            _action = action; _announced = true; _entrance = 0f; _pulseTime = 0f;
         }
+        private void HideWarning() { _announced = false; if (warningPanel != null) warningPanel.SetActive(false); }
 
-        private void HideWarning()
+        private void LateUpdate()
         {
-            _warningActive = false;
-            if (warningPanel != null)
-                warningPanel.SetActive(false);
+            var game = GameManager.Instance;
+            bool running = game != null && (game.CurrentState == GameState.RunnerPhase ||
+                (game.CurrentState == GameState.Paused && game.StateBeforePause == GameState.RunnerPhase) ||
+                (game.CurrentState == GameState.ColorSelection && !(NineMood.Boss.BossController.Instance?.MaxHP > 0)));
+            var obstacle = _spawner != null ? _spawner.CurrentObstacle : null;
+            bool hasObstacle = running && obstacle != null && obstacle.IsInitialized && !obstacle.IsResolved;
+            bool open = hasObstacle && obstacle.IsInputWindowOpen;
+            bool preview = running && !open && (_announced || hasObstacle);
+            warningPanel.SetActive(preview);
+            if (preview)
+            {
+                if (game.CurrentState == GameState.RunnerPhase) { _pulseTime += Time.deltaTime; _entrance += Time.deltaTime; }
+                var action = hasObstacle ? obstacle.RequiredAction : _action;
+                actionIcon.sprite = ConceptArtLibrary.Get("obstacle-" + ActionIndex(action));
+                actionIcon.preserveAspect = true;
+                actionIcon.color = new Color(1, 1, 1, .45f + .55f * (.5f + .5f * Mathf.Cos(_pulseTime * Mathf.PI * 4)));
+                actionLabel.text = _spawner.RetryRemaining > 0 ? "다시 접근" : "접근 중";
+                actionLabel.color = Color.white;
+                float slide = Mathf.Lerp(.12f, 0f, Mathf.Clamp01(_entrance / .25f));
+                PrototypePresentation.Place(warningPanel.GetComponent<RectTransform>(), .72f + slide, .805f, .97f + slide, .88f);
+            }
+            InputZone.gameObject.SetActive(hasObstacle && _camera != null);
+            if (!InputZone.gameObject.activeSelf) return;
+            // Use the same world X bounds as IsInputWindowOpen, including any judgment offset.
+            float y = _spawner.runner.transform.position.y;
+            Vector3 min = _camera.WorldToScreenPoint(new Vector3(obstacle.InputWindowStartX, y - .8f, 0));
+            Vector3 max = _camera.WorldToScreenPoint(new Vector3(obstacle.InputWindowEndX, y + 1.65f, 0));
+            var view = _camera.pixelRect;
+            var parent = (RectTransform)InputZone.transform.parent;
+            Vector2 a = ParentAnchor(parent, new Vector2(Mathf.Clamp(min.x, view.xMin, view.xMax), Mathf.Clamp(min.y, view.yMin, view.yMax)));
+            Vector2 b = ParentAnchor(parent, new Vector2(Mathf.Clamp(max.x, view.xMin, view.xMax), Mathf.Clamp(max.y, view.yMin, view.yMax)));
+            PrototypePresentation.Place(InputZone.rectTransform, a.x, a.y, b.x, b.y);
+            bool ready = obstacle.HasSuccessReservation;
+            Color color = ready ? new Color(.35f, 1f, .68f) : ActionColor(obstacle.RequiredAction);
+            InputZone.color = new Color(color.r, color.g, color.b, open ? .23f : .10f);
+            foreach (var edge in _zoneEdges) edge.color = new Color(color.r, color.g, color.b, open ? .95f : .45f);
+            ZoneLabel.text = ready ? "입력 완료" : open ? KoreanText.ColorName(obstacle.RequiredColor) + " 2개 이상 연결" : "영역에 들어오면 연결";
+            ZoneLabel.color = ready ? color : Color.white;
         }
 
-        // ── UI 자동 생성 ─────────────────────────────────────────────
+        private static Vector2 ParentAnchor(RectTransform parent, Vector2 screen)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(parent, screen, null, out var local);
+            return new Vector2((local.x - parent.rect.xMin) / parent.rect.width, (local.y - parent.rect.yMin) / parent.rect.height);
+        }
 
         private void BuildUI()
         {
-            // ── Canvas ──────────────────────────────────────────────
-            var canvasGO = new GameObject("RunnerWarningCanvas");
-            var canvas   = canvasGO.AddComponent<Canvas>();
-            canvas.renderMode   = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 200;
-
-            var scaler = canvasGO.AddComponent<CanvasScaler>();
-            scaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1080f, 1920f);
-            scaler.matchWidthOrHeight  = 1f;   // portrait → 세로 기준 스케일
-            canvasGO.AddComponent<GraphicRaycaster>();
-
-            // ── 경고 패널 — 러너 뷰 중앙에 가로 띠로 배치 ──────────
-            //   anchorY: puzzleRatio(0.6) ~ 1.0 범위 내 중앙부
-            float runnerCenterY = puzzleRatio + (1f - puzzleRatio) * 0.5f; // 0.8
-            float halfHeight    = 0.085f;
-
-            var panelGO   = new GameObject("WarningPanel");
-            panelGO.transform.SetParent(canvasGO.transform, false);
-            var panelRect = panelGO.AddComponent<RectTransform>();
-            panelRect.anchorMin = new Vector2(0.05f, runnerCenterY - halfHeight);
-            panelRect.anchorMax = new Vector2(0.95f, runnerCenterY + halfHeight);
-            panelRect.offsetMin = Vector2.zero;
-            panelRect.offsetMax = Vector2.zero;
-
-            var panelBg = panelGO.AddComponent<Image>();
-            panelBg.color = new Color(0f, 0f, 0f, 0.6f);
-            warningPanel  = panelGO;
-
-            // ── 액션 아이콘 (좌측) ──────────────────────────────────
-            var iconGO   = new GameObject("ActionIcon");
-            iconGO.transform.SetParent(panelGO.transform, false);
-            var iconRect = iconGO.AddComponent<RectTransform>();
-            iconRect.anchorMin        = new Vector2(0f, 0.15f);
-            iconRect.anchorMax        = new Vector2(0f, 0.85f);
-            iconRect.pivot            = new Vector2(0f, 0.5f);
-            iconRect.anchoredPosition = new Vector2(14f, 0f);
-            iconRect.sizeDelta        = new Vector2(54f, 0f);
-            actionIcon       = iconGO.AddComponent<Image>();
-            actionIcon.color = Color.white;
-
-            // ── 액션 레이블 (중앙) ──────────────────────────────────
-            var labelGO   = new GameObject("ActionLabel");
-            labelGO.transform.SetParent(panelGO.transform, false);
-            var labelRect = labelGO.AddComponent<RectTransform>();
-            labelRect.anchorMin = new Vector2(0.13f, 0.18f);
-            labelRect.anchorMax = new Vector2(0.98f, 0.98f);
-            labelRect.offsetMin = Vector2.zero;
-            labelRect.offsetMax = Vector2.zero;
-
-            actionLabel           = labelGO.AddComponent<TextMeshProUGUI>();
-            actionLabel.text      = "";
-            actionLabel.fontSize  = 52f;
-            actionLabel.fontStyle = FontStyles.Bold;
-            actionLabel.alignment = TextAlignmentOptions.MidlineLeft;
-            actionLabel.color     = Color.white;
-
-            // ── 타이머 바 배경 (하단 strip) ─────────────────────────
-            var timerBgGO = new GameObject("TimerBarBg");
-            timerBgGO.transform.SetParent(panelGO.transform, false);
-            var timerBgRect  = timerBgGO.AddComponent<RectTransform>();
-            timerBgRect.anchorMin = new Vector2(0f, 0f);
-            timerBgRect.anchorMax = new Vector2(1f, 0.16f);
-            timerBgRect.offsetMin = Vector2.zero;
-            timerBgRect.offsetMax = Vector2.zero;
-            var timerBgImg  = timerBgGO.AddComponent<Image>();
-            timerBgImg.color = new Color(0.12f, 0.12f, 0.12f, 1f);
-
-            // ── 타이머 바 fill ──────────────────────────────────────
-            var timerGO   = new GameObject("TimerBar");
-            timerGO.transform.SetParent(timerBgGO.transform, false);
-            var timerRect = timerGO.AddComponent<RectTransform>();
-            timerRect.anchorMin = Vector2.zero;
-            timerRect.anchorMax = Vector2.one;
-            timerRect.offsetMin = new Vector2(2f,  2f);
-            timerRect.offsetMax = new Vector2(-2f, -2f);
-
-            timerBar            = timerGO.AddComponent<Image>();
-            timerBar.type       = Image.Type.Filled;
-            timerBar.fillMethod = Image.FillMethod.Horizontal;
-            timerBar.fillOrigin = (int)Image.OriginHorizontal.Left;
-            timerBar.color      = Color.white;
+            var root = new GameObject("RunnerWarningCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
+            root.transform.SetParent(transform, false);
+            root.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            root.GetComponent<Canvas>().sortingOrder = 90; // Pause/choice overlays stay above the gameplay cues.
+            var scaler = root.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1080, 1920); scaler.matchWidthOrHeight = 1;
+            warningPanel = new GameObject("WarningPanel", typeof(RectTransform), typeof(Image));
+            warningPanel.transform.SetParent(root.transform, false);
+            var backing = warningPanel.GetComponent<Image>(); backing.color = new Color(.035f, .055f, .12f, .94f); backing.raycastTarget = false;
+            actionIcon = new GameObject("ActionIcon", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            actionIcon.transform.SetParent(warningPanel.transform, false); actionIcon.raycastTarget = false;
+            PrototypePresentation.Place(actionIcon.rectTransform, .05f, .12f, .43f, .88f);
+            actionLabel = Label(warningPanel.transform, "Approach label", 25);
+            PrototypePresentation.Place(actionLabel.rectTransform, .44f, .1f, .97f, .9f);
         }
-
-        // ── 색상·레이블 유틸 ─────────────────────────────────────────
-
-        private static Color GetActionColor(RunnerState action) => action switch
+        private void BuildZone()
         {
-            RunnerState.Jump  => new Color(1f,   0.3f, 0.3f),
-            RunnerState.Slide => new Color(0.3f, 0.6f, 1f),
-            RunnerState.Block => new Color(1f,   0.85f, 0.1f),
-            _                 => Color.white
-        };
-
-        private static string GetActionLabel(RunnerState action) => action switch
+            InputZone = new GameObject("Obstacle input zone", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            InputZone.transform.SetParent(warningPanel.transform.parent, false);
+            InputZone.transform.SetAsFirstSibling(); InputZone.raycastTarget = false;
+            foreach (bool right in new[] { false, true })
+            {
+                var edge = new GameObject(right ? "Entry boundary" : "Judgment boundary", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+                edge.transform.SetParent(InputZone.transform, false); edge.raycastTarget = false;
+                _zoneEdges[right ? 1 : 0] = edge;
+                var rect = edge.rectTransform; rect.anchorMin = new Vector2(right ? 1 : 0, 0); rect.anchorMax = new Vector2(right ? 1 : 0, 1);
+                rect.sizeDelta = new Vector2(3, 0); rect.anchoredPosition = Vector2.zero;
+            }
+            ZoneLabel = Label(InputZone.transform, "Input zone instruction", 24);
+            var bg = new GameObject("Instruction backing", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            bg.transform.SetParent(InputZone.transform, false); bg.transform.SetSiblingIndex(2);
+            bg.color = new Color(.02f, .04f, .09f, .82f); bg.raycastTarget = false;
+            PrototypePresentation.Place(bg.rectTransform, 0, 1, 1, 1); bg.rectTransform.sizeDelta = new Vector2(0, 42);
+            PrototypePresentation.Place(ZoneLabel.rectTransform, 0, 1, 1, 1); ZoneLabel.rectTransform.sizeDelta = new Vector2(0, 42);
+            InputZone.gameObject.SetActive(false);
+        }
+        private static TextMeshProUGUI Label(Transform parent, string name, float size)
         {
-            RunnerState.Jump  => "점프!",
-            RunnerState.Slide => "슬라이딩!",
-            RunnerState.Block => "방어!",
-            _                 => "?"
-        };
+            var label = new GameObject(name, typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+            label.transform.SetParent(parent, false); label.fontSize = size; label.alignment = TextAlignmentOptions.Center;
+            label.raycastTarget = false; KoreanUIPresentation.Apply(label); return label;
+        }
+        private static int ActionIndex(RunnerState action) => action == RunnerState.Jump ? 0 : action == RunnerState.Slide ? 1 : 2;
+        private static Color ActionColor(RunnerState action) => action == RunnerState.Jump ? new Color(1, .35f, .4f) :
+            action == RunnerState.Slide ? new Color(.3f, .65f, 1) : new Color(1, .85f, .2f);
     }
 }

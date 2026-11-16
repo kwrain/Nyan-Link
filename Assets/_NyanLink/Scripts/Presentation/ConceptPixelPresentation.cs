@@ -152,9 +152,6 @@ namespace NineMood.Presentation
                     case "Text_Instruction":PlaceText(text,.778f,.805f,25);break;
                 }
             }
-            var warning=FindFirstObjectByType<RunnerWarningHUD>();
-            PrototypePresentation.Place(warning.warningPanel.GetComponent<RectTransform>(),.08f,.805f,.92f,.88f);
-            warning.warningPanel.GetComponent<Image>().color=new Color(.035f,.055f,.12f,.94f);
         }
         void OnDestroy() {if(ringMaterial!=null)Destroy(ringMaterial);}
     }

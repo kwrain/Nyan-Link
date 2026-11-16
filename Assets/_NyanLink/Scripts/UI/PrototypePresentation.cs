@@ -63,7 +63,6 @@ namespace NineMood.UI
             }
             Place(hud.transform.Find("Slider_Stamina")?.GetComponent<RectTransform>(),.17f,.936f,.72f,.951f);
             Place(hud.transform.Find("Slider_Progress")?.GetComponent<RectTransform>(),.05f,.98f,.95f,.989f);
-            var warning=FindFirstObjectByType<RunnerWarningHUD>();if(warning!=null)Place(warning.warningPanel.GetComponent<RectTransform>(),.06f,.69f,.94f,.79f);
             var boss=FindFirstObjectByType<BossHUD>();if(boss!=null)
             {
                 foreach(var t in boss.GetComponentsInChildren<TextMeshProUGUI>(true)) switch(t.name)

@@ -1,0 +1,37 @@
+러닝 접근 예고·공간 입력 영역 — 2026-11-16
+환경: macOS / Unity 6000.3.14f1 Editor / 실제1080x1920 / 가상 Mouse / 격리 저장.
+최종: Session03 372 Play assertions, 종료0, 런타임 오류0.
+회귀: regression-boss/ Session04 266 Play assertions, 종료0, 런타임 오류0.
+실행: NYANLINK_SESSION03_OUTPUT=<output> Unity -projectPath <project> -executeMethod NyanLinkSession03Validation.Run -logFile <output>/play.log
+회귀: NYANLINK_SESSION04_OUTPUT=<output>/regression-boss Unity -projectPath <project> -executeMethod NyanLinkSession04Validation.Run -logFile <output>/regression-boss/play.log
+
+주요 실제 플레이 캡처 — 실제 게임 렌더에서 촬영:
+01-reentry-board.png: 씬 왕복 후 보드39칸·UI 정상.
+02-paused-runner.png: 정지/재개에서 러너 상태/타이머/장애물 예약 보존.
+02a-free-running.png: 자유 매칭 시 달리기 유지.5색 각각 무동작 assertion 통과.
+03-jump-prewarning.png: 오른쪽에 가시 장애물 아이콘/접근 중, 카운트다운 없음. 실제 alpha 변화 assertion으로 점멸 확인. 최신 PNG 직접 열람.
+03b-obstacle-approaching-zone.png: 장애물 접근 중 희미한 입력 영역과 진입 대기 안내. 조기 매칭 점수만 발생, 점프/예약 없음.
+04-retry-warning.png: 실패 재도전에서 접근 예고로 복귀, 숫자 카운트다운 없음.
+04-window-Red/Blue/Yellow.png: 실제 판정 범위 안에서만 요구 색 연결 안내, 반투명 영역의 양끝과 판정 X 일치. 최신 Yellow 직접 열람.
+04-window-safe-area.png: 모의 안전 영역 (36,70,width-72,height-160)에서도 입력 영역과 판정 좌표 오차2px 미만. 일치.
+05-jump-reserved.png / 05-block-reserved.png: 정답 입력 후 초록 영역/입력 완료, 올바른 캐릭터 액션 및 성공 예약 유지. 기대/실제 일치.
+06-boss-entry.png: 세 장애물 클리어 후 보스 진입, 러닝 영역/예고 숨김.
+regression-boss/: 기존 보스 순서 아이콘/완료 회색/그로기·승패 실제 PNG9장.
+
+격리 fixture: Session03 마지막3종 영역 테스트에서 캡처·오답복구·액션 종료 관찰을 위해
+영역 진입 후만 장애물 속도1, 정답 후 원래 속도 복원. 게임 데이터/실제 게임 속도 변경 없음.
+초기 실패/재도전과 Session04 회귀는 기본 속도로 진행.
+보드 인접 쌍 보정·배속·모의 안전 영역을 사용하며 사람 무보정 난이도 검증 아님.
+SaveManager.TestDirectoryOverride, stageData=null. 기존 사용자 saves 파일명/SHA 전후 동일 검사.
+
+초기 이력:
+attempt01: 새 HUD CanvasGroup 생성 참조 예외. 컴포넌트 제거 후 최종 검증 완료.
+attempt02: 고배속 예고 순간 검사 실패. 검사용 배속/허용 범위 조정.
+attempt03/04: 추가 캡처·오답 대기 중 짧은 입력 기한을 넘기는 검사 실패. 격리 fixture 속도만 조정.
+attempt05-cloud-auth: 게임 동작372개 모두 완료했으나 UnityEditor.Connect Token Exchange 실패1건으로 종료1.
+최종 재실행372 및 별도 회귀266 모두 종료0, 해당 인증 오류 재발 없음. 이전 실패 근거를 그대로 보존.
+
+미검증: 새 APK 빌드/설치 미수행.
+실기기 필요: D-005, D-001. Lenovo TB320FC 및 Android/iOS 세로 화면에서 대비·점멸·입력 범위 인지성,
+모달/정지/복귀·손가락 가림 확인. 보스 아이콘 D-004도 함께 확인.
+이번 기능의 확인된 미해결 게임 문제 없음.

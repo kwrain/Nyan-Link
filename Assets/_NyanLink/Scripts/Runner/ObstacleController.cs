@@ -23,6 +23,8 @@ namespace NineMood.Runner
         public bool HasSuccessReservation { get; private set; }
         public bool IsResolved { get; private set; }
         public bool IsInitialized { get; private set; }
+        public float InputWindowStartX => _judgmentX;
+        public float InputWindowEndX => _judgmentX + _warningDistance;
         public float DistanceToRunner => _runner != null ? transform.position.x - _judgmentX : float.PositiveInfinity;
         public float TimeUntilCollision => Mathf.Max(0f, DistanceToRunner / Mathf.Max(0.01f, moveSpeed));
         public bool IsInputWindowOpen => IsInitialized && !IsResolved && DistanceToRunner >= 0f && DistanceToRunner <= _warningDistance;

@@ -51,6 +51,8 @@ namespace NineMood.Runner
 
         [Header("스폰 위치")]
         public float spawnX = 12f;
+        [Tooltip("입력 영역의 끝과 캐릭터 앞 연출 지점 사이 거리")]
+        [Min(0f)] public float inputLeadDistance = 2f;
         [Tooltip("러너 캐릭터 Y 기준 오프셋")]
         public float spawnY = 0f;
 
@@ -133,7 +135,7 @@ namespace NineMood.Runner
                 : CreatePlaceholder(entry.requiredColor, y);
             _current = go.GetComponent<ObstacleController>() ?? go.AddComponent<ObstacleController>();
             _current.Initialize(RequiredAction(), runner, Balance?.obstacleWarningDistance ?? 5f,
-                stageData?.ActualObstacleDamage ?? 20f, entry.requiredColor);
+                stageData?.ActualObstacleDamage ?? 20f, entry.requiredColor, inputLeadDistance);
             _current.moveSpeed = stageData != null ? stageData.obstacleMoveSpeed : 4f;
             _current.Resolved += HandleResolved;
             _current.InputWindowOpened += HandleInputWindow;

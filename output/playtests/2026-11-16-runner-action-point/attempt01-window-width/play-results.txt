@@ -1,0 +1,8 @@
+PASS Main→Game→Main cycles, fresh 39-cell board, live scene references, shared-root duplicates, result retry, no stale subscriptions
+PASS Purple boost, prewarning, early-input rejection, 20 damage, repeated 2-second retry, decay while held, reservation pause and restart reset
+PASS Jump→Slide→Block through default StageData to one boss entry; deferred success after input close at action point; wrong-match lock; yellow no-damage pass
+PASS Public Session04 boss timer pauses and resumes without battle/HP reset
+System.Exception: FAIL Actual screenshot saved: 05-block-reserved.png
+  at NyanLinkSession03Validation.Assert (System.Boolean condition, System.String message) [0x00015] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:117 
+  at NyanLinkSession03Validation+<Sequence>d__62.MoveNext () [0x0224c] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:498 
+  at NyanLinkSession03Validation.Tick () [0x0002d] in /Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Assets/Editor/NyanLinkSession03Validation.cs:103 

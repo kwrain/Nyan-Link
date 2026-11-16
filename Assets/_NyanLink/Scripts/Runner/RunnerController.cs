@@ -25,7 +25,6 @@ namespace NineMood.Runner
         // ── 상태 ───────────────────────────────────────────────
         public RunnerState CurrentState { get; private set; } = RunnerState.Run;
 
-        private ObstacleSpawner _spawner;
         private float _stateTimer;
         private float _boostTimer;
         public float ActionTimeRemaining => _stateTimer;
@@ -37,7 +36,6 @@ namespace NineMood.Runner
 
         private void Awake()
         {
-            _spawner = FindFirstObjectByType<ObstacleSpawner>();
             var visual = transform.Find("RunnerVisual");
             if (visual != null)
             {
@@ -79,6 +77,12 @@ namespace NineMood.Runner
             if(state!=RunnerState.Run) TransitionTo(state);
             _stateTimer=actionRemaining;
         }
+        public void PlayObstacleSuccess(RunnerState action)
+        {
+            if (GameManager.Instance?.CurrentState == GameState.RunnerPhase && action != RunnerState.Run)
+                TransitionTo(action);
+        }
+
         public void TriggerStumble()
         {
             TransitionTo(RunnerState.Stumble);
@@ -92,13 +96,8 @@ namespace NineMood.Runner
                 !(BossController.Instance?.CanUseColorActions ?? false)) return;
 
             if (GameManager.Instance.CurrentState == GameState.RunnerPhase && color == TileColor.Purple) _boostTimer = Mathf.Max(_boostTimer, Balance?.runSpeedDuration ?? 3f);
-            if (GameManager.Instance.CurrentState == GameState.RunnerPhase)
-            {
-                var obstacle = _spawner != null ? _spawner.CurrentObstacle : null;
-                // Only the matching obstacle window gives a runner action. Scoring/items/boost are independent.
-                if (obstacle == null || !obstacle.IsInputWindowOpen ||
-                    color != obstacle.RequiredColor || chainLength < 2 || tilesRemoved <= 0) return;
-            }
+            // Running matches reserve obstacle success; the obstacle plays the action at contact.
+            if (GameManager.Instance.CurrentState == GameState.RunnerPhase) return;
             RunnerState action = actionMap != null
                 ? actionMap.GetAction(color)
                 : ColorActionMapData.GetDefaultAction(color);

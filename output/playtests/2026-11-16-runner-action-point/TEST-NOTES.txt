@@ -1,0 +1,44 @@
+선입력 영역과 연출 지점 분리 — 2026-11-16
+환경: macOS / Unity 6000.3.14f1 Editor / 실제1080x1920 / 가상 Mouse / 격리 저장.
+최종: Session03 423 Play assertions, 종료0, 런타임 오류0.
+회귀: regression-boss/ Session04 266 Play assertions, 종료0, 런타임 오류0.
+실행: NYANLINK_SESSION03_OUTPUT=<output> Unity -projectPath <project> -executeMethod NyanLinkSession03Validation.Run -logFile <output>/play.log
+회귀: NYANLINK_SESSION04_OUTPUT=<output>/regression-boss Unity -projectPath <project> -executeMethod NyanLinkSession04Validation.Run -logFile <output>/regression-boss/play.log
+
+기본 범위: 입력 [연출X+2, 연출X+7], 기존 폭5 유지. 기본 속도4에서 입력 마감 후0.5초 뒤 연출.
+입력 시에는 성공만 예약하고 달리기 유지, 마감 뒤 추가 입력 불가. 연출X에서만 성공 액션/실패 피격 실행.
+
+실제 플레이 PNG22장 — 기대/실제 결과:
+01-reentry-board / 02-paused-runner / 02a-free-running: 보드·정지·평상시 무동작 유지.
+03-jump-prewarning: 오른쪽 접근 예고 아이콘과 점멸, 카운트다운 없음.
+03b-obstacle-approaching-zone: 이동한 입력 영역과 연출 지점 구분, 조기 입력 거부.
+03c-input-closed-failure-pending: 입력 마감 후에도 달리기, 늦은 정답으로 실패 결과를 바꾸지 못함.
+04-failure-at-action-point: 연출 지점에서 피격·20피해, 재도전. 직접 열람.
+04-retry-warning: 재도전 대기 예고 유지.
+04-window-Red/Blue/Yellow: 요구 색 안내, 입력 폭5와 이동된 영역 실제 판정 일치.
+04-window-safe-area: 모의 안전 영역 (36,70,width-72,height-160)에서도 영역/마커 좌표 오차2px 미만.
+05-input-reserved-Red/Blue/Yellow: 선입력 성공을 예약하고 달리기 유지, 즉시 점프/방어하지 않음.
+05b-pending-action-Red/Blue/Yellow: 영역을 지난 뒤 입력 완료·통과 대기. 늦은 다른 색 매칭은 예약을 변경하지 않음.
+  Red의 대기 구간 정지/재개에서도 인스턴스·좌표·결과 유지. Red 직접 열람.
+06-action-point-Red/Blue/Yellow: 연출 지점에서 해당 동작 시작. Red/Blue 직접 열람.
+  캡처는 동작 시작 프레임 부근. 정지 화면으로 점프 전체 궤적을 확인했다고 해석하지 않음.
+06-boss-entry: 보스 진입에서 러닝 영역/마커 숨김.
+regression-boss/: 기본 속도3종→보스/그로기/승패·순서 아이콘·완료 회색 실제 PNG9장.
+위 항목 기대/실제 결과 일치.
+
+fixture: 캡처/마감 후 입력·정지 검사를 위해 Session03 마지막3종은 영역 진입 후 장애물 속도1,
+마감 검사 뒤 원래 속도 복원. 첫 실패 검사는 영역 마감 후 속도1. 게임 데이터·실제 기본 속도 변경 없음.
+회귀 Session04는 기본 속도 진행. 보드 인접 쌍 보정·배속·모의 안전 영역을 사용.
+SaveManager.TestDirectoryOverride와 stageData=null. 사용자 saves 파일명/SHA 전후 동일 assertion 통과.
+
+초기 기록:
+attempt01-window-width: 영역 끝 이동 누락으로 폭이 줄어든 점을 캡처에서 발견, 수정·폭 유지 assertion 추가.
+이 실행은 구형 캡처명 05-block-reserved.png의 존재 검사도 실패. 새 단계별 캡처명으로 수정.
+attempt02-capture-assertion: 캡처명 검사 수정 전 중단한 시작 로그.
+최종 실행 도중 이전 강제 종료의 씬 백업 보존 안내로 대기: UI에서 복사/보존 후 검증 재개.
+이번에 복사된 백업은 editor-recovery/에 보존. 기존 추적 Assets/_Recovery/0.unity·메타는 원래 위치에 그대로 유지. 게임 씬 원본 수정 없음.
+최종 전체423 및 회귀266 정상 종료, 런타임 오류0.
+
+미검증: 새 APK 빌드/설치 미수행.
+실기기: D-005/D-001, 보스 D-004 함께 테스트. 선입력·마감·연출의 간격 체감과 실제 기기 대비/가독성 확인.
+확인된 미해결 게임 문제 없음.

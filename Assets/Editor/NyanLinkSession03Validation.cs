@@ -195,6 +195,12 @@ public static class NyanLinkSession03Validation
         var end = cameraRunner.WorldToScreenPoint(new Vector3(obstacle.InputWindowEndX, 0, 0));
         Assert(Mathf.Abs(corners[0].x - Mathf.Clamp(start.x,cameraRunner.pixelRect.xMin,cameraRunner.pixelRect.xMax)) < 2 &&
             Mathf.Abs(corners[2].x - Mathf.Clamp(end.x,cameraRunner.pixelRect.xMin,cameraRunner.pixelRect.xMax)) < 2, "Zone matches actual judgment X bounds");
+        Assert(Mathf.Abs(obstacle.InputWindowEndX - obstacle.InputWindowStartX - DataManager.Instance.BalanceData.obstacleWarningDistance) < .001f,
+            "Moving the window preserves its full input width");
+        var markerCorners = new Vector3[4]; hud.JudgmentMarker.rectTransform.GetWorldCorners(markerCorners);
+        float judgmentX = cameraRunner.WorldToScreenPoint(new Vector3(obstacle.JudgmentX, 0, 0)).x;
+        Assert(Mathf.Abs((markerCorners[0].x + markerCorners[2].x) * .5f - judgmentX) < 2 &&
+            obstacle.InputWindowStartX > obstacle.JudgmentX, "Input zone is ahead of the separate action point");
         Assert(hud.InputZone.GetComponentsInChildren<UnityEngine.UI.Graphic>().All(g => !g.raycastTarget), "Cues do not intercept input");
     }
     static void Capture(string file) => ScreenCapture.CaptureScreenshot(Path.GetFullPath(Path.Combine(Output,file)));
@@ -372,7 +378,16 @@ public static class NyanLinkSession03Validation
         Assert(!first.HasSuccessReservation && runner.CurrentState == RunnerState.Run,"Early match neither reserves success nor jumps");
         yield return .05f; CheckInputZone(first, false);
         Capture("03b-obstacle-approaching-zone.png"); yield return .05f;
+        yield return Wait(() => first.HasInputWindowPassed, "First input window closes before collision");
+        first.moveSpeed = 1f; yield return .05f;
+        Assert(!first.IsResolved && !first.IsInputWindowOpen && runner.CurrentState == RunnerState.Run, "No failure animation at input close");
+        Assert(cue.ZoneLabel.text == "입력 마감 · 통과 대기" && !cue.warningPanel.activeSelf, "Closed window shows waiting rather than a new approach cue");
+        yield return Match(TileColor.Red);
+        Assert(!first.HasSuccessReservation && runner.CurrentState == RunnerState.Run, "Correct color after window close is rejected without animation");
+        Capture("03c-input-closed-failure-pending.png"); yield return .05f;
         yield return ExpectFailure();
+        Assert(runner.CurrentState == RunnerState.Stumble, "Failure animation occurs at action point");
+        Capture("04-failure-at-action-point.png"); yield return .05f;
         float retryStarted = Time.time;
         float retryHp = StaminaManager.Instance.CurrentStamina, retryElapsed = StaminaManager.Instance.ElapsedRunnerTime, retryDistance = progress.CurrentDistance;
         yield return 0.3f;
@@ -424,22 +439,29 @@ public static class NyanLinkSession03Validation
             }
             Capture("04-window-" + color + ".png"); yield return .05f;
             yield return Match(color);
-            Assert(runner.CurrentState == obstacle.RequiredAction, "Correct window match animates required action " + color);
+            Assert(runner.CurrentState == RunnerState.Run, "Correct input reserves without early action " + color);
             yield return .05f;
             Assert(Object.FindFirstObjectByType<RunnerWarningHUD>().ZoneLabel.text == "입력 완료", "Zone confirms accepted match");
             Assert(obstacle.HasSuccessReservation,"Correct match reserves success: " + color);
+            Capture("05-input-reserved-" + color + ".png"); yield return .05f;
+            yield return Wait(() => obstacle.HasInputWindowPassed, "Reserved obstacle leaves input zone");
+            yield return .05f;
+            Assert(!obstacle.IsResolved && runner.CurrentState == RunnerState.Run && obstacle.HasSuccessReservation, "Reservation survives closed window before action");
+            Assert(Object.FindFirstObjectByType<RunnerWarningHUD>().ZoneLabel.text == "입력 완료 · 통과 대기", "Reserved obstacle waits for action point");
+            yield return Match((TileColor)(((int)color + 1) % 6));
+            Assert(!input.IsInputLocked && obstacle.HasSuccessReservation && runner.CurrentState == RunnerState.Run, "Post-window matches cannot change result or trigger an action");
             if (color == TileColor.Red)
             {
-                Capture("05-jump-reserved.png"); yield return .05f;
-                yield return Wait(() => runner.CurrentState == RunnerState.Run,"Jump animation/state finishes");
-                Assert(spawner.CurrentObstacle == obstacle && !obstacle.IsResolved && obstacle.HasSuccessReservation,"Expired jump state does not lose reservation before contact");
-                obstacle.moveSpeed = originalSpeed;
+                yield return PauseSnapshot(null);
+                Assert(obstacle.HasSuccessReservation && !obstacle.IsResolved && runner.CurrentState == RunnerState.Run, "Pause in action gap preserves deferred success");
             }
+            Capture("05b-pending-action-" + color + ".png"); yield return .05f;
             obstacle.moveSpeed = originalSpeed;
-            if (color == TileColor.Yellow) { Capture("05-block-reserved.png"); yield return 0.05f; }
             float hp = StaminaManager.Instance.CurrentStamina, elapsed = StaminaManager.Instance.ElapsedRunnerTime;
             int index = spawner.NextObstacleIndex;
             yield return Wait(() => spawner.NextObstacleIndex == index + 1,"Successful pass");
+            Assert(runner.CurrentState == obstacle.RequiredAction, "Success action plays at collision " + color);
+            Capture("06-action-point-" + color + ".png"); yield return .05f;
             float collisionDamage = hp - StaminaManager.Instance.CurrentStamina - NaturalLoss(elapsed,StaminaManager.Instance.ElapsedRunnerTime);
             Assert(Mathf.Abs(collisionDamage) < 0.2f && !progress.IsPaused && spawner.RetryRemaining == 0f,"Successful pass has no collision damage: " + color);
         }
@@ -451,7 +473,7 @@ public static class NyanLinkSession03Validation
         yield return PauseSnapshot(null);
         yield return 0.3f;
         Assert(StaminaManager.Instance.CurrentStamina == hpBoss && StaminaManager.Instance.ElapsedRunnerTime == elapsedBoss,"Boss phase stops natural HP decay");
-        Pass("Jump→Slide→Block through default StageData to one boss entry; reserved success independent of animation; wrong-match lock; yellow no-damage pass");
+        Pass("Jump→Slide→Block through default StageData to one boss entry; deferred success after input close at action point; wrong-match lock; yellow no-damage pass");
         // Isolate the preserved legacy pattern solely to verify pause lifetime; do not claim session 04 combat correctness.
         var boss = BossController.Instance;
         bossClone = Object.Instantiate(boss.config); bossClone.inputTimeLimit = 1.5f; bossClone.minimumTimeLimit = .1f; boss.config = bossClone;
@@ -474,7 +496,7 @@ public static class NyanLinkSession03Validation
         CheckSubscribers();
         var after = Saves();
         Assert(saveHashes.Count == after.Count && saveHashes.All(p => after.TryGetValue(p.Key,out var hash) && hash == p.Value),"User checkpoint files unchanged");
-        foreach (var file in new[] { "01-reentry-board.png","02-paused-runner.png","03-jump-prewarning.png","04-retry-warning.png","05-block-reserved.png","06-boss-entry.png" })
+        foreach (var file in new[] { "01-reentry-board.png","02-paused-runner.png","03-jump-prewarning.png","04-retry-warning.png","05-input-reserved-Red.png","05b-pending-action-Red.png","06-action-point-Red.png","06-action-point-Blue.png","06-action-point-Yellow.png","04-failure-at-action-point.png","03c-input-closed-failure-pending.png","06-boss-entry.png" })
             Assert(File.Exists(Path.Combine(Output,file)) && new FileInfo(Path.Combine(Output,file)).Length > 0,"Actual screenshot saved: " + file);
         Pass($"{assertions} Play assertions; user saves preserved; no destroyed/duplicate event subscribers");
     }

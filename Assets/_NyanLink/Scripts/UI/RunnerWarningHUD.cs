@@ -20,6 +20,7 @@ namespace NineMood.UI
         [Range(0f, 1f)] public float puzzleRatio = .60f;
         public float Remaining => _spawner != null ? _spawner.WarningRemaining : 0f;
         public Image InputZone { get; private set; }
+        public Image JudgmentMarker { get; private set; }
         public TextMeshProUGUI ZoneLabel { get; private set; }
         private ObstacleSpawner _spawner;
         private Camera _camera;
@@ -48,6 +49,7 @@ namespace NineMood.UI
             ObstacleSpawner.OnPreWarningEnded -= HideWarning;
             HideWarning();
             if (InputZone != null) InputZone.gameObject.SetActive(false);
+            if (JudgmentMarker != null) JudgmentMarker.gameObject.SetActive(false);
         }
         private void ShowWarning(RunnerState action, float duration)
         {
@@ -64,7 +66,7 @@ namespace NineMood.UI
             var obstacle = _spawner != null ? _spawner.CurrentObstacle : null;
             bool hasObstacle = running && obstacle != null && obstacle.IsInitialized && !obstacle.IsResolved;
             bool open = hasObstacle && obstacle.IsInputWindowOpen;
-            bool preview = running && !open && (_announced || hasObstacle);
+            bool preview = running && (hasObstacle ? obstacle.transform.position.x > obstacle.InputWindowEndX : _announced);
             warningPanel.SetActive(preview);
             if (preview)
             {
@@ -79,6 +81,7 @@ namespace NineMood.UI
                 PrototypePresentation.Place(warningPanel.GetComponent<RectTransform>(), .72f + slide, .805f, .97f + slide, .88f);
             }
             InputZone.gameObject.SetActive(hasObstacle && _camera != null);
+            JudgmentMarker.gameObject.SetActive(InputZone.gameObject.activeSelf);
             if (!InputZone.gameObject.activeSelf) return;
             // Use the same world X bounds as IsInputWindowOpen, including any judgment offset.
             float y = _spawner.runner.transform.position.y;
@@ -89,11 +92,16 @@ namespace NineMood.UI
             Vector2 a = ParentAnchor(parent, new Vector2(Mathf.Clamp(min.x, view.xMin, view.xMax), Mathf.Clamp(min.y, view.yMin, view.yMax)));
             Vector2 b = ParentAnchor(parent, new Vector2(Mathf.Clamp(max.x, view.xMin, view.xMax), Mathf.Clamp(max.y, view.yMin, view.yMax)));
             PrototypePresentation.Place(InputZone.rectTransform, a.x, a.y, b.x, b.y);
+            var judgment = _camera.WorldToScreenPoint(new Vector3(obstacle.JudgmentX, y, 0));
+            Vector2 marker = ParentAnchor(parent, new Vector2(Mathf.Clamp(judgment.x, view.xMin, view.xMax), min.y));
+            PrototypePresentation.Place(JudgmentMarker.rectTransform, marker.x, a.y, marker.x, b.y);
+            JudgmentMarker.rectTransform.sizeDelta = new Vector2(3, 0);
+            bool passed = obstacle.HasInputWindowPassed;
             bool ready = obstacle.HasSuccessReservation;
             Color color = ready ? new Color(.35f, 1f, .68f) : ActionColor(obstacle.RequiredAction);
             InputZone.color = new Color(color.r, color.g, color.b, open ? .23f : .10f);
             foreach (var edge in _zoneEdges) edge.color = new Color(color.r, color.g, color.b, open ? .95f : .45f);
-            ZoneLabel.text = ready ? "입력 완료" : open ? KoreanText.ColorName(obstacle.RequiredColor) + " 2개 이상 연결" : "영역에 들어오면 연결";
+            ZoneLabel.text = passed ? (ready ? "입력 완료 · 통과 대기" : "입력 마감 · 통과 대기") : ready ? "입력 완료" : open ? KoreanText.ColorName(obstacle.RequiredColor) + " 2개 이상 연결" : "영역에 들어오면 연결";
             ZoneLabel.color = ready ? color : Color.white;
         }
 
@@ -140,6 +148,13 @@ namespace NineMood.UI
             bg.color = new Color(.02f, .04f, .09f, .82f); bg.raycastTarget = false;
             PrototypePresentation.Place(bg.rectTransform, 0, 1, 1, 1); bg.rectTransform.sizeDelta = new Vector2(0, 42);
             PrototypePresentation.Place(ZoneLabel.rectTransform, 0, 1, 1, 1); ZoneLabel.rectTransform.sizeDelta = new Vector2(0, 42);
+            JudgmentMarker = new GameObject("Obstacle action point", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            JudgmentMarker.transform.SetParent(InputZone.transform.parent, false);
+            JudgmentMarker.raycastTarget = false; JudgmentMarker.color = new Color(1, 1, 1, .65f);
+            var pointLabel = Label(JudgmentMarker.transform, "Action point label", 22);
+            PrototypePresentation.Place(pointLabel.rectTransform, .5f, 1, .5f, 1);
+            pointLabel.rectTransform.sizeDelta = new Vector2(110, 42); pointLabel.text = "연출 지점";
+            JudgmentMarker.gameObject.SetActive(false);
             InputZone.gameObject.SetActive(false);
         }
         private static TextMeshProUGUI Label(Transform parent, string name, float size)

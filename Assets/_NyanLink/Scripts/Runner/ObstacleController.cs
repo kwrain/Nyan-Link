@@ -23,13 +23,15 @@ namespace NineMood.Runner
         public bool HasSuccessReservation { get; private set; }
         public bool IsResolved { get; private set; }
         public bool IsInitialized { get; private set; }
-        public float InputWindowStartX => _judgmentX;
-        public float InputWindowEndX => _judgmentX + _warningDistance;
+        public float JudgmentX => _judgmentX;
+        public float InputWindowStartX => _judgmentX + _inputLeadDistance;
+        public float InputWindowEndX => InputWindowStartX + _warningDistance;
+        public bool HasInputWindowPassed => IsInitialized && transform.position.x < InputWindowStartX;
         public float DistanceToRunner => _runner != null ? transform.position.x - _judgmentX : float.PositiveInfinity;
         public float TimeUntilCollision => Mathf.Max(0f, DistanceToRunner / Mathf.Max(0.01f, moveSpeed));
-        public bool IsInputWindowOpen => IsInitialized && !IsResolved && DistanceToRunner >= 0f && DistanceToRunner <= _warningDistance;
+        public bool IsInputWindowOpen => IsInitialized && !IsResolved && transform.position.x >= InputWindowStartX && transform.position.x <= InputWindowEndX;
         private RunnerController _runner;
-        private float _warningDistance, _damage, _judgmentX;
+        private float _warningDistance, _damage, _judgmentX, _inputLeadDistance;
         private bool _warningShown;
         private SpriteRenderer _sprite;
 
@@ -49,13 +51,14 @@ namespace NineMood.Runner
         }
 
         public void Initialize(RunnerState required, RunnerController runner, float warningDistance,
-            float obstacleDamage, TileColor? requiredColor = null)
+            float obstacleDamage, TileColor? requiredColor = null, float inputLeadDistance = 2f)
         {
             RequiredAction = required;
             RequiredColor = requiredColor ?? (required == RunnerState.Jump ? TileColor.Red :
                 required == RunnerState.Slide ? TileColor.Blue : TileColor.Yellow);
             _runner = runner;
             _warningDistance = warningDistance;
+            _inputLeadDistance = Mathf.Max(0f, inputLeadDistance);
             _damage = obstacleDamage;
             _judgmentX = runner != null ? runner.transform.position.x + judgmentOffsetX : judgmentOffsetX;
             _sprite = GetComponentInChildren<SpriteRenderer>();
@@ -70,7 +73,7 @@ namespace NineMood.Runner
             if (!IsInitialized || IsResolved || !GameManager.IsCreated ||
                 GameManager.Instance.CurrentState != GameState.RunnerPhase) return;
             transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-            if (!_warningShown && DistanceToRunner <= _warningDistance)
+            if (!_warningShown && transform.position.x <= InputWindowEndX)
             {
                 _warningShown = true;
                 InputWindowOpened?.Invoke(this);
@@ -106,7 +109,8 @@ namespace NineMood.Runner
             IsResolved = true;
             bool success = HasSuccessReservation;
             if (_sprite != null) _sprite.color = success ? Color.green : Color.red;
-            if (!success)
+            if (success) _runner?.PlayObstacleSuccess(RequiredAction);
+            else
             {
                 _runner?.TriggerStumble();
                 StaminaManager.Instance?.TakeDamage(_damage);

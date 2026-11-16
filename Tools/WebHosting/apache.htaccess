@@ -1,0 +1,15 @@
+# Upload inside /nyan-link/ only. Gzip fallback files are decoded by Unity.
+# Do NOT add Content-Encoding: gzip to .unityweb files.
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/octet-stream .unityweb
+  AddType application/wasm .wasm
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|json)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "^[a-f0-9]{32}\.">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

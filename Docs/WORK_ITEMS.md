@@ -6,9 +6,18 @@
 
 ## 미검증
 
+### V-019 — 회사 HTTPS 서버 게시·캐시·PC 브라우저 교차 검증
+- 등록일·최근 확인일: 2026-11-16. 관련: NyanLinkWebBuild.cs, Assets/WebGLTemplates/NyanLink, Tools/WebHosting, Docs/Development/WEB-DEPLOYMENT.txt. 관련 ID: V-018, D-003.
+- 확인할 동작·기대 결과: https://fairstudios.kr/nyan-link/에서 새 방문자의 게임 로드·입력·저장 복원이 성공하고, 빌드 교체 후 일반 새로고침으로 새 버전 실행. Mac Safari/Windows Edge에서도 같은 흐름 확인.
+- 확인 환경: 공개 HTTPS 응답 기준 /legend-stone/는200·Server:nginx, /nyan-link/는404(2026-11-16). 로컬 브라우저 결과와 회사 서버 결과는 구분.
+- 미검증 사유: 요청 범위는 웹 빌드와 배포 준비. 회사 호스팅 계정/실제 문서 루트/업로드 연결은 제공되지 않아 업로드·서버 변경 미수행. Safari/Windows 브라우저는 이번 자동 검사에서 실행하지 않음.
+- 검증 방법: 배포 안내의 경로·MIME·캐시 설정에 맞춰 준비된 zip을 업로드한 뒤 실제 HTTPS 주소에서 로드/타일 입력/정지·재개/저장·새로고침/새 버전 교체 확인. 공개 주소의 단순200만으로 플레이 성공 처리하지 않음.
+- 근거: output/playtests/2026-11-16-web/{reference-headers.txt,target-before-headers.txt}, 웹 플레이 결과는 V-018 참조.
+
 한글 UI·폰트 V-013은 2026-11-16 완료 이력으로 이동. 이전 V-016/V-017의 미검증 언급은 당시 이력이며 현재 모바일 가독성은 D-001로 추적.
 
 ### V-001 — Player 빌드와 새 환경의 패키지 복구
+- 2026-11-16 부분 확인: 기존 캐시에서 Unity WebGL Release 빌드 성공·오류0, Mac Chrome 실제 WebGL 실행/입력/저장·새로고침 복원은 V-018에서 확인. 새 캐시 복구/Native 모바일/실제 모바일 웹 성공으로 해석하지 않음.
 - 관련: Packages/manifest.json, packages-lock.json, PuzzleBoardManager.cs, Game.unity의 `_tileEntries`.
 - 확인할 동작·기대 결과: 캐시 없는 환경에서 패키지 복구 후 데스크톱/모바일 Player 컴파일 및 타일 렌더링 성공.
 - 세션08 부분 확인: 현재 캐시에서 Mac Development Player 빌드·실제 실행·39칸/선택선 셰이더/입력·리필·격리 저장 성공. build-results/player/results.txt 및 V-014 참조.
@@ -38,6 +47,12 @@
 
 ## 미해결
 
+### I-010 — Chrome WebGL 형식 조회 경고
+- 등록일·최근 확인일: 2026-11-16. 관련: Unity WebGL 렌더러/Chrome157, output/playtests/2026-11-16-web/browser-console.json. 관련 ID: V-018, V-019, D-003.
+- 증상·재현: Mac Chrome157 headless의 최초 게임 로드 중 `WebGL: INVALID_ENUM: getInternalformatParameter: invalid internalformat` 경고6회. 최종 실행에서 JS pageerror/console error0, 실제 타일/배경/선택선/픽셀폰트 렌더링·입력 성공. 확인한 플레이 범위에서는 시각 결함을 관찰하지 않음.
+- 영향·원인: 현재 확인된 영향은 콘솔 경고. Unity의 지원 텍스처 형식 탐색/브라우저 조합일 가능성은 추정이며, 모든 브라우저에서 무해하다고 확정하지 않음.
+- 다음 조치: 게시 후 일반 Chrome/Safari/Edge와 실제 모바일의 경고·렌더링 비교. 필요 시 WebGL 호출 스택과 지원 형식 검사 경로 확인. 경고 억제나 패키지/렌더러 임의 교체는 하지 않음.
+
 ### I-009 — Mac Development Player 종료 시 렌더 자원 정리 경고
 - 2026-11-16 한글화 Native23/종료0 뒤 동일 ComputeBuffer·Development메모리 진단 재현. 이번 변경으로 해결 처리 안 함. 근거 2026-11-16-ko/player.log.
 - 2026-11-16 최근 확인: 픽셀UI Native20 checks/종료0 뒤 동일 ComputeBuffer/Development메모리 진단 재현. UI 작업으로 해결 처리하지 않음. 근거 2026-11-16-ui/player.log, V-017.
@@ -50,6 +65,13 @@
 - 다음 조치: 종료 호출 스택과 반복 Player 실행/렌더 자원 수명을 조사, Release와 비교. 경고를 숨기거나 관련 패키지를 임의 삭제하지 않음.
 
 ## 실기기 테스트 필요
+
+### D-003 — Android Chrome·iPhone Safari 웹 플레이
+- 등록일·최근 확인일: 2026-11-16. 관련: WebGL 빌드·NyanLink 웹 템플릿·SaveStore·AudioManager·TileInputHandler. 관련 ID: D-001, D-002, V-012, V-019.
+- 대상: 실제 Android 휴대폰 Chrome 및 iPhone Safari, 노치/홈 바 기기, 저사양·메모리 제한 기기.
+- 절차: 회사 HTTPS /nyan-link/에서 최초 다운로드→게임 시작→39칸 드래그/아이템/보스/장비, 세로·가로·주소창 높이 변화, 일시정지/탭 전환/복귀, 저장 경계 뒤 새로고침·브라우저 재실행. 실제 스피커/헤드폰 청취와 장기 플레이 성능 확인, 실제 PNG 촬영.
+- 기대 결과: 터치 위치·UI가 일치하고 스크롤/잘림/이중 입력이 없으며, 소리·저장·복귀가 의도대로 동작하고 메모리 부족 종료가 없어야 함. 기본 가로 화면에서도 세로 게임 영역 유지.
+- 대기 사유: 실제 모바일 기기를 사용하지 않음. PC Chrome의 모바일 크기/터치 에뮬레이션은 실제 iOS/Android WebGL·오디오·메모리 검증을 대체하지 않음. 기존 D-001/D-002의 Native 기기 대기 항목도 유지.
 
 ### D-001 — Android/iOS 세로 화면과 입력
 - 2026-11-16 한글화 추가: 갈무리11·한글UI가 Editor3해상도/모의노치·Mac Native540×960에서 검증(V-013). 실제폰에서 작은한글/숫자·긴안내 줄바꿈/장비행·버튼·손가락가림·폰트메모리/추가글리프·성능 확인 필요. 모바일모듈미설치/실기기미실행 상태 유지.
@@ -79,6 +101,18 @@
 - 관련: V-001, V-010, D-001.
 
 ## 완료 이력
+
+### V-018 — 웹 Release 빌드·로컬 Chrome 플레이·배포 패키징 확인
+- 등록일·최근 확인일·수행일: 2026-11-16. 관련: NyanLinkWebBuild.cs, WebGLTemplates/NyanLink, MainMenuController.cs, Tools/build_web.sh/package_web.py/serve_web.py/WebHosting, WEB-DEPLOYMENT.txt. 관련 커밋: 이번 웹 배포 준비 로컬 커밋(최종 git log 참조), 원격 push 없음.
+- 환경: macOS27.2 arm64, Unity6000.3.14f1, 기존 패키지 캐시, Chrome157.0.8103.51 headless 실제 WebGL2 렌더러. 격리된 브라우저 컨텍스트로 검사, 개인 브라우저/Native 사용자 저장에 접근하지 않음.
+- 빌드: WebGL Release/단일스레드/Gzip+Unity fallback/파일 hash/일반 텍스처. 최종 Succeeded·오류0·기존 UGS 프로젝트 미연결 경고1, 33,875,068bytes. 재빌드+패키징+프로젝트/클라우드 설정 원복 스크립트 실행 성공(22.54초 빌드). 최종 settings의 git diff 없음.
+- 패키지: Builds/Web/nyan-link-deploy.zip 33,128,753bytes, SHA256 f5d7e5ef5e4b88e5a63f6fbe61a679178dd3123d45d66148466d37f4bac6736b. ZIP 검사·내부 모든 파일 크기/SHA256 일치, nyan-link/ 접두사·폰트 라이선스·.htaccess 포함. 소스/디버그/툴체인 불포함. 웹 빌드와 zip은 ignored Builds/에 보존.
+- 실제 브라우저: /nyan-link/ 경로로 다운로드→한글 로비→준비→시작,39칸 렌더링, 웹 종료 버튼 숨김. 실제 브라우저 Mouse down/move/up으로 빨강3개 선택선→릴리스30점/3칸 리필/점프 확인, 일시정지/재개 확인. 데이터·보드·HP를 보정하지 않음. 최종 콘솔 error/pageerror0, 형식 조회 경고6회는 I-010으로 유지.
+- 저장: 첫 브라우저에서 실제 장애물 실패/재도전 경계가 반복되어 profile revision5와 .bak revision4가 IndexedDB에 자동 동기화. 새로고침·새 빌드 로드 후 UI 이어하기 표시, 동일 보드/거리62.5/HP 약15.3→표시16/재도전 상태 복원. profile와 backup은 browser-save-snapshot.json, 실제 화면05/06/07. 저장 데이터를 주입하지 않음. 전체 보스 승리/장기 경제/실제 폰 강제종료 성공은 미검증.
+- 화면: 1280×900에서506.25×900,390×844에서390×693.33,844×390에서219.375×390 캔버스로9:16 유지·화면 안에 표시. 모바일 크기의 PC 브라우저이며 실제 터치/노치 기기 검증은 아님(D-003).
+- 실제 캡처: 01 웹 진입,02 로비,03 준비,04 실행,05 정지,06 새로고침 뒤 이어하기,07 복원 뒤 정지,10 최종 실행,11 최종3칸 선택선,12 최종30점/리필/점프,13 세로 크기/14 가로 크기. 모두 실제 브라우저 촬영이며 render mockup 아님. screenshots와 results 설명은 같은 폴더 TEST-RESULTS.txt.
+- 초기 시도 보존: attempt01 임시 경로104자 소켓 제한 실패→짧은 외장 임시경로 연결로 해결; attempt02 작업 중단으로 빌드 종료→원래 설정 백업 복원 후 재실행; attempt03 자동 클릭을 같은 프레임에 과도하게 전달해 원래 의도한 연결 검증 미성립→실제 입력 간격으로 최종11/12에서 확인. 초기 스크린샷을 최종 성공 근거로 사용하지 않음.
+- 한계·후속: 회사 HTTPS 업로드/캐시 교체·Safari/Edge는 V-019, 모바일 실기기/소리 청취/성능은 D-003/V-012. 사용자 무보정 전체 완주는 V-002 유지. 로컬 웹 성공으로 기존 미검증·Native 종료 I-009를 완료 처리하지 않음.
 
 ### V-013 — 프로토타입 한글 UI·픽셀 폰트·글리프 검증 완료
 - 등록일:2026-11-13 / 최근확인·수행일:2026-11-16. 기준6dff4ab. 기존 e883693/6dff4ab는 사용자 요청으로 origin/main에 푸시·6dff4ab54c58e0725cc0b8aaf537884de7e860f9 원격일치 확인. 새 한글화는 로컬 커밋 feat: localize prototype UI with Korean pixel typography, 미푸시.

@@ -1,0 +1,7 @@
+unity=6000.3.14f1
+result=Succeeded
+errors=0
+warnings=1
+size=33875068
+duration=00:00:22.5399610
+output=/Volumes/WD Blue SN580 500GB Media/Workspace/Development/Nyan-Link/Builds/Web/nyan-link

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#172036">
+  <link rel="icon" href="data:,">
+  <title>냥링크 · 웹 테스트</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}
+    body{display:grid;place-items:center;background:#101526;color:#fff3d9;font-family:system-ui,sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+    main{position:relative;width:min(100%,56.25vh,540px);width:min(100%,56.25svh,540px);max-height:100%;aspect-ratio:9/16;background:#172036;overflow:hidden}
+    canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
+    #loading{position:absolute;inset:0;display:grid;place-items:center;padding:28px;background:#172036}
+    section{width:100%;text-align:center}h1{font-size:32px;letter-spacing:2px;margin:0 0 12px}p{font-size:13px;line-height:1.8;color:#c9cce0}
+    button{display:block;width:100%;min-height:48px;background:#d8efa9;color:#253942;border:2px solid #fff3d9;border-bottom:5px solid #74927f;font:bold 16px system-ui;cursor:pointer;margin:24px 0}
+    button:disabled{opacity:.6;cursor:wait}progress{width:100%;height:12px;accent-color:#d8efa9}small{font-size:11px;line-height:1.7;color:#a9aec7}
+    #error{color:#ffbdbd;white-space:pre-wrap;overflow-wrap:anywhere}a{color:#d8efa9}[hidden]{display:none!important}
+  </style>
+</head>
+<body>
+  <main>
+    <canvas id="unity-canvas" width="540" height="960" tabindex="0" aria-label="냥링크 게임"></canvas>
+    <div id="loading"><section>
+      <h1>NYAN LINK</h1><p>냥링크 · 플레이 테스트</p>
+      <button id="start" type="button">게임 불러오기</button>
+      <progress id="progress" value="0" max="1" hidden aria-label="게임 다운로드 진행률"></progress>
+      <p id="status" role="status">같은 색 타일을 드래그해 연결하세요.</p>
+      <p id="error" role="alert" hidden></p>
+      <small>진행 기록은 현재 브라우저에 저장됩니다.<br>사이트 데이터 삭제 시 기록도 지워집니다.<br>종료하려면 브라우저 탭을 닫아 주세요.</small>
+    </section></div>
+  </main>
+  <script>
+    'use strict';
+    const canvas = document.getElementById('unity-canvas');
+    const start = document.getElementById('start');
+    const progress = document.getElementById('progress');
+    const status = document.getElementById('status');
+    function fail(message) {
+      document.getElementById('loading').hidden = false;
+      const error = document.getElementById('error');
+      error.textContent = '게임을 불러오지 못했습니다. 새로고침 후 다시 시도해 주세요.\n' + message;
+      error.hidden = false;
+      status.textContent = '문제가 계속되면 테스트 담당자에게 이 화면을 전달해 주세요.';
+      start.hidden = true;
+      progress.hidden = true;
+    }
+    start.addEventListener('click', () => {
+      if (location.protocol === 'file:') { fail('웹 서버 주소로 접속해야 합니다.'); return; }
+      start.disabled = true;
+      start.textContent = '불러오는 중…';
+      progress.hidden = false;
+      status.textContent = '첫 실행은 다운로드에 시간이 걸릴 수 있습니다.';
+      const script = document.createElement('script');
+      script.src = 'Build/{{{ LOADER_FILENAME }}}';
+      script.onerror = () => fail('게임 로더를 다운로드하지 못했습니다.');
+      script.onload = () => createUnityInstance(canvas, {
+        dataUrl: 'Build/{{{ DATA_FILENAME }}}',
+        frameworkUrl: 'Build/{{{ FRAMEWORK_FILENAME }}}',
+        codeUrl: 'Build/{{{ CODE_FILENAME }}}',
+        streamingAssetsUrl: 'StreamingAssets',
+        companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+        autoSyncPersistentDataPath: true,
+        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+        showBanner: (message, type) => {
+          if (type === 'error') fail(message);
+          else console.warn(message);
+        }
+      }, value => { progress.value = value; }).then(instance => {
+        window.nyanLinkInstance = instance;
+        document.getElementById('loading').hidden = true;
+        canvas.focus();
+      }).catch(message => fail(String(message)));
+      document.body.appendChild(script);
+    }, { once: true });
+  </script>
+</body>
+</html>

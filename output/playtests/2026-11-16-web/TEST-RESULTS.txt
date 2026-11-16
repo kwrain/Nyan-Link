@@ -1,0 +1,50 @@
+냥링크 웹 빌드·배포 준비 검사 결과 (2026-11-16)
+
+환경: macOS27.2 arm64 / Unity6000.3.14f1 / Chrome157.0.8103.51 headless.
+개인 브라우저와 별개인 컨텍스트에서 실제 WebGL 렌더링, Playwright Mouse 이벤트 사용.
+서버: Python 정적 서버, 첫 검사는127.0.0.1:8080/nyan-link/,
+최종 배포물 재검사는127.0.0.1:8126/nyan-link/. 회사 서버에는 업로드하지 않음.
+
+최종 근거: final-build/build-results.txt, final-build/package-results.json.
+빌드 Succeeded, errors0, warnings1(기존 Unity Services 프로젝트 미연결).
+재빌드 스크립트 실행·패키징·원래 프로젝트/클라우드 설정 복원 성공.
+ZIP 33,128,753bytes. SHA256:
+f5d7e5ef5e4b88e5a63f6fbe61a679178dd3123d45d66148466d37f4bac6736b
+ZIP CRC 및 release.json의 모든 파일 크기·SHA256 확인 통과.
+내용은 nyan-link/ 아래 정적파일10개, 소스·디버그 파일·툴체인 불포함.
+
+스크린샷별 확인 (모두 실제 게임 화면 촬영):
+01-web-entry.png: 다운로드 전 안내/버튼. 기대·실제 모두 한글 진입 페이지 표시.
+02-web-main.png: 웹 로드 뒤 로비/한글/픽셀 로고. 종료 버튼 숨김.
+03-web-ready.png: 준비 화면, 새 게임·장비·저장 정책 표시.
+04-web-running.png: 초기 실행, HP100, 실제39칸 보드와 고양이/배경 표시.
+05-web-paused.png: 실제 장애물 재도전 뒤 정지, HP15·진행/보드 유지.
+06-web-continue-after-reload.png: 브라우저 새로고침/새 빌드 재로드 뒤 이어하기 표시.
+07-restored-paused.png: 이어하기 후 실제 정지, 기존 HP약15.3(표시16)·보드·거리/재도전 복원.
+  browser-save-snapshot.json은 실제 IndexedDB profile revision5와 backup revision4만 추출.
+  데이터 주입/HP·보드 수정 없음. 기다리는 동안 장애물에 실패해 자연스럽게 경계 저장됨.
+10-final-running.png: 최종 압축파일에 포함된 빌드의 새 컨텍스트 게임 시작, HP100·점수0·39칸.
+11-final-selected-chain.png: 빨강3개 실제 Mouse down/move 선택선 표시.
+12-final-score-refill.png: Mouse up 후 실제30점·연결3/배율x1·3칸 리필·점프 표시.
+13-portrait-layout.png: viewport390×844, 캔버스390×693.33, 화면 안에9:16 게임 표시.
+14-landscape-layout.png: viewport844×390, 캔버스219.375×390, 가로에서도 세로 게임 유지.
+  13/14는 PC 브라우저 크기 변경 검사. 실제 모바일/터치 검사가 아님.
+
+최종 browser-console.json: JS pageerror0/console error0/requestfailed0.
+WebGL 형식 조회 INVALID_ENUM 경고6회(I-010). 확인 범위에서 렌더링/입력 결함 미관찰.
+AudioContext resumed 로그는 엔진 오디오 컨텍스트 상태 근거이며 실제 스피커 청취 근거가 아님.
+UGS/오디오의 정보 로그는 보존. 일반 브라우저·실제 기기 비교 필요.
+
+초기·불성립 시도:
+attempt01-long-tmp-path.log: 외장 임시경로의 소켓104자 제한. 짧은 심볼릭 링크로 해결.
+attempt02-interrupted.log: 도중 작업 중단. 설정 백업 복원 후 재실행 성공.
+attempt03-fast-input-*.png: 자동 클릭을 같은 프레임에 연속 전달해 의도한 연결을 확인하지
+  못한 검사. 점수0/보드 재시작이므로 성공 근거로 사용하지 않음. 클릭 유지80ms/장치 이벤트
+  간격90ms/전환 대기로 재검사해 최종11/12의 선택·30점·리필을 확인.
+initial-* 파일은 첫 성공 빌드(파비콘 조정 전). 배포 파일은 final-build 근거 사용.
+
+미검증 V-019: 실제 회사 HTTPS 게시·캐시 교체·Mac Safari/Windows Edge.
+미해결 I-010: Chrome 형식 조회 경고의 원인/타 브라우저 영향.
+실기기 D-003: Android Chrome/iPhone Safari 실제 터치·화면·소리·저장·메모리/성능.
+기존 V-002 전체 무보정 완주, V-012 실제 청취, D-001/D-002 Native 기기 검사는 유지.
+경로/다음 조치/고유ID·환경 구분: Docs/WORK_ITEMS.md, WEB-DEPLOYMENT.txt.

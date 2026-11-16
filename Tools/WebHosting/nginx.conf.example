@@ -1,0 +1,10 @@
+# Merge into the existing HTTPS server block after checking its document root.
+# /nyan-link/ must exist underneath that server's root. No domain/root changes.
+location = /nyan-link { return 301 /nyan-link/; }
+location /nyan-link/ {
+    try_files $uri $uri/ =404;
+    add_header Cache-Control "no-cache";
+}
+# Ensure the existing http-level mime.types includes application/javascript js;
+# .unityweb may use application/octet-stream (Unity decompresses these files).
+# No Content-Encoding headers or COOP/COEP are needed for this single-thread build.
